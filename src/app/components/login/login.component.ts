@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {ApiService} from './../../service/api.service';
 import {Router} from "@angular/router";
-import {FormsModule} from '@angular/forms';
 
 /**
  * Login component script which works along with the API Service and the Router identified above
@@ -10,7 +9,6 @@ import {FormsModule} from '@angular/forms';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports:[FormsModule],
 })
 
 /**
