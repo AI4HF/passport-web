@@ -1,44 +1,49 @@
-import {Component} from '@angular/core';
-import {ApiService} from './../../service/api.service';
-import {Router} from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ApiService } from './../../service/api.service';
+import { Router } from "@angular/router";
+import jwt_decode from 'jwt-decode';
+/**
+ * Login component script which works along with the API Service and the Router identified above
+ */
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-
-/**
- * Login component script which works along with the API Service and the Router identified above
- */
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   /**
-   * Login form which gets its elements from the variables in the html and passes them to the login method
+   * Login form declaration
    */
   loginForm: FormGroup;
-
   /**
-   * Login message that is set based on the login request result
+   * Login message declaration
    */
   loginMessage: string | null = null;
-
   /**
-   * Login success flags which are used as the stylistic conditions of the login message
+   * Login success flag to set the styles of the login message based on it
    */
   isLoginSuccess: boolean = false;
-  isLoginError: boolean = false;
-
   /**
-   * @param apiService Service which provides the methods used in this script
-   * @param router Router which will handle the routes that will be taken from this page
-   * @param formBuilder Utility which builds the login form from the data from the html variables
+   * Access Token declaration
+   */
+  token: string;
+  /**
+   * Used components and modules' initialization
+   * @param formBuilder
+   * @param apiService
+   * @param router
    */
   constructor(
+    private formBuilder: FormBuilder,
     private apiService: ApiService,
-    private router: Router,
-    private formBuilder: FormBuilder
-  ) {
+    private router: Router
+  ) {}
+
+  /**
+   * Form building process based on the html entries.
+   */
+  ngOnInit() {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -46,25 +51,34 @@ export class LoginComponent {
   }
 
   /**
-   * Login form calling the login method from the API service with the information provided in the form.
-   * Redirections will be available after the implementation of the main page
+   * Login form controls declaration to make login form elements' access available.
+   */
+  get formControls() {
+    return this.loginForm.controls;
+  }
+  /**
+   * Login method based on the Api Service's Login Request
    */
   login() {
-    if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
-      this.apiService.login(username, password).subscribe(
-        (response) => {
-          this.loginMessage = 'Login successful!';
-          this.isLoginSuccess = true;
-          this.isLoginError = false;
-        },
-        (error) => {
-          this.loginMessage = 'Login failed. Please check your credentials.';
-          this.isLoginSuccess = false;
-          this.isLoginError = true;
-          console.error('Login failed:', error);
-        }
-      );
+    if (this.loginForm.invalid) {
+      return;
     }
+    this.apiService.login(this.loginForm.value.username, this.loginForm.value.password).subscribe(
+      (response) => {
+        this.loginMessage = 'Login successful!';
+        this.isLoginSuccess = true;
+        this.token = response;
+        const decodedToken = jwt_decode(response) as { resources: string[] };
+        const resources: string[] = decodedToken.resources;
+        //Resources is the roles of the user, and it will be handled with the next page's implementation.
+      },
+      (error) => {
+        this.loginMessage = 'Login failed. Please check your credentials.';
+        this.isLoginSuccess = false;
+        console.error('Login failed:', error);
+      }
+    );
   }
 }
+
+
