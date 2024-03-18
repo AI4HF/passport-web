@@ -2,13 +2,10 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-danger text-white">
           <h4>Login</h4>
         </div>
-        <div *ngIf="!isLoginSuccess" class="alert alert-danger">
-          {{ loginMessage }}
-        </div>
-        <div *ngIf="isLoginSuccess" class="alert alert-success">
+        <div *ngIf="loginMessage" [ngClass]="{'alert alert-danger': !isLoginSuccess, 'alert alert-success': isLoginSuccess}">
           {{ loginMessage }}
         </div>
         <div class="card-body">
@@ -28,7 +25,7 @@
               </div>
             </div>
             <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-primary">Login</button>
+              <button type="submit" class="btn btn-danger">Login</button>
             </div>
           </form>
         </div>
