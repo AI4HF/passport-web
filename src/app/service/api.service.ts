@@ -20,7 +20,7 @@ export class ApiService {
    * @param http
    */
   constructor(private http: HttpClient) {
-    this.apiUrl = "http://localhost:8080/";
+    this.apiUrl = "http://localhost:8080";
   }
 
   /**
@@ -29,7 +29,7 @@ export class ApiService {
    * @param password Password that will be provided in the form
    */
   login(username: string, password: string): Observable<any> {
-    const url = `${this.apiUrl}user/login`;
+    const url = `${this.apiUrl}/user/login`;
     return this.http.post(url, {username, password});
   }
 }
