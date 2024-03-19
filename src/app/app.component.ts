@@ -12,6 +12,24 @@ import {Router} from "@angular/router";
 })
 export class AppComponent {
   title = 'AI4HF Passport GUI';
+  userRoles: string[];
 
   constructor(private apiService: ApiService, private router: Router) {}
+
+  ngOnInit() {
+
+    sessionStorage.setItem("token", "invalid")
+
+  }
+  loginCheck():boolean
+  {
+    const token = sessionStorage.getItem("token");
+    if(token === "invalid")
+    {
+      return false;
+    }
+    this.userRoles = JSON.parse(localStorage.getItem('roles'));
+    return true;
+
+  }
 }
