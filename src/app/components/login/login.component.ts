@@ -63,14 +63,20 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
+
     this.apiService.login(this.loginForm.value.username, this.loginForm.value.password).subscribe(
-      (response) => {
+      (response: { accessToken: string }) => {
         this.loginMessage = 'Login successful!';
         this.isLoginSuccess = true;
-        this.token = response;
-        const decodedToken = jwt_decode(response) as { resources: string[] };
+        this.token = response.accessToken;
+
+        const decodedToken = jwt_decode(this.token) as { resources: string[] };
         const resources: string[] = decodedToken.resources;
-        //Resources is the roles of the user, and it will be handled with the next page's implementation.
+
+        sessionStorage.setItem('token', this.token);
+        sessionStorage.setItem('roles', JSON.stringify(resources));
+
+        this.router.navigate(['/study_page'], { state: { roles: resources } });
       },
       (error) => {
         this.loginMessage = 'Login failed. Please check your credentials.';
@@ -79,6 +85,7 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
 }
 
 
