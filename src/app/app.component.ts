@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {ApiService} from "./service/api.service";
 import {Router} from "@angular/router";
+import {UserService} from "./service/user.service";
 
 /**
  * General implementation of the main component. Will grow larger with the addition of the common headers and menus of different pages
@@ -14,17 +15,21 @@ export class AppComponent {
   title = 'AI4HF Passport GUI';
   userRoles: string[];
 
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(private apiService: ApiService, private router: Router, private userService: UserService) {}
 
-  loginCheck():boolean
-  {
+  loginCheck(): boolean {
     const token = localStorage.getItem("token");
-    if(token === null)
-    {
+    if (token === null) {
       return false;
     }
-    this.userRoles = JSON.parse(localStorage.getItem('roles'));
-    return true;
 
+    let userRoles: string[] = [];
+    this.userService.roles$.subscribe(roles => userRoles = roles);
+
+    if (userRoles && userRoles.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
