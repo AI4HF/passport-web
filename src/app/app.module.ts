@@ -4,15 +4,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {HttpClientModule, HTTP_INTERCEPTORS, HttpClient} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS, HttpClient, HttpBackend} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import { StudyPageComponent } from './components/study-page/study-page.component';
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './../assets/', '.json');
 }
-
 /**
  * Module component declarations and certain inputs. Will grow larger as new components and pages are created
  */
@@ -30,9 +28,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReactiveFormsModule,
     HttpClientModule,
     TranslateModule.forRoot({
+      defaultLanguage: "en",
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useFactory: (createTranslateLoader),
         deps: [HttpClient]
       }
     })
