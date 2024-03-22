@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {catchError, map, Observable, of} from 'rxjs';
+import {API_URL} from "../environments/environment";
 
 /**
  * API Service which hosts the available HTTP Requests to the scripts as functions
@@ -20,7 +21,7 @@ export class ApiService {
    * @param http
    */
   constructor(private http: HttpClient) {
-    this.apiUrl = "http://localhost:8080";
+    this.apiUrl = API_URL;
   }
 
   /**
