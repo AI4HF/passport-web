@@ -3,10 +3,7 @@
     <div class="col-md-6">
       <div class="card">
         <div class="card-header bg-danger text-white">
-          <h4>Login</h4>
-        </div>
-        <div *ngIf="loginMessage" [ngClass]="{'alert alert-danger': !isLoginSuccess, 'alert alert-success': isLoginSuccess}">
-          {{ loginMessage }}
+          <h4>{{'Login' | translate}}</h4>
         </div>
         <div class="card-body">
           <form [formGroup]="loginForm" (ngSubmit)="login()">
@@ -23,6 +20,9 @@
               <div *ngIf="formControls.password.invalid && formControls.password.touched" class="text-danger">
                 Password is required.
               </div>
+            </div>
+            <div *ngIf="loginMessage" [ngClass]="{'custom-alert': !isLoginSuccess, 'alert alert-success': isLoginSuccess}">
+              {{ loginMessage }}
             </div>
             <div class="d-grid gap-2">
               <button type="submit" class="btn btn-danger">Login</button>
