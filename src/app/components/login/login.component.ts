@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ApiService } from './../../service/api.service';
+import { ApiService } from '../../service/api.service';
 import { Router } from "@angular/router";
 import jwt_decode from 'jwt-decode';
 /**
@@ -73,8 +73,7 @@ export class LoginComponent implements OnInit {
         const decodedToken = jwt_decode(this.token) as { resources: string[] };
         const resources: string[] = decodedToken.resources;
 
-        sessionStorage.setItem('token', this.token);
-        sessionStorage.setItem('roles', JSON.stringify(resources));
+        localStorage.setItem('token', this.token);
 
         this.router.navigate(['/study_page'], { state: { roles: resources } });
       },
