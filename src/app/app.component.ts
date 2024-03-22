@@ -16,15 +16,10 @@ export class AppComponent {
 
   constructor(private apiService: ApiService, private router: Router) {}
 
-  ngOnInit() {
-
-    sessionStorage.setItem("token", "invalid")
-
-  }
   loginCheck():boolean
   {
-    const token = sessionStorage.getItem("token");
-    if(token === "invalid")
+    const token = localStorage.getItem("token");
+    if(token === null)
     {
       return false;
     }
