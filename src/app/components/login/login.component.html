@@ -9,23 +9,26 @@
           <form [formGroup]="loginForm" (ngSubmit)="login()">
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" formControlName="username" required>
+              <input type="text" class="form-control" id="username" formControlName="username" required (input)="onInputChange()">
               <div *ngIf="formControls.username.invalid && formControls.username.touched" class="text-danger">
                 Username is required.
               </div>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" formControlName="password" required>
+              <input type="password" class="form-control" id="password" formControlName="password" required (input)="onInputChange()">
               <div *ngIf="formControls.password.invalid && formControls.password.touched" class="text-danger">
                 Password is required.
               </div>
             </div>
-            <div *ngIf="loginMessage" [ngClass]="{'custom-alert': !isLoginSuccess, 'alert alert-success': isLoginSuccess}">
-              {{ loginMessage }}
-            </div>
-            <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-danger">Login</button>
+
+            <div>
+              <div *ngIf="loginMessage" [ngClass]="{'custom-alert': !isLoginSuccess, 'alert alert-success': isLoginSuccess}">
+                {{ loginMessage }}
+              </div>
+              <div class="d-grid gap-2 mt-3">
+                <button type="submit" class="btn btn-danger">Login</button>
+              </div>
             </div>
           </form>
         </div>

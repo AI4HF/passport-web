@@ -88,6 +88,10 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  onInputChange() {
+    this.loginMessage = null;
+  }
+
 }
 
 
