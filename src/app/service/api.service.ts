@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {catchError, map, Observable, of} from 'rxjs';
-import {API_URL} from "../environments/environment";
+import {API_URL} from "../../environments/environment";
 
 /**
  * API Service which hosts the available HTTP Requests to the scripts as functions
