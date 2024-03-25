@@ -31,6 +31,8 @@ export class ApiService {
    */
   login(username: string, password: string): Observable<any> {
     const url = `${this.apiUrl}/user/login`;
-    return this.http.post(url, {username, password});
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(url, { username, password }, { headers, responseType: 'text' });
   }
+
 }
