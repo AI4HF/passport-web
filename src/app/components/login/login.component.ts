@@ -25,10 +25,7 @@ export class LoginComponent implements OnInit {
    * Login success flag to set the styles of the login message based on it
    */
   isLoginSuccess: boolean = false;
-  /**
-   * Access Token declaration
-   */
-  token: string;
+
   /**
    * Used components and modules' initialization
    * @param formBuilder
@@ -70,12 +67,11 @@ export class LoginComponent implements OnInit {
       (response: { accessToken: string }) => {
         this.loginMessage = 'Login successful!';
         this.isLoginSuccess = true;
-        this.token = response.accessToken;
 
-        const decodedToken = jwt_decode(this.token) as { resources: string[] };
+        const decodedToken = jwt_decode(response.accessToken) as { resources: string[] };
         const resources: string[] = decodedToken.resources;
 
-        localStorage.setItem('token', this.token);
+        localStorage.setItem('token', response.accessToken);
         this.userService.setRoles(resources);
 
         this.router.navigate(['/study_page']);
