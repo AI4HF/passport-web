@@ -16,12 +16,15 @@ export class AppComponent {
   title = 'AI4HF Passport GUI';
   userRoles: string[];
 
+  /**
+   * Constructor of the main app which handles the set up of the default language and the currently used language of the translator choice.
+   */
   constructor(private apiService: ApiService, private router: Router, private userService: UserService, private translate: TranslateService) {
     translate.setDefaultLang('en');
     translate.use('en')
   }
 
-  loginCheck(): boolean {
+  /*loginCheck(): boolean {
     const token = localStorage.getItem("token");
     if (token === null) {
       return false;
@@ -35,5 +38,5 @@ export class AppComponent {
     } else {
       return false;
     }
-  }
+  }*/
 }
