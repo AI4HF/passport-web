@@ -1,0 +1,39 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-danger text-white">
+          <h4>{{ 'LOGIN' | translate }}</h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div class="mb-3">
+              <label for="username" class="form-label">{{ 'USERNAME' | translate }}</label>
+              <input type="text" class="form-control" id="username" formControlName="username" required (input)="onInputChange()">
+              <div *ngIf="formControls.username.invalid && formControls.username.touched" class="text-danger">
+                {{ 'USERNAMEREQ' | translate}}
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">{{ 'PASSWORD' | translate }}</label>
+              <input type="password" class="form-control" id="password" formControlName="password" required (input)="onInputChange()">
+              <div *ngIf="formControls.password.invalid && formControls.password.touched" class="text-danger">
+                {{ 'PASSWORDREQ' | translate}}
+              </div>
+            </div>
+
+            <div>
+              <div *ngIf="loginMessage" [ngClass]="{'custom-alert': !isLoginSuccess, 'alert alert-success': isLoginSuccess}">
+                {{ loginMessage }}
+              </div>
+              <div class="d-grid gap-2 mt-3">
+                <button type="submit" class="btn btn-danger">{{ 'LOGIN' | translate }}</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

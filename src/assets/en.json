@@ -1,0 +1,10 @@
+{
+  "LOGIN": "Login",
+  "USERNAME": "Username",
+  "PASSWORD": "Password",
+  "PASSWORDREQ": "Password is required.",
+  "USERNAMEREQ": "Username is required.",
+  "SUCCESSMSG": "Login is successful.",
+  "FAILMSG": "Invalid credentials. Please try again.",
+  "AI4HF": "AI4HF Product Passport"
+}

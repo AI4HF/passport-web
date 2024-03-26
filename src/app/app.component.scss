@@ -1,0 +1,27 @@
+.custom-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; /* Converted to viewport width */
+  background-color: #ffffff; /* pink-re hue */
+  border: 0.05em solid rgba(255, 30, 0, 0.93);
+  box-sizing: border-box; /* Ensure border is included in width calculation */
+  padding: 1.5vw; /* Converted to viewport width */
+  color: rgba(255, 30, 0, 0.96);
+  z-index: 1000; /* Ensure the header appears above other content */
+}
+
+.header-text {
+  text-align: left;
+  margin-left: 2vw; /* Adjusted and converted to viewport width */
+  font-size: 3vw; /* Adjusted and converted to viewport width */
+  font-weight: bold; /* Make text bold */
+  text-transform: uppercase; /* Convert text to uppercase */
+  font-family: Arial, sans-serif; /* Specify font family */
+  letter-spacing: 0.5vw; /* Adjusted and converted to viewport width */
+}
+
+.content {
+  margin-top: 10vw; /* Adjusted and converted to viewport width */
+  padding: 2vw; /* Adjusted and converted to viewport width */
+}
