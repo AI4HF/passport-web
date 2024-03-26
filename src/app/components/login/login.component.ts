@@ -4,6 +4,7 @@ import { ApiService } from '../../service/api.service';
 import { Router } from "@angular/router";
 import { UserService } from '../../service/user.service';
 import jwt_decode from 'jwt-decode';
+import {TokenUtil} from "../../utils/token.util";
 /**
  * Login component script which works along with the API Service and the Router identified above
  */
@@ -58,6 +59,8 @@ export class LoginComponent implements OnInit {
   }
   /**
    * Login method based on the Api Service's Login Request
+   * TokenUtil class is also used to extract the resources(roles) out of the token.
+   * In the end, token is stored in the localStorage and the roles are written to the userService.
    */
   login() {
     if (this.loginForm.invalid) {
@@ -68,12 +71,10 @@ export class LoginComponent implements OnInit {
         this.loginMessage = 'Login successful!';
         this.isLoginSuccess = true;
 
-        const decodedToken = jwt_decode(response.accessToken) as { resources: string[] };
-        const resources: string[] = decodedToken.resources;
+        const roles: string[] = TokenUtil.extractUserRoles(response.accessToken);
 
         localStorage.setItem('token', response.accessToken);
-        this.userService.setRoles(resources);
-
+        this.userService.setRoles(roles);
         this.router.navigate(['/study_page']);
       },
       (error) => {
