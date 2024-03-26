@@ -2,14 +2,11 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 /**
- * Class which holds role data instances after they're read from token resources.
+ * Class which holds role data instances after they're read from the Token's resources in Login Component script.
  */
 @Injectable({
   providedIn: 'root'
 })
-/**
- * New service class which helps calling users' roles to be stored.
- */
 export class UserService {
   /**
    * Variable which is directly used to store and get the roles of the desired user.
