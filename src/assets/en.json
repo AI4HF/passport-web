@@ -3,5 +3,7 @@
   "USERNAME": "Username",
   "PASSWORD": "Password",
   "PASSWORDREQ": "Password is required.",
-  "USERNAMEREQ": "Username is required."
+  "USERNAMEREQ": "Username is required.",
+  "SUCCESSMSG": "Login is successful.",
+  "FAILMSG": "Invalid credentials. Please try again."
 }

@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ApiService } from '../../service/api.service';
 import { Router } from "@angular/router";
 import { UserService } from '../../service/user.service';
-import jwt_decode from 'jwt-decode';
-import {TokenUtil} from "../../utils/token.util";
+import { TranslateService } from '@ngx-translate/core'; // Import TranslateService
+import { TokenUtil } from "../../utils/token.util";
 /**
  * Login component script which works along with the API Service and the Router identified above
  */
@@ -38,7 +38,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private translateService: TranslateService
   ) {}
 
   /**
@@ -68,7 +69,7 @@ export class LoginComponent implements OnInit {
     }
     this.apiService.login(this.loginForm.value.username, this.loginForm.value.password).subscribe(
       (response: { accessToken: string }) => {
-        this.loginMessage = 'Login successful!';
+        this.loginMessage = this.translateService.instant('SUCCESSMSG'); // Translate success message
         this.isLoginSuccess = true;
 
         const roles: string[] = TokenUtil.extractUserRoles(response.accessToken);
@@ -78,17 +79,16 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/study_page']);
       },
       (error) => {
-        this.loginMessage = 'Login failed. Please check your credentials.';
+        this.loginMessage = this.translateService.instant('FAILMSG'); // Translate fail message
         this.isLoginSuccess = false;
         console.error('Login failed:', error);
       }
     );
   }
-
+  /**
+   * After input changes, login message is deleted to ensure it from staying on the screen to long after unsuccessful attempts.
+   */
   onInputChange() {
     this.loginMessage = null;
   }
-
 }
-
-
