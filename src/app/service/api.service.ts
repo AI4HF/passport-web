@@ -35,4 +35,34 @@ export class ApiService {
     return this.http.post(url, { username, password }, { headers, responseType: 'text' });
   }
 
+  getAllStudies(): Observable<any> {
+    const url = `${this.apiUrl}/study`;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.get(url, { headers });
+  }
+
+  getStudyById(id: number): Observable<any> {
+    const url = `${this.apiUrl}/study/${id}`;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.get(url, { headers });
+  }
+
+  createStudy(study: any): Observable<any> {
+    const url = `${this.apiUrl}/study/`;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(url, study, { headers });
+  }
+
+  updateStudy(id: number, updatedStudy: any): Observable<any> {
+    const url = `${this.apiUrl}/study/${id}`;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.put(url, updatedStudy, { headers });
+  }
+
+  deleteStudy(id: number): Observable<any> {
+    const url = `${this.apiUrl}/study/${id}`;
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.delete(url, { headers });
+  }
+
 }
