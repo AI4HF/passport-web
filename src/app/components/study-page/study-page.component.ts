@@ -48,8 +48,6 @@ export class StudyPageComponent implements OnInit {
           }
         );
       });
-
-      // Clear selected studies array
       this.selectedStudies = [];
     }
   }
