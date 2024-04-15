@@ -36,8 +36,11 @@ export class ApiService {
   }
 
   getAllStudies(): Observable<any> {
-    const url = `${this.apiUrl}/study`;
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const url = `${this.apiUrl}/study/`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
     return this.http.get(url, { headers });
   }
 
@@ -61,7 +64,10 @@ export class ApiService {
 
   deleteStudy(id: number): Observable<any> {
     const url = `${this.apiUrl}/study/${id}`;
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
     return this.http.delete(url, { headers });
   }
 
