@@ -9,7 +9,14 @@ export class TokenUtil {
    * @param token Token parameter which is usually the user's own Keycloak token.
    */
   static extractUserRoles(token: string): string[] {
-    const decodedToken = jwt_decode(token) as { resources: string[] };
-    return decodedToken.resources;
+    try {
+      const decodedToken = jwt_decode(token) as { resource_access: { [key: string]: { roles: string[] } } };
+      const ai4hfRoles = decodedToken.resource_access["AI4HF-Auth"]?.roles || [];
+      return ai4hfRoles;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return [];
+    }
   }
+
 }
