@@ -24,7 +24,7 @@ export class AppComponent {
     translate.use('en')
   }
 
-  /*loginCheck(): boolean {
+  loginCheck(): boolean {
     const token = localStorage.getItem("token");
     if (token === null) {
       return false;
@@ -38,5 +38,5 @@ export class AppComponent {
     } else {
       return false;
     }
-  }*/
+  }
 }
