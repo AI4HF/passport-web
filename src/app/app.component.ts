@@ -29,8 +29,8 @@ export class AppComponent {
     if (token === null) {
       return false;
     }
-    this.userService.roles$.subscribe(roles => {
-      this.userRoles = roles;
+    this.userService.roles$.subscribe(roles$ => {
+      this.userRoles = roles$;
     });
     return this.userRoles && this.userRoles.length > 0;
   }
