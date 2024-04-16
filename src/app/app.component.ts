@@ -29,14 +29,9 @@ export class AppComponent {
     if (token === null) {
       return false;
     }
-
-    let userRoles: string[] = [];
-    this.userService.roles$.subscribe(roles => userRoles = roles);
-
-    if (userRoles && userRoles.length > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    this.userService.roles$.subscribe(roles => {
+      this.userRoles = roles;
+    });
+    return this.userRoles && this.userRoles.length > 0;
   }
 }
