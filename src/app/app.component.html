@@ -2,6 +2,7 @@
   <!-- Header -->
   <header class="custom-header">
     <h1 class="header-text">{{ 'AI4HF' | translate }}</h1>
+    <button *ngIf="loginCheck()" class="btn btn-primary ml-auto" (click)="logout()">Logout</button>
   </header>
 
   <div class="row">
