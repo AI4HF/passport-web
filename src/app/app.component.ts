@@ -34,4 +34,9 @@ export class AppComponent {
     });
     return this.userRoles && this.userRoles.length > 0;
   }
+
+  logout(): void {
+    localStorage.removeItem("token");
+    this.router.navigate(['/login']); // Redirect to /login route after logout
+  }
 }
