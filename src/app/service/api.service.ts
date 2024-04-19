@@ -25,6 +25,10 @@ export class ApiService {
   }
 
   /**
+   *  AUTHORIZATION API
+   */
+
+  /**
    * Login request which returns a Token String, which can be used for further authentication and to obtain
    * @param username Username that will be provided in the form
    * @param password Password that will be provided in the form
@@ -35,6 +39,17 @@ export class ApiService {
     return this.http.post(url, { username, password }, { headers, responseType: 'text' });
   }
 
+  /**
+   *  AUTHORIZATION API END
+   */
+
+  /**
+   *  STUDY MANAGEMENT API
+   */
+
+  /**
+   * Request which reads uses the token in the local storage to gain access to all of the studies.
+   */
   getAllStudies(): Observable<any> {
     const url = `${this.apiUrl}/study/`;
     const headers = new HttpHeaders({
@@ -44,6 +59,9 @@ export class ApiService {
     return this.http.get(url, { headers });
   }
 
+  /**
+   * INCOMPLETE - TEMPLATE API
+   */
   getStudyById(id: number): Observable<any> {
     const url = `${this.apiUrl}/study/${id}`;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -62,6 +80,14 @@ export class ApiService {
     return this.http.put(url, updatedStudy, { headers });
   }
 
+  /**
+   *  INCOMPLETE - TEMPLATE API
+   */
+
+  /**
+   * Deletion request which gains access to the task with its Authorization header token, and searches the unique id of the study to find and delete it.
+   * @param id Unique id of the to-be-deleted study.
+   */
   deleteStudy(id: number): Observable<any> {
     const url = `${this.apiUrl}/study/${id}`;
     const headers = new HttpHeaders({
@@ -70,5 +96,9 @@ export class ApiService {
     });
     return this.http.delete(url, { headers });
   }
+
+  /**
+   *  STUDY MANAGEMENT API END
+   */
 
 }
