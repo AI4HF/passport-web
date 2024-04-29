@@ -6,5 +6,18 @@
   "USERNAMEREQ": "Username is required.",
   "SUCCESSMSG": "Login is successful.",
   "FAILMSG": "Invalid credentials. Please try again.",
-  "AI4HF": "AI4HF Product Passport"
+  "AI4HF": "AI4HF Product Passport",
+  "NAME": "Name",
+  "DESCRIPTION": "Description",
+  "ACTION": "Action",
+  "SELECT": "Select",
+  "STUDYPAGE": "Study Page",
+  "Study Owner": "Study Owner",
+  "Organization Admin": "Organization Admin",
+  "Survey Manager": "Survey Manager",
+  "Data Scientist": "Data Scientist",
+  "Data Engineer": "Data Engineer",
+  "DELETESTUDIES": "Delete selected studies",
+  "LOGOUT": "Logout"
+
 }

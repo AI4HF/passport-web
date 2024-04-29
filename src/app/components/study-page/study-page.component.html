@@ -1,14 +1,14 @@
 <div class="container">
-  <h1>Study Page</h1>
+  <h1>{{ 'STUDYPAGE' | translate }}</h1>
 
   <table class="table table-striped">
     <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Description</th>
-      <th scope="col">Actions</th>
-      <th scope="col">Select</th>
+      <th scope="col">{{ 'NAME' | translate }}</th>
+      <th scope="col">{{ 'DESCRIPTION' | translate }}</th>
+      <th scope="col">{{ 'ACTION' | translate }}</th>
+      <th scope="col">{{ 'SELECT' | translate }}</th>
     </tr>
     </thead>
     <tbody>
@@ -27,6 +27,6 @@
     </tbody>
   </table>
 
-  <button class="btn btn-danger" [disabled]="selectedStudies.length === 0" (click)="deleteSelectedStudies()">Delete Selected Studies</button>
+  <button class="btn btn-danger" [disabled]="selectedStudies.length === 0" (click)="deleteSelectedStudies()">{{ 'DELETESTUDIES' | translate }}</button>
 </div>
 
