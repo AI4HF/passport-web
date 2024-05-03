@@ -50,8 +50,8 @@ export class ApiService {
   /**
    * Request which reads uses the token in the local storage to gain access to all of the studies.
    */
-  getAllStudies(): Observable<any> {
-    const url = `${this.apiUrl}/study/`;
+  getAllStudies(page: number): Observable<any> {
+    const url = `${this.apiUrl}/study/${page}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`
