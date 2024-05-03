@@ -20,20 +20,24 @@ export class StudyPageComponent implements OnInit {
    */
   selectedStudies: any[] = [];
 
+  currentPage: number = 0;
+
+  nextPageAvailability: boolean = true;
+
   constructor(private apiService: ApiService) { }
 
   /**
    * Automatic load call which loads up the study table contents.
    */
   ngOnInit(): void {
-    this.loadAllStudies();
+    this.loadStudiesByPage(this.currentPage);
   }
 
   /**
    * Load table method which sets up the table elements.
    */
-  loadAllStudies(): void {
-    this.apiService.getAllStudies().subscribe(
+  loadStudiesByPage(page: number): void {
+    this.apiService.getAllStudies(page).subscribe(
       (data: any) => {
         this.studies = data;
       },
@@ -41,6 +45,15 @@ export class StudyPageComponent implements OnInit {
         console.error('Error fetching studies: ', error);
       }
     );
+    this.apiService.getAllStudies(page+1).subscribe(
+      (data: any) => {
+        if(data.length == 0) this.nextPageAvailability = false;
+        else{this.nextPageAvailability = true};
+      },
+      (error: any) => {
+        console.error('Error fetching studies: ', error);
+      }
+    )
   }
 
   /**
@@ -73,5 +86,17 @@ export class StudyPageComponent implements OnInit {
       });
       this.selectedStudies = [];
     }
+  }
+
+  goToPreviousPage(): void {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.loadStudiesByPage(this.currentPage);
+    }
+  }
+
+  goToNextPage(): void {
+    this.currentPage++;
+    this.loadStudiesByPage(this.currentPage);
   }
 }

@@ -25,6 +25,11 @@
       </td>
     </tr>
     </tbody>
+    <!-- Pagination -->
+    <div class="pagination">
+      <button class="btn btn-primary" [disabled]="currentPage === 0" (click)="goToPreviousPage()">Previous</button>
+      <button class="btn btn-primary" [disabled]="nextPageAvailability === false" (click)="goToNextPage()">Next</button>
+    </div>
   </table>
 
   <button class="btn btn-danger" [disabled]="selectedStudies.length === 0" (click)="deleteSelectedStudies()">{{ 'DELETESTUDIES' | translate }}</button>
