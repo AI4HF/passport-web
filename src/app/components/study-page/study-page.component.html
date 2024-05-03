@@ -33,5 +33,7 @@
   </table>
 
   <button class="btn btn-danger" [disabled]="selectedStudies.length === 0" (click)="deleteSelectedStudies()">{{ 'DELETESTUDIES' | translate }}</button>
+  <button class="btn btn-danger" [disabled]="selectedStudies.length !== 1" (click)="loadStudiesByPage(currentPage)">{{ 'UPDATESTUDY' | translate }}</button>
+  <button class="btn btn-danger" [disabled]="selectedStudies.length !== 0" (click)="loadStudiesByPage(currentPage)">{{ 'CREATESTUDY' | translate }}</button>
 </div>
 

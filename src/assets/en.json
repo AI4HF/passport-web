@@ -18,6 +18,8 @@
   "Data Scientist": "Data Scientist",
   "Data Engineer": "Data Engineer",
   "DELETESTUDIES": "Delete selected studies",
-  "LOGOUT": "Logout"
+  "LOGOUT": "Logout",
+  "UPDATESTUDY": "Update the selected study",
+  "CREATESTUDY": "Create Study"
 
 }
