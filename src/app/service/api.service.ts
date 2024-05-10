@@ -56,7 +56,7 @@ export class ApiService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
-    return this.http.get(url, { headers });
+    return this.http.get(url, { headers, observe: "response" });
   }
 
   /**
