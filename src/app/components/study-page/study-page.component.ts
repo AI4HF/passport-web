@@ -22,7 +22,7 @@ export class StudyPageComponent implements OnInit {
 
   currentPage: number = 0;
 
-  nextPageAvailability: boolean = true;
+  nextPageAvailability: boolean = false;
 
   constructor(private apiService: ApiService) { }
 
@@ -38,24 +38,17 @@ export class StudyPageComponent implements OnInit {
    */
   loadStudiesByPage(page: number): void {
     this.apiService.getAllStudies(page).subscribe(
-      (data: any) => {
-        this.studies = data;
+      (response: any) => {
+        this.studies = response.body;
+        const totalCount = response.headers.get('X-Total-Count');
+        const totalPages = Math.ceil(totalCount / 10);
+        this.nextPageAvailability = (page + 1) < totalPages;
       },
       (error: any) => {
-        console.error('Error fetching studies: ', error);
+        console.error('Error fetching total count: ', error);
       }
     );
-    this.apiService.getAllStudies(page+1).subscribe(
-      (data: any) => {
-        if(data.length == 0) this.nextPageAvailability = false;
-        else{this.nextPageAvailability = true};
-      },
-      (error: any) => {
-        console.error('Error fetching studies: ', error);
-      }
-    )
   }
-
   /**
    * Study selection logic which prepares the table for deletion or other operations on certain items.
    * @param study Selected study data.
