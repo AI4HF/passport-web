@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ApiService } from '../../service/api.service';
 import { Router } from "@angular/router";
-import { UserService } from '../../service/user.service';
 import { TranslateService } from '@ngx-translate/core';
-import { TokenUtil } from "../../utils/token.util";
+
 /**
  * Login component script which works along with the API Service and the Router identified above
  */
@@ -38,7 +37,6 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private router: Router,
-    private userService: UserService,
     private translateService: TranslateService
   ) {}
 
@@ -46,6 +44,7 @@ export class LoginComponent implements OnInit {
    * Form building process based on the html entries.
    */
   ngOnInit() {
+    if (localStorage.getItem('token') !== null) this.router.navigate(['/study_page']);
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -72,10 +71,7 @@ export class LoginComponent implements OnInit {
         this.loginMessage = this.translateService.instant('SUCCESSMSG'); // Translate success message
         this.isLoginSuccess = true;
 
-        const roles: string[] = TokenUtil.extractUserRoles(response);
-
         localStorage.setItem('token', response);
-        this.userService.setRoles(roles);
         this.router.navigate(['/study_page']);
       },
       (error) => {
