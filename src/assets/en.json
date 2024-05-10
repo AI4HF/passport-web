@@ -17,9 +17,9 @@
   "Survey Manager": "Survey Manager",
   "Data Scientist": "Data Scientist",
   "Data Engineer": "Data Engineer",
-  "DELETESTUDIES": "Delete selected studies",
+  "DELETESTUDIES": "Delete",
   "LOGOUT": "Logout",
-  "UPDATESTUDY": "Update the selected study",
-  "CREATESTUDY": "Create Study"
+  "UPDATESTUDY": "Update",
+  "CREATESTUDY": "Create"
 
 }
