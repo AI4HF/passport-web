@@ -14,14 +14,14 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class AppComponent {
   title = 'AI4HF Passport GUI';
-  userRoles: string[];
+  userRoles: string[] = [];
 
   /**
    * Constructor of the main app which handles the set up of the default language and the currently used language of the translator choice.
    */
   constructor(private apiService: ApiService, private router: Router, private userService: UserService, private translate: TranslateService) {
     translate.setDefaultLang('en');
-    translate.use('en')
+    translate.use('en');
   }
 
   /**
@@ -32,6 +32,7 @@ export class AppComponent {
     if (token === null) {
       return false;
     }
+    if (this.userRoles.length != 0) return true;
     this.userService.roles$.subscribe(roles$ => {
       this.userRoles = roles$;
     });
@@ -43,6 +44,6 @@ export class AppComponent {
    */
   logout(): void {
     localStorage.removeItem("token");
-    this.router.navigate(['/login']); // Redirect to /login route after logout
+    this.router.navigate(['/login']);
   }
 }
