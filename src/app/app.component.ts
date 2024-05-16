@@ -22,8 +22,6 @@ export class AppComponent {
    * Constructor of the main app which handles the set up of the default language and the currently used language of the translator choice.
    */
   constructor(private apiService: ApiService, private router: Router, private translate: TranslateService) {
-    translate.setDefaultLang('en');
-    translate.use('en');
   }
 
   /**

@@ -9,9 +9,12 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import { StudyPageComponent } from './components/study-page/study-page.component';
 import {SharedModule} from "./shared/shared.module";
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './../assets/', '.json');
+import {environment} from "../environments/environment";
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/');
 }
+
 /**
  * Module component declarations and certain inputs. Will grow larger as new components and pages are created
  */
@@ -29,10 +32,10 @@ export function createTranslateLoader(http: HttpClient) {
     ReactiveFormsModule,
     HttpClientModule,
     TranslateModule.forRoot({
-      defaultLanguage: "en",
+      defaultLanguage: environment.defaultLanguage,
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
+        useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
     }),

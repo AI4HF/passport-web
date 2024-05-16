@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../service/api.service';
 import { Router } from "@angular/router";
 import { TranslateService } from '@ngx-translate/core';
@@ -17,14 +17,11 @@ export class LoginComponent implements OnInit {
    * Login form declaration
    */
   loginForm: FormGroup;
+
   /**
-   * Login message declaration
+   * Login fail flag to set the styles of the login message based on it
    */
-  loginMessage: string | null = null;
-  /**
-   * Login success flag to set the styles of the login message based on it
-   */
-  isLoginSuccess: boolean = false;
+  isLoginFailed: boolean = false;
 
   /**
    * Used components and modules' initialization
@@ -68,23 +65,12 @@ export class LoginComponent implements OnInit {
     }
     this.apiService.login(this.loginForm.value.username, this.loginForm.value.password).subscribe(
       (response) => {
-        this.loginMessage = this.translateService.instant('SUCCESSMSG'); // Translate success message
-        this.isLoginSuccess = true;
-
         localStorage.setItem('token', response);
         this.router.navigate(['/study_page']);
       },
       (error) => {
-        this.loginMessage = this.translateService.instant('FAILMSG'); // Translate fail message
-        this.isLoginSuccess = false;
-        console.error('Login failed:', error);
+        this.isLoginFailed = true;
       }
     );
-  }
-  /**
-   * After input changes, login message is deleted to ensure it from staying on the screen to long after unsuccessful attempts.
-   */
-  onInputChange() {
-    this.loginMessage = null;
   }
 }
