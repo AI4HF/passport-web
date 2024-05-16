@@ -4,10 +4,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {HttpClientModule, HTTP_INTERCEPTORS, HttpClient, HttpBackend} from '@angular/common/http';
+import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import { StudyPageComponent } from './components/study-page/study-page.component';
+import {SharedModule} from "./shared/shared.module";
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './../assets/', '.json');
 }
@@ -34,7 +35,8 @@ export function createTranslateLoader(http: HttpClient) {
         useFactory: (createTranslateLoader),
         deps: [HttpClient]
       }
-    })
+    }),
+    SharedModule,
   ],
   bootstrap: [AppComponent],
 })

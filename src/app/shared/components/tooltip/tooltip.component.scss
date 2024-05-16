@@ -1,0 +1,13 @@
+.blue {
+  color: #007bff
+}
+
+.tooltip-div {
+  cursor: help;
+  margin-left: 0.25rem;
+}
+
+::ng-deep .p-tooltip {
+  max-width: 30rem !important;
+}
+

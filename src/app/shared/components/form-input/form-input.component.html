@@ -1,0 +1,45 @@
+<!-- Displays the input in two lines:
+     First Line: Label
+     Second Line: Value
+-->
+<div *ngIf="labelOnTop">
+    <div *ngIf="label" class="mb-2">
+        <label for="{{inputId}}"
+               class="text-500 font-medium">{{ label }}</label>
+        <app-tooltip [message]="tooltipMessage"></app-tooltip>
+    </div>
+    <div [ngClass]="{'p-inputgroup': appendCsvSuffix === true}">
+        <input type= "{{type}}"
+               id="{{inputId}}"
+               pInputText
+               placeholder="{{placeholder ? placeholder : label}}"
+               class="form-control w-full"
+               [formControl]="control"
+               (blur)="this.blurred.emit()">
+        <span *ngIf="appendCsvSuffix"
+              class="p-inputgroup-addon">.csv</span>
+    </div>
+</div>
+<!-- Displays the input in one line: Label Value -->
+<div *ngIf="!labelOnTop">
+    <div class="grid" [ngClass]="{'last-row': lastRow}">
+        <div *ngIf="label"
+             class="{{labelClass}} flex align-items-center justify-content-between">
+            <label class="text-500 font-medium"
+                   for="{{inputId}}">{{ label }}</label>
+            <app-tooltip [message]="tooltipMessage"> </app-tooltip>
+        </div>
+        <div class="{{valueClass}} flex align-items-center p-fluid" [ngClass]="{'p-inputgroup': appendCsvSuffix === true}">
+            <input type="{{type}}"
+                   id="{{inputId}}"
+                   pInputText
+                   placeholder="{{placeholder ? placeholder : label}}"
+                   class="form-control"
+                   [formControl]="control"
+                   (blur)="this.blurred.emit()">
+            <span *ngIf="appendCsvSuffix" class="p-inputgroup-addon">.csv</span>
+        </div>
+
+    </div>
+
+</div>
