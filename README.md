@@ -11,5 +11,3 @@ Simple Setup Guide
 
 # Requirements
 - Node.js 16.14.0 
-
-

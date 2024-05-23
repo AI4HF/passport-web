@@ -1,0 +1,45 @@
+::ng-deep {
+  .profile-overlay {
+    top: 50px !important;
+
+    &.p-overlaypanel {
+      &:before {
+        content:none;
+      }
+
+      &:after {
+        content:none;
+      }
+    }
+
+    .p-overlaypanel-content {
+      padding: 0 !important;
+    }
+
+    .menu-item {
+      padding: 0 1.4rem !important;
+    }
+  }
+}
+
+.profile {
+  .icon {
+
+    height: 2rem !important;
+    width: 2rem !important;
+    border-width: 1.5px !important;
+    border-style: solid;
+
+    > i {
+      font-size: 1rem;
+    }
+  }
+
+  .title {
+    font-size: 0.9rem;
+
+    &.username {
+      height: 1.2rem;
+    }
+  }
+}
