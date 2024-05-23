@@ -1,0 +1,24 @@
+{
+  "Login": "Login",
+  "Log in": "Log in",
+  "Please enter your details": "Please enter your details",
+  "Username": "Username",
+  "Password": "Password",
+  "Manage Studies": "Manage Studies",
+  "Organization": "Organization",
+  "Search": "Search",
+  "StudyManagement": {
+    "Studies": "Studies",
+    "New Study": "New Study",
+    "Number of entries": "Showing {first} to {last} of {totalRecords} entries",
+    "Name": "Name",
+    "ID": "ID",
+    "Description": "Description",
+    "Objectives": "Objectives",
+    "Ethics": "Ethics",
+    "Actions": "Actions",
+    "Edit Study": "Edit Study",
+    "Delete Study": "Delete Study",
+    "Access Study": "Access Study"
+  }
+}

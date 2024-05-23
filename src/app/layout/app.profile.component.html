@@ -1,0 +1,39 @@
+<div class="profile flex align-items-center h-full px-4">
+
+    <div *ngIf="true" (click)="op.show($event)"
+         class="flex gap-2 align-items-center cursor-pointer">
+        <div class="icon flex justify-content-center align-items-center border-primary border-circle"
+             [ngClass]="'border-primary'">
+            <i class="pi pi-user" [ngClass]="'text-primary'"></i>
+        </div>
+
+        <div class="flex flex-column">
+            <span class="title username font-medium" [ngClass]="'text-primary'">Okan Mercan</span>
+            <span class="title font-light" [ngClass]="'text-primary'">Org</span>
+        </div>
+    </div>
+
+    <div *ngIf="false" (click)="login()"
+         class="flex gap-2 align-items-center cursor-pointer">
+        <div class="flex justify-content-center align-items-center">
+            <i class="pi pi-sign-in" [ngClass]="'text-primary'"></i>
+        </div>
+
+        <span [ngClass]="'text-primary'">{{ 'Login' | translate }}</span>
+    </div>
+</div>
+
+
+<!-- Overlay panel to display menu -->
+<p-overlayPanel #op [dismissable]="true" styleClass="profile-overlay">
+    <ng-template pTemplate>
+        <p-listbox [options]="menu" (onClick)="op.hide(); onMenuItemSelect($event)" [style]="{'border': 'none'}">
+            <ng-template let-item pTemplate="item">
+                <div class="flex flex-row align-items-center gap-3 menu-item">
+                    <i class="text-primary" [ngClass]="item.icon"></i>
+                    <div>{{ item.label | translate }}</div>
+                </div>
+            </ng-template>
+        </p-listbox>
+    </ng-template>
+</p-overlayPanel>

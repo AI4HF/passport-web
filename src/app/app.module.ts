@@ -1,41 +1,38 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {HttpClientModule, HTTP_INTERCEPTORS, HttpClient, HttpBackend} from '@angular/common/http';
-import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import { AppLayoutModule } from './layout/app.layout.module';
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {environment} from "../environments/environment";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import { StudyPageComponent } from './components/study-page/study-page.component';
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './../assets/', '.json');
+import {HttpClient} from "@angular/common/http";
+import {ToastModule} from "primeng/toast";
+
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http, './assets/i18n/');
 }
-/**
- * Module component declarations and certain inputs. Will grow larger as new components and pages are created
- */
+
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    StudyPageComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-      defaultLanguage: "en",
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
-    })
-  ],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        AppRoutingModule,
+        AppLayoutModule,
+        TranslateModule.forRoot({
+            defaultLanguage: environment.defaultLanguage,
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        ToastModule
+    ],
+    providers: [
+        { provide: LocationStrategy, useClass: HashLocationStrategy }
+    ],
+    bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,18 +1,25 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
-import { StudyPageComponent} from "./components/study-page/study-page.component";
+import { ExtraOptions, RouterModule, Routes } from '@angular/router';
+import { AppLayoutComponent } from './layout/app.layout.component';
 
-/**
- * Routing module which will handle the redirections as new pages are implemented
- */
+const routerOptions: ExtraOptions = {
+    anchorScrolling: 'enabled'
+};
+
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'study_page', component: StudyPageComponent}
+    {
+        path: '', component: AppLayoutComponent,
+        children: [
+            { path: 'login', loadChildren: () => import('./modules/login/login.module').then(m => m.LoginModule) },
+            { path: 'study-management', loadChildren: () => import('./modules/study-management/study-management.module')
+                    .then(m => m.StudyManagementModule) },
+            { path: '', redirectTo: '/login', pathMatch: 'full' }
+        ]
+    }
 ];
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forRoot(routes, routerOptions)],
+    exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

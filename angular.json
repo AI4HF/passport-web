@@ -1,89 +1,108 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
-  "newProjectRoot": "projects",
-  "projects": {
-    "ai4hf-passport-gui": {
-      "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "app",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/ai4hf-passport-gui",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
-            "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.scss"
-            ],
-            "scripts": []
-          },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "version": 1,
+    "newProjectRoot": "projects",
+    "projects": {
+        "ai4hf-passport-web": {
+            "projectType": "application",
+            "schematics": {
+                "@schematics/angular:component": {
+                    "style": "scss"
                 }
-              ],
-              "outputHashing": "all"
             },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+            "root": "",
+            "sourceRoot": "src",
+            "prefix": "app",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:browser",
+                    "options": {
+                        "outputPath": "dist/ai4hf-passport-web",
+                        "index": "src/index.html",
+                        "main": "src/main.ts",
+                        "polyfills": [
+                            "zone.js"
+                        ],
+                        "tsConfig": "tsconfig.app.json",
+                        "inlineStyleLanguage": "scss",
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets"
+                        ],
+                        "styles": [
+                            "src/styles.scss"
+                        ],
+                        "scripts": []
+                    },
+                    "configurations": {
+                        "production": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "1mb",
+                                    "maximumError": "5mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "2kb",
+                                    "maximumError": "4kb"
+                                }
+                            ],
+                            "outputHashing": "all"
+                        },
+                        "development": {
+                            "buildOptimizer": false,
+                            "optimization": false,
+                            "vendorChunk": true,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "namedChunks": true
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "configurations": {
+                        "production": {
+                            "buildTarget": "ai4hf-passport-web:build:production"
+                        },
+                        "development": {
+                            "buildTarget": "ai4hf-passport-web:build:development"
+                        }
+                    },
+                    "defaultConfiguration": "development"
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "buildTarget": "ai4hf-passport-web:build"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "polyfills": [
+                            "zone.js",
+                            "zone.js/testing"
+                        ],
+                        "tsConfig": "tsconfig.spec.json",
+                        "karmaConfig": "karma.conf.js",
+                        "inlineStyleLanguage": "scss",
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets"
+                        ],
+                        "styles": [
+                            "src/styles.scss"
+                        ],
+                        "scripts": []
+                    }
+                }
             }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "browserTarget": "ai4hf-passport-gui:build:production"
-            },
-            "development": {
-              "browserTarget": "ai4hf-passport-gui:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "ai4hf-passport-gui:build"
-          }
         }
-      }
+    },
+    "cli": {
+      "analytics": "2c3a8b98-053a-4f8f-99d7-2bf267ca19e2"
     }
-  },
-  "cli": {
-    "analytics": false
-  }
 }

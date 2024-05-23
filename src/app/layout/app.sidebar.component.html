@@ -1,0 +1,15 @@
+<div class="layout-sidebar" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+    <div class="sidebar-header py-2">
+        <a [routerLink]="['/']" class="app-logo">
+            <img src="favicon.ico" height="60" >
+        </a>
+        <button class="layout-sidebar-anchor p-link z-2 mb-2" type="button" (click)="anchor()"></button>
+        <span class="ml-3 text-primary text-xl font-semibold prevent-select">AI4HF Product Password</span>
+    </div>
+ 
+
+    <div #menuContainer class="layout-menu-container">
+        <app-menu></app-menu>
+    </div>
+    <app-profile></app-profile>
+</div>
