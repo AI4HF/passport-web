@@ -79,11 +79,4 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
 
   }
 
-  /**
-   * Navigate the user to display or edit the details of a Study
-   * @param study Study to open details
-   */
-  navigateToStudyDetail(study: Study) {
-
-  }
 }

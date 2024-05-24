@@ -12,7 +12,6 @@
                         pTooltip="{{ 'StudyManagement.New Study' | translate }}" tooltipPosition="bottom"></button>
             </div>
         </div>
-        <!-- RTL support is handled here, as it highly depends on the application logic in this case -->
         <p-table #dt [value]="studyList" [columns]="columns" [rows]="10" [rowHover]="true" [paginator]="true"
                  [showCurrentPageReport]="true" [currentPageReportTemplate]="'StudyManagement.Number of entries' | translate"
                  [rowsPerPageOptions]="[10,25,50]" [showLoader]="true" [loading]="loading" [filterDelay]="0"
@@ -57,12 +56,12 @@
             <ng-template pTemplate="body" let-study>
                 <tr>
                     <!-- Study ID -->
-                    <td class="cursor-pointer" (click)="navigateToStudyDetail(study)">
+                    <td class="cursor-pointer">
                         <span>{{ study.id }}</span>
                     </td>
 
                     <!-- Study Name -->
-                    <td class="cursor-pointer" (click)="navigateToStudyDetail(study)">
+                    <td class="cursor-pointer">
                         <span>{{ study.name }}</span>
                     </td>
 
