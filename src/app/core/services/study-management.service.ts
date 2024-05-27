@@ -38,4 +38,24 @@ export class StudyManagementService {
     return of(this.studyList.find(study => study.id === id)).pipe(map(
         response => new Study(response)));
   }
+  
+  updateStudy(study: Study){
+    this.studyList.forEach(studyElement => {
+      if(studyElement.id === study.id){
+        studyElement.name = study.name;
+        studyElement.description = study.description;
+        studyElement.objectives = study.objectives;
+        studyElement.ethics = study.ethics;
+      }
+    });
+  }
+
+  deleteStudy(id: number){
+    this.studyList = this.studyList.filter(study => study.id !== id);
+  }
+
+  createStudy(study: Study){
+    study.id = this.studyList[this.studyList.length - 1].id + 1;
+    this.studyList.push(study);
+  }
 }

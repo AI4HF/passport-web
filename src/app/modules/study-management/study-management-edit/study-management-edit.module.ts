@@ -6,18 +6,22 @@ import {InputTextModule} from "primeng/inputtext";
 import {TranslateModule} from "@ngx-translate/core";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TimelineModule} from "primeng/timeline";
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
 
 
 
 @NgModule({
   declarations: [StudyManagementEditComponent],
-  imports: [
-    CommonModule,
-    CardModule,
-    InputTextModule,
-    TranslateModule,
-    ReactiveFormsModule,
-    TimelineModule
-  ]
+    imports: [
+        CommonModule,
+        CardModule,
+        InputTextModule,
+        TranslateModule,
+        ReactiveFormsModule,
+        TimelineModule,
+        ButtonModule,
+        RippleModule
+    ]
 })
 export class StudyManagementEditModule { }

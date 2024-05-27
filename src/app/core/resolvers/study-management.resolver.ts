@@ -10,14 +10,15 @@ import {StudyManagementService} from "../services/study-management.service";
 export const StudyManagementResolver: ResolveFn<Study> = (route: ActivatedRouteSnapshot): Observable<Study> => {
 
         const studyManagementService = inject(StudyManagementService);
-        const id = Number(route.paramMap.get('id'));
+
 
         // if an id is given, then an existing page will be resolved
-        if (id) {
+        if (route.paramMap.get('id') !== 'new') {
+            const id = Number(route.paramMap.get('id'));
             return studyManagementService.getStudyById(id);
         }
         // otherwise, we can assume that a new page can be created
         else {
-            return of(new Study({}));
+            return of(new Study({id: 0}));
         }
     }

@@ -90,7 +90,7 @@
                         <!-- Delete Study Button-->
                         <button
                                 pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple"
-                                (click)="deleteStudy()" pTooltip="{{ 'StudyManagement.Delete Study' | translate }}"
+                                (click)="deleteStudy(study.id)" pTooltip="{{ 'StudyManagement.Delete Study' | translate }}"
                                 tooltipPosition="bottom"></button>
                     </td>
                 </tr>

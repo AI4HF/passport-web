@@ -3,6 +3,7 @@ import {BaseComponent} from "../../../shared/components/base.component";
 import {takeUntil} from "rxjs";
 import {Study} from "../../../shared/models/study.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {StudyManagementRoutingModule} from "../study-management-routing.module";
 
 /**
  * A controller to edit the details of a Study object
@@ -40,11 +41,11 @@ export class StudyManagementEditComponent extends BaseComponent implements OnIni
     });
 
     this.studySteps = [
-      {name: 'Study Details'},
-      {name: 'Created Populations'},
-      {name: 'Assigned Personnel'},
-      {name: 'Created Experiments'},
-      {name: 'Created Survey Questions'},
+      {name: this.translateService.instant('StudyManagement.Study Details'), selected: true},
+      {name: this.translateService.instant('StudyManagement.Created Populations')},
+      {name: this.translateService.instant('StudyManagement.Assigned Personnel')},
+      {name: this.translateService.instant('StudyManagement.Created Experiments')},
+      {name: this.translateService.instant('StudyManagement.Created Survey Questions')},
     ];
   }
 
@@ -64,5 +65,33 @@ export class StudyManagementEditComponent extends BaseComponent implements OnIni
       objectives: new FormControl(objectives, Validators.required),
       ethics: new FormControl(ethics, Validators.required)
     });
+  }
+
+  /**
+   * Navigate to a step from left menu
+   */
+  navigateStep() {
+    //TODO:
+  }
+
+  /**
+   * Back to study management menu
+   */
+  back(){
+    this.router.navigate([`/${StudyManagementRoutingModule.route}`]);
+  }
+
+  /**
+   * Save study details
+   */
+  save(){
+    if(this.selectedStudy.id === 0){
+      const newStudy: Study = new Study({ ...this.studyForm.value});
+      this.studyManagementService.createStudy(newStudy);
+    }else{
+      const updatedStudy: Study = new Study({id: this.selectedStudy.id, ...this.studyForm.value});
+      this.studyManagementService.updateStudy(updatedStudy);
+    }
+    this.back();
   }
 }

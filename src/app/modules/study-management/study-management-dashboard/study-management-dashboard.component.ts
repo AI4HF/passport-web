@@ -63,7 +63,7 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
    * Navigate the user to Study create page
    */
   createStudy(){
-
+    this.router.navigate([`/${StudyManagementRoutingModule.route}/new`]);
   }
 
   /**
@@ -76,8 +76,9 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
   /**
    * Delete a study
    */
-  deleteStudy(){
-
+  deleteStudy(id: number){
+    this.studyManagementService.deleteStudy(id);
+    this.studyList = this.studyList.filter(study => study.id !== id);
   }
 
 }

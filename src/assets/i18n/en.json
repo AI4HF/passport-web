@@ -7,6 +7,8 @@
   "Manage Studies": "Manage Studies",
   "Organization": "Organization",
   "Search": "Search",
+  "Back": "Back",
+  "Save": "Save",
   "StudyManagement": {
     "Studies": "Studies",
     "New Study": "New Study",
@@ -19,6 +21,11 @@
     "Actions": "Actions",
     "Edit Study": "Edit Study",
     "Delete Study": "Delete Study",
-    "Access Study": "Access Study"
+    "Access Study": "Access Study",
+    "Study Details": "Study Details",
+    "Created Populations": "Created Populations",
+    "Assigned Personnel": "Assigned Personnel",
+    "Created Experiments": "Created Experiments",
+    "Created Survey Questions": "Created Survey Questions"
   }
 }
