@@ -1,1 +1,67 @@
-<p>study-management-edit works!</p>
+<form [formGroup]="studyForm">
+    <div class="grid p-fluid">
+        <p-card class="col-3">
+                <p-timeline [value]="studySteps" align="right">
+                    <ng-template pTemplate="content" let-step>
+                        {{step.name}}
+                    </ng-template>
+                </p-timeline>
+        </p-card>
+        <p-card class="col-9">
+            <div class="grid grid-nogutter">
+                <!-- Name -->
+                <div class="col-3 flex align-items-center justify-content-between">
+                    <label class="text-900 font-medium"
+                           for="name">{{'StudyManagement.Name' | translate}}</label>
+                </div>
+                <div class="col-9 text-900 flex align-items-center p-fluid">
+                    <input type="text"
+                           id="name"
+                           pInputText
+                           placeholder="{{'StudyManagement.Name' | translate}}"
+                           formControlName="name"
+                           class="form-control">
+                </div>
+                <!-- Description -->
+                <div class="col-3 flex align-items-center justify-content-between mt-4">
+                    <label class="text-900 font-medium"
+                           for="description">{{'StudyManagement.Description' | translate}}</label>
+                </div>
+                <div class="col-9 text-900 flex align-items-center p-fluid mt-4">
+                    <input type="text"
+                           id="description"
+                           pInputText
+                           placeholder="{{'StudyManagement.Description' | translate}}"
+                           formControlName="description"
+                           class="form-control">
+                </div>
+                <!-- Objectives -->
+                <div class="col-3 flex align-items-center justify-content-between mt-4">
+                    <label class="text-900 font-medium"
+                           for="objectives">{{'StudyManagement.Objectives' | translate}}</label>
+                </div>
+                <div class="col-9 text-900 flex align-items-center p-fluid mt-4">
+                    <input type="text"
+                           id="objectives"
+                           pInputText
+                           placeholder="{{'StudyManagement.Objectives' | translate}}"
+                           formControlName="objectives"
+                           class="form-control">
+                </div>
+                <!-- Ethics -->
+                <div class="col-3 flex align-items-center justify-content-between mt-4">
+                    <label class="text-900 font-medium"
+                           for="ethics">{{'StudyManagement.Ethics' | translate}}</label>
+                </div>
+                <div class="col-9 text-900 flex align-items-center p-fluid mt-4">
+                    <input type="text"
+                           id="ethics"
+                           pInputText
+                           placeholder="{{'StudyManagement.Ethics' | translate}}"
+                           formControlName="ethics"
+                           class="form-control">
+                </div>
+            </div>
+        </p-card>
+    </div>
+</form>
