@@ -3,6 +3,7 @@ import {BaseComponent} from "../../../shared/components/base.component";
 import {takeUntil} from "rxjs";
 import {Study} from "../../../shared/models/study.model";
 import {Table} from "primeng/table";
+import {StudyManagementRoutingModule} from "../study-management-routing.module";
 
 @Component({
   selector: 'app-study-management-dashboard',
@@ -68,8 +69,8 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
   /**
    * Navigate the user to Study edit page
    */
-  editStudy(){
-
+  editStudy(id: number){
+    this.router.navigate([`/${StudyManagementRoutingModule.route}/${id}`]);
   }
 
   /**

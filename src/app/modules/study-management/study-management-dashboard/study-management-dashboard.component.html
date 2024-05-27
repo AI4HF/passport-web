@@ -86,7 +86,7 @@
                         <button
                                 pButton pRipple type="button" [icon]=" 'pi pi-pencil'"
                                 class="p-button-text p-button-rounded p-ripple" tooltipPosition="bottom"
-                                (click)="editStudy()" pTooltip="{{ 'StudyManagement.Edit Study' | translate }}"></button >
+                                (click)="editStudy(study.id)" pTooltip="{{ 'StudyManagement.Edit Study' | translate }}"></button >
                         <!-- Delete Study Button-->
                         <button
                                 pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple"
