@@ -1,16 +1,7 @@
 <form [formGroup]="studyForm">
-    <div class="grid p-fluid">
-        <p-card class="col-3">
-                <p-timeline [value]="studySteps" align="right">
-                    <ng-template pTemplate="content" let-step>
-                        <span class="{{(step.selected)? 'text-primary' : 'text-500'}} cursor-pointer"
-                        (click)="navigateStep()">
-                            {{step.name}}
-                        </span>
-                    </ng-template>
-                </p-timeline>
-        </p-card>
-        <p-card class="col-9">
+    <div class="flex p-fluid gap-5">
+        <app-stepper [steps]="studySteps"></app-stepper>
+        <p-card class="col-9 p-0 w-auto">
             <div class="grid grid-nogutter">
                 <!-- Name -->
                 <div class="col-3 flex align-items-center justify-content-between">

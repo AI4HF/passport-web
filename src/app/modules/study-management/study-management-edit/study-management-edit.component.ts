@@ -68,13 +68,6 @@ export class StudyManagementEditComponent extends BaseComponent implements OnIni
   }
 
   /**
-   * Navigate to a step from left menu
-   */
-  navigateStep() {
-    //TODO:
-  }
-
-  /**
    * Back to study management menu
    */
   back(){

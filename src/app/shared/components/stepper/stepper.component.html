@@ -1,0 +1,10 @@
+<p-card class="col-3 p-0">
+    <p-timeline [value]="steps" align="left">
+        <ng-template pTemplate="content" let-step>
+                        <span class="{{(step.selected)? 'text-primary' : 'text-500'}} cursor-pointer"
+                              (click)="navigateStep()">
+                            {{step.name}}
+                        </span>
+        </ng-template>
+    </p-timeline>
+</p-card>

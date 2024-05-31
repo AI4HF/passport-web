@@ -8,6 +8,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {TimelineModule} from "primeng/timeline";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
+import {StepperModule} from "../../../shared/components/stepper/stepper.module";
 
 
 
@@ -21,7 +22,8 @@ import {RippleModule} from "primeng/ripple";
         ReactiveFormsModule,
         TimelineModule,
         ButtonModule,
-        RippleModule
+        RippleModule,
+        StepperModule
     ]
 })
 export class StudyManagementEditModule { }
