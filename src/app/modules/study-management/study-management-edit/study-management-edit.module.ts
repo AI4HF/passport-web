@@ -9,6 +9,7 @@ import {TimelineModule} from "primeng/timeline";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {StepperModule} from "../../../shared/components/stepper/stepper.module";
+import {StudyDetailsModule} from "./study-details/study-details.module";
 
 
 
@@ -23,7 +24,8 @@ import {StepperModule} from "../../../shared/components/stepper/stepper.module";
         TimelineModule,
         ButtonModule,
         RippleModule,
-        StepperModule
+        StepperModule,
+        StudyDetailsModule
     ]
 })
 export class StudyManagementEditModule { }
