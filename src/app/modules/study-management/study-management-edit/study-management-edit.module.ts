@@ -10,6 +10,8 @@ import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {StepperModule} from "../../../shared/components/stepper/stepper.module";
 import {StudyDetailsModule} from "./study-details/study-details.module";
+import {StudyManagementEditRoutingModule} from "./study-management-edit-routing.module";
+import {PopulationDetailsModule} from "./population-details/population-details.module";
 
 
 
@@ -25,7 +27,9 @@ import {StudyDetailsModule} from "./study-details/study-details.module";
         ButtonModule,
         RippleModule,
         StepperModule,
-        StudyDetailsModule
+        StudyDetailsModule,
+        StudyManagementEditRoutingModule,
+        PopulationDetailsModule
     ]
 })
 export class StudyManagementEditModule { }

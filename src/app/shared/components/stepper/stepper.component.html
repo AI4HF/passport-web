@@ -2,7 +2,7 @@
     <p-timeline [value]="steps" align="left">
         <ng-template pTemplate="content" let-step>
                         <span class="{{(step.selected)? 'text-primary' : 'text-500'}} cursor-pointer"
-                              (click)="navigateStep()">
+                              (click)="navigateStep(step)">
                             {{step.name}}
                         </span>
         </ng-template>

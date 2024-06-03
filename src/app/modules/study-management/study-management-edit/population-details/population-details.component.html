@@ -1,56 +1,43 @@
-<form [formGroup]="studyForm">
+<form [formGroup]="populationForm">
     <p-card class="p-0 w-full">
         <div class="grid grid-nogutter">
-            <!-- Name -->
+            <!-- Population Url -->
             <div class="col-2 flex align-items-center">
                 <label class="text-900 font-medium"
-                       for="name">{{'StudyManagement.Name' | translate}}</label>
+                       for="populationUrl">{{'StudyManagement.Population.Population Url' | translate}}</label>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid">
                 <input type="text"
-                       id="name"
+                       id="populationUrl"
                        pInputText
-                       placeholder="{{'StudyManagement.Name' | translate}}"
-                       formControlName="name"
+                       placeholder="{{'StudyManagement.Population.Population Url' | translate}}"
+                       formControlName="populationUrl"
                        class="form-control">
             </div>
             <!-- Description -->
             <div class="col-2 flex align-items-center mt-4">
                 <label class="text-900 font-medium"
-                       for="description">{{'StudyManagement.Description' | translate}}</label>
+                       for="description">{{'StudyManagement.Population.Description' | translate}}</label>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
                 <input type="text"
                        id="description"
                        pInputText
-                       placeholder="{{'StudyManagement.Description' | translate}}"
+                       placeholder="{{'StudyManagement.Population.Description' | translate}}"
                        formControlName="description"
                        class="form-control">
             </div>
-            <!-- Objectives -->
+            <!-- Characteristics -->
             <div class="col-2 flex align-items-center mt-4">
                 <label class="text-900 font-medium"
-                       for="objectives">{{'StudyManagement.Objectives' | translate}}</label>
+                       for="characteristics">{{'StudyManagement.Population.Characteristics' | translate}}</label>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
                 <input type="text"
-                       id="objectives"
+                       id="characteristics"
                        pInputText
-                       placeholder="{{'StudyManagement.Objectives' | translate}}"
-                       formControlName="objectives"
-                       class="form-control">
-            </div>
-            <!-- Ethics -->
-            <div class="col-2 flex align-items-center mt-4">
-                <label class="text-900 font-medium"
-                       for="ethics">{{'StudyManagement.Ethics' | translate}}</label>
-            </div>
-            <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
-                <input type="text"
-                       id="ethics"
-                       pInputText
-                       placeholder="{{'StudyManagement.Ethics' | translate}}"
-                       formControlName="ethics"
+                       placeholder="{{'StudyManagement.Population.Characteristics' | translate}}"
+                       formControlName="characteristics"
                        class="form-control">
             </div>
         </div>
@@ -65,9 +52,9 @@
             <div class="justify-content-end">
                 <button pButton pRipple
                         type="button"
-                        label="{{'Next' | translate}}"
+                        label="{{'Save' | translate}}"
                         class="p-button-raised"
-                        [disabled]="!studyForm.valid"
+                        [disabled]="!populationForm.valid"
                         (click)="save()"></button>
             </div>
         </div>

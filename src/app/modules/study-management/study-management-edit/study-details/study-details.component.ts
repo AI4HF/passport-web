@@ -27,7 +27,7 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
+    this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.selectedStudy = data['study'];
       this.initializeForm();
     });
@@ -69,6 +69,6 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
       const updatedStudy: Study = new Study({id: this.selectedStudy.id, ...this.studyForm.value});
       this.studyManagementService.updateStudy(updatedStudy);
     }
-    this.back();
+    this.router.navigate([`../population-details`], {relativeTo: this.route});
   }
 }

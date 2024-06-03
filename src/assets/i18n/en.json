@@ -8,6 +8,7 @@
   "Organization": "Organization",
   "Search": "Search",
   "Back": "Back",
+  "Next": "Next",
   "Save": "Save",
   "StudyManagement": {
     "Studies": "Studies",
@@ -26,6 +27,11 @@
     "Created Populations": "Created Populations",
     "Assigned Personnel": "Assigned Personnel",
     "Created Experiments": "Created Experiments",
-    "Created Survey Questions": "Created Survey Questions"
+    "Created Survey Questions": "Created Survey Questions",
+    "Population": {
+      "Population Url": "Population Url",
+      "Description": "Description",
+      "Characteristics": "Characteristics"
+    }
   }
 }

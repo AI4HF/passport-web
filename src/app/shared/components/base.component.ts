@@ -5,6 +5,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {MessageService} from "primeng/api";
 import {LayoutService} from "../../layout/service/app.layout.service";
 import {StudyManagementService} from "../../core/services/study-management.service";
+import {PopulationService} from "../../core/services/population.service";
 
 /**
  * Base component to provide common properties
@@ -29,6 +30,7 @@ export abstract class BaseComponent implements OnDestroy {
 
   // Service classes for password app
   studyManagementService: StudyManagementService
+  populationService: PopulationService
 
   constructor(injector: Injector){
     this.router = injector.get(Router);
@@ -37,6 +39,7 @@ export abstract class BaseComponent implements OnDestroy {
     this.messageService = injector.get(MessageService);
     this.layoutService = injector.get(LayoutService);
     this.studyManagementService = injector.get(StudyManagementService);
+    this.populationService = injector.get(PopulationService);
   }
 
   /**
