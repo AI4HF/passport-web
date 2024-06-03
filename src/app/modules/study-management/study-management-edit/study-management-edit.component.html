@@ -1,4 +1,9 @@
-<div class="flex p-fluid gap-5">
-    <app-stepper [steps]="studySteps"></app-stepper>
-    <app-study-details></app-study-details>
+<div class="flex gap-5">
+    <div class="stepper">
+        <app-stepper [steps]="studySteps"></app-stepper>
+    </div>
+    <div class="details">
+        <app-study-details></app-study-details>
+    </div>
+
 </div>
