@@ -2,6 +2,7 @@ import {Component, Input, OnInit, SimpleChanges} from '@angular/core';
 import {BaseComponent} from "../base.component";
 import {NavigationEnd} from "@angular/router";
 import {filter} from "rxjs/operators";
+import {takeUntil} from "rxjs";
 
 
 /**
@@ -25,7 +26,8 @@ export class StepperComponent extends BaseComponent implements OnInit{
     });
 
     this.router.events.pipe(
-        filter(event => event instanceof NavigationEnd)
+        filter(event => event instanceof NavigationEnd),
+        takeUntil(this.destroy$)
     ).subscribe((event: any) => {
       const url = event.urlAfterRedirects;
       this.steps.forEach(stepElement => {

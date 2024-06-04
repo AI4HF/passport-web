@@ -1,0 +1,61 @@
+<p-card class="p-0 w-full">
+    <p-pickList
+            [source]="sourcePersonnelList"
+            [target]="targetPersonnelList"
+            sourceHeader="{{'StudyManagement.Personnel.Available Personnel' | translate}}"
+            targetHeader="{{'StudyManagement.Personnel.Assigned Personnel' | translate}}"
+            [dragdrop]="true"
+            [responsive]="true"
+            class="z-1"
+            [sourceStyle]="{ height: '20rem' }"
+            [targetStyle]="{ height: '20rem' }"
+            filterBy="firstName"
+            sourceFilterPlaceholder="{{'StudyManagement.Personnel.Search by name' | translate}}"
+            targetFilterPlaceholder="{{'StudyManagement.Personnel.Search by name' | translate}}"
+            breakpoint="1400px"
+            (onMoveAllToSource)="onMoveToSource($event)"
+            (onMoveToSource)="onMoveToSource($event)">
+        <ng-template let-personnel pTemplate="item">
+                <div class="flex flex-row align-items-center justify-content-start gap-2">
+                    <div class="firstName">
+                        <span class="font-bold">
+                            {{ personnel.firstName }}
+                        </span>
+                    </div>
+                    <div class="lastName">
+                        <span>
+                            {{ personnel.lastName }}
+                        </span>
+                    </div>
+                    <div class="role flex z-2 justify-content-end">
+                        <p-dropdown
+                                [options]="roles"
+                                [(ngModel)]="personnel.role"
+                                optionLabel="name"
+                                optionValue="value"
+                                appendTo="body"
+                                [showClear]="true"
+                                placeholder="Select a Role"
+                                [disabled]="!isPersonnelInTarget(personnel)"
+                        />
+                    </div>
+                </div>
+        </ng-template>
+    </p-pickList>
+    <div class="flex justify-content-between flex-wrap mt-4">
+        <div class="justify-content-start">
+            <button pButton pRipple
+                    type="button"
+                    label="{{'Back' | translate}}"
+                    class="p-button-raised"
+                    (click)="back()"></button>
+        </div>
+        <div class="justify-content-end">
+            <button pButton pRipple
+                    type="button"
+                    label="{{'Next' | translate}}"
+                    class="p-button-raised"
+                    (click)="next()"></button>
+        </div>
+    </div>
+</p-card>

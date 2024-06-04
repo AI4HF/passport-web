@@ -6,6 +6,7 @@ import {MessageService} from "primeng/api";
 import {LayoutService} from "../../layout/service/app.layout.service";
 import {StudyManagementService} from "../../core/services/study-management.service";
 import {PopulationService} from "../../core/services/population.service";
+import {PersonnelService} from "../../core/services/personnel.service";
 
 /**
  * Base component to provide common properties
@@ -31,6 +32,7 @@ export abstract class BaseComponent implements OnDestroy {
   // Service classes for password app
   studyManagementService: StudyManagementService
   populationService: PopulationService
+  personnelService: PersonnelService
 
   constructor(injector: Injector){
     this.router = injector.get(Router);
@@ -40,6 +42,7 @@ export abstract class BaseComponent implements OnDestroy {
     this.layoutService = injector.get(LayoutService);
     this.studyManagementService = injector.get(StudyManagementService);
     this.populationService = injector.get(PopulationService);
+    this.personnelService = injector.get(PersonnelService);
   }
 
   /**

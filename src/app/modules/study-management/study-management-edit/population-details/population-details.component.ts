@@ -2,7 +2,6 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {BaseComponent} from "../../../../shared/components/base.component";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {takeUntil} from "rxjs";
-import {StudyManagementRoutingModule} from "../../study-management-routing.module";
 import {Population} from "../../../../shared/models/population.model";
 
 @Component({
@@ -28,7 +27,7 @@ export class PopulationDetailsComponent extends BaseComponent implements OnInit{
 
   ngOnInit() {
     this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
-      this.populationService.getPopulationById(data['study'].id)
+      this.populationService.getPopulationById(data['study'].id).pipe(takeUntil(this.destroy$))
           .subscribe(population => this.selectedPopulation = population);
       this.initializeForm();
     });
@@ -62,6 +61,7 @@ export class PopulationDetailsComponent extends BaseComponent implements OnInit{
    */
   save(){
     //TODO:
+    this.router.navigate([`../personnel-assignment`], {relativeTo: this.route});
   }
 
 }

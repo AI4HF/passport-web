@@ -12,6 +12,7 @@ import {StepperModule} from "../../../shared/components/stepper/stepper.module";
 import {StudyDetailsModule} from "./study-details/study-details.module";
 import {StudyManagementEditRoutingModule} from "./study-management-edit-routing.module";
 import {PopulationDetailsModule} from "./population-details/population-details.module";
+import {PersonnelAssignmentModule} from "./personnel-assignment/personnel-assignment.module";
 
 
 
@@ -29,7 +30,8 @@ import {PopulationDetailsModule} from "./population-details/population-details.m
         StepperModule,
         StudyDetailsModule,
         StudyManagementEditRoutingModule,
-        PopulationDetailsModule
+        PopulationDetailsModule,
+        PersonnelAssignmentModule
     ]
 })
 export class StudyManagementEditModule { }

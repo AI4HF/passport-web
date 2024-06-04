@@ -4,7 +4,7 @@
   "Please enter your details": "Please enter your details",
   "Username": "Username",
   "Password": "Password",
-  "Manage Studies": "Manage Studies",
+  "Study Management": "Study Management",
   "Organization": "Organization",
   "Search": "Search",
   "Back": "Back",
@@ -24,14 +24,19 @@
     "Delete Study": "Delete Study",
     "Access Study": "Access Study",
     "Study Details": "Study Details",
-    "Created Populations": "Created Populations",
-    "Assigned Personnel": "Assigned Personnel",
+    "Population Details": "Population Details",
+    "Personnel Assignment": "Personnel Assignment",
     "Created Experiments": "Created Experiments",
     "Created Survey Questions": "Created Survey Questions",
     "Population": {
       "Population Url": "Population Url",
       "Description": "Description",
       "Characteristics": "Characteristics"
+    },
+    "Personnel": {
+      "Available Personnel": "Available Personnel",
+      "Assigned Personnel": "Assigned Personnel",
+      "Search by name": "Search by name"
     }
   }
 }

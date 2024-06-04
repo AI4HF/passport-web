@@ -30,9 +30,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         }),
         ToastModule
     ],
-    providers: [
-        { provide: LocationStrategy, useClass: HashLocationStrategy }
-    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

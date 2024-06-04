@@ -17,7 +17,7 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
     ngOnInit() {
         this.model = [
             {
-                label: this.translateService.instant('Manage Studies'),
+                label: this.translateService.instant('Study Management'),
                 icon: 'pi pi-book',
                 routerLink: ['/study-management']
             },
