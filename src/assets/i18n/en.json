@@ -10,6 +10,7 @@
   "Back": "Back",
   "Next": "Next",
   "Save": "Save",
+  "Add": "Add",
   "StudyManagement": {
     "Studies": "Studies",
     "New Study": "New Study",
@@ -26,7 +27,7 @@
     "Study Details": "Study Details",
     "Population Details": "Population Details",
     "Personnel Assignment": "Personnel Assignment",
-    "Created Experiments": "Created Experiments",
+    "Experiment Questions": "Experiment Questions",
     "Created Survey Questions": "Created Survey Questions",
     "Population": {
       "Population Url": "Population Url",
@@ -36,6 +37,10 @@
     "Personnel": {
       "Available Personnel": "Available Personnel",
       "Assigned Personnel": "Assigned Personnel"
+    },
+    "Experiment": {
+      "Research Question": "Research Question",
+      "Please add research question": "Please add research question..."
     }
   }
 }

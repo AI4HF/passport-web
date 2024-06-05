@@ -13,6 +13,7 @@ import {StudyDetailsModule} from "./study-details/study-details.module";
 import {StudyManagementEditRoutingModule} from "./study-management-edit-routing.module";
 import {PopulationDetailsModule} from "./population-details/population-details.module";
 import {PersonnelAssignmentModule} from "./personnel-assignment/personnel-assignment.module";
+import {ExperimentQuestionsModule} from "./experiment-questions/experiment-questions.module";
 
 
 
@@ -31,7 +32,8 @@ import {PersonnelAssignmentModule} from "./personnel-assignment/personnel-assign
         StudyDetailsModule,
         StudyManagementEditRoutingModule,
         PopulationDetailsModule,
-        PersonnelAssignmentModule
+        PersonnelAssignmentModule,
+        ExperimentQuestionsModule
     ]
 })
 export class StudyManagementEditModule { }

@@ -27,7 +27,7 @@ export class PopulationDetailsComponent extends BaseComponent implements OnInit{
 
   ngOnInit() {
     this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
-      this.populationService.getPopulationById(data['study'].id).pipe(takeUntil(this.destroy$))
+      this.populationService.getPopulationByStudyId(data['study'].id).pipe(takeUntil(this.destroy$))
           .subscribe(population => this.selectedPopulation = population);
       this.initializeForm();
     });

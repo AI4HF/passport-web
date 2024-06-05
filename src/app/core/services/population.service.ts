@@ -34,8 +34,8 @@ export class PopulationService {
             .pipe(map(response => response.map((item: any) => new Population(item))));
     }
 
-    getPopulationById(id: number) {
-        return of(this.populationList.find(population => population.populationId === id)).pipe(map(
+    getPopulationByStudyId(id: number) {
+        return of(this.populationList.find(population => population.studyId === id)).pipe(map(
             response => new Population(response)));
     }
 

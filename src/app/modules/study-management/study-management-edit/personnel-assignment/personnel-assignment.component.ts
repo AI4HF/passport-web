@@ -54,7 +54,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
    */
   next(){
     //TODO:
-    console.log(this.targetPersonnelList);
+    this.router.navigate([`../experiment-questions`], {relativeTo: this.route});
   }
 
   /**
