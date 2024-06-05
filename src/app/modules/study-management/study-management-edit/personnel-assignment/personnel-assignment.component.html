@@ -9,10 +9,12 @@
             class="z-1"
             [sourceStyle]="{ height: '20rem' }"
             [targetStyle]="{ height: '20rem' }"
-            filterBy="firstName"
-            sourceFilterPlaceholder="{{'StudyManagement.Personnel.Search by name' | translate}}"
-            targetFilterPlaceholder="{{'StudyManagement.Personnel.Search by name' | translate}}"
+            filterBy="firstName,lastName,role"
+            sourceFilterPlaceholder="{{'Search' | translate}}"
+            targetFilterPlaceholder="{{'Search' | translate}}"
             breakpoint="1400px"
+            [showTargetControls]="false"
+            [showSourceControls]="false"
             (onMoveAllToSource)="onMoveToSource($event)"
             (onMoveToSource)="onMoveToSource($event)">
         <ng-template let-personnel pTemplate="item">
