@@ -27,7 +27,7 @@ export class StudyManagementEditComponent extends BaseComponent implements OnIni
       {name: this.translateService.instant('StudyManagement.Population Details'), routerLink: 'population-details'},
       {name: this.translateService.instant('StudyManagement.Personnel Assignment'), routerLink: 'personnel-assignment'},
       {name: this.translateService.instant('StudyManagement.Experiment Questions'), routerLink: 'experiment-questions'},
-      {name: this.translateService.instant('StudyManagement.Created Survey Questions')},
+      {name: this.translateService.instant('StudyManagement.Survey Inspection'), routerLink: 'survey-inspection'}
     ];
   }
 

@@ -5,6 +5,7 @@ import {StudyManagementEditComponent} from "./study-management-edit.component";
 import {PopulationDetailsComponent} from "./population-details/population-details.component";
 import {PersonnelAssignmentComponent} from "./personnel-assignment/personnel-assignment.component";
 import {ExperimentQuestionsComponent} from "./experiment-questions/experiment-questions.component";
+import {SurveyInspectionComponent} from "./survey-inspection/survey-inspection.component";
 
 
 
@@ -32,6 +33,10 @@ const routes: Routes = [
             {
                 path: 'experiment-questions',
                 component: ExperimentQuestionsComponent,
+            },
+            {
+                path: 'survey-inspection',
+                component: SurveyInspectionComponent,
             }
         ],
         component: StudyManagementEditComponent

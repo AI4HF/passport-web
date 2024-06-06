@@ -49,7 +49,7 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
    */
   next(){
     //TODO:
-    this.router.navigate([`../experiment-questions`], {relativeTo: this.route});
+    this.router.navigate([`../survey-inspection`], {relativeTo: this.route});
   }
 
   /**

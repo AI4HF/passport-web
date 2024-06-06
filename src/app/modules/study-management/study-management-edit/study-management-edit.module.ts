@@ -14,6 +14,7 @@ import {StudyManagementEditRoutingModule} from "./study-management-edit-routing.
 import {PopulationDetailsModule} from "./population-details/population-details.module";
 import {PersonnelAssignmentModule} from "./personnel-assignment/personnel-assignment.module";
 import {ExperimentQuestionsModule} from "./experiment-questions/experiment-questions.module";
+import {SurveyInspectionModule} from "./survey-inspection/survey-inspection.module";
 
 
 
@@ -33,7 +34,8 @@ import {ExperimentQuestionsModule} from "./experiment-questions/experiment-quest
         StudyManagementEditRoutingModule,
         PopulationDetailsModule,
         PersonnelAssignmentModule,
-        ExperimentQuestionsModule
+        ExperimentQuestionsModule,
+        SurveyInspectionModule
     ]
 })
 export class StudyManagementEditModule { }

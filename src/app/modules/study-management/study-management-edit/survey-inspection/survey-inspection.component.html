@@ -1,0 +1,41 @@
+<p-card class="p-0 w-full">
+
+    <p-table [value]="surveyList" scrollHeight="18rem"
+             [tableStyle]="{ 'min-width': '50rem', 'max-height': '18rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>{{'StudyManagement.Survey.Question' | translate }}</th>
+                <th>{{'StudyManagement.Survey.Answer' | translate }}</th>
+                <th>{{'StudyManagement.Survey.Category' | translate }}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-survey>
+            <tr>
+                <td>{{ survey.question }}</td>
+                <td>{{ survey.answer }}</td>
+                <td><p-tag value="{{survey.category}}" [rounded]="true" /></td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <div *ngIf="!surveyList.length" class="flex justify-content-center border-1 border-300 border-round p-6">
+        {{'StudyManagement.Survey.There is no survey question related to this study' | translate }}
+    </div>
+
+    <div class="flex justify-content-between flex-wrap mt-4">
+        <div class="justify-content-start">
+            <button pButton pRipple
+                    type="button"
+                    label="{{'Back' | translate}}"
+                    class="p-button-raised"
+                    (click)="back()"></button>
+        </div>
+        <div class="justify-content-end">
+            <button pButton pRipple
+                    type="button"
+                    label="{{'Save' | translate}}"
+                    class="p-button-raised"
+                    (click)="save()"></button>
+        </div>
+    </div>
+</p-card>

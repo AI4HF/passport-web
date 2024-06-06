@@ -28,7 +28,7 @@
     "Population Details": "Population Details",
     "Personnel Assignment": "Personnel Assignment",
     "Experiment Questions": "Experiment Questions",
-    "Created Survey Questions": "Created Survey Questions",
+    "Survey Inspection": "Survey Inspection",
     "Population": {
       "Population Url": "Population Url",
       "Description": "Description",
@@ -41,6 +41,12 @@
     "Experiment": {
       "Research Question": "Research Question",
       "Please add research question": "Please add research question..."
+    },
+    "Survey": {
+      "Question": "Question",
+      "Answer": "Answer",
+      "Category": "Category",
+      "There is no survey question related to this study": "There is no survey question related to this study"
     }
   }
 }
