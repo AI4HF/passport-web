@@ -11,16 +11,22 @@
             <div class="text-900 text-xl font-bold mb-2">{{'Log in' | translate }}</div>
             <span class="text-600 font-medium">{{'Please enter your details' | translate}}</span>
         </div>
-        <div class="flex flex-column">
-            <span class="p-input-icon-left w-full mb-4">
-                <i class="pi pi-user"></i>
-                <input id="username" type="text" pInputText class="w-full md:w-25rem" placeholder="{{'Username' | translate}}">
-            </span>
-            <span class="p-input-icon-left w-full mb-4">
-                <i class="pi pi-lock"></i>
-                <input id="password" type="password" pInputText class="w-full md:w-25rem" placeholder="{{'Password' | translate}}">
-            </span>
-            <button pButton pRipple label="Log In" class="w-full" [routerLink]="['/study-management']"></button>
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div class="flex flex-column">
+                <span class="p-input-icon-left w-full mb-4">
+                    <i class="pi pi-user"></i>
+                    <input id="username" type="text" pInputText class="w-full md:w-25rem" formControlName="username" placeholder="{{'Username' | translate}}">
+                </span>
+                <span class="p-input-icon-left w-full mb-4">
+                    <i class="pi pi-lock"></i>
+                    <input id="password" type="password" pInputText class="w-full md:w-25rem" formControlName="password" placeholder="{{'Password' | translate}}">
+                </span>
+                <button pButton pRipple label="{{'Log In' | translate}}" class="w-full" type="submit"></button>
+            </div>
+        </form>
+        <div *ngIf="loginMessage" [ngClass]="{'text-success': isLoginSuccess, 'text-danger': !isLoginSuccess}">
+            {{loginMessage}}
         </div>
     </div>
 </div>
+
