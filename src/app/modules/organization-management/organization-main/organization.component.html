@@ -1,0 +1,124 @@
+<div class="col-12">
+    <div class="card">
+        <h5>{{ 'OrganizationManagement.Owned Organization' | translate }}</h5>
+        <ul *ngIf="organization; else noOrganization" class="list-none p-0 m-0">
+            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                <div class="text-500 w-6 md:w-2 font-medium">{{ 'OrganizationManagement.Organization Name' | translate }}</div>
+                <div class="text-700 w-5 flex-order-0 flex align-items-center">
+                    <span class="p-float-label w-6 md:w-10" style="flex-grow: 1;">
+                        <input
+                                id="org-name-input"
+                                [(ngModel)]="organization.name"
+                                pInputText
+                                [disabled]="!isEditing.name"
+                                class="w-40"
+                                style="width: 100%;"
+                        />
+                    </span>
+                    <button
+                            pButton
+                            pRipple
+                            class="p-button-rounded button-secondary mx-2"
+                            (click)="toggleName()"
+                            pTooltip="{{ isEditing.name ? 'Finish Editing' : 'Edit' | translate }}"
+                            tooltipPosition="bottom"
+                    >
+                        <span class="pi" [ngClass]="{ 'pi-pencil': !isEditing.name, 'pi-check': isEditing.name }"></span>
+                    </button>
+                </div>
+            </li>
+            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                <div class="text-500 w-6 md:w-2 font-medium">{{ 'OrganizationManagement.Organization Address' | translate }}</div>
+                <div class="text-700 w-5 flex-order-0 flex align-items-center">
+                    <span class="p-float-label w-6 md:w-10" style="flex-grow: 1;">
+                        <textarea
+                                [(ngModel)]="organization.address"
+                                pInputTextarea
+                                [disabled]="!isEditing.address"
+                                rows="5"
+                                cols="30"
+                                placeholder="{{ 'OrganizationManagement.Your Address' | translate }}"
+                                class="p-inputtextarea p-inputtext p-component p-element w-40"
+                                style="width: 100%; height: 150px;"
+                        ></textarea>
+                    </span>
+                    <button
+                            pButton
+                            pRipple
+                            class="p-button-rounded button-secondary mx-2"
+                            (click)="toggleAddress()"
+                            pTooltip="{{ isEditing.address ? 'Finish Editing' : 'Edit' | translate }}"
+                            tooltipPosition="bottom"
+                    >
+                        <span class="pi" [ngClass]="{ 'pi-pencil': !isEditing.address, 'pi-check': isEditing.address }"></span>
+                    </button>
+                </div>
+            </li>
+        </ul>
+        <ng-template #noOrganization>
+            <p>{{ 'OrganizationManagement.No Active Organizations. Please create a new one.' | translate }}</p>
+        </ng-template>
+        <p-footer class="footer">
+            <div class="button-container">
+                <button
+                        *ngIf="organization"
+                        (click)="showCreateUpdateDialog()"
+                        icon="pi pi-save"
+                        label="{{ 'OrganizationManagement.Update Organization' | translate }}"
+                        pButton
+                        type="button"
+                ></button>
+                <button
+                        *ngIf="!organization"
+                        (click)="showCreateUpdateDialog()"
+                        icon="pi pi-save"
+                        label="{{ 'OrganizationManagement.Create Organization' | translate }}"
+                        pButton
+                        type="button"
+                ></button>
+            </div>
+            <div class="button-container" *ngIf="organization">
+                <button
+                        (click)="deleteOrganization()"
+                        icon="pi pi-trash"
+                        label="{{ 'OrganizationManagement.Delete Organization' | translate }}"
+                        pButton
+                        type="button"
+                ></button>
+            </div>
+        </p-footer>
+    </div>
+</div>
+
+<p-dialog [(visible)]="displayDialog" [modal]="true" header="{{ 'OrganizationManagement.Organization Form' | translate }}">
+    <div class="p-fluid">
+        <div class="p-field">
+            <label for="org-name">{{ 'OrganizationManagement.Organization Name' | translate }}</label>
+            <input
+                    [(ngModel)]="newOrganization.name"
+                    id="org-name"
+                    pInputText
+                    placeholder="{{ 'OrganizationManagement.Enter organization name' | translate }}"
+                    type="text"
+                    style="width: 100%;"
+            />
+        </div>
+        <div class="p-field">
+            <label for="org-address">{{ 'OrganizationManagement.Organization Address' | translate }}</label>
+            <textarea
+                    [(ngModel)]="newOrganization.address"
+                    id="org-address"
+                    pInputTextarea
+                    placeholder="{{ 'OrganizationManagement.Enter address' | translate }}"
+                    rows="3"
+                    cols="30"
+                    class="p-inputtextarea p-inputtext p-component p-element"
+                    style="width: 100%; height: 150px;"
+            ></textarea>
+        </div>
+    </div>
+    <p-footer>
+        <button (click)="saveOrganization()" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton type="button"></button>
+        <button (click)="displayDialog=false" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton type="button"></button>
+    </p-footer>
+</p-dialog>
