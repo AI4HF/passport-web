@@ -44,7 +44,7 @@ export class LoginComponent extends BaseComponent{
      * Form building process based on the html entries.
      */
     ngOnInit() {
-        if (localStorage.getItem('token') !== null) this.router.navigate(['/study_page']);
+        if (localStorage.getItem('token') !== null) this.router.navigate(['/study-management']);
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]

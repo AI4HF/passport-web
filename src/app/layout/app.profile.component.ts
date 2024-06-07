@@ -47,7 +47,7 @@ export class AppProfileComponent {
      * Clears any session data and returns to the main page
      */
     logout() {
-        console.log('hello');
-        this.router.navigate(['../login'])
+        localStorage.removeItem('token');
+        this.router.navigate(['../login']);
     }
 }
