@@ -1,6 +1,8 @@
 {
   "Login": "Login",
   "Log in": "Log in",
+  "SUCCESSMSG": "Login Successful",
+  "FAILMSG": "Login failed. Check your credentials.",
   "Please enter your details": "Please enter your details",
   "Username": "Username",
   "Password": "Password",
