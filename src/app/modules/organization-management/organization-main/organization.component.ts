@@ -9,10 +9,19 @@ import { OrganizationManagementComponent } from '../organization-management.comp
     styleUrls: ['./organization.component.scss']
 })
 export class OrganizationComponent implements OnInit {
+    /**
+     * Variables to hold the current and new organization bodies.
+     */
     organization: Organization = null;
     newOrganization: Organization = { name: '', address: '' };
+    /**
+     * Some form control flags.
+     */
     isEditing = { name: false, address: false };
     displayDialog: boolean = false;
+    /**
+     * Token from the local storage.
+     */
     token: string = '';
 
     constructor(
@@ -25,6 +34,9 @@ export class OrganizationComponent implements OnInit {
         this.loadOrganizationDetails();
     }
 
+    /**
+     * Current organization loading mechanism with a mock logic.
+     */
     loadOrganizationDetails(): void {
         this.orgService.getAllOrganizations(0, this.token).subscribe(
             (response) => {
@@ -32,11 +44,11 @@ export class OrganizationComponent implements OnInit {
                     const org = response.reduce((prev, curr) => (prev.id < curr.id ? prev : curr));
                     this.organization = { name: org.name, address: org.address };
                     this.orgManagementComponent.setOrganizationId(org.id);
-                    localStorage.setItem('currentOrganizationId', org.id.toString()); // Store organization ID in local storage
+                    localStorage.setItem('currentOrganizationId', org.id.toString());
                 } else {
                     this.organization = null;
                     this.orgManagementComponent.setOrganizationId(null);
-                    localStorage.removeItem('currentOrganizationId'); // Remove organization ID from local storage
+                    localStorage.removeItem('currentOrganizationId');
                 }
             },
             (error) => {
@@ -59,21 +71,25 @@ export class OrganizationComponent implements OnInit {
         }
     }
 
+    /**
+     * Update functionality with either name or address fields. Not both.
+     * @param field The chosen field name.
+     */
     updateOrganizationField(field: string): void {
-        // Copy existing organization data to newOrganization
         this.newOrganization = { ...this.organization };
 
-        // Update only the edited field
         if (field === 'name') {
             this.newOrganization.name = this.organization.name;
         } else if (field === 'address') {
             this.newOrganization.address = this.organization.address;
         }
 
-        // Save the updated organization
         this.saveOrganization();
     }
 
+    /**
+     * Update form control tool.
+     */
     showCreateUpdateDialog(): void {
         this.newOrganization = this.organization ? { ...this.organization } : { name: '', address: '' };
         this.displayDialog = true;
