@@ -10,6 +10,7 @@
   "Back": "Back",
   "Next": "Next",
   "Save": "Save",
+  "Error": "Error",
   "Add": "Add",
   "StudyManagement": {
     "Studies": "Studies",
@@ -29,6 +30,8 @@
     "Personnel Assignment": "Personnel Assignment",
     "Experiment Questions": "Experiment Questions",
     "Survey Inspection": "Survey Inspection",
+    "Study is updated successfully": "Study is updated successfully",
+    "Study is created successfully": "Study is created successfully",
     "Population": {
       "Population Url": "Population Url",
       "Description": "Description",

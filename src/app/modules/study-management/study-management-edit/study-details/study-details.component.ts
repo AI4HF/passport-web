@@ -27,9 +27,18 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
-      this.selectedStudy = data['study'];
-      this.initializeForm();
+    this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
+      next: data => {
+        this.selectedStudy = data['study'];
+        this.initializeForm();
+      },
+      error: error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translateService.instant('Error'),
+          detail: error
+        });
+      }
     });
   }
 
@@ -64,11 +73,40 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
   save(){
     if(this.selectedStudy.id === 0){
       const newStudy: Study = new Study({ ...this.studyForm.value});
-      this.studyManagementService.createStudy(newStudy);
+      this.studyService.createStudy(newStudy)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(study => {
+            this.selectedStudy = study;
+            this.initializeForm();
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translateService.instant('Sucess'),
+              detail: this.translateService.instant('StudyManagement.Study is created successfully')
+            });
+            this.router.navigate([`../../${this.selectedStudy.id}/population-details`], {relativeTo: this.route});
+          });
     }else{
-      const updatedStudy: Study = new Study({id: this.selectedStudy.id, ...this.studyForm.value});
-      this.studyManagementService.updateStudy(updatedStudy);
+      const updatedStudy: Study = new Study({id: this.selectedStudy.id, ...this.studyForm.value, owner: this.selectedStudy.owner});
+      this.studyService.updateStudy(updatedStudy)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (study: Study) => {
+              this.selectedStudy = study;
+              this.initializeForm();
+              this.messageService.add({
+                severity: 'success',
+                summary: this.translateService.instant('Sucess'),
+                detail: this.translateService.instant('StudyManagement.Study is updated successfully')
+              });
+            },
+            error: (error: any) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: this.translateService.instant('Error'),
+                detail: error
+              });
+            },
+          });
     }
-    this.router.navigate([`../population-details`], {relativeTo: this.route});
   }
 }

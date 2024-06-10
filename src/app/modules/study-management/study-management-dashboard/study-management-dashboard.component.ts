@@ -41,11 +41,18 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
    * Retrieves all studies from the server
    */
   getStudyList(){
-    this.studyManagementService.getStudyList()
+    this.loading = true;
+    this.studyService.getStudyList().pipe()
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (studyList) => this.studyList = studyList,
-          error: (error) => console.log(error),
+          next: (studyList: Study[]) => this.studyList = studyList,
+          error: (error: any) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translateService.instant('Error'),
+              detail: error
+            });
+          },
           complete: () => this.loading = false
         });
   }
@@ -77,8 +84,19 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
    * Delete a study
    */
   deleteStudy(id: number){
-    this.studyManagementService.deleteStudy(id);
-    this.studyList = this.studyList.filter(study => study.id !== id);
+    this.loading = true;
+    this.studyService.deleteStudy(id).pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response: any) => this.getStudyList(),
+          error: (error: any) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translateService.instant('Error'),
+              detail: error
+            });
+          },
+          complete: () => this.loading = false
+        });
   }
 
 }

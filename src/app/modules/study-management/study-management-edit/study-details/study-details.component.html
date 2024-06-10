@@ -65,7 +65,7 @@
             <div class="justify-content-end">
                 <button pButton pRipple
                         type="button"
-                        label="{{'Next' | translate}}"
+                        label="{{(this.selectedStudy.id) ? ('Save' | translate) : ('Next' | translate)}}"
                         class="p-button-raised"
                         [disabled]="!studyForm.valid"
                         (click)="save()"></button>

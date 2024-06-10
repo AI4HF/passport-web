@@ -4,7 +4,7 @@ import {Subject} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import {MessageService} from "primeng/api";
 import {LayoutService} from "../../layout/service/app.layout.service";
-import {StudyManagementService} from "../../core/services/study-management.service";
+import {StudyService} from "../../core/services/study.service";
 import {PopulationService} from "../../core/services/population.service";
 import {PersonnelService} from "../../core/services/personnel.service";
 import {ExperimentService} from "../../core/services/experiment.service";
@@ -32,7 +32,7 @@ export abstract class BaseComponent implements OnDestroy {
   destroy$ = new Subject<void>();
 
   // Service classes for password app
-  studyManagementService: StudyManagementService;
+  studyService: StudyService;
   populationService: PopulationService;
   personnelService: PersonnelService;
   experimentService: ExperimentService;
@@ -44,7 +44,7 @@ export abstract class BaseComponent implements OnDestroy {
     this.translateService = injector.get(TranslateService);
     this.messageService = injector.get(MessageService);
     this.layoutService = injector.get(LayoutService);
-    this.studyManagementService = injector.get(StudyManagementService);
+    this.studyService = injector.get(StudyService);
     this.populationService = injector.get(PopulationService);
     this.personnelService = injector.get(PersonnelService);
     this.experimentService = injector.get(ExperimentService);
