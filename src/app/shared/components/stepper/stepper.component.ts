@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {BaseComponent} from "../base.component";
 import {NavigationEnd} from "@angular/router";
 import {filter} from "rxjs/operators";
@@ -41,9 +41,6 @@ export class StepperComponent extends BaseComponent implements OnInit{
    * Navigate to a step from left menu
    */
   navigateStep(step: any) {
-    this.steps.forEach(stepElement => {
-      stepElement.selected = stepElement.routerLink === step.routerLink;
-    });
     this.router.navigate([`${step.routerLink}`], {relativeTo: this.route});
   }
 }
