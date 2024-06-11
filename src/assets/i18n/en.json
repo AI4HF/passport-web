@@ -35,7 +35,9 @@
     "Population": {
       "Population Url": "Population Url",
       "Description": "Description",
-      "Characteristics": "Characteristics"
+      "Characteristics": "Characteristics",
+      "Population is updated successfully": "Population is updated successfully",
+      "Population is created successfully": "Population is created successfully"
     },
     "Personnel": {
       "Available Personnel": "Available Personnel",

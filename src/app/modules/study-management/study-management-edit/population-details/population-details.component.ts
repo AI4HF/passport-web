@@ -4,6 +4,9 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {takeUntil} from "rxjs";
 import {Population} from "../../../../shared/models/population.model";
 
+/**
+ * Component for managing the population related to the study
+ */
 @Component({
   selector: 'app-population-details',
   templateUrl: './population-details.component.html',
@@ -26,10 +29,35 @@ export class PopulationDetailsComponent extends BaseComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
-      this.populationService.getPopulationByStudyId(data['study'].id).pipe(takeUntil(this.destroy$))
-          .subscribe(population => this.selectedPopulation = population);
-      this.initializeForm();
+    this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
+      next: data => {
+        this.populationService.getPopulationByStudyId(data['study'].id).pipe(takeUntil(this.destroy$))
+            .subscribe({
+              next: population => {
+                this.selectedPopulation = population;
+                this.initializeForm();
+              },
+              error: (error: any) => {
+                if(error.status === 404){
+                  this.selectedPopulation = new Population({populationId: 0, studyId: data['study'].id});
+                  this.initializeForm();
+                }else{
+                  this.messageService.add({
+                    severity: 'error',
+                    summary: this.translateService.instant('Error'),
+                    detail: error.message
+                  });
+                }
+              }
+            });
+      },
+      error: (error: any) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translateService.instant('Error'),
+          detail: error.message
+        });
+      }
     });
   }
 
@@ -60,8 +88,51 @@ export class PopulationDetailsComponent extends BaseComponent implements OnInit{
    * Save population details
    */
   save(){
-    //TODO:
-    this.router.navigate([`../personnel-assignment`], {relativeTo: this.route});
+    if(this.selectedPopulation.populationId === 0){
+      const newPopulation: Population = new Population({ studyId: this.selectedPopulation.studyId, ...this.populationForm.value});
+      this.populationService.createPopulation(newPopulation)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: population => {
+              this.selectedPopulation = population;
+              this.initializeForm();this.messageService.add({
+                severity: 'success',
+                summary: this.translateService.instant('Sucess'),
+                detail: this.translateService.instant('StudyManagement.Population.Population is created successfully')
+              });
+              this.router.navigate([`../personnel-assignment`], {relativeTo: this.route});
+            },
+            error: (error: any) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: this.translateService.instant('Error'),
+                detail: error.message
+              });
+            }
+          });
+    }else{
+      const updatedPopulation: Population = {populationId: this.selectedPopulation.populationId, studyId: this.selectedPopulation.studyId,  ...this.populationForm.value};
+      this.populationService.updatePopulation(updatedPopulation)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (population: Population) => {
+            this.selectedPopulation = population;
+            this.initializeForm();
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translateService.instant('Sucess'),
+              detail: this.translateService.instant('StudyManagement.Population.Population is updated successfully')
+            });
+          },
+          error: (error: any) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translateService.instant('Error'),
+              detail: error.message
+            });
+          },
+        });
+    }
   }
 
 }

@@ -1,61 +1,78 @@
-import { Injectable } from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {map, of} from "rxjs";
+import {catchError, map, Observable, of} from "rxjs";
 import {Population} from "../../shared/models/population.model";
+import {environment} from "../../../environments/environment";
 
+/**
+ * Service to manage the population.
+ */
 @Injectable({
     providedIn: 'root'
 })
 export class PopulationService {
 
-    //TODO: Remove placeholder array after connecting backend
-    private populationList = [
-        {
-            populationId: 1,
-            studyId: 1,
-            populationUrl: "http://testStudy.com/population1",
-            description: "description1",
-            characteristics: "characteristics1"
-        },
-        {
-            populationId: 2,
-            studyId: 2,
-            populationUrl: "http://testStudy.com/population2",
-            description: "description2",
-            characteristics: "characteristics2"
-        }
-    ]
+    readonly endpoint = environment.PASSPORT_API_URL + '/population';
+    private httpClient: HttpClient;
 
-    constructor(private http: HttpClient) {
+    constructor(private injector: Injector) {
+        this.httpClient = injector.get(HttpClient);
     }
 
-    getPopulationList() {
-        return of(this.populationList)
-            .pipe(map(response => response.map((item: any) => new Population(item))));
+    /**
+     * Retrieves the population of a study
+     * @param id Id of the study
+     * @return {Observable<Population>}
+     */
+    getPopulationByStudyId(id: number): Observable<Population> {
+        const url = `${this.endpoint}/${id}`;
+        return this.httpClient.get<Population>(url)
+            .pipe(
+                map((response: any) =>{
+                    return new Population(response);
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 
-    getPopulationByStudyId(id: number) {
-        return of(this.populationList.find(population => population.studyId === id)).pipe(map(
-            response => new Population(response)));
+    /**
+     * Update the population of a study
+     * @param population updated version of the population
+     * @return {Observable<Population>}
+     */
+    updatePopulation(population: Population): Observable<Population> {
+        const url = `${this.endpoint}/${population.populationId}`;
+        return this.httpClient.put<Population>(url, population)
+            .pipe(
+                map((response: any) =>{
+                    return new Population(response);
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 
-    updatePopulation(population: Population){
-        this.populationList.forEach(populationElement => {
-            if(populationElement.populationId === population.populationId){
-                populationElement.studyId = population.studyId;
-                populationElement.populationUrl = population.populationUrl;
-                populationElement.description = population.description;
-                populationElement.characteristics = population.characteristics;
-            }
-        });
-    }
-
-    deletePopulation(id: number){
-        this.populationList = this.populationList.filter(population => population.populationId !== id);
-    }
-
-    createPopulation(population: Population){
-        population.populationId = this.populationList.at(-1).populationId + 1;
-        this.populationList.push(population);
+    /**
+     * Create a population for the study
+     * @param population population to be created
+     * @return {Observable<Population>}
+     */
+    createPopulation(population: Population): Observable<Population> {
+        const url = `${this.endpoint}/`;
+        return this.httpClient.post<Population>(url, population)
+            .pipe(
+                map((response: any) =>{
+                    return new Population(response);
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 }

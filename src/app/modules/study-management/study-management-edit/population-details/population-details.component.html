@@ -1,4 +1,4 @@
-<form [formGroup]="populationForm">
+<form *ngIf="populationForm" [formGroup]="populationForm">
     <p-card class="p-0 w-full">
         <div class="grid grid-nogutter">
             <!-- Population Url -->
@@ -52,7 +52,7 @@
             <div class="justify-content-end">
                 <button pButton pRipple
                         type="button"
-                        label="{{'Next' | translate}}"
+                        label="{{'Save' | translate}}"
                         class="p-button-raised"
                         [disabled]="!populationForm.valid"
                         (click)="save()"></button>

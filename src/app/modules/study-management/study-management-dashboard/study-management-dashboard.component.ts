@@ -5,6 +5,9 @@ import {Study} from "../../../shared/models/study.model";
 import {Table} from "primeng/table";
 import {StudyManagementRoutingModule} from "../study-management-routing.module";
 
+/**
+ * Dashboard component for study management.
+ */
 @Component({
   selector: 'app-study-management-dashboard',
   templateUrl: './study-management-dashboard.component.html',

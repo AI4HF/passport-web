@@ -5,6 +5,9 @@ import {Study} from "../../../../shared/models/study.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {StudyManagementRoutingModule} from "../../study-management-routing.module";
 
+/**
+ * Shows details of a study
+ */
 @Component({
   selector: 'app-study-details',
   templateUrl: './study-details.component.html',
@@ -36,7 +39,7 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: this.translateService.instant('Error'),
-          detail: error
+          detail: error.message
         });
       }
     });
@@ -75,15 +78,24 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
       const newStudy: Study = new Study({ ...this.studyForm.value});
       this.studyService.createStudy(newStudy)
           .pipe(takeUntil(this.destroy$))
-          .subscribe(study => {
-            this.selectedStudy = study;
-            this.initializeForm();
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant('Sucess'),
-              detail: this.translateService.instant('StudyManagement.Study is created successfully')
-            });
-            this.router.navigate([`../../${this.selectedStudy.id}/population-details`], {relativeTo: this.route});
+          .subscribe({
+            next: study => {
+              this.selectedStudy = study;
+              this.initializeForm();
+              this.messageService.add({
+                severity: 'success',
+                summary: this.translateService.instant('Sucess'),
+                detail: this.translateService.instant('StudyManagement.Study is created successfully')
+              });
+              this.router.navigate([`../../${this.selectedStudy.id}/population-details`], {relativeTo: this.route});
+            },
+            error: (error: any) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: this.translateService.instant('Error'),
+                detail: error.message
+              });
+            }
           });
     }else{
       const updatedStudy: Study = new Study({id: this.selectedStudy.id, ...this.studyForm.value, owner: this.selectedStudy.owner});
@@ -103,7 +115,7 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
               this.messageService.add({
                 severity: 'error',
                 summary: this.translateService.instant('Error'),
-                detail: error
+                detail: error.message
               });
             },
           });

@@ -4,6 +4,9 @@ import {catchError, map, Observable} from "rxjs";
 import {Study} from "../../shared/models/study.model";
 import {environment} from "../../../environments/environment";
 
+/**
+ * Service to manage the study.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +18,10 @@ export class StudyService {
   constructor(private injector: Injector) {
       this.httpClient = injector.get(HttpClient);
   }
-
+    /**
+     * Retrieves all studies
+     * @return {Observable<Study[]>}
+     */
   getStudyList(): Observable<Study[]> {
     const url = `${this.endpoint}/`;
     return this.httpClient.get<Study[]>(url)
@@ -28,8 +34,13 @@ export class StudyService {
             throw error;
           })
       );
-  }
+    }
 
+    /**
+     * Retrieves the study by using studyId
+     * @param id Id of the study
+     * @return {Observable<Study>}
+     */
   getStudyById(id: number): Observable<Study> {
     const url = `${this.endpoint}/${id}`;
     return this.httpClient.get<Study>(url)
@@ -43,7 +54,12 @@ export class StudyService {
           })
       );
   }
-  
+
+    /**
+     * Update the study
+     * @param study updated version of the study
+     * @return {Observable<Study>}
+     */
   updateStudy(study: Study): Observable<Study>{
     const url = `${this.endpoint}/${study.id}`;
     return this.httpClient.put<Study>(url, study)
@@ -58,7 +74,12 @@ export class StudyService {
       );
   }
 
-  deleteStudy(id: number){
+    /**
+     * Delete a study
+     * @param id Id of the study
+     * @return {Observable<any>}
+     */
+  deleteStudy(id: number): Observable<any>{
       const url = `${this.endpoint}/${id}`;
       return this.httpClient.delete<any>(url)
           .pipe(
@@ -72,6 +93,11 @@ export class StudyService {
           );
   }
 
+    /**
+     * Create a study
+     * @param study study to be created
+     * @return {Observable<Study>}
+     */
   createStudy(study: Study): Observable<Study>{
     const url = `${this.endpoint}/`;
     return this.httpClient.post<Study>(url, study)
