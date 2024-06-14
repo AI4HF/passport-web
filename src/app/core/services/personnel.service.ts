@@ -1,64 +1,116 @@
-import { Injectable } from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {map, of} from "rxjs";
+import {catchError, map, Observable} from "rxjs";
 import {Personnel} from "../../shared/models/personnel.model";
+import {environment} from "../../../environments/environment";
 
+/**
+ * Service to manage personnel.
+ */
 @Injectable({
     providedIn: 'root'
 })
 export class PersonnelService {
 
-    //TODO: Remove placeholder array after connecting backend
-    private personnelList = [
-        {
-            personId: 1,
-            organizationId: 1,
-            firstName: "Okan",
-            lastName: "Mercan",
-            role: "Data Scientist",
-            email: "test@testpersonnel.com"
-        },
-        {
-            personId: 2,
-            organizationId: 2,
-            firstName: "Kerem",
-            lastName: "Yilmaz",
-            role: "Study Owner",
-            email: "test2@testpersonnel.com"
-        }
-    ]
+    readonly endpoint = environment.PASSPORT_API_URL + '/personnel';
+    private httpClient: HttpClient;
 
-    constructor(private http: HttpClient) {
+    constructor(private injector: Injector) {
+        this.httpClient = injector.get(HttpClient);
     }
 
-    getPersonnelList() {
-        return of(this.personnelList)
-            .pipe(map(response => response.map((item: any) => new Personnel(item))));
+    /**
+     * Retrieves personnel of an organization
+     * @param organizationId Id of the organization
+     * @return {Observable<Personnel[]>}
+     */
+    getPersonnelByOrganizationId(organizationId: number): Observable<Personnel[]> {
+        const url = `${this.endpoint}?organizationId=${organizationId}`;
+        return this.httpClient.get<Personnel[]>(url)
+            .pipe(
+                map((response: any) =>{
+                    return response.map((personnel: any) => new Personnel(personnel));
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 
-    getPersonnelById(id: number) {
-        return of(this.personnelList.find(personnel => personnel.personId === id)).pipe(map(
-            response => new Personnel(response)));
+    /**
+     * Retrieve a personnel by personId
+     * @param personId Id of the person
+     * @return {Observable<Personnel>}
+     */
+    getPersonnelByPersonId(personId: number): Observable<Personnel> {
+        const url = `${this.endpoint}/${personId}`;
+        return this.httpClient.get<Personnel>(url)
+            .pipe(
+                map((response: any) =>{
+                    return new Personnel(response);
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 
-    updatePersonnel(personnel: Personnel){
-        this.personnelList.forEach(personnelElement => {
-            if(personnelElement.personId === personnel.personId){
-                personnelElement.organizationId = personnel.organizationId;
-                personnelElement.firstName = personnel.firstName;
-                personnelElement.lastName = personnel.lastName;
-                personnelElement.role = personnel.role;
-                personnelElement.email = personnel.email;
-            }
-        });
+    /**
+     * Create a personnel for the organization
+     * @param personnel personnel to be created
+     * @return {Observable<Personnel>}
+     */
+    createPersonnelByPersonId(personnel: Personnel): Observable<Personnel> {
+        const url = `${this.endpoint}`;
+        return this.httpClient.post<Personnel>(url, personnel)
+            .pipe(
+                map((response: any) =>{
+                    return new Personnel(response);
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 
-    deletePersonnel(id: number){
-        this.personnelList = this.personnelList.filter(personnel => personnel.personId !== id);
+    /**
+     * Update the personnel of the organization
+     * @param personnel updated version of the personnel
+     * @return {Observable<Personnel>}
+     */
+    updatePersonnel(personnel: Personnel): Observable<Personnel> {
+        const url = `${this.endpoint}/${personnel.personId}`;
+        return this.httpClient.put<Personnel>(url, personnel)
+            .pipe(
+                map((response: any) =>{
+                    return new Personnel(response);
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 
-    createPersonnel(personnel: Personnel){
-        personnel.personId = this.personnelList.at(-1).personId + 1;
-        this.personnelList.push(personnel);
+    /**
+     * Update the personnel of the organization
+     * @param personId Id of the person
+     * @return {Observable<any>}
+     */
+    deletePersonnel(personId: number): Observable<any> {
+        const url = `${this.endpoint}/${personId}`;
+        return this.httpClient.delete<any>(url)
+            .pipe(
+                map((response: any) =>{
+                    return response;
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 }
