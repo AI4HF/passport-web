@@ -23,7 +23,7 @@ export class StudyService {
      * @return {Observable<Study[]>}
      */
   getStudyList(): Observable<Study[]> {
-    const url = `${this.endpoint}/`;
+    const url = `${this.endpoint}`;
     return this.httpClient.get<Study[]>(url)
       .pipe(
           map((response: any) =>{

@@ -45,7 +45,7 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
    */
   getStudyList(){
     this.loading = true;
-    this.studyService.getStudyList().pipe()
+    this.studyService.getStudyList()
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (studyList: Study[]) => this.studyList = studyList,
@@ -53,7 +53,7 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
             this.messageService.add({
               severity: 'error',
               summary: this.translateService.instant('Error'),
-              detail: error
+              detail: error.message
             });
           },
           complete: () => this.loading = false
@@ -95,7 +95,7 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
             this.messageService.add({
               severity: 'error',
               summary: this.translateService.instant('Error'),
-              detail: error
+              detail: error.message
             });
           },
           complete: () => this.loading = false

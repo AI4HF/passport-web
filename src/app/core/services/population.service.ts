@@ -25,7 +25,7 @@ export class PopulationService {
      * @return {Observable<Population>}
      */
     getPopulationByStudyId(id: number): Observable<Population> {
-        const url = `${this.endpoint}/${id}`;
+        const url = `${this.endpoint}?studyId=${id}`;
         return this.httpClient.get<Population>(url)
             .pipe(
                 map((response: any) =>{
@@ -63,7 +63,7 @@ export class PopulationService {
      * @return {Observable<Population>}
      */
     createPopulation(population: Population): Observable<Population> {
-        const url = `${this.endpoint}/`;
+        const url = `${this.endpoint}`;
         return this.httpClient.post<Population>(url, population)
             .pipe(
                 map((response: any) =>{
