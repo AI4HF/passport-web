@@ -20,6 +20,24 @@ export class PersonnelService {
     }
 
     /**
+     * Retrieves all personnel
+     * @return {Observable<Personnel[]>}
+     */
+    getAllPersonnel(): Observable<Personnel[]> {
+        const url = `${this.endpoint}`;
+        return this.httpClient.get<Personnel[]>(url)
+            .pipe(
+                map((response: any) =>{
+                    return response.map((personnel: any) => new Personnel(personnel));
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
+    }
+
+    /**
      * Retrieves personnel of an organization
      * @param organizationId Id of the organization
      * @return {Observable<Personnel[]>}

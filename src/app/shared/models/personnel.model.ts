@@ -45,4 +45,16 @@ export class Personnel{
         this.role = data.role;
         this.email = data.email;
     }
+
+    /**
+     * Checks if this Personnel is equal to another Personnel based on personId.
+     * @param other The other Personnel to compare with.
+     * @returns true if equal, false otherwise.
+     */
+    equals(other: Personnel): boolean {
+        if (!other) {
+            return false;
+        }
+        return this.personId === other.personId;
+    }
 }

@@ -41,7 +41,8 @@
     },
     "Personnel": {
       "Available Personnel": "Available Personnel",
-      "Assigned Personnel": "Assigned Personnel"
+      "Assigned Personnel": "Assigned Personnel",
+      "Personnel are assigned successfully": "Personnel are assigned successfully"
     },
     "Experiment": {
       "Research Question": "Research Question",
