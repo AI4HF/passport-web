@@ -3,6 +3,9 @@ import {BaseComponent} from "../../../../shared/components/base.component";
 import {Personnel} from "../../../../shared/models/personnel.model";
 import {combineLatest, takeUntil} from "rxjs";
 
+/**
+ * Shows list of assigned personnel for the study
+ */
 @Component({
   selector: 'app-personnel-assignment',
   templateUrl: './personnel-assignment.component.html',
@@ -110,7 +113,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
             this.messageService.add({
               severity: 'success',
               summary: this.translateService.instant('Success'),
-              detail: this.translateService.instant('StudyManagement.Personnel.Personnel are assigned successfully')
+              detail: this.translateService.instant('StudyManagement.Experiment.Experiments are assigned successfully')
             });
           },
           error: (error: any) => {

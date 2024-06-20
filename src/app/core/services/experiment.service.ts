@@ -1,62 +1,60 @@
-import { Injectable } from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {map, of} from "rxjs";
+import {catchError, map, Observable, of} from "rxjs";
 import {Experiment} from "../../shared/models/experiment.model";
+import {environment} from "../../../environments/environment";
 
+/**
+ * Service to manage the Experiments.
+ */
 @Injectable({
     providedIn: 'root'
 })
 export class ExperimentService {
 
-    //TODO: Remove placeholder array after connecting backend
-    private experimentList = [
-        {
-            experimentId: 1,
-            studyId: 1,
-            researchQuestion: "Research Question 1"
-        },
-        {
-            experimentId: 2,
-            studyId: 1,
-            researchQuestion: "Research Question 2"
-        },
-        {
-            experimentId: 3,
-            studyId: 2,
-            researchQuestion: "Research Question 3"
-        },
-        {
-            experimentId: 4,
-            studyId: 2,
-            researchQuestion: "Research Question 4"
-        }
-    ]
+    readonly endpoint = environment.PASSPORT_API_URL + '/experiment';
+    private httpClient: HttpClient;
 
-    constructor(private http: HttpClient) {
+    constructor(private injector: Injector) {
+        this.httpClient = injector.get(HttpClient);
     }
 
-    getExperimentList() {
-        return of(this.experimentList)
-            .pipe(map(response => response.map((item: any) => new Experiment(item))));
+    /**
+     * Retrieves the experiments that assigned to the study
+     * @param id Id of the study
+     * @return {Observable<Experiment[]>}
+     */
+    getExperimentListByStudyId(id: number): Observable<Experiment[]> {
+        const url = `${this.endpoint}?studyId=${id}`;
+        return this.httpClient.get<Experiment[]>(url)
+            .pipe(
+                map((response: any) =>{
+                    return response.map((experiment: any) => new Experiment(experiment));
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 
-    getExperimentById(id: number) {
-        return of(this.experimentList.find(experiment => experiment.experimentId === id)).pipe(map(
-            response => new Experiment(response)));
-    }
-
-    getExperimentByStudyId(id: number) {
-        return of(this.experimentList.filter(experiment => experiment.studyId === id)).pipe(map(
-            response => response.map((item: any) => new Experiment(item))));
-    }
-
-
-    deleteExperiment(id: number){
-        this.experimentList = this.experimentList.filter(experiment => experiment.experimentId !== id);
-    }
-
-    createExperiment(experiment: Experiment){
-        experiment.experimentId = this.experimentList.at(-1).experimentId + 1;
-        this.experimentList.push(experiment);
+    /**
+     * Create and assign experiments to the study
+     * @param studyId Id of the study
+     * @param experiments Experiments to be created
+     * @return {Observable<Personnel[]>}
+     */
+    createExperiments(studyId: number, experiments: Experiment[]): Observable<Experiment[]> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
+        return this.httpClient.post<Experiment[]>(url, experiments)
+            .pipe(
+                map((response: any) =>{
+                    return response.map((experiment: any) => new Experiment(experiment));
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 }

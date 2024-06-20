@@ -46,7 +46,8 @@
     },
     "Experiment": {
       "Research Question": "Research Question",
-      "Please add research question": "Please add research question..."
+      "Please add research question": "Please add research question...",
+      "Experiments are assigned successfully": "Experiments are assigned successfully"
     },
     "Survey": {
       "Question": "Question",

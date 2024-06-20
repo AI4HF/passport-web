@@ -4,13 +4,15 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {takeUntil} from "rxjs";
 import {Experiment} from "../../../../shared/models/experiment.model";
 
+/**
+ * Shows list of experiments related to the study
+ */
 @Component({
   selector: 'app-experiment-questions',
   templateUrl: './experiment-questions.component.html',
   styleUrl: './experiment-questions.component.scss'
 })
 export class ExperimentQuestionsComponent extends BaseComponent implements OnInit{
-
 
   /**
    * The form object keeping the research question.
@@ -22,6 +24,11 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
    */
   experimentList: Experiment[] = [];
 
+  /**
+   * The studyId for selected study
+   */
+  studyId: number;
+
   constructor(protected injector: Injector) {
     super(injector);
   }
@@ -29,12 +36,32 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
 
   ngOnInit(): void {
     this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
-      this.experimentService.getExperimentByStudyId(data['study'].id).pipe(takeUntil(this.destroy$))
-          .subscribe(experimentList => {
-        this.experimentList = experimentList.map(experiment => new Experiment(experiment));
-      });
+      this.studyId = data['study'].id;
+      this.fetchExperimentsByStudyId(this.studyId);
     });
+
     this.initializeForm();
+  }
+
+  /**
+   * Fetch experiments from experiment service
+   * @param studyId ID of the study related to experiments
+   */
+  fetchExperimentsByStudyId(studyId: number): void {
+    this.experimentService.getExperimentListByStudyId(studyId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (experimentList: Experiment[]) => {
+            this.experimentList = experimentList.map(experiment => new Experiment(experiment));
+          },
+          error: (error: any) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translateService.instant('Error'),
+              detail: error.message
+            });
+          }
+        });
   }
 
   /**
@@ -45,11 +72,21 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
   }
 
   /**
-   * Next to experiment details menu
+   * Save created experiments
    */
-  next(){
-    //TODO:
-    this.router.navigate([`../survey-inspection`], {relativeTo: this.route});
+  save(){
+    this.experimentService.createExperiments(this.studyId, this.experimentList)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: response => {
+            this.fetchExperimentsByStudyId(this.studyId);
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translateService.instant('Success'),
+              detail: this.translateService.instant('StudyManagement.Experiment.Experiments are assigned successfully')
+            });
+          }
+        })
   }
 
   /**
