@@ -1,91 +1,116 @@
-import { Injectable } from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {map, of} from "rxjs";
+import {catchError, map, Observable, of} from "rxjs";
 import {Survey} from "../../shared/models/survey.model";
+import {environment} from "../../../environments/environment";
 
+/**
+ * Service to manage the survey.
+ */
 @Injectable({
     providedIn: 'root'
 })
 export class SurveyService {
 
-    //TODO: Remove placeholder array after connecting backend
-    private surveyList = [
-        {
-            surveyId: 1,
-            studyId: 1,
-            question: "Survey Question 1",
-            answer: "Survey Answer 1",
-            category: "Survey Category 1"
-        },
-        {
-            surveyId: 2,
-            studyId: 1,
-            question: "Survey Question 2",
-            answer: "Survey Answer 2",
-            category: "Survey Category 2"
-        },
-        {
-            surveyId: 3,
-            studyId: 2,
-            question: "Survey Question 3",
-            answer: "Survey Answer 3",
-            category: "Survey Category 3"
-        },
-        {
-            surveyId: 5,
-            studyId: 2,
-            question: "Survey Question 4",
-            answer: "Survey Answer 4",
-            category: "Survey Category 4"
-        },
-        {
-            surveyId: 6,
-            studyId: 2,
-            question: "Survey Question 4",
-            answer: "Survey Answer 4",
-            category: "Survey Category 4"
-        },
-        {
-            surveyId: 7,
-            studyId: 2,
-            question: "Survey Question 4",
-            answer: "Survey Answer 4",
-            category: "Survey Category 4"
-        },
-        {
-            surveyId: 8,
-            studyId: 2,
-            question: "Survey Question 4",
-            answer: "Survey Answer 4",
-            category: "Survey Category 4"
-        }
-    ]
+    readonly endpoint = environment.PASSPORT_API_URL + '/survey';
+    private httpClient: HttpClient;
 
-    constructor(private http: HttpClient) {
+    constructor(private injector: Injector) {
+        this.httpClient = injector.get(HttpClient);
     }
 
-    getSurveyList() {
-        return of(this.surveyList)
-            .pipe(map(response => response.map((item: any) => new Survey(item))));
+    /**
+     * Retrieves a survey by id
+     * @param id Id of the survey
+     * @return {Observable<Survey>}
+     */
+    getSurveyById(id: number): Observable<Survey> {
+        const url = `${this.endpoint}/${id}`;
+        return this.httpClient.get<Survey>(url)
+            .pipe(
+                map((response: any) =>{
+                    return new Survey(response);
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 
-    getSurveyById(id: number) {
-        return of(this.surveyList.find(survey => survey.surveyId === id)).pipe(map(
-            response => new Survey(response)));
+    /**
+     * Retrieves surveys of a study
+     * @param studyId Id of the study
+     * @return {Observable<Survey[]>}
+     */
+    getSurveysByStudyId(studyId: number): Observable<Survey[]> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
+        return this.httpClient.get<Survey[]>(url)
+            .pipe(
+                map((response: any) =>{
+                    return response.map((survey: any) => new Survey(survey));
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 
-    getSurveyByStudyId(id: number) {
-        return of(this.surveyList.filter(survey => survey.studyId === id)).pipe(map(
-            response => response.map((item: any) => new Survey(item))));
+    /**
+     * Create a survey
+     * @param survey survey to be created
+     * @return {Observable<Survey>}
+     */
+    createSurvey(survey: Survey): Observable<Survey> {
+        const url = `${this.endpoint}`;
+        return this.httpClient.post<Survey>(url, survey)
+            .pipe(
+                map((response: any) =>{
+                    return new Survey(response);
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 
-
-    deleteSurvey(id: number){
-        this.surveyList = this.surveyList.filter(survey => survey.surveyId !== id);
+    /**
+     * Update survey
+     * @param survey updated version of the survey
+     * @return {Observable<Survey>}
+     */
+    updateSurvey(survey: Survey): Observable<Survey> {
+        const url = `${this.endpoint}/${survey.surveyId}`;
+        return this.httpClient.put<Survey>(url, survey)
+            .pipe(
+                map((response: any) =>{
+                    return new Survey(response);
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 
-    createSurvey(survey: Survey){
-        survey.surveyId = this.surveyList.at(-1).surveyId + 1;
-        this.surveyList.push(survey);
+    /**
+     * Delete a survey
+     * @param id Id of the survey
+     * @return {Observable<any>}
+     */
+    deleteSurvey(id: number): Observable<any>{
+        const url = `${this.endpoint}/${id}`;
+        return this.httpClient.delete<any>(url)
+            .pipe(
+                map((response: any) =>{
+                    return response;
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
     }
 }

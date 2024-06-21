@@ -3,6 +3,9 @@ import {BaseComponent} from "../../../../shared/components/base.component";
 import {takeUntil} from "rxjs";
 import {Survey} from "../../../../shared/models/survey.model";
 
+/**
+ * Shows list of surveys related to the study
+ */
 @Component({
   selector: 'app-survey-inspection',
   templateUrl: './survey-inspection.component.html',
@@ -21,8 +24,17 @@ export class SurveyInspectionComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
-      this.surveyService.getSurveyByStudyId(data['study'].id).pipe(takeUntil(this.destroy$))
-          .subscribe(surveyList => this.surveyList = surveyList);
+      this.surveyService.getSurveysByStudyId(data['study'].id).pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (surveyList: Survey[]) => this.surveyList = surveyList.map(survey => new Survey(survey)),
+            error: (error: any) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: this.translateService.instant('Error'),
+                detail: error.message
+              });
+            }
+          });
     });
   }
 
@@ -34,10 +46,9 @@ export class SurveyInspectionComponent extends BaseComponent implements OnInit {
   }
 
   /**
-   * Save the study and go back to study management
+   * Finish study management steps and go back to study management
    */
-  save(){
-    //TODO:
+  finish(){
     this.router.navigate([`../../`], {relativeTo: this.route});
   }
 
