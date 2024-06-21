@@ -13,6 +13,9 @@ const routes: Routes = [
             { path: 'login', loadChildren: () => import('./modules/login/login.module').then(m => m.LoginModule) },
             { path: 'study-management', loadChildren: () => import('./modules/study-management/study-management.module')
                     .then(m => m.StudyManagementModule) },
+            { path: 'survey-management', loadChildren: () => import('./modules/survey-management/survey-management.module')
+                    .then(m => m.SurveyManagementModule) },
+            { path: 'organization-management', loadChildren: () => import('./modules/organization-management/organization-management.module').then(m => m.OrganizationManagementModule) },
             { path: '', redirectTo: '/login', pathMatch: 'full' }
         ]
     }
