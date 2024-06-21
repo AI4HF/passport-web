@@ -1,0 +1,8 @@
+:host ::ng-deep .p-dialog .p-dialog-content {
+  overflow-y: visible !important;
+}
+
+:host ::ng-deep .p-dialog .p-component .p-autocomplete-panel {
+  overflow: auto !important;
+  max-height: 150px;
+}
