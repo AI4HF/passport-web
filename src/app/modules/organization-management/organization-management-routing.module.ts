@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { OrganizationComponent } from './organization/organization.component';
-import { PersonnelComponent } from './personnel/personnel.component';
 
 const routes: Routes = [
-    { path: 'organization', component: OrganizationComponent },
-    { path: 'personnel', component: PersonnelComponent }
+    {
+        path: 'organization',
+        loadChildren: () => import('./organization/organization.module').then(m => m.OrganizationModule)
+    },
+    {
+        path: 'personnel',
+        loadChildren: () => import('./personnel/personnel.module').then(m => m.PersonnelModule)
+    }
 ];
 
 @NgModule({
@@ -13,6 +17,3 @@ const routes: Routes = [
     exports: [RouterModule]
 })
 export class OrganizationManagementRoutingModule { }
-
-
-
