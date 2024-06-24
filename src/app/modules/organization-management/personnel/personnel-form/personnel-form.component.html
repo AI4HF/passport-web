@@ -1,0 +1,26 @@
+<p-dialog [(visible)]="displayDialog" [modal]="true" header="{{ 'OrganizationManagement.Personnel Form' | translate }}">
+    <form [formGroup]="personnelForm" (ngSubmit)="savePersonnel()">
+        <div class="p-fluid">
+            <div class="p-field">
+                <label for="firstName">{{ 'OrganizationManagement.First Name' | translate }}</label>
+                <input formControlName="firstName" id="firstName" pInputText placeholder="{{ 'OrganizationManagement.Enter first name' | translate }}" type="text" style="width: 100%;" />
+            </div>
+            <div class="p-field">
+                <label for="lastName">{{ 'OrganizationManagement.Last Name' | translate }}</label>
+                <input formControlName="lastName" id="lastName" pInputText placeholder="{{ 'OrganizationManagement.Enter last name' | translate }}" type="text" style="width: 100%;" />
+            </div>
+            <div class="p-field">
+                <label for="role">{{ 'OrganizationManagement.Role' | translate }}</label>
+                <input formControlName="role" id="role" pInputText placeholder="{{ 'OrganizationManagement.Enter role' | translate }}" type="text" style="width: 100%;" />
+            </div>
+            <div class="p-field">
+                <label for="email">{{ 'OrganizationManagement.Email' | translate }}</label>
+                <input formControlName="email" id="email" pInputText placeholder="{{ 'OrganizationManagement.Enter email' | translate }}" type="email" style="width: 100%;" />
+            </div>
+        </div>
+        <p-footer class="dialog-footer">
+            <button type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton></button>
+            <button type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton class="cancel-button"></button>
+        </p-footer>
+    </form>
+</p-dialog>

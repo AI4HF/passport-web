@@ -1,29 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PersonnelComponent } from './personnel.component';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { DialogModule } from 'primeng/dialog';
-import { FormsModule } from '@angular/forms';
-import { RippleModule } from 'primeng/ripple';
-import { TranslateModule } from '@ngx-translate/core';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import {DockModule} from "primeng/dock";
+import { PersonnelTableModule } from './personnel-table/personnel-table.module';
+import { PersonnelFormModule } from './personnel-form/personnel-form.module';
+import {PersonnelRoutingModule} from "./personnel-routing.module";
 
 @NgModule({
-    declarations: [PersonnelComponent],
     imports: [
         CommonModule,
-        TableModule,
-        ButtonModule,
-        InputTextModule,
-        DialogModule,
-        FormsModule,
-        RippleModule,
-        TranslateModule,
-        AutoCompleteModule,
-        DockModule
+        PersonnelTableModule,
+        PersonnelFormModule,
+        PersonnelRoutingModule
     ]
 })
 export class PersonnelModule { }
+
+
