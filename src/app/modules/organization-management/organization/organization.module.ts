@@ -1,27 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OrganizationComponent } from './organization.component';
-import { DialogModule } from 'primeng/dialog';
-import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TranslateModule } from '@ngx-translate/core';
-import {RippleModule} from "primeng/ripple";
-import {DockModule} from "primeng/dock";
+import { OrganizationTableModule } from './organization-table/organization-table.module';
+import { OrganizationFormModule } from './organization-form/organization-form.module';
+import {OrganizationRoutingModule} from "./organization-routing.module";
 
 @NgModule({
-    declarations: [OrganizationComponent],
     imports: [
         CommonModule,
-        DialogModule,
-        FormsModule,
-        ButtonModule,
-        InputTextModule,
-        InputTextareaModule,
-        TranslateModule,
-        RippleModule,
-        DockModule
+        OrganizationTableModule,
+        OrganizationFormModule,
+        OrganizationRoutingModule
     ]
 })
 export class OrganizationModule { }

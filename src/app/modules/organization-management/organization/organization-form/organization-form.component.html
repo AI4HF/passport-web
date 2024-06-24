@@ -1,0 +1,34 @@
+<p-dialog [(visible)]="displayDialog" [modal]="true" header="{{ 'OrganizationManagement.Organization Form' | translate }}">
+    <form [formGroup]="organizationForm" (ngSubmit)="saveOrganization()">
+        <div class="p-fluid">
+            <div class="p-field">
+                <label for="org-name">{{ 'OrganizationManagement.Organization Name' | translate }}</label>
+                <input
+                        formControlName="name"
+                        id="org-name"
+                        pInputText
+                        placeholder="{{ 'OrganizationManagement.Enter organization name' | translate }}"
+                        type="text"
+                        style="width: 100%;"
+                />
+            </div>
+            <div class="p-field">
+                <label for="org-address">{{ 'OrganizationManagement.Organization Address' | translate }}</label>
+                <textarea
+                        formControlName="address"
+                        id="org-address"
+                        pInputTextarea
+                        placeholder="{{ 'OrganizationManagement.Enter address' | translate }}"
+                        rows="3"
+                        cols="30"
+                        class="p-inputtextarea p-inputtext p-component p-element"
+                        style="width: 100%; height: 150px;"
+                ></textarea>
+            </div>
+        </div>
+        <p-footer class="dialog-footer">
+            <button type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton></button>
+            <button type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton class="cancel-button"></button>
+        </p-footer>
+    </form>
+</p-dialog>
