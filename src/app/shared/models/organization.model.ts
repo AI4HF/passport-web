@@ -4,7 +4,7 @@ export class Organization {
     address: string;
 
     constructor(data: any) {
-        this.id = data.id;
+        this.id = data.organizationId;
         this.name = data.name;
         this.address = data.address;
     }
