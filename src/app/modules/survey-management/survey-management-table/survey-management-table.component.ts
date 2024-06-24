@@ -27,7 +27,7 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
     }
 
     ngOnInit() {
-        this.surveyService.getSurveyByStudyId(1).pipe(takeUntil(this.destroy$))
+        this.surveyService.getSurveysByStudyId(1).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: surveys => {
                     this.surveyList = surveys;

@@ -23,7 +23,7 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
         this.route.params.subscribe(params => {
             const id = params['id'];
             if (id) {
-                this.personnelService.getPersonnelById(id).pipe(takeUntil(this.destroy$)).subscribe({
+                this.personnelService.getPersonnelByPersonId(id).pipe(takeUntil(this.destroy$)).subscribe({
                     next: (personnel) => {
                         this.selectedPersonnel = personnel;
                         this.updateForm();
@@ -71,7 +71,7 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
             const newPersonnelData = this.personnelForm.value;
             console.log(newPersonnelData);
             const newPersonnel = {...this.personnelForm.value, organizationId: <number><unknown>organizationId};
-            this.personnelService.createPersonnel(newPersonnel).pipe(takeUntil(this.destroy$)).subscribe({
+            this.personnelService.createPersonnelByPersonId(newPersonnel).pipe(takeUntil(this.destroy$)).subscribe({
                 next: personnel => {
                     this.selectedPersonnel = personnel;
                     this.closeDialog();

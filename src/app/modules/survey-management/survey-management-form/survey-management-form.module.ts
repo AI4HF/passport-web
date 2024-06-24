@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import {ChipsModule} from "primeng/chips";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {AutoCompleteModule} from "primeng/autocomplete";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     declarations: [SurveyManagementFormComponent],
@@ -21,7 +22,8 @@ import {AutoCompleteModule} from "primeng/autocomplete";
         RouterModule,
         ChipsModule,
         InputTextareaModule,
-        AutoCompleteModule
+        AutoCompleteModule,
+        TranslateModule
     ],
     exports: [SurveyManagementFormComponent]
 })

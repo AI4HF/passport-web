@@ -30,7 +30,7 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
     loadPersonnelList() {
         const storedOrgId = localStorage.getItem('organizationId');
         if (storedOrgId) {
-            this.personnelService.getPersonnelList(+storedOrgId).pipe(takeUntil(this.destroy$)).subscribe({
+            this.personnelService.getPersonnelByOrganizationId(+storedOrgId).pipe(takeUntil(this.destroy$)).subscribe({
                 next: personnel => {
                     this.personnelList = personnel;
                     this.loading = false;

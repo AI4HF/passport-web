@@ -8,6 +8,7 @@ import { SurveyManagementTableComponent } from './survey-management-table.compon
 import { RouterModule } from '@angular/router';
 import {ChipsModule} from "primeng/chips";
 import {DockModule} from "primeng/dock";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     declarations: [SurveyManagementTableComponent],
@@ -19,7 +20,8 @@ import {DockModule} from "primeng/dock";
         FormsModule,
         RouterModule,
         ChipsModule,
-        DockModule
+        DockModule,
+        TranslateModule
     ],
     exports: [SurveyManagementTableComponent]
 })
