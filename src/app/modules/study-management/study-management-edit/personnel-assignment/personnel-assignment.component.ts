@@ -2,6 +2,8 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {BaseComponent} from "../../../../shared/components/base.component";
 import {Personnel} from "../../../../shared/models/personnel.model";
 import {combineLatest, takeUntil} from "rxjs";
+import {ROLES} from "../../../../shared/models/roles.constant";
+import {NameAndValueInterface} from "../../../../shared/models/nameAndValue.interface";
 
 /**
  * Shows list of assigned personnel for the study
@@ -33,9 +35,9 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
    */
   studyId: number;
   /**
-   * The role enumeration TODO: replace with appropriate enum class later
+   * The role enumeration
    */
-  roles: any[] = [{name: 'Data Scientist', value: 'Data Scientist'}, {name: 'Study Owner', value: 'Study Owner'}, {name: 'test', value: 'test'}];
+  roles: NameAndValueInterface[] = ROLES;
 
   constructor(protected injector: Injector) {
     super(injector);

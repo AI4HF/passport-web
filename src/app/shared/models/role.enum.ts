@@ -1,0 +1,9 @@
+/**
+ * AI4HF  passport roles
+ */
+export enum Role {
+    STUDY_OWNER = "STUDY_OWNER",
+    DATA_SCIENTIST = "DATA_SCIENTIST",
+    ORGANIZATION = "ORGANIZATION",
+    DATA_PROVIDER = "DATA_PROVIDER"
+}

@@ -1,3 +1,5 @@
+import {Role} from "./role.enum";
+
 /**
  * Model for password Personnel class
  */
@@ -25,7 +27,7 @@ export class Personnel{
     /**
      * The role of the Personnel
      */
-    role: string;
+    role: Role;
 
     /**
      * The e-mail of the Personnel
