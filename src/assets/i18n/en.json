@@ -56,5 +56,42 @@
       "Category": "Category",
       "There is no survey question related to this study": "There is no survey question related to this study"
     }
+  },
+  "OrganizationManagement": {
+    "Organization Form": "Organization Form",
+    "Organization Name": "Organization Name",
+    "Enter organization name": "Enter organization name",
+    "Organization Address": "Organization Address",
+    "Enter address": "Enter address",
+    "Owned Organization": "Owned Organization",
+    "No Active Organizations. Please create a new one.": "No Active Organizations. Please create a new one.",
+    "Update Organization": "Update Organization",
+    "Create Organization": "Create Organization",
+    "Delete Organization": "Delete Organization",
+    "Personnel Form": "Personnel Form",
+    "First Name": "First Name",
+    "Enter first name": "Enter first name",
+    "Last Name": "Last Name",
+    "Enter last name": "Enter last name",
+    "Role": "Role",
+    "Enter role": "Enter role",
+    "Email": "Email",
+    "Enter email": "Enter email",
+    "Organization Personnel": "Organization Personnel",
+    "Create Personnel": "Create Personnel"
+  },
+  "SurveyManagement": {
+    "Survey Management": "Survey Management",
+    "Create Question": "Create Question",
+    "Number of entries": "Showing {first} to {last} of {totalRecords} entries",
+    "Question Form": "Question Form",
+    "Question": "Question",
+    "Enter the question": "Enter the question",
+    "Answer": "Answer",
+    "Enter the answer": "Enter the answer",
+    "Category": "Category",
+    "Select or enter a category": "Select or enter a category",
+    "Edit Question": "Edit Question",
+    "Delete Question": "Delete Question"
   }
 }
