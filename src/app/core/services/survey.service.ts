@@ -32,7 +32,7 @@ export class SurveyService {
                     return new Survey(response);
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -51,7 +51,7 @@ export class SurveyService {
                     return response.map((survey: any) => new Survey(survey));
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -70,7 +70,7 @@ export class SurveyService {
                     return new Survey(response);
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -89,7 +89,7 @@ export class SurveyService {
                     return new Survey(response);
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -108,7 +108,7 @@ export class SurveyService {
                     return response;
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );

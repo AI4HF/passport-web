@@ -32,7 +32,7 @@ export class PopulationService {
                     return new Population(response);
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -51,7 +51,7 @@ export class PopulationService {
                     return new Population(response);
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -70,7 +70,7 @@ export class PopulationService {
                     return new Population(response);
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );

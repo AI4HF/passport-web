@@ -31,7 +31,7 @@ export class PersonnelService {
                     return response.map((personnel: any) => new Personnel(personnel));
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -50,7 +50,7 @@ export class PersonnelService {
                     return response.map((personnel: any) => new Personnel(personnel));
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -69,7 +69,7 @@ export class PersonnelService {
                     return new Personnel(response);
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -88,7 +88,7 @@ export class PersonnelService {
                     return new Personnel(response);
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -107,7 +107,7 @@ export class PersonnelService {
                     return new Personnel(response);
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -126,7 +126,7 @@ export class PersonnelService {
                     return response;
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );

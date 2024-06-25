@@ -32,7 +32,7 @@ export class ExperimentService {
                     return response.map((experiment: any) => new Experiment(experiment));
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -52,7 +52,7 @@ export class ExperimentService {
                     return response.map((experiment: any) => new Experiment(experiment));
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );

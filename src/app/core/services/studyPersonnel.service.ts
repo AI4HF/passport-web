@@ -32,7 +32,7 @@ export class StudyPersonnelService {
                     return response.map((personnel: any) => new Personnel(personnel));
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -52,7 +52,7 @@ export class StudyPersonnelService {
                     return response.map((personnel: any) => new Personnel(personnel));
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );

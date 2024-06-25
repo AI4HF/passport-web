@@ -30,7 +30,7 @@ export class StudyService {
             return response.map((study: any) => new Study(study));
           }),
           catchError((error) => {
-            console.log(error);
+            console.error(error);
             throw error;
           })
       );
@@ -49,7 +49,7 @@ export class StudyService {
             return new Study(response);
           }),
           catchError((error) => {
-            console.log(error);
+            console.error(error);
             throw error;
           })
       );
@@ -68,7 +68,7 @@ export class StudyService {
               return new Study(response);
           }),
           catchError((error) => {
-            console.log(error);
+            console.error(error);
             throw error;
           })
       );
@@ -87,7 +87,7 @@ export class StudyService {
                   return response;
               }),
               catchError((error) => {
-                  console.log(error);
+                  console.error(error);
                   throw error;
               })
           );
@@ -106,7 +106,7 @@ export class StudyService {
               return new Study(response);
             }),
             catchError((error) => {
-              console.log(error);
+              console.error(error);
               throw error;
             })
         );
