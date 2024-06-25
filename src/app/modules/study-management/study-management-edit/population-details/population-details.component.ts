@@ -65,15 +65,10 @@ export class PopulationDetailsComponent extends BaseComponent implements OnInit{
    * Initializes the form object for the given population.
    */
   initializeForm() {
-
-    const populationUrl = this.selectedPopulation.populationUrl ?? '';
-    const description = this.selectedPopulation.description ?? '';
-    const characteristics = this.selectedPopulation.characteristics ?? '';
-
     this.populationForm = new FormGroup({
-      populationUrl: new FormControl(populationUrl, Validators.required),
-      description: new FormControl(description, Validators.required),
-      characteristics: new FormControl(characteristics, Validators.required)
+      populationUrl: new FormControl(this.selectedPopulation.populationUrl, Validators.required),
+      description: new FormControl(this.selectedPopulation.description, Validators.required),
+      characteristics: new FormControl(this.selectedPopulation.characteristics, Validators.required)
     });
   }
 

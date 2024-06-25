@@ -49,17 +49,11 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
      * Initializes the form object for the given study.
      */
     initializeForm() {
-
-      const name = this.selectedStudy.name ?? '';
-      const description = this.selectedStudy.description ?? '';
-      const objectives = this.selectedStudy.objectives ?? '';
-      const ethics = this.selectedStudy.ethics ?? '';
-
       this.studyForm = new FormGroup({
-        name: new FormControl(name, Validators.required),
-        description: new FormControl(description, Validators.required),
-        objectives: new FormControl(objectives, Validators.required),
-        ethics: new FormControl(ethics, Validators.required)
+        name: new FormControl(this.selectedStudy.name, Validators.required),
+        description: new FormControl(this.selectedStudy.description, Validators.required),
+        objectives: new FormControl(this.selectedStudy.objectives, Validators.required),
+        ethics: new FormControl(this.selectedStudy.ethics, Validators.required)
       });
     }
 
