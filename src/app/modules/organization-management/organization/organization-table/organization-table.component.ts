@@ -3,43 +3,64 @@ import { Organization } from '../../../../shared/models/organization.model';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from '../../../../shared/components/base.component';
 
+/**
+ * Component to display and manage a list of organizations.
+ */
 @Component({
     selector: 'app-organization-table',
     templateUrl: './organization-table.component.html',
     styleUrls: ['./organization-table.component.scss']
 })
 export class OrganizationTableComponent extends BaseComponent implements OnInit {
+    /** The currently selected organization */
     organization: Organization = null;
+    /** Flags for editing organization details */
     isEditing = { name: false, address: false };
+    /** Authentication token */
     token: string = '';
+    /** Determines if the form is displayed */
+    displayForm: boolean = false;
+    /** The ID of the selected organization for editing */
+    selectedOrganizationId: number = null;
 
+    /**
+     * Constructor to inject dependencies.
+     * @param injector The dependency injector
+     */
     constructor(protected injector: Injector) {
         super(injector);
     }
 
+    /**
+     * Initializes the component.
+     */
     ngOnInit(): void {
         this.token = localStorage.getItem('token');
         this.loadOrganizationDetails();
     }
 
+    /**
+     * Loads the details of all organizations.
+     */
     loadOrganizationDetails(): void {
         this.organizationService.getAllOrganizations().pipe(takeUntil(this.destroy$)).subscribe({
-                next: (orgs) => {
-                    if (orgs.length > 0) {
-                        this.organization = orgs[0];
-                        console.log(orgs[0].id);
-                        localStorage.setItem('organizationId', String(orgs[0].id));
-                    } else {
-                        this.organization = null;
-                    }
-                },
-                error: () => {
+            next: (orgs) => {
+                if (orgs.length > 0) {
+                    this.organization = orgs[0];
+                    this.organizationStateService.setOrganizationId(orgs[0].id);
+                } else {
                     this.organization = null;
                 }
-            });
-
+            },
+            error: () => {
+                this.organization = null;
+            }
+        });
     }
 
+    /**
+     * Toggles the editing state of the organization name.
+     */
     toggleName(): void {
         this.isEditing.name = !this.isEditing.name;
         if (!this.isEditing.name) {
@@ -47,6 +68,9 @@ export class OrganizationTableComponent extends BaseComponent implements OnInit 
         }
     }
 
+    /**
+     * Toggles the editing state of the organization address.
+     */
     toggleAddress(): void {
         this.isEditing.address = !this.isEditing.address;
         if (!this.isEditing.address) {
@@ -54,6 +78,10 @@ export class OrganizationTableComponent extends BaseComponent implements OnInit 
         }
     }
 
+    /**
+     * Updates a specific field of the organization.
+     * @param field The field to be updated
+     */
     updateOrganizationField(field: string): void {
         const updatedOrganization = { ...this.organization };
 
@@ -66,35 +94,69 @@ export class OrganizationTableComponent extends BaseComponent implements OnInit 
         this.saveOrganization(updatedOrganization);
     }
 
+    /**
+     * Shows the form for creating or updating an organization.
+     */
     showCreateUpdateDialog(): void {
-        if (this.organization) {
-            this.router.navigate(['/organization-management/organization/form/', this.organization.id]);
-        } else {
-            this.router.navigate(['/organization-management/organization/form/new']);
-        }
+        this.selectedOrganizationId = this.organization ? this.organization.id : null;
+        this.displayForm = true;
     }
 
+    /**
+     * Saves the organization details.
+     * @param organization The organization details to be saved
+     */
     saveOrganization(organization: Organization): void {
         this.organizationService.updateOrganization(organization).pipe(takeUntil(this.destroy$)).subscribe({
             next: (updatedOrg) => {
                 this.organization = updatedOrg;
+                this.messageService.add({
+                    severity: 'success',
+                    summary: this.translateService.instant('Success'),
+                    detail: this.translateService.instant('OrganizationManagement.Organization is updated successfully')
+                });
+                this.loadOrganizationDetails();
             },
             error: (error) => {
-                console.log(error);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: this.translateService.instant('Error'),
+                    detail: error.message
+                });
             }
         });
     }
 
+    /**
+     * Deletes the selected organization.
+     */
     deleteOrganization(): void {
-        this.organizationService.deleteOrganization(<number><unknown>localStorage.getItem('organizationId')).pipe(takeUntil(this.destroy$)).subscribe({
+        this.organizationService.deleteOrganization(this.organization.id).pipe(takeUntil(this.destroy$)).subscribe({
             next: () => {
-                localStorage.removeItem('organizationId');
+                this.organizationStateService.setOrganizationId(null);
                 this.organization = null;
+                this.messageService.add({
+                    severity: 'success',
+                    summary: this.translateService.instant('Success'),
+                    detail: this.translateService.instant('OrganizationManagement.Organization is deleted successfully')
+                });
             },
             error: (error) => {
-                console.log(error);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: this.translateService.instant('Error'),
+                    detail: error.message
+                });
             }
         });
+    }
+
+    /**
+     * Handles the event when the form is closed.
+     */
+    onFormClosed() {
+        this.displayForm = false;
+        this.loadOrganizationDetails();
     }
 }
 
