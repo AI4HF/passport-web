@@ -46,9 +46,13 @@
         ></p-dropdown>
       </div>
     </div>
-    <p-footer>
-      <button pButton type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}"></button>
-      <button type="button" pButton (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}"></button>
+    <div style="margin-bottom: 1rem;"></div>
+    <p-footer class="dialog-footer">
+      <div class="flex justify-content-between">
+        <button pButton type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" class="p-button-primary"></button>
+        <button pButton type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" class="p-button-primary"></button>
+      </div>
     </p-footer>
   </form>
 </p-dialog>
+

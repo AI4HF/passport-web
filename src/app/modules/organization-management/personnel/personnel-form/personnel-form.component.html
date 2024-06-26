@@ -18,9 +18,13 @@
                 <input formControlName="email" id="email" pInputText placeholder="{{ 'OrganizationManagement.Enter email' | translate }}" type="email" style="width: 100%;" />
             </div>
         </div>
+        <div style="margin-bottom: 1rem;"></div>
         <p-footer class="dialog-footer">
-            <button type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton></button>
-            <button type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton class="cancel-button"></button>
+            <div class="flex justify-content-between">
+                <button type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton class="p-button-primary"></button>
+                <button type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton class="p-button-primary"></button>
+            </div>
         </p-footer>
     </form>
 </p-dialog>
+

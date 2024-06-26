@@ -28,9 +28,10 @@
             </div>
         </div>
         <p-footer class="dialog-footer">
-            <button icon="pi pi-check" label="{{ 'Save' | translate }}" pButton type="submit"></button>
-            <button (click)="closeDialog()" class="cancel-button" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton
-                    type="button"></button>
+            <div class="flex justify-content-between">
+                <button icon="pi pi-check" label="{{ 'Save' | translate }}" pButton type="submit" class="p-button-primary"></button>
+                <button (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton type="button" class="p-button-primary"></button>
+            </div>
         </p-footer>
     </form>
 </p-dialog>
