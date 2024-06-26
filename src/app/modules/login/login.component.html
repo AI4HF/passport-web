@@ -20,7 +20,7 @@
                 <i class="pi pi-lock"></i>
                 <input id="password" type="password" pInputText class="w-full md:w-25rem" placeholder="{{'Password' | translate}}">
             </span>
-            <button pButton pRipple label="Log In" class="w-full" [routerLink]="['/study-management']"></button>
+            <button pButton pRipple label="Log In" class="w-full" (click)="login()"></button>
         </div>
     </div>
 </div>
