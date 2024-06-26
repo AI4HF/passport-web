@@ -47,7 +47,6 @@ export class AppProfileComponent {
      * Clears any session data and returns to the main page
      */
     logout() {
-        console.log('hello');
         this.router.navigate(['../login'])
     }
 }

@@ -4,9 +4,15 @@
   "Please enter your details": "Please enter your details",
   "Username": "Username",
   "Password": "Password",
-  "Manage Studies": "Manage Studies",
+  "Study Management": "Study Management",
   "Organization": "Organization",
   "Search": "Search",
+  "Back": "Back",
+  "Next": "Next",
+  "Save": "Save",
+  "Error": "Error",
+  "Add": "Add",
+  "Finish": "Finish",
   "StudyManagement": {
     "Studies": "Studies",
     "New Study": "New Study",
@@ -19,6 +25,36 @@
     "Actions": "Actions",
     "Edit Study": "Edit Study",
     "Delete Study": "Delete Study",
-    "Access Study": "Access Study"
+    "Access Study": "Access Study",
+    "Study Details": "Study Details",
+    "Population Details": "Population Details",
+    "Personnel Assignment": "Personnel Assignment",
+    "Experiment Questions": "Experiment Questions",
+    "Survey Inspection": "Survey Inspection",
+    "Study is updated successfully": "Study is updated successfully",
+    "Study is created successfully": "Study is created successfully",
+    "Population": {
+      "Population Url": "Population Url",
+      "Description": "Description",
+      "Characteristics": "Characteristics",
+      "Population is updated successfully": "Population is updated successfully",
+      "Population is created successfully": "Population is created successfully"
+    },
+    "Personnel": {
+      "Available Personnel": "Available Personnel",
+      "Assigned Personnel": "Assigned Personnel",
+      "Personnel are assigned successfully": "Personnel are assigned successfully"
+    },
+    "Experiment": {
+      "Research Question": "Research Question",
+      "Please add research question": "Please add research question...",
+      "Experiments are assigned successfully": "Experiments are assigned successfully"
+    },
+    "Survey": {
+      "Question": "Question",
+      "Answer": "Answer",
+      "Category": "Category",
+      "There is no survey question related to this study": "There is no survey question related to this study"
+    }
   }
 }

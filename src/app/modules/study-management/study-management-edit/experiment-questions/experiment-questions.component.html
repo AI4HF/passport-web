@@ -1,0 +1,56 @@
+<p-card class="p-0 w-full">
+    <div class="flex flex-row pb-3 gap-3 mb-3" [formGroup]="researchQuestionForm">
+        <div class="flex align-items-center w-13rem">
+            <label class="text-900 font-medium pl-2"
+                   for="researchQuestion">{{'StudyManagement.Experiment.Research Question' | translate}}</label>
+        </div>
+        <div class="text-900 flex align-items-center w-full">
+            <input type="text"
+                   id="researchQuestion"
+                   pInputText
+                   placeholder="{{'StudyManagement.Experiment.Research Question' | translate}}"
+                   formControlName="researchQuestion"
+                   class="form-control w-full">
+        </div>
+        <div class="flex align-items-center">
+            <button pButton pRipple
+                    type="button"
+                    label="{{'Add' | translate}}"
+                    [disabled]="!researchQuestionForm.valid"
+                    class="p-button-raised"
+                    (click)="addResearchQuestion()"></button>
+        </div>
+    </div>
+
+    <div *ngIf="experimentList.length" class="flex flex-column border-1 border-300 border-round px-3">
+        <div *ngFor="let experiment of experimentList" class="flex h-4rem border-300 border-top-1 qrow">
+            <div class="flex align-items-center w-full">
+                {{experiment.researchQuestion}}
+            </div>
+            <div class="flex align-items-center justify-content-end w-4rem">
+                <i class="pi pi-trash text-primary cursor-pointer" (click)="deleteQuestion(experiment.researchQuestion)"></i>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!experimentList.length" class="flex justify-content-center border-1 border-300 border-round p-6">
+        {{'StudyManagement.Experiment.Please add research question' | translate }}
+    </div>
+
+    <div class="flex justify-content-between flex-wrap mt-4">
+        <div class="justify-content-start">
+            <button pButton pRipple
+                    type="button"
+                    label="{{'Back' | translate}}"
+                    class="p-button-raised"
+                    (click)="back()"></button>
+        </div>
+        <div class="justify-content-end">
+            <button pButton pRipple
+                    type="button"
+                    label="{{'Save' | translate}}"
+                    class="p-button-raised"
+                    (click)="save()"></button>
+        </div>
+    </div>
+</p-card>

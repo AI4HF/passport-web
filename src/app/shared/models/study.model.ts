@@ -27,6 +27,11 @@ export class Study{
      */
     ethics: string;
 
+    /**
+     * The owner personelId of the Study
+     */
+    owner: number;
+
     constructor(data: any) {
 
         if(!data){
@@ -38,5 +43,6 @@ export class Study{
         this.description = data.description;
         this.objectives = data.objectives;
         this.ethics = data.ethics;
+        this.owner = data.owner;
     }
 }

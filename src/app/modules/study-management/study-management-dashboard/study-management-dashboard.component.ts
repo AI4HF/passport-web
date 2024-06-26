@@ -3,7 +3,11 @@ import {BaseComponent} from "../../../shared/components/base.component";
 import {takeUntil} from "rxjs";
 import {Study} from "../../../shared/models/study.model";
 import {Table} from "primeng/table";
+import {StudyManagementRoutingModule} from "../study-management-routing.module";
 
+/**
+ * Dashboard component for study management.
+ */
 @Component({
   selector: 'app-study-management-dashboard',
   templateUrl: './study-management-dashboard.component.html',
@@ -40,11 +44,18 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
    * Retrieves all studies from the server
    */
   getStudyList(){
-    this.studyManagementService.getStudyList()
+    this.loading = true;
+    this.studyService.getStudyList()
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (studyList) => this.studyList = studyList,
-          error: (error) => console.log(error),
+          next: (studyList: Study[]) => this.studyList = studyList,
+          error: (error: any) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translateService.instant('Error'),
+              detail: error.message
+            });
+          },
           complete: () => this.loading = false
         });
   }
@@ -62,28 +73,33 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
    * Navigate the user to Study create page
    */
   createStudy(){
-
+    this.router.navigate([`/${StudyManagementRoutingModule.route}/new`]);
   }
 
   /**
    * Navigate the user to Study edit page
    */
-  editStudy(){
-
+  editStudy(id: number){
+    this.router.navigate([`/${StudyManagementRoutingModule.route}/${id}`]);
   }
 
   /**
    * Delete a study
    */
-  deleteStudy(){
-
+  deleteStudy(id: number){
+    this.loading = true;
+    this.studyService.deleteStudy(id).pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response: any) => this.getStudyList(),
+          error: (error: any) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translateService.instant('Error'),
+              detail: error.message
+            });
+          },
+          complete: () => this.loading = false
+        });
   }
 
-  /**
-   * Navigate the user to display or edit the details of a Study
-   * @param study Study to open details
-   */
-  navigateToStudyDetail(study: Study) {
-
-  }
 }
