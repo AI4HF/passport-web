@@ -4,6 +4,9 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
+/**
+ * An interceptor that prevents access to routes if the user fails the authentication check of a request.
+ */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
     constructor(private router: Router) {}
