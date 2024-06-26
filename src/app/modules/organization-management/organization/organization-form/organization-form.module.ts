@@ -10,6 +10,9 @@ import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     declarations: [OrganizationFormComponent],
+    exports: [
+        OrganizationFormComponent
+    ],
     imports: [
         CommonModule,
         DialogModule,

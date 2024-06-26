@@ -10,6 +10,7 @@ import {RippleModule} from "primeng/ripple";
 import {DockModule} from "primeng/dock";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {DialogModule} from "primeng/dialog";
+import {OrganizationFormModule} from "../organization-form/organization-form.module";
 
 @NgModule({
     declarations: [OrganizationTableComponent],
@@ -23,7 +24,8 @@ import {DialogModule} from "primeng/dialog";
         RippleModule,
         DockModule,
         InputTextareaModule,
-        DialogModule
+        DialogModule,
+        OrganizationFormModule
     ]
 })
 export class OrganizationTableModule { }

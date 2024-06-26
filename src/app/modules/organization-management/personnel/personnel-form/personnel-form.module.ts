@@ -10,6 +10,9 @@ import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     declarations: [PersonnelFormComponent],
+    exports: [
+        PersonnelFormComponent
+    ],
     imports: [
         CommonModule,
         DialogModule,

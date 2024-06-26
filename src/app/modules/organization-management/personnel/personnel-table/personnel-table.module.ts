@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TranslateModule } from '@ngx-translate/core';
 import {RippleModule} from "primeng/ripple";
 import {DockModule} from "primeng/dock";
+import {PersonnelFormModule} from "../personnel-form/personnel-form.module";
 
 @NgModule({
     declarations: [PersonnelTableComponent],
@@ -17,7 +18,8 @@ import {DockModule} from "primeng/dock";
         InputTextModule,
         TranslateModule,
         RippleModule,
-        DockModule
+        DockModule,
+        PersonnelFormModule
     ]
 })
 export class PersonnelTableModule { }
