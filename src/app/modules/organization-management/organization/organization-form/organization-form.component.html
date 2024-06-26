@@ -1,5 +1,6 @@
-<p-dialog [(visible)]="displayDialog" [modal]="true" header="{{ 'OrganizationManagement.Organization Form' | translate }}">
-    <form [formGroup]="organizationForm" (ngSubmit)="saveOrganization()">
+<p-dialog (onHide)="closeDialog()" [(visible)]="displayForm" [modal]="true"
+          header="{{ 'OrganizationManagement.Organization Form' | translate }}">
+    <form (ngSubmit)="saveOrganization()" [formGroup]="organizationForm">
         <div class="p-fluid">
             <div class="p-field">
                 <label for="org-name">{{ 'OrganizationManagement.Organization Name' | translate }}</label>
@@ -8,27 +9,28 @@
                         id="org-name"
                         pInputText
                         placeholder="{{ 'OrganizationManagement.Enter organization name' | translate }}"
-                        type="text"
                         style="width: 100%;"
+                        type="text"
                 />
             </div>
             <div class="p-field">
                 <label for="org-address">{{ 'OrganizationManagement.Organization Address' | translate }}</label>
                 <textarea
+                        class="p-inputtextarea p-inputtext p-component p-element"
+                        cols="30"
                         formControlName="address"
                         id="org-address"
                         pInputTextarea
                         placeholder="{{ 'OrganizationManagement.Enter address' | translate }}"
                         rows="3"
-                        cols="30"
-                        class="p-inputtextarea p-inputtext p-component p-element"
                         style="width: 100%; height: 150px;"
                 ></textarea>
             </div>
         </div>
         <p-footer class="dialog-footer">
-            <button type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton></button>
-            <button type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton class="cancel-button"></button>
+            <button icon="pi pi-check" label="{{ 'Save' | translate }}" pButton type="submit"></button>
+            <button (click)="closeDialog()" class="cancel-button" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton
+                    type="button"></button>
         </p-footer>
     </form>
 </p-dialog>
