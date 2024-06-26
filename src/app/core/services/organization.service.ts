@@ -24,7 +24,7 @@ export class OrganizationService {
      * @return {Observable<Organization[]>}
      */
     getAllOrganizations(): Observable<Organization[]> {
-        const url = `${this.endpoint}/`;
+        const url = `${this.endpoint}`;
         return this.httpClient.get<Organization[]>(url)
             .pipe(
                 map((response: any) => {
@@ -100,7 +100,7 @@ export class OrganizationService {
      * @return {Observable<Organization>}
      */
     createOrganization(organization: Organization): Observable<Organization> {
-        const url = `${this.endpoint}/`;
+        const url = `${this.endpoint}`;
         return this.httpClient.post<Organization>(url, organization)
             .pipe(
                 map((response: any) => {
