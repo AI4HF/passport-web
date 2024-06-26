@@ -1,6 +1,6 @@
 import {Injectable, Injector} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, map, Observable, of} from "rxjs";
+import {catchError, map, Observable} from "rxjs";
 import {Survey} from "../../shared/models/survey.model";
 import {environment} from "../../../environments/environment";
 
