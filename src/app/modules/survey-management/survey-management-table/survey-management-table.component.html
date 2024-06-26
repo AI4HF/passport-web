@@ -29,6 +29,10 @@
             {{ 'SurveyManagement.Category' | translate }}
             <p-sortIcon [field]="'category'"></p-sortIcon>
           </th>
+          <th [pSortableColumn]="'study'" style="min-width:10rem" class="white-space-nowrap">
+            {{ 'SurveyManagement.Study' | translate }}
+            <p-sortIcon [field]="'study'"></p-sortIcon>
+          </th>
           <th>
             {{ 'Actions' | translate }}
           </th>
@@ -48,6 +52,9 @@
           <td class="cursor-pointer">
             <span>{{ survey.category }}</span>
           </td>
+          <td class="cursor-pointer">
+            <span>{{ getStudyName(survey.studyId) }}</span>
+          </td>
           <td>
             <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="editQuestion(survey)" pTooltip="{{ 'SurveyManagement.Edit Question' | translate }}" tooltipPosition="bottom"></button>
             <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deleteQuestion(survey.surveyId)" pTooltip="{{ 'SurveyManagement.Delete Question' | translate }}" tooltipPosition="bottom"></button>
@@ -57,3 +64,4 @@
     </p-table>
   </div>
 </div>
+<app-survey-management-form [displayForm]="displayForm" [surveyId]="selectedSurveyId" (formClosed)="onFormClosed()"></app-survey-management-form>
