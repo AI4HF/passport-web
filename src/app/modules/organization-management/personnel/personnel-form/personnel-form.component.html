@@ -1,4 +1,5 @@
-<p-dialog [(visible)]="displayForm" [modal]="true" header="{{ 'OrganizationManagement.Personnel Form' | translate }}" (onHide)="closeDialog()">
+<p-dialog [(visible)]="displayForm" [modal]="true" header="{{ 'OrganizationManagement.Personnel Form' | translate }}" (onHide)="closeDialog()"
+          [style]="{width: '350px'}">
     <form [formGroup]="personnelForm" (ngSubmit)="savePersonnel()">
         <div class="p-fluid">
             <div class="p-field">

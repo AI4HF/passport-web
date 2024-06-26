@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="displayForm" [modal]="true" header="{{ 'SurveyManagement.Question Form' | translate }}" (onHide)="closeDialog()">
+<p-dialog [(visible)]="displayForm" [modal]="true" header="{{ 'SurveyManagement.Question Form' | translate }}" (onHide)="closeDialog()" [style]="{width: '450px'}">
   <form [formGroup]="surveyForm" (ngSubmit)="saveQuestion()">
     <div class="p-fluid">
       <div class="p-field">
@@ -55,4 +55,5 @@
     </p-footer>
   </form>
 </p-dialog>
+
 
