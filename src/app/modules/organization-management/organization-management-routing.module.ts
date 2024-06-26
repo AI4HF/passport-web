@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {organizationPersonnelGuard} from "../../core/guards/organization-personnel.guard";
 
 const routes: Routes = [
     {
@@ -8,7 +9,8 @@ const routes: Routes = [
     },
     {
         path: 'personnel',
-        loadChildren: () => import('./personnel/personnel.module').then(m => m.PersonnelModule)
+        loadChildren: () => import('./personnel/personnel.module').then(m => m.PersonnelModule),
+        canActivate: [organizationPersonnelGuard]
     }
 ];
 
