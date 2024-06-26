@@ -6,7 +6,7 @@ import { OrganizationStateService } from "../services/organization-state.service
 /**
  * A guard that prevents access to the personnel page if no organization is selected.
  */
-export const organizationPersonnelGuard: CanActivateFn = (route, state) => {
+export const organizationPersonnelGuard: CanActivateFn = () => {
     const router = inject(Router);
     const organizationStateService = inject(OrganizationStateService);
 
