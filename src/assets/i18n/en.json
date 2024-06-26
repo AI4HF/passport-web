@@ -68,6 +68,9 @@
     "Update Organization": "Update Organization",
     "Create Organization": "Create Organization",
     "Delete Organization": "Delete Organization",
+    "Organization is updated successfully": "Organization is updated successfully",
+    "Organization is created successfully": "Organization is created successfully",
+    "Organization is deleted successfully": "Organization is deleted successfully",
     "Personnel Form": "Personnel Form",
     "First Name": "First Name",
     "Enter first name": "Enter first name",
@@ -78,7 +81,12 @@
     "Email": "Email",
     "Enter email": "Enter email",
     "Organization Personnel": "Organization Personnel",
-    "Create Personnel": "Create Personnel"
+    "Create Personnel": "Create Personnel",
+    "Personnel is updated successfully": "Personnel is updated successfully",
+    "Personnel is created successfully": "Personnel is created successfully",
+    "Personnel is deleted successfully": "Personnel is deleted successfully",
+    "Finish Editing": "Finish Editing",
+    "Edit": "Edit"
   },
   "SurveyManagement": {
     "Survey Management": "Survey Management",
@@ -91,7 +99,14 @@
     "Enter the answer": "Enter the answer",
     "Category": "Category",
     "Select or enter a category": "Select or enter a category",
+    "Study": "Study",
+    "Select a study": "Select a study",
     "Edit Question": "Edit Question",
-    "Delete Question": "Delete Question"
+    "Delete Question": "Delete Question",
+    "Survey is updated successfully": "Survey is updated successfully",
+    "Survey is created successfully": "Survey is created successfully",
+    "Survey is deleted successfully": "Survey is deleted successfully",
+    "FormInvalid": "Form is invalid",
+    "NoStudies": "No studies available"
   }
 }
