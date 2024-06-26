@@ -11,30 +11,19 @@ import { MenuItem } from 'primeng/api';
     templateUrl: './app.menu.component.html'
 })
 export class AppMenuComponent extends BaseComponent implements OnInit, OnDestroy {
-
     model: MenuItem[] = [];
-    private currentOrganizationId: string | null = null;
+    private currentOrganizationId: number | null = null;
 
     constructor(private injector: Injector, private cdr: ChangeDetectorRef) {
         super(injector);
     }
 
     ngOnInit() {
-        this.currentOrganizationId = localStorage.getItem('organizationId');
-        this.updateMenuItems();
-
-        window.addEventListener('storage', this.handleStorageChange.bind(this));
-    }
-
-    /**
-     * Method which checks if there is a current organization and makes the personnel tab appear or not appear.
-     */
-    private handleStorageChange(event: StorageEvent) {
-        if (event.key === 'organizationId') {
-            this.currentOrganizationId = event.newValue;
+        this.organizationStateService.organizationId$.subscribe(id => {
+            this.currentOrganizationId = id;
             this.updateMenuItems();
             this.cdr.detectChanges();
-        }
+        });
     }
 
     /**
