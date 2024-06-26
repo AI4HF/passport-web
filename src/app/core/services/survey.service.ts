@@ -20,6 +20,24 @@ export class SurveyService {
     }
 
     /**
+     * Retrieves all surveys in database
+     * @return {Observable<Survey[]>}
+     */
+    getAllSurveys(): Observable<Survey[]> {
+        const url = `${this.endpoint}/all`;
+        return this.httpClient.get<Survey[]>(url)
+            .pipe(
+                map((response: any) =>{
+                    return response.map((survey: any) => new Survey(survey));
+                }),
+                catchError((error) => {
+                    console.log(error);
+                    throw error;
+                })
+            );
+    }
+
+    /**
      * Retrieves a survey by id
      * @param id Id of the survey
      * @return {Observable<Survey>}
