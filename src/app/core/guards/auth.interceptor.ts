@@ -5,18 +5,29 @@ import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 /**
- * An interceptor that prevents access to routes if the user fails the authentication check of a request.
+ * An HTTP interceptor which sets up all requests' Authorization headers and logouts if there is an Unauthorized check.
+ * Prevents expired token users to access the page structures.
  */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
     constructor(private router: Router) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        //TODO: To be activated when the login logic is implemented.
+        /*const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+        if (token) {
+            req = req.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+        }*/
+
         return next.handle(req).pipe(
             catchError((error: HttpErrorResponse) => {
-                if (error.status === 401 || error.status === 403) {
+                if (error.status === 401) {
                     localStorage.removeItem('token');
-
+                    sessionStorage.removeItem('token');
                     this.router.navigate(['/login']);
                 }
                 return throwError(error);
