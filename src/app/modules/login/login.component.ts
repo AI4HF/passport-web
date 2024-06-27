@@ -1,25 +1,57 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from "../../shared/components/base.component";
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
     templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
-export class LoginComponent extends BaseComponent {
-    rememberMe: boolean = false;
+export class LoginComponent extends BaseComponent implements OnInit {
+    loginForm: FormGroup;
 
     constructor(protected injector: Injector) {
         super(injector);
+        this.loginForm = new FormGroup({
+            username: new FormControl('', Validators.required),
+            password: new FormControl('', Validators.required),
+            rememberMe: new FormControl(false)
+        });
+    }
+
+    ngOnInit() {
+        this.checkRememberedUser();
     }
 
     get dark(): boolean {
         return this.layoutService.config().colorScheme !== 'light';
     }
 
-    /**
-     * Function to handle login, set a token in localStorage and navigate to study-management
-     */
+    checkRememberedUser() {
+        const token = localStorage.getItem('token')||sessionStorage.getItem('token');
+        if (token) {
+            this.router.navigate(['/study-management']);
+        }
+    }
+
     login() {
-        localStorage.setItem('token', 'mock');
-        this.router.navigate(['/study-management']);
+        if (this.loginForm.valid) {
+            const { username, password, rememberMe } = this.loginForm.value;
+            // TODO: Implement actual authentication logic here
+            const token = 'mock';
+
+            if (rememberMe) {
+                localStorage.setItem('token', token);
+            } else {
+                sessionStorage.setItem('token', token);
+            }
+            this.router.navigate(['/study-management']);
+        } else {
+            this.messageService.add({
+                severity: 'error',
+                summary: this.translateService.instant('Error'),
+                detail: this.translateService.instant('Please enter valid credentials.')
+            });
+        }
     }
 }
+

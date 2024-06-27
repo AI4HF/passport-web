@@ -11,16 +11,23 @@
             <div class="text-900 text-xl font-bold mb-2">{{'Log in' | translate }}</div>
             <span class="text-600 font-medium">{{'Please enter your details' | translate}}</span>
         </div>
-        <div class="flex flex-column">
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="flex flex-column">
             <span class="p-input-icon-left w-full mb-4">
                 <i class="pi pi-user"></i>
-                <input id="username" type="text" pInputText class="w-full md:w-25rem" placeholder="{{'Username' | translate}}">
+                <input id="username" type="text" pInputText class="w-full md:w-25rem" placeholder="{{'Username' | translate}}" formControlName="username">
             </span>
             <span class="p-input-icon-left w-full mb-4">
                 <i class="pi pi-lock"></i>
-                <input id="password" type="password" pInputText class="w-full md:w-25rem" placeholder="{{'Password' | translate}}">
+                <input id="password" type="password" pInputText class="w-full md:w-25rem" placeholder="{{'Password' | translate}}" formControlName="password">
             </span>
-            <button pButton pRipple label="Log In" class="w-full" (click)="login()"></button>
-        </div>
+            <div class="flex align-items-center gap-1 mb-4">
+                <p-checkbox
+                        formControlName="rememberMe"
+                        value="rememberMe"
+                        inputId="rememberMe" />
+                <label for="rememberMe">{{'Remember Me' | translate}}</label>
+            </div>
+            <button pButton pRipple label="{{'Login' | translate}}" class="w-full" type="submit"></button>
+        </form>
     </div>
 </div>
