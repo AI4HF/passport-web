@@ -1,0 +1,59 @@
+<p-dialog [(visible)]="displayForm" [modal]="true" header="{{ 'SurveyManagement.Question Form' | translate }}" (onHide)="closeDialog()" [style]="{width: '450px'}">
+  <form [formGroup]="surveyForm" (ngSubmit)="saveQuestion()">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="question">{{ 'SurveyManagement.Question' | translate }}</label>
+        <input
+                id="question"
+                pInputText
+                formControlName="question"
+                placeholder="{{ 'SurveyManagement.Enter the question' | translate }}"
+                type="text"
+                style="width: 100%;"
+        />
+      </div>
+      <div class="p-field">
+        <label for="answer">{{ 'SurveyManagement.Answer' | translate }}</label>
+        <textarea
+                id="answer"
+                pInputTextarea
+                formControlName="answer"
+                placeholder="{{ 'SurveyManagement.Enter the answer' | translate }}"
+                rows="3"
+                cols="30"
+                class="p-inputtextarea p-inputtext p-component p-element"
+                style="width: 100%; height: 150px;"
+        ></textarea>
+      </div>
+      <div class="p-field">
+        <label for="category">{{ 'SurveyManagement.Category' | translate }}</label>
+        <p-autoComplete
+                formControlName="category"
+                [suggestions]="filteredCategories"
+                (completeMethod)="filterCategory($event)"
+                field="label"
+                placeholder="{{ 'SurveyManagement.Select or enter a category' | translate }}"
+                [forceSelection]="false"
+        ></p-autoComplete>
+      </div>
+      <div class="p-field" *ngIf="!isUpdateMode">
+        <label for="study">{{ 'SurveyManagement.Study' | translate }}</label>
+        <p-dropdown
+                formControlName="study"
+                [options]="studies"
+                optionLabel="name"
+                placeholder="{{ 'SurveyManagement.Select a study' | translate }}"
+        ></p-dropdown>
+      </div>
+    </div>
+    <div style="margin-bottom: 1rem;"></div>
+    <p-footer class="dialog-footer">
+      <div class="flex justify-content-between">
+        <button pButton type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" class="p-button-primary"></button>
+        <button pButton type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" class="p-button-primary"></button>
+      </div>
+    </p-footer>
+  </form>
+</p-dialog>
+
+
