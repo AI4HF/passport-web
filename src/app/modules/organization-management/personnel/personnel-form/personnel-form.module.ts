@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TranslateModule } from '@ngx-translate/core';
+import {DropdownModule} from "primeng/dropdown";
 
 @NgModule({
     declarations: [PersonnelFormComponent],
@@ -21,7 +22,8 @@ import { TranslateModule } from '@ngx-translate/core';
         ButtonModule,
         InputTextModule,
         InputTextareaModule,
-        TranslateModule
+        TranslateModule,
+        DropdownModule
     ]
 })
 export class PersonnelFormModule { }

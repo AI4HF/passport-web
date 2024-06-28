@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Personnel } from '../../../../shared/models/personnel.model';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from "../../../../shared/components/base.component";
+import { Role } from "../../../../shared/models/role.enum";
 
 /**
  * Component for creating or updating personnel.
@@ -24,6 +25,7 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
     selectedPersonnel: Personnel = new Personnel({ firstName: '', lastName: '', role: '', email: '' });
     /** Form group for personnel form controls */
     personnelForm: FormGroup;
+    roles: any[] = Object.keys(Role).map(key => Role[key as keyof typeof Role]);
 
     /**
      * Constructor to inject dependencies.
