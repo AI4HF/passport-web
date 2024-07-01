@@ -86,12 +86,12 @@
     "Personnel is created successfully": "Personnel is created successfully",
     "Personnel is deleted successfully": "Personnel is deleted successfully",
     "Finish Editing": "Finish Editing",
-    "Edit": "Edit"
+    "Edit": "Edit",
+    "Select a role": "Select a role"
   },
   "SurveyManagement": {
     "Survey Management": "Survey Management",
     "Create Question": "Create Question",
-    "Number of entries": "Showing {first} to {last} of {totalRecords} entries",
     "Question Form": "Question Form",
     "Question": "Question",
     "Enter the question": "Enter the question",
