@@ -135,6 +135,8 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
         }
 
         const formValues = this.surveyForm.value;
+        formValues.category = formValues.category.value || formValues.category;  // Ensure category is a string
+
         if (this.isUpdateMode) {
             formValues.studyId = this.selectedQuestion.studyId;
         } else {
@@ -209,6 +211,7 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
         this.filteredCategories = this.categories.filter(category => category.label.toLowerCase().includes(query.toLowerCase()));
     }
 }
+
 
 
 

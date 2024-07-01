@@ -25,7 +25,10 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
     selectedPersonnel: Personnel = new Personnel({ firstName: '', lastName: '', role: '', email: '' });
     /** Form group for personnel form controls */
     personnelForm: FormGroup;
-    roles: any[] = Object.keys(Role).map(key => Role[key as keyof typeof Role]);
+    roles: any[] = Object.keys(Role).map(key => ({
+        label: this.toReadableLabel(Role[key as keyof typeof Role]),
+        value: Role[key as keyof typeof Role]
+    }));
 
     /**
      * Constructor to inject dependencies.
@@ -169,6 +172,16 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
             this.router.navigate(['/organization-management/personnel/table']);
         }
     }
+
+    /**
+     * Converts a role string to a more readable format.
+     * @param role The role string to convert
+     * @returns The readable role string
+     */
+    private toReadableLabel(role: string): string {
+        return role.split('_').map(word => word.charAt(0) + word.slice(1).toLowerCase()).join(' ');
+    }
 }
+
 
 

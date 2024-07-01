@@ -31,7 +31,6 @@
                 formControlName="category"
                 [suggestions]="filteredCategories"
                 (completeMethod)="filterCategory($event)"
-                field="label"
                 placeholder="{{ 'SurveyManagement.Select or enter a category' | translate }}"
                 [forceSelection]="false"
         ></p-autoComplete>
