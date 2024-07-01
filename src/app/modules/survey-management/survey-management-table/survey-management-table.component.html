@@ -10,7 +10,7 @@
         <button pButton pRipple icon="pi pi-plus" class="p-button-rounded button-secondary mx-2" (click)="createQuestion()" pTooltip="{{ 'SurveyManagement.Create Question' | translate }}" tooltipPosition="bottom"></button>
       </div>
     </div>
-    <p-table #dt [value]="surveyList" [columns]="columns" [rows]="10" [rowHover]="true" [paginator]="true" [showCurrentPageReport]="true" [currentPageReportTemplate]="'Number of entries'" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['surveyId', 'question', 'answer', 'category']" [sortField]="'question'">
+    <p-table #dt [value]="surveyList" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['surveyId', 'question', 'answer', 'category']" [sortField]="'question'">
       <ng-template pTemplate="header">
         <tr>
           <th [pSortableColumn]="'surveyId'" style="min-width:10rem" class="white-space-nowrap">

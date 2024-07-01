@@ -2,6 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { Personnel } from '../../../../shared/models/personnel.model';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from "../../../../shared/components/base.component";
+import { Role } from '../../../../shared/models/role.enum';
 
 /**
  * Component to display and manage a list of personnel.
@@ -133,6 +134,14 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
             this.loadPersonnelList(organizationId);
         }
     }
-}
 
+    /**
+     * Converts a role string to a more readable format.
+     * @param role The role string to convert
+     * @returns The readable role string
+     */
+    toReadableRole(role: string): string {
+        return role.split('_').map(word => word.charAt(0) + word.slice(1).toLowerCase()).join(' ');
+    }
+}
 
