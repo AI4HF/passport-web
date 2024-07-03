@@ -24,7 +24,7 @@ export class SurveyService {
      * @return {Observable<Survey[]>}
      */
     getAllSurveys(): Observable<Survey[]> {
-        const url = `${this.endpoint}/all`;
+        const url = `${this.endpoint}`;
         return this.httpClient.get<Survey[]>(url)
             .pipe(
                 map((response: any) =>{
