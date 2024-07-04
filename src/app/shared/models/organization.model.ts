@@ -18,6 +18,11 @@ export class Organization {
     address: string;
 
     constructor(data: any) {
+
+        if(!data){
+            return;
+        }
+
         this.id = data.organizationId;
         this.name = data.name;
         this.address = data.address;
