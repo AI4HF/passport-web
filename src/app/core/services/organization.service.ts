@@ -31,7 +31,7 @@ export class OrganizationService {
                     return response.map((organization: any) => new Organization(organization));
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -50,7 +50,7 @@ export class OrganizationService {
                     return new Organization(response);
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -69,7 +69,7 @@ export class OrganizationService {
                     return new Organization(response);
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -88,7 +88,7 @@ export class OrganizationService {
                     return response;
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
@@ -107,7 +107,7 @@ export class OrganizationService {
                     return new Organization(response);
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );

@@ -31,7 +31,7 @@ export class SurveyService {
                     return response.map((survey: any) => new Survey(survey));
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     throw error;
                 })
             );
