@@ -2,7 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { Personnel } from '../../../../shared/models/personnel.model';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from "../../../../shared/components/base.component";
-import { Role } from '../../../../shared/models/role.enum';
+import { ROLES } from '../../../../shared/models/roles.constant';
 
 /**
  * Component to display and manage a list of personnel.
@@ -64,7 +64,15 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
                 this.personnelList = personnel;
                 this.loading = false;
             },
-            error: () => {
+            error: (error) => {
+                this.loading = false;
+                this.messageService.add({
+                    severity: 'error',
+                    summary: this.translateService.instant('Error'),
+                    detail: error.message
+                });
+            },
+            complete: () => {
                 this.loading = false;
             }
         });
@@ -141,7 +149,8 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
      * @returns The readable role string
      */
     toReadableRole(role: string): string {
-        return role.split('_').map(word => word.charAt(0) + word.slice(1).toLowerCase()).join(' ');
+        const roleObj = ROLES.find(r => r.value === role);
+        return roleObj ? roleObj.name : role;
     }
 }
 

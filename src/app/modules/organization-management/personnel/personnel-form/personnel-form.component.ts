@@ -3,7 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Personnel } from '../../../../shared/models/personnel.model';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from "../../../../shared/components/base.component";
-import { Role } from "../../../../shared/models/role.enum";
+import { ROLES } from "../../../../shared/models/roles.constant";
+import { NameAndValueInterface } from "../../../../shared/models/nameAndValue.interface";
 
 /**
  * Component for creating or updating personnel.
@@ -25,10 +26,7 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
     selectedPersonnel: Personnel = new Personnel({});
     /** Form group for personnel form controls */
     personnelForm: FormGroup;
-    roles: any[] = Object.keys(Role).map(key => ({
-        label: this.toReadableLabel(Role[key as keyof typeof Role]),
-        value: Role[key as keyof typeof Role]
-    }));
+    roles: NameAndValueInterface[] = ROLES;
 
     /**
      * Constructor to inject dependencies.
@@ -171,15 +169,6 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
         if (refresh) {
             this.router.navigate(['/organization-management/personnel/table']);
         }
-    }
-
-    /**
-     * Converts a role string to a more readable format.
-     * @param role The role string to convert
-     * @returns The readable role string
-     */
-    private toReadableLabel(role: string): string {
-        return role.split('_').map(word => word.charAt(0) + word.slice(1).toLowerCase()).join(' ');
     }
 }
 
