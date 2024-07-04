@@ -15,9 +15,8 @@ export class OrganizationTableComponent extends BaseComponent implements OnInit 
     /** The currently selected organization */
     organization: Organization = null;
     /** Flags for editing organization details */
-    isEditing = { name: false, address: false };
-    /** Authentication token */
-    token: string = '';
+    isEditingName = false;
+    isEditingAddress = false;
     /** Determines if the form is displayed */
     displayForm: boolean = false;
     /** The ID of the selected organization for editing */
@@ -35,7 +34,6 @@ export class OrganizationTableComponent extends BaseComponent implements OnInit 
      * Initializes the component.
      */
     ngOnInit(): void {
-        this.token = localStorage.getItem('token');
         this.loadOrganizationDetails();
     }
 
@@ -62,8 +60,8 @@ export class OrganizationTableComponent extends BaseComponent implements OnInit 
      * Toggles the editing state of the organization name.
      */
     toggleName(): void {
-        this.isEditing.name = !this.isEditing.name;
-        if (!this.isEditing.name) {
+        this.isEditingName = !this.isEditingName;
+        if (!this.isEditingName) {
             this.updateOrganizationField('name');
         }
     }
@@ -72,8 +70,8 @@ export class OrganizationTableComponent extends BaseComponent implements OnInit 
      * Toggles the editing state of the organization address.
      */
     toggleAddress(): void {
-        this.isEditing.address = !this.isEditing.address;
-        if (!this.isEditing.address) {
+        this.isEditingAddress = !this.isEditingAddress;
+        if (!this.isEditingAddress) {
             this.updateOrganizationField('address');
         }
     }

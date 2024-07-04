@@ -10,9 +10,8 @@
                     id="org-name-input"
                     [(ngModel)]="organization.name"
                     pInputText
-                    [disabled]="!isEditing.name"
+                    [disabled]="!isEditingName"
                     class="w-40"
-                    style="width: 100%;"
             />
           </span>
           <button
@@ -20,23 +19,23 @@
                   pRipple
                   class="p-button-rounded button-secondary mx-2"
                   (click)="toggleName()"
-                  pTooltip="{{ isEditing.name ? 'Finish Editing' : 'Edit' | translate }}"
+                  pTooltip="{{ isEditingName ? 'Finish Editing' : 'Edit' | translate }}"
                   tooltipPosition="bottom"
           >
-            <span class="pi" [ngClass]="{ 'pi-pencil': !isEditing.name, 'pi-check': isEditing.name }"></span>
+            <span class="pi" [ngClass]="{ 'pi-pencil': !isEditingName, 'pi-check': isEditingName }"></span>
           </button>
         </div>
       </li>
       <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
         <div class="text-500 w-6 md:w-2 font-medium">{{ 'OrganizationManagement.Organization Address' | translate }}</div>
         <div class="text-700 w-5 flex-order-0 flex align-items-center">
-          <span class="p-float-label w-6 md:w-10" style="flex-grow: 1;">
+          <span class="p-float-label w-6 md:w-10 flex-grow">
             <textarea
                     [(ngModel)]="organization.address"
                     pInputTextarea
-                    [disabled]="!isEditing.address"
-                    rows="5"
-                    cols="30"
+                    [disabled]="!isEditingAddress"
+                    rows="7"
+                    cols="60"
                     placeholder="{{ 'OrganizationManagement.Your Address' | translate }}"
                     class="p-inputtextarea p-inputtext p-component p-element w-40"
             ></textarea>
@@ -46,10 +45,10 @@
                   pRipple
                   class="p-button-rounded button-secondary mx-2"
                   (click)="toggleAddress()"
-                  pTooltip="{{ isEditing.address ? 'Finish Editing' : 'Edit' | translate }}"
+                  pTooltip="{{ isEditingAddress ? 'Finish Editing' : 'Edit' | translate }}"
                   tooltipPosition="bottom"
           >
-            <span class="pi" [ngClass]="{ 'pi-pencil': !isEditing.address, 'pi-check': isEditing.address }"></span>
+            <span class="pi" [ngClass]="{ 'pi-pencil': !isEditingAddress, 'pi-check': isEditingAddress }"></span>
           </button>
         </div>
       </li>
