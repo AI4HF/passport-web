@@ -5,7 +5,7 @@
       <div class="inline-flex align-items-center">
                 <span class="p-input-icon-left flex-auto mx-2">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="filter(dt, $event)" placeholder="{{ 'Search' | translate }}" class="w-full" style="border-radius: 2rem"/>
+                    <input pInputText type="text" (input)="filter(dt, $event)" placeholder="{{ 'Search' | translate }}" class="w-full rounded-border"/>
                 </span>
         <button pButton pRipple icon="pi pi-plus" class="p-button-rounded button-secondary mx-2" (click)="createQuestion()" pTooltip="{{ 'SurveyManagement.Create Question' | translate }}" tooltipPosition="bottom"></button>
       </div>
@@ -13,23 +13,23 @@
     <p-table #dt [value]="surveyList" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['surveyId', 'question', 'answer', 'category']" [sortField]="'question'">
       <ng-template pTemplate="header">
         <tr>
-          <th [pSortableColumn]="'surveyId'" style="min-width:10rem" class="white-space-nowrap">
+          <th [pSortableColumn]="'surveyId'" class="white-space-nowrap min-width-10rem">
             {{ 'StudyManagement.ID' | translate }}
             <p-sortIcon [field]="'surveyId'"></p-sortIcon>
           </th>
-          <th [pSortableColumn]="'question'" style="min-width:10rem" class="white-space-nowrap">
+          <th [pSortableColumn]="'question'" class="white-space-nowrap min-width-10rem">
             {{ 'SurveyManagement.Question' | translate }}
             <p-sortIcon [field]="'question'"></p-sortIcon>
           </th>
-          <th [pSortableColumn]="'answer'" style="min-width:10rem" class="white-space-nowrap">
+          <th [pSortableColumn]="'answer'" class="white-space-nowrap min-width-10rem">
             {{ 'SurveyManagement.Answer' | translate }}
             <p-sortIcon [field]="'answer'"></p-sortIcon>
           </th>
-          <th [pSortableColumn]="'category'" style="min-width:10rem" class="white-space-nowrap">
+          <th [pSortableColumn]="'category'" class="white-space-nowrap min-width-10rem">
             {{ 'SurveyManagement.Category' | translate }}
             <p-sortIcon [field]="'category'"></p-sortIcon>
           </th>
-          <th [pSortableColumn]="'study'" style="min-width:10rem" class="white-space-nowrap">
+          <th [pSortableColumn]="'study'" class="white-space-nowrap min-width-10rem">
             {{ 'SurveyManagement.Study' | translate }}
             <p-sortIcon [field]="'study'"></p-sortIcon>
           </th>

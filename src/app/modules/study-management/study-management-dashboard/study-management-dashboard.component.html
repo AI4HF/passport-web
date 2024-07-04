@@ -6,7 +6,7 @@
               <span class="p-input-icon-left flex-auto mx-2">
                   <i class="pi pi-search"></i>
                   <input pInputText type="text" (input)="filter(dt, $event)" placeholder="{{ 'Search' | translate }}"
-                         class="w-full" style="border-radius: 2rem"/>
+                         class="w-full rounded-border"/>
               </span>
                 <button pButton pRipple icon="pi pi-plus" class="p-button-rounded button-secondary mx-2" (click)="createStudy()"
                         pTooltip="{{ 'StudyManagement.New Study' | translate }}" tooltipPosition="bottom"></button>
@@ -20,14 +20,14 @@
             <ng-template pTemplate="header">
                 <tr>
                     <!-- Study ID -->
-                    <th [pSortableColumn]="'id'" style="min-width:10rem"
-                        class="white-space-nowrap">
+                    <th [pSortableColumn]="'id'"
+                        class="white-space-nowrap min-width-10rem">
                         {{ 'StudyManagement.ID' | translate }}
                         <p-sortIcon [field]="'id'"></p-sortIcon>
                     </th>
                     <!-- Study Name -->
-                    <th [pSortableColumn]="'name'" style="min-width:10rem"
-                        class="white-space-nowrap">
+                    <th [pSortableColumn]="'name'"
+                        class="white-space-nowrap min-width-10rem">
                         {{ 'StudyManagement.Name' | translate }}
                         <p-sortIcon [field]="'name'"></p-sortIcon>
                     </th>

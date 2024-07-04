@@ -9,7 +9,6 @@
                         id="org-name"
                         pInputText
                         placeholder="{{ 'OrganizationManagement.Enter organization name' | translate }}"
-                        style="width: 100%;"
                         type="text"
                 />
             </div>
@@ -22,17 +21,15 @@
                         id="org-address"
                         pInputTextarea
                         placeholder="{{ 'OrganizationManagement.Enter address' | translate }}"
-                        rows="3"
-                        style="width: 100%; height: 150px;"
+                        rows="6"
                 ></textarea>
             </div>
         </div>
-        <div style="margin-bottom: 1rem;"></div>
-        <p-footer class="dialog-footer">
-            <div class="flex justify-content-between">
-                <button icon="pi pi-check" label="{{ 'Save' | translate }}" pButton type="submit" class="p-button-primary"></button>
-                <button (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton type="button" class="p-button-primary"></button>
-            </div>
-        </p-footer>
+        <div class="flex justify-content-between">
+            <button class="p-button-primary" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton
+                    type="submit"></button>
+            <button (click)="closeDialog()" class="p-button-primary" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton
+                    type="button"></button>
+        </div>
     </form>
 </p-dialog>

@@ -15,21 +15,20 @@
                 <p-dropdown
                         formControlName="role"
                         [options]="roles"
+                        optionLabel="name"
+                        optionValue="value"
                         placeholder="{{ 'OrganizationManagement.Select a role' | translate }}"
                 ></p-dropdown>
             </div>
-            <div class="p-field">
+            <div class="p-field margin-bottom-1rem">
                 <label for="email">{{ 'OrganizationManagement.Email' | translate }}</label>
                 <input formControlName="email" id="email" pInputText placeholder="{{ 'OrganizationManagement.Enter email' | translate }}" type="email" style="width: 100%;" />
             </div>
         </div>
-        <div style="margin-bottom: 1rem;"></div>
-        <p-footer class="dialog-footer">
-            <div class="flex justify-content-between">
-                <button type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton class="p-button-primary"></button>
-                <button type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton class="p-button-primary"></button>
-            </div>
-        </p-footer>
+        <div class="flex justify-content-between">
+            <button type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton class="p-button-primary"></button>
+            <button type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton class="p-button-primary"></button>
+        </div>
     </form>
 </p-dialog>
 

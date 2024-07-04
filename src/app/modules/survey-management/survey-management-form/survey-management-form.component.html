@@ -9,7 +9,6 @@
                 formControlName="question"
                 placeholder="{{ 'SurveyManagement.Enter the question' | translate }}"
                 type="text"
-                style="width: 100%;"
         />
       </div>
       <div class="p-field">
@@ -19,10 +18,9 @@
                 pInputTextarea
                 formControlName="answer"
                 placeholder="{{ 'SurveyManagement.Enter the answer' | translate }}"
-                rows="3"
+                rows="4"
                 cols="30"
                 class="p-inputtextarea p-inputtext p-component p-element"
-                style="width: 100%; height: 150px;"
         ></textarea>
       </div>
       <div class="p-field">
@@ -35,7 +33,7 @@
                 [forceSelection]="false"
         ></p-autoComplete>
       </div>
-      <div class="p-field" *ngIf="!isUpdateMode">
+      <div class="p-field margin-bottom-1rem" *ngIf="!isUpdateMode">
         <label for="study">{{ 'SurveyManagement.Study' | translate }}</label>
         <p-dropdown
                 formControlName="study"
@@ -45,13 +43,10 @@
         ></p-dropdown>
       </div>
     </div>
-    <div style="margin-bottom: 1rem;"></div>
-    <p-footer class="dialog-footer">
       <div class="flex justify-content-between">
         <button pButton type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" class="p-button-primary"></button>
         <button pButton type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" class="p-button-primary"></button>
       </div>
-    </p-footer>
   </form>
 </p-dialog>
 

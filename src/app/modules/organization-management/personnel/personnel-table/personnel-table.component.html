@@ -5,8 +5,7 @@
             <div class="inline-flex align-items-center">
         <span class="p-input-icon-left flex-auto mx-2">
           <i class="pi pi-search"></i>
-          <input (input)="filter(dt, $event)" class="w-full" pInputText placeholder="{{ 'Search' | translate }}"
-                 style="border-radius: 2rem" type="text"/>
+          <input (input)="filter(dt, $event)" class="w-full rounded-border" pInputText placeholder="{{ 'Search' | translate }}" type="text"/>
         </span>
                 <button (click)="createPersonnel()" class="p-button-rounded button-secondary mx-2" icon="pi pi-plus" pButton
                         pRipple
