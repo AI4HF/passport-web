@@ -1,0 +1,67 @@
+<div class="col-12">
+  <div class="card p-3">
+    <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
+      <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'SurveyManagement.Survey Management' | translate }}</div>
+      <div class="inline-flex align-items-center">
+                <span class="p-input-icon-left flex-auto mx-2">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="filter(dt, $event)" placeholder="{{ 'Search' | translate }}" class="w-full rounded-border"/>
+                </span>
+        <button pButton pRipple icon="pi pi-plus" class="p-button-rounded button-secondary mx-2" (click)="createQuestion()" pTooltip="{{ 'SurveyManagement.Create Question' | translate }}" tooltipPosition="bottom"></button>
+      </div>
+    </div>
+    <p-table #dt [value]="surveyList" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['surveyId', 'question', 'answer', 'category']" [sortField]="'question'">
+      <ng-template pTemplate="header">
+        <tr>
+          <th [pSortableColumn]="'surveyId'" class="white-space-nowrap min-width-10rem">
+            {{ 'StudyManagement.ID' | translate }}
+            <p-sortIcon [field]="'surveyId'"></p-sortIcon>
+          </th>
+          <th [pSortableColumn]="'question'" class="white-space-nowrap min-width-10rem">
+            {{ 'SurveyManagement.Question' | translate }}
+            <p-sortIcon [field]="'question'"></p-sortIcon>
+          </th>
+          <th [pSortableColumn]="'answer'" class="white-space-nowrap min-width-10rem">
+            {{ 'SurveyManagement.Answer' | translate }}
+            <p-sortIcon [field]="'answer'"></p-sortIcon>
+          </th>
+          <th [pSortableColumn]="'category'" class="white-space-nowrap min-width-10rem">
+            {{ 'SurveyManagement.Category' | translate }}
+            <p-sortIcon [field]="'category'"></p-sortIcon>
+          </th>
+          <th [pSortableColumn]="'study'" class="white-space-nowrap min-width-10rem">
+            {{ 'SurveyManagement.Study' | translate }}
+            <p-sortIcon [field]="'study'"></p-sortIcon>
+          </th>
+          <th>
+            {{ 'Actions' | translate }}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-survey>
+        <tr>
+          <td class="cursor-pointer">
+            <span>{{ survey.surveyId }}</span>
+          </td>
+          <td class="cursor-pointer">
+            <span>{{ survey.question }}</span>
+          </td>
+          <td class="cursor-pointer">
+            <span>{{ survey.answer }}</span>
+          </td>
+          <td class="cursor-pointer">
+            <span>{{ survey.category }}</span>
+          </td>
+          <td class="cursor-pointer">
+            <span>{{ getStudyName(survey.studyId) }}</span>
+          </td>
+          <td>
+            <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="editQuestion(survey)" pTooltip="{{ 'SurveyManagement.Edit Question' | translate }}" tooltipPosition="bottom"></button>
+            <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deleteQuestion(survey.surveyId)" pTooltip="{{ 'SurveyManagement.Delete Question' | translate }}" tooltipPosition="bottom"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<app-survey-management-form [displayForm]="displayForm" [surveyId]="selectedSurveyId" (formClosed)="onFormClosed()"></app-survey-management-form>

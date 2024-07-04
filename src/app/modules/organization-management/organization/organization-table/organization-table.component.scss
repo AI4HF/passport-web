@@ -1,0 +1,13 @@
+.footer {
+  display: flex;
+  justify-content: space-between; /* Distribute items evenly along the main axis */
+}
+
+.button-container {
+  flex: 1;
+  margin-right: 30%;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}

@@ -1,6 +1,6 @@
 import {Injectable, Injector} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, map, Observable, of} from "rxjs";
+import {catchError, map, Observable} from "rxjs";
 import {Survey} from "../../shared/models/survey.model";
 import {environment} from "../../../environments/environment";
 
@@ -17,6 +17,24 @@ export class SurveyService {
 
     constructor(private injector: Injector) {
         this.httpClient = injector.get(HttpClient);
+    }
+
+    /**
+     * Retrieves all surveys in database
+     * @return {Observable<Survey[]>}
+     */
+    getAllSurveys(): Observable<Survey[]> {
+        const url = `${this.endpoint}`;
+        return this.httpClient.get<Survey[]>(url)
+            .pipe(
+                map((response: any) =>{
+                    return response.map((survey: any) => new Survey(survey));
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    throw error;
+                })
+            );
     }
 
     /**

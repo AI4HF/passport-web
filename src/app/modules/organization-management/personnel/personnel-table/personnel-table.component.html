@@ -1,0 +1,64 @@
+<div class="col-12">
+    <div class="card p-mt-3">
+        <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'OrganizationManagement.Organization Personnel' | translate }}</div>
+            <div class="inline-flex align-items-center">
+        <span class="p-input-icon-left flex-auto mx-2">
+          <i class="pi pi-search"></i>
+          <input (input)="filter(dt, $event)" class="w-full rounded-border" pInputText placeholder="{{ 'Search' | translate }}" type="text"/>
+        </span>
+                <button (click)="createPersonnel()" class="p-button-rounded button-secondary mx-2" icon="pi pi-plus" pButton
+                        pRipple
+                        pTooltip="{{ 'OrganizationManagement.Create Personnel' | translate }}"
+                        tooltipPosition="bottom"></button>
+            </div>
+        </div>
+        <p-table
+            #dt
+            [columns]="columns"
+            [loading]="loading"
+            [paginator]="true"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            [rows]="10"
+            [totalRecords]="personnelList?.length"
+            [value]="personnelList"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="firstName">{{ 'OrganizationManagement.First Name' | translate }}
+                        <p-sortIcon field="firstName"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="lastName">{{ 'OrganizationManagement.Last Name' | translate }}
+                        <p-sortIcon field="lastName"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="role">{{ 'OrganizationManagement.Role' | translate }}
+                        <p-sortIcon field="role"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="email">{{ 'OrganizationManagement.Email' | translate }}
+                        <p-sortIcon field="email"></p-sortIcon>
+                    </th>
+                    <th>{{ 'Actions' | translate }}</th>
+                </tr>
+            </ng-template>
+            <ng-template let-personnel pTemplate="body">
+                <tr>
+                    <td>{{ personnel.firstName }}</td>
+                    <td>{{ personnel.lastName }}</td>
+                    <td>{{ toReadableRole(personnel.role) }}</td>
+                    <td>{{ personnel.email }}</td>
+                    <td>
+                        <button (click)="editPersonnel(personnel)" class="p-button-text p-button-rounded p-ripple" icon="pi pi-pencil" pButton
+                                pRipple pTooltip="{{ 'Edit' | translate }}"
+                                tooltipPosition="bottom" type="button"></button>
+                        <button (click)="deletePersonnel(personnel.personId)" class="p-button-text p-button-rounded p-ripple" icon="pi pi-trash" pButton
+                                pRipple
+                                pTooltip="{{ 'Delete' | translate }}" tooltipPosition="bottom"
+                                type="button"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<app-personnel-form (formClosed)="onFormClosed()" [displayForm]="displayForm"
+                    [personnelId]="selectedPersonnelId"></app-personnel-form>
