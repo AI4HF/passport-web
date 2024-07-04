@@ -27,7 +27,7 @@
                         inputId="rememberMe" />
                 <label for="rememberMe">{{'Remember Me' | translate}}</label>
             </div>
-            <button pButton pRipple label="{{'Login' | translate}}" class="w-full" type="submit"></button>
+            <button pButton pRipple label="{{'Login' | translate}}" class="w-full" type="submit" [disabled]="!loginForm.valid"></button>
         </form>
     </div>
 </div>

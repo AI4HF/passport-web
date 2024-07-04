@@ -1,6 +1,6 @@
-import { Component, Injector, OnInit } from '@angular/core';
-import { BaseComponent } from "../../shared/components/base.component";
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {Component, Injector, OnInit} from '@angular/core';
+import {BaseComponent} from "../../shared/components/base.component";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     templateUrl: './login.component.html',
@@ -34,24 +34,16 @@ export class LoginComponent extends BaseComponent implements OnInit {
     }
 
     login() {
-        if (this.loginForm.valid) {
-            const { username, password, rememberMe } = this.loginForm.value;
-            // TODO: Implement actual authentication logic here
-            const token = 'mock';
+        const {username, password, rememberMe} = this.loginForm.value;
+        // TODO: Implement actual authentication logic here
+        const token = 'mock';
 
-            if (rememberMe) {
-                localStorage.setItem('token', token);
-            } else {
-                sessionStorage.setItem('token', token);
-            }
-            this.router.navigate(['/study-management']);
+        if (rememberMe) {
+            localStorage.setItem('token', token);
         } else {
-            this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: this.translateService.instant('Please enter valid credentials.')
-            });
+            sessionStorage.setItem('token', token);
         }
+        this.router.navigate(['/study-management']);
     }
 }
 
