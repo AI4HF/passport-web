@@ -42,13 +42,8 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
      * Initializes the component.
      */
     ngOnInit() {
-        const organizationId = this.organizationStateService.getOrganizationId();
-        if (organizationId !== null) {
-            this.loadPersonnelList(organizationId);
-        }
-
         this.organizationStateService.organizationId$.pipe(takeUntil(this.destroy$)).subscribe(id => {
-            if (id) {
+            if (id !== null) {
                 this.loadPersonnelList(id);
             }
         });
