@@ -43,12 +43,12 @@ export class AppMenuComponent extends BaseComponent implements OnInit, OnDestroy
                     {
                         label: this.translateService.instant('Organization'),
                         icon: 'pi pi-building',
-                        routerLink: ['/organization-management/organization/table']
+                        routerLink: ['/organization-management/organization']
                     },
                     ...(this.currentOrganizationId ? [{
                         label: this.translateService.instant('Personnel'),
                         icon: 'pi pi-users',
-                        routerLink: ['/organization-management/personnel/table']
+                        routerLink: ['/organization-management/personnel']
                     }] : [])
                 ]
             },

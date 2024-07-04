@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { OrganizationTableComponent } from './organization-table/organization-table.component';
 
 const routes: Routes = [
-    { path: 'table', component: OrganizationTableComponent }
+    { path: '', component: OrganizationTableComponent }
 ];
 
 @NgModule({

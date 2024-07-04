@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PersonnelTableComponent } from './personnel-table/personnel-table.component';
 
 const routes: Routes = [
-    { path: 'table', component: PersonnelTableComponent }
+    { path: '', component: PersonnelTableComponent }
 ];
 
 @NgModule({

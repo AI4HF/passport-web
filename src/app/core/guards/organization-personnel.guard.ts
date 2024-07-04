@@ -12,7 +12,7 @@ export const organizationPersonnelGuard: CanActivateFn = () => {
 
     const organizationId = organizationStateService.getOrganizationId();
     if (!organizationId) {
-        router.navigate(['/organization-management/organization/table']);
+        router.navigate(['/organization-management/organization']);
         return false;
     }
     return true;
