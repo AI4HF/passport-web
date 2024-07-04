@@ -19,8 +19,6 @@ export class OrganizationTableComponent extends BaseComponent implements OnInit 
     isEditingAddress = false;
     /** Determines if the form is displayed */
     displayForm: boolean = false;
-    /** The ID of the selected organization for editing */
-    selectedOrganizationId: number = null;
 
     /**
      * Constructor to inject dependencies.
@@ -96,7 +94,6 @@ export class OrganizationTableComponent extends BaseComponent implements OnInit 
      * Shows the form for creating or updating an organization.
      */
     showCreateUpdateDialog(): void {
-        this.selectedOrganizationId = this.organization ? this.organization.id : null;
         this.displayForm = true;
     }
 
