@@ -4,20 +4,30 @@ import { BaseComponent } from "../shared/components/base.component";
 import { MenuItem } from 'primeng/api';
 
 /**
- * Menu component which handles the items on the header
+ * Menu component which handles the navigation header connections.
  */
 @Component({
     selector: 'app-menu',
     templateUrl: './app.menu.component.html'
 })
 export class AppMenuComponent extends BaseComponent implements OnInit, OnDestroy {
+    /**
+     * List of navigation buttons.
+     */
     model: MenuItem[] = [];
+    /**
+     * CurrentOrganizationID used to determine if the Personnel tab should be accessible.
+     * @private
+     */
     private currentOrganizationId: number | null = null;
 
     constructor(private injector: Injector, private cdr: ChangeDetectorRef) {
         super(injector);
     }
 
+    /**
+     * Initializer which also handles the check to see if there is an existing organization ID, and then stores it.
+     */
     ngOnInit() {
         this.organizationStateService.organizationId$.subscribe(id => {
             this.currentOrganizationId = id;
