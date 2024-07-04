@@ -23,7 +23,7 @@ export class OrganizationFormComponent extends BaseComponent implements OnInit, 
     /** Form group for organization form controls */
     organizationForm: FormGroup;
     /** The selected organization to be edited */
-    selectedOrganization: Organization = new Organization({ name: '', address: '' });
+    selectedOrganization: Organization = new Organization({});
 
     /**
      * Constructor to inject dependencies.

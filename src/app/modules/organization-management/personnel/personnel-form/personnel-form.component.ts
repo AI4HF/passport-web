@@ -22,7 +22,7 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
     @Output() formClosed = new EventEmitter<void>();
 
     /** The selected personnel to be edited */
-    selectedPersonnel: Personnel = new Personnel({ firstName: '', lastName: '', role: '', email: '' });
+    selectedPersonnel: Personnel = new Personnel({});
     /** Form group for personnel form controls */
     personnelForm: FormGroup;
     roles: any[] = Object.keys(Role).map(key => ({
