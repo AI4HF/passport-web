@@ -57,7 +57,6 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
         this.personnelService.getPersonnelByOrganizationId(organizationId).pipe(takeUntil(this.destroy$)).subscribe({
             next: personnel => {
                 this.personnelList = personnel;
-                this.loading = false;
             },
             error: (error) => {
                 this.loading = false;
