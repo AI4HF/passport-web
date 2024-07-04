@@ -1,53 +1,54 @@
-<p-dialog [(visible)]="displayForm" [modal]="true" header="{{ 'SurveyManagement.Question Form' | translate }}" (onHide)="closeDialog()" [style]="{width: '450px'}">
-  <form [formGroup]="surveyForm" (ngSubmit)="saveQuestion()">
-    <div class="p-fluid">
-      <div class="p-field">
-        <label for="question">{{ 'SurveyManagement.Question' | translate }}</label>
-        <input
-                id="question"
-                pInputText
-                formControlName="question"
-                placeholder="{{ 'SurveyManagement.Enter the question' | translate }}"
-                type="text"
-        />
-      </div>
-      <div class="p-field">
-        <label for="answer">{{ 'SurveyManagement.Answer' | translate }}</label>
-        <textarea
-                id="answer"
-                pInputTextarea
-                formControlName="answer"
-                placeholder="{{ 'SurveyManagement.Enter the answer' | translate }}"
-                rows="4"
-                cols="30"
-                class="p-inputtextarea p-inputtext p-component p-element"
-        ></textarea>
-      </div>
-      <div class="p-field">
-        <label for="category">{{ 'SurveyManagement.Category' | translate }}</label>
-        <p-autoComplete
-                formControlName="category"
-                [suggestions]="filteredCategories"
-                (completeMethod)="filterCategory($event)"
-                placeholder="{{ 'SurveyManagement.Select or enter a category' | translate }}"
-                [forceSelection]="false"
-        ></p-autoComplete>
-      </div>
-      <div class="p-field margin-bottom-1rem" *ngIf="!isUpdateMode">
-        <label for="study">{{ 'SurveyManagement.Study' | translate }}</label>
-        <p-dropdown
-                formControlName="study"
-                [options]="studies"
-                optionLabel="name"
-                placeholder="{{ 'SurveyManagement.Select a study' | translate }}"
-        ></p-dropdown>
-      </div>
-    </div>
-      <div class="flex justify-content-between">
-        <button pButton type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" class="p-button-primary"></button>
-        <button pButton type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" class="p-button-primary"></button>
-      </div>
-  </form>
+<p-dialog (onHide)="closeDialog()" [(visible)]="displayForm" [modal]="true"
+          [style]="{width: '30rem'}" header="{{ 'SurveyManagement.Question Form' | translate }}">
+    <form (ngSubmit)="saveQuestion()" [formGroup]="surveyForm">
+        <div class="p-fluid">
+            <div class="p-field">
+                <label for="question">{{ 'SurveyManagement.Question' | translate }}</label>
+                <input
+                        formControlName="question"
+                        id="question"
+                        pInputText
+                        placeholder="{{ 'SurveyManagement.Enter the question' | translate }}"
+                        type="text"
+                />
+            </div>
+            <div class="p-field">
+                <label for="answer">{{ 'SurveyManagement.Answer' | translate }}</label>
+                <textarea
+                        class="p-inputtextarea p-inputtext p-component p-element"
+                        cols="30"
+                        formControlName="answer"
+                        id="answer"
+                        pInputTextarea
+                        placeholder="{{ 'SurveyManagement.Enter the answer' | translate }}"
+                        rows="4"
+                ></textarea>
+            </div>
+            <div class="p-field">
+                <label for="category">{{ 'SurveyManagement.Category' | translate }}</label>
+                <p-autoComplete
+                        (completeMethod)="filterCategory($event)"
+                        [forceSelection]="false"
+                        [suggestions]="filteredCategories"
+                        formControlName="category"
+                        placeholder="{{ 'SurveyManagement.Select or enter a category' | translate }}"
+                ></p-autoComplete>
+            </div>
+            <div *ngIf="!isUpdateMode" class="p-field margin-bottom-1rem">
+                <label for="study">{{ 'SurveyManagement.Study' | translate }}</label>
+                <p-dropdown
+                        [options]="studies"
+                        formControlName="study"
+                        optionLabel="name"
+                        placeholder="{{ 'SurveyManagement.Select a study' | translate }}"
+                ></p-dropdown>
+            </div>
+        </div>
+        <div class="flex justify-content-between">
+            <button class="p-button-primary" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton
+                    type="submit"></button>
+            <button (click)="closeDialog()" class="p-button-primary" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton
+                    type="button"></button>
+        </div>
+    </form>
 </p-dialog>
-
-

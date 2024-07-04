@@ -1,10 +1,10 @@
-import { Component, OnInit, Injector, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Survey } from '../../../shared/models/survey.model';
-import { AutoCompleteCompleteEvent } from "primeng/autocomplete";
-import { takeUntil } from 'rxjs/operators';
-import { BaseComponent } from '../../../shared/components/base.component';
-import { Study } from '../../../shared/models/study.model';
+import {Component, EventEmitter, Injector, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Survey} from '../../../shared/models/survey.model';
+import {AutoCompleteCompleteEvent} from "primeng/autocomplete";
+import {takeUntil} from 'rxjs/operators';
+import {BaseComponent} from '../../../shared/components/base.component';
+import {Study} from '../../../shared/models/study.model';
 
 /**
  * Component for creating or updating survey questions.
@@ -30,9 +30,9 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
     isUpdateMode: boolean = false;
     /** List of survey categories */
     categories: any[] = [
-        { label: 'Testing', value: 'Testing' },
-        { label: 'Robustness', value: 'Robustness' },
-        { label: 'Explainability', value: 'Explainability' }
+        {label: 'Testing', value: 'Testing'},
+        {label: 'Robustness', value: 'Robustness'},
+        {label: 'Explainability', value: 'Explainability'}
     ];
     /** List of filtered categories */
     filteredCategories: any[];
@@ -74,6 +74,7 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
      * Loads the survey details if a survey ID is provided.
      */
     loadSurvey() {
+        // If no studies are available to match the new surveys with, the process of creating one aborts.
         if (this.studies.length === 0) {
             this.messageService.add({
                 severity: 'warn',
@@ -117,7 +118,10 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
             question: new FormControl(this.selectedQuestion.question, Validators.required),
             answer: new FormControl(this.selectedQuestion.answer, Validators.required),
             category: new FormControl(this.selectedQuestion.category, Validators.required),
-            study: new FormControl({ value: this.selectedQuestion.studyId, disabled: this.isUpdateMode }, Validators.required)
+            study: new FormControl({
+                value: this.selectedQuestion.studyId,
+                disabled: this.isUpdateMode
+            }, Validators.required)
         });
     }
 
@@ -144,7 +148,7 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
         }
 
         if (this.newQuestion) {
-            const newSurvey: Survey = new Survey({ ...formValues });
+            const newSurvey: Survey = new Survey({...formValues});
             this.surveyService.createSurvey(newSurvey)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
@@ -166,7 +170,7 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
                     }
                 });
         } else {
-            const updatedSurvey: Survey = new Survey({ surveyId: this.selectedQuestion.surveyId, ...formValues });
+            const updatedSurvey: Survey = new Survey({surveyId: this.selectedQuestion.surveyId, ...formValues});
             this.surveyService.updateSurvey(updatedSurvey)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
@@ -211,9 +215,3 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
         this.filteredCategories = this.categories.filter(category => category.label.toLowerCase().includes(query.toLowerCase()));
     }
 }
-
-
-
-
-
-

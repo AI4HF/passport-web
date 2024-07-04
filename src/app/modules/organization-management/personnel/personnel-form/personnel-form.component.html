@@ -1,14 +1,14 @@
 <p-dialog [(visible)]="displayForm" [modal]="true" header="{{ 'OrganizationManagement.Personnel Form' | translate }}" (onHide)="closeDialog()"
-          [style]="{width: '350px'}">
+          [style]="{width: '25rem'}">
     <form [formGroup]="personnelForm" (ngSubmit)="savePersonnel()">
         <div class="p-fluid">
             <div class="p-field">
                 <label for="firstName">{{ 'OrganizationManagement.First Name' | translate }}</label>
-                <input formControlName="firstName" id="firstName" pInputText placeholder="{{ 'OrganizationManagement.Enter first name' | translate }}" type="text" style="width: 100%;" />
+                <input formControlName="firstName" id="firstName" pInputText placeholder="{{ 'OrganizationManagement.Enter first name' | translate }}" type="text" />
             </div>
             <div class="p-field">
                 <label for="lastName">{{ 'OrganizationManagement.Last Name' | translate }}</label>
-                <input formControlName="lastName" id="lastName" pInputText placeholder="{{ 'OrganizationManagement.Enter last name' | translate }}" type="text" style="width: 100%;" />
+                <input formControlName="lastName" id="lastName" pInputText placeholder="{{ 'OrganizationManagement.Enter last name' | translate }}" type="text" />
             </div>
             <div class="p-field">
                 <label for="role">{{ 'OrganizationManagement.Role' | translate }}</label>
@@ -22,7 +22,7 @@
             </div>
             <div class="p-field margin-bottom-1rem">
                 <label for="email">{{ 'OrganizationManagement.Email' | translate }}</label>
-                <input formControlName="email" id="email" pInputText placeholder="{{ 'OrganizationManagement.Enter email' | translate }}" type="email" style="width: 100%;" />
+                <input formControlName="email" id="email" pInputText placeholder="{{ 'OrganizationManagement.Enter email' | translate }}" type="email" />
             </div>
         </div>
         <div class="flex justify-content-between">
