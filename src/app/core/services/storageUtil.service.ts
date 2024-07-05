@@ -25,4 +25,12 @@ export class StorageUtil {
     retrieveToken(): string | null {
         return localStorage.getItem('token') || sessionStorage.getItem('token');
     }
+
+    /**
+     * Removes the token from both localStorage and sessionStorage.
+     */
+    removeToken(): void {
+        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
+    }
 }

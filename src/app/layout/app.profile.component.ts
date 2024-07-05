@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
+import {StorageUtil} from "../core/services/storageUtil.service";
 
 @Component({
     selector: 'app-profile',
@@ -7,7 +8,6 @@ import {Router} from "@angular/router";
     styleUrls: ['./app.profile.component.scss']
 })
 export class AppProfileComponent {
-
     /**
      * Menu items displayed under user name
      */
@@ -17,7 +17,7 @@ export class AppProfileComponent {
         {value: 'logout', label: 'Logout', icon: 'pi pi-power-off'}
     ]
 
-    constructor(private router: Router) {
+    constructor(private router: Router, private storageUtilService:StorageUtil) {
     }
 
 
@@ -46,8 +46,7 @@ export class AppProfileComponent {
      * Clears any session data and returns to the main page
      */
     logout() {
-        localStorage.removeItem('token');
-        sessionStorage.removeItem('token');
+        this.storageUtilService.removeToken();
         this.router.navigate(['../login'])
     }
 }
