@@ -10,7 +10,7 @@ export const authGuard: CanActivateFn = () => {
     const router = inject(Router);
     const storageUtilService = new StorageUtil();
 
-    if (storageUtilService.retrieveToken()) {
+    if (!storageUtilService.retrieveToken()) {
         router.navigate(['/login']);
         return false;
     }
