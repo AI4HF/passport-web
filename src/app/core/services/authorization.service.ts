@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import {Observable, pipe, throwError} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import {Credentials} from "../../shared/models/credentials.model";
 import {AuthResponse} from "../../shared/models/authResponse.model";
