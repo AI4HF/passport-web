@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
+import {StorageUtil} from "../core/services/storageUtil.service";
 
 @Component({
     selector: 'app-profile',
@@ -7,7 +8,6 @@ import {Router} from "@angular/router";
     styleUrls: ['./app.profile.component.scss']
 })
 export class AppProfileComponent {
-
     /**
      * Menu items displayed under user name
      */
@@ -46,8 +46,7 @@ export class AppProfileComponent {
      * Clears any session data and returns to the main page
      */
     logout() {
-        localStorage.removeItem('token');
-        sessionStorage.removeItem('token');
+        StorageUtil.removeToken();
         this.router.navigate(['../login'])
     }
 }

@@ -12,6 +12,7 @@ import {SurveyService} from "../../core/services/survey.service";
 import {OrganizationService} from "../../core/services/organization.service";
 import {StudyPersonnelService} from "../../core/services/studyPersonnel.service";
 import {OrganizationStateService} from "../../core/services/organization-state.service";
+import {AuthorizationService} from "../../core/services/authorization.service";
 
 /**
  * Base component to provide common properties
@@ -43,6 +44,7 @@ export abstract class BaseComponent implements OnDestroy {
   organizationService: OrganizationService;
   studyPersonnelService: StudyPersonnelService;
   organizationStateService: OrganizationStateService;
+  authorizationService: AuthorizationService;
 
   constructor(injector: Injector){
     this.router = injector.get(Router);
@@ -58,6 +60,7 @@ export abstract class BaseComponent implements OnDestroy {
     this.organizationService = injector.get(OrganizationService);
     this.studyPersonnelService = injector.get(StudyPersonnelService);
     this.organizationStateService = injector.get(OrganizationStateService);
+    this.authorizationService = injector.get(AuthorizationService);
   }
 
   /**
