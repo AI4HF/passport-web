@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import {Observable, pipe, throwError} from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import {Credentials} from "../../shared/models/credentials.model";
+import {AuthResponse} from "../../shared/models/authResponse.model";
 
 /**
  * Service to manage the Authorization Request
@@ -20,7 +21,10 @@ export class AuthorizationService {
         this.httpClient = injector.get(HttpClient);
     }
 
-
+    /**
+     * Login request service implementation
+     * @param creds Credential pair of the user
+     */
     login(creds:Credentials): Observable<any> {
         const url = `${this.endpoint}/user/login`;
         const headers = new HttpHeaders({
@@ -29,11 +33,11 @@ export class AuthorizationService {
 
         return this.httpClient.post<any>(url, creds, { headers })
             .pipe(
-                map((response: any) => {
-                    return response.access_token;
+                map((response: AuthResponse) => {
+                    return response;
                 }),
                 catchError((error) => {
-                    console.log(error);
+                    console.error(error);
                     return throwError(error);
                 })
             );
