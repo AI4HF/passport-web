@@ -1,4 +1,10 @@
+/**
+ * Username-Password couple body for Login requests
+ */
 export class Credentials {
+    /**
+     * Username and password of the user
+     */
     username: string;
     password: string;
 
