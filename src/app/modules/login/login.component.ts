@@ -1,9 +1,8 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from "../../shared/components/base.component";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthorizationService } from '../../core/services/authorization.service';
 import { Credentials } from "../../shared/models/credentials.model";
-import { StorageUtil } from '../../core/services/storageUtil.service';
+import {takeUntil} from "rxjs/operators";
 
 /**
  * Login component which handles the main authorization prospects of the system.
@@ -18,13 +17,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
     /**
      * Constructor which sets up the parent component injections and the login form.
      * @param injector Element injector from Base Component.
-     * @param authorizationService Authorization HTTP requests.
-     * @param storageUtilService Utility service for handling token storage.
      */
     constructor(
-        protected injector: Injector,
-        private authorizationService: AuthorizationService,
-        private storageUtilService: StorageUtil
+        protected injector: Injector
     ) {
         super(injector);
         this.loginForm = new FormGroup({
@@ -52,7 +47,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
      * Remembered user check to skip the login process if necessary.
      */
     checkRememberedUser() {
-        const token = this.storageUtilService.retrieveToken();
+        const token = this.storageUtil.retrieveToken();
         if (token) {
             this.router.navigate(['/study-management']);
         }
@@ -63,10 +58,17 @@ export class LoginComponent extends BaseComponent implements OnInit {
      */
     login() {
         const { username, password, rememberMe } = this.loginForm.value;
-        this.authorizationService.login(new Credentials({ username, password })).subscribe(
-            token => {
-                this.storageUtilService.storeToken(token, rememberMe);
+        this.authorizationService.login(new Credentials({ username, password })).pipe(takeUntil(this.destroy$)).subscribe(
+            response => {
+                this.storageUtil.storeToken(response.access_token, rememberMe);
                 this.router.navigate(['/study-management']);
+            },
+            error => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: this.translateService.instant('Error'),
+                    detail: error.message
+                });
             }
         );
     }
