@@ -17,7 +17,7 @@ export class AppProfileComponent {
         {value: 'logout', label: 'Logout', icon: 'pi pi-power-off'}
     ]
 
-    constructor(private router: Router, private storageUtilService:StorageUtil) {
+    constructor(private router: Router) {
     }
 
 
@@ -46,7 +46,7 @@ export class AppProfileComponent {
      * Clears any session data and returns to the main page
      */
     logout() {
-        this.storageUtilService.removeToken();
+        StorageUtil.removeToken();
         this.router.navigate(['../login'])
     }
 }

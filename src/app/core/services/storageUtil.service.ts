@@ -13,7 +13,7 @@ export class StorageUtil {
      * @param token The token to store.
      * @param rememberMe Whether to remember the user across sessions.
      */
-    storeToken(token: string, rememberMe: boolean): void {
+    static storeToken(token: string, rememberMe: boolean): void {
         if (rememberMe) {
             localStorage.setItem('token', token);
         } else {
@@ -25,14 +25,14 @@ export class StorageUtil {
      * Retrieves the token from storage.
      * @returns The token from either localStorage or sessionStorage.
      */
-    retrieveToken(): string | null {
+    static retrieveToken(): string | null {
         return localStorage.getItem('token') || sessionStorage.getItem('token');
     }
 
     /**
      * Removes the token from both localStorage and sessionStorage.
      */
-    removeToken(): void {
+    static removeToken(): void {
         localStorage.removeItem('token');
         sessionStorage.removeItem('token');
     }

@@ -3,6 +3,7 @@ import { BaseComponent } from "../../shared/components/base.component";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Credentials } from "../../shared/models/credentials.model";
 import {takeUntil} from "rxjs/operators";
+import {StorageUtil} from "../../core/services/storageUtil.service";
 
 /**
  * Login component which handles the main authorization prospects of the system.
@@ -47,7 +48,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
      * Remembered user check to skip the login process if necessary.
      */
     checkRememberedUser() {
-        const token = this.storageUtil.retrieveToken();
+        const token = StorageUtil.retrieveToken();
         if (token) {
             this.router.navigate(['/study-management']);
         }
@@ -60,7 +61,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
         const { username, password, rememberMe } = this.loginForm.value;
         this.authorizationService.login(new Credentials({ username, password })).pipe(takeUntil(this.destroy$)).subscribe(
             response => {
-                this.storageUtil.storeToken(response.access_token, rememberMe);
+                StorageUtil.storeToken(response.access_token, rememberMe);
                 this.router.navigate(['/study-management']);
             },
             error => {

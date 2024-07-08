@@ -8,9 +8,8 @@ import { StorageUtil } from '../services/storageUtil.service';
  */
 export const authGuard: CanActivateFn = () => {
     const router = inject(Router);
-    const storageUtilService = new StorageUtil();
 
-    if (!storageUtilService.retrieveToken()) {
+    if (!StorageUtil.retrieveToken()) {
         router.navigate(['/login']);
         return false;
     }

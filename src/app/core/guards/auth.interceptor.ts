@@ -17,8 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
      * Interceptor which controls tasks related to token injection and authorization control on inner pages.
      */
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const storageUtilService = new StorageUtil();
-        const token = storageUtilService.retrieveToken();
+        const token = StorageUtil.retrieveToken();
         if (token) {
             req = req.clone({
                 setHeaders: {
@@ -34,7 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(
             catchError((error: HttpErrorResponse) => {
                 if (error.status === 401) {
-                    storageUtilService.removeToken();
+                    StorageUtil.removeToken();
                     this.router.navigate(['/login']);
                 }
                 return throwError(error);
