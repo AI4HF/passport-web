@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 
+/**
+ * Utilities used to keep outer components simple by handling the sessionStorage/localStorage logic
+ */
 @Injectable({
     providedIn: 'root'
 })
