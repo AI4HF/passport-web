@@ -108,5 +108,23 @@
     "Survey is deleted successfully": "Survey is deleted successfully",
     "FormInvalid": "Form is invalid",
     "NoStudies": "No studies available"
+  },
+  "ParameterManagement": {
+    "ID": "ID",
+    "Parameter Management": "Parameter Management",
+    "Create Parameter": "Create Parameter",
+    "Parameter Form": "Parameter Form",
+    "Name": "Name",
+    "Enter the name": "Enter the name",
+    "DataType": "Data Type",
+    "Enter the data type": "Enter the data type",
+    "Enter the description": "Enter the description",
+    "Description": "Description",
+    "Select or enter a description": "Select or enter a description",
+    "Edit Parameter": "Edit Parameter",
+    "Delete Parameter": "Delete Parameter",
+    "Parameter is updated successfully": "Parameter is updated successfully",
+    "Parameter is created successfully": "Parameter is created successfully",
+    "Parameter is deleted successfully": "Parameter is deleted successfully"
   }
 }

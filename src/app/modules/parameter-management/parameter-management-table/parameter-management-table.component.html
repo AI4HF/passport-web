@@ -1,0 +1,60 @@
+<div class="col-12">
+    <div class="card p-3">
+        <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'ParameterManagement.Parameter Management' | translate }}</div>
+            <div class="inline-flex align-items-center">
+                <span class="p-input-icon-left flex-auto mx-2">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="filter(dt, $event)" placeholder="{{ 'Search' | translate }}" class="w-full rounded-border"/>
+                </span>
+                <button pButton pRipple icon="pi pi-plus" class="p-button-rounded button-secondary mx-2" (click)="createParameter()" pTooltip="{{ 'ParameterManagement.Create Parameter' | translate }}" tooltipPosition="bottom"></button>
+            </div>
+        </div>
+        <p-table #dt [value]="parameterList" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['parameterId', 'name', 'dataType', 'description']" [sortField]="'name'">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th [pSortableColumn]="'parameterId'" class="white-space-nowrap min-width-10rem">
+                        {{ 'ParameterManagement.ID' | translate }}
+                        <p-sortIcon [field]="'parameterId'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'name'" class="white-space-nowrap min-width-10rem">
+                        {{ 'ParameterManagement.Name' | translate }}
+                        <p-sortIcon [field]="'Name'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'dataType'" class="white-space-nowrap min-width-10rem">
+                        {{ 'ParameterManagement.DataType' | translate }}
+                        <p-sortIcon [field]="'dataType'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'description'" class="white-space-nowrap min-width-10rem">
+                        {{ 'ParameterManagement.Description' | translate }}
+                        <p-sortIcon [field]="'description'"></p-sortIcon>
+                    </th>
+                    <th>
+                        {{ 'Actions' | translate }}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-parameter>
+                <tr>
+                    <td class="cursor-pointer">
+                        <span>{{ parameter.parameterId }}</span>
+                    </td>
+                    <td class="cursor-pointer">
+                        <span>{{ parameter.name }}</span>
+                    </td>
+                    <td class="cursor-pointer">
+                        <span>{{ parameter.dataType }}</span>
+                    </td>
+                    <td class="cursor-pointer">
+                        <span>{{ parameter.description }}</span>
+                    </td>
+                    <td>
+                        <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="editParameter(parameter)" pTooltip="{{ 'ParameterManagement.Edit Parameter' | translate }}" tooltipPosition="bottom"></button>
+                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deleteParameter(parameter.parameterId)" pTooltip="{{ 'ParameterManagement.Delete Parameter' | translate }}" tooltipPosition="bottom"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<app-parameter-management-form *ngIf="this.displayForm" [parameterId]="selectedParameterId" (formClosed)="onFormClosed()"></app-parameter-management-form>

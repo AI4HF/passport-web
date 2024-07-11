@@ -27,6 +27,11 @@ const routes: Routes = [
                 loadChildren: () => import('./modules/organization-management/organization-management.module').then(m => m.OrganizationManagementModule),
                 canActivate: [authGuard] // Apply the guard here
             },
+            {
+                path: 'parameter-management',
+                loadChildren: () => import('./modules/parameter-management/parameter-management.module').then(m => m.ParameterManagementModule),
+                canActivate: [authGuard] // Apply the guard here
+            },
             { path: '', redirectTo: '/login', pathMatch: 'full' }
         ]
     }
