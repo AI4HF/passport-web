@@ -1,0 +1,134 @@
+<form [formGroup]="datasetForm">
+    <p-card class="p-0 w-full">
+        <div class="grid grid-nogutter">
+            <!-- Title -->
+            <div class="col-2 flex align-items-center">
+                <label class="text-900 font-medium" for="title">{{'DatasetManagement.Title' | translate}}</label>
+            </div>
+            <div class="col-10 text-900 flex align-items-center p-fluid">
+                <input type="text"
+                       id="title"
+                       pInputText
+                       placeholder="{{'DatasetManagement.Title' | translate}}"
+                       formControlName="title"
+                       class="form-control">
+            </div>
+            <!-- Description -->
+            <div class="col-2 flex align-items-center mt-4">
+                <label class="text-900 font-medium" for="description">{{'DatasetManagement.Description' | translate}}</label>
+            </div>
+            <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                <input type="text"
+                       id="description"
+                       pInputText
+                       placeholder="{{'DatasetManagement.Description' | translate}}"
+                       formControlName="description"
+                       class="form-control">
+            </div>
+            <!-- Version -->
+            <div class="col-2 flex align-items-center mt-4">
+                <label class="text-900 font-medium" for="version">{{'DatasetManagement.Version' | translate}}</label>
+            </div>
+            <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                <input type="text"
+                       id="version"
+                       pInputText
+                       placeholder="{{'DatasetManagement.Version' | translate}}"
+                       formControlName="version"
+                       class="form-control">
+            </div>
+            <!-- Reference Entity -->
+            <div class="col-2 flex align-items-center mt-4">
+                <label class="text-900 font-medium" for="referenceEntity">{{'DatasetManagement.ReferenceEntity' | translate}}</label>
+            </div>
+            <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                <input type="text"
+                       id="referenceEntity"
+                       pInputText
+                       placeholder="{{'DatasetManagement.ReferenceEntity' | translate}}"
+                       formControlName="referenceEntity"
+                       class="form-control">
+            </div>
+            <!-- Feature Set -->
+            <div class="col-2 flex align-items-center mt-4">
+                <label class="text-900 font-medium" for="featuresetId">{{'DatasetManagement.FeatureSet' | translate}}</label>
+            </div>
+            <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                <p-dropdown
+                        [options]="featuresets"
+                        formControlName="featuresetId"
+                        optionLabel="title"
+                        placeholder="{{'DatasetManagement.SelectFeatureSet' | translate}}"
+                        class="form-control">
+                </p-dropdown>
+            </div>
+            <!-- Population -->
+            <div class="col-2 flex align-items-center mt-4">
+                <label class="text-900 font-medium" for="populationId">{{'DatasetManagement.Population' | translate}}</label>
+            </div>
+            <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                <p-dropdown
+                        [options]="populations"
+                        formControlName="populationId"
+                        optionLabel="populationUrl"
+                        placeholder="{{'DatasetManagement.SelectPopulation' | translate}}"
+                        class="form-control">
+                </p-dropdown>
+            </div>
+            <!-- Organization -->
+            <div class="col-2 flex align-items-center mt-4">
+                <label class="text-900 font-medium" for="organizationId">{{'DatasetManagement.Organization' | translate}}</label>
+            </div>
+            <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                <p-dropdown
+                        [options]="organizations"
+                        formControlName="organizationId"
+                        optionLabel="name"
+                        placeholder="{{'DatasetManagement.SelectOrganization' | translate}}"
+                        class="form-control">
+                </p-dropdown>
+            </div>
+            <!-- Number of Records -->
+            <div class="col-2 flex align-items-center mt-4">
+                <label class="text-900 font-medium" for="numOfRecords">{{'DatasetManagement.NumOfRecords' | translate}}</label>
+            </div>
+            <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                <input type="number"
+                       id="numOfRecords"
+                       pInputText
+                       placeholder="{{'DatasetManagement.NumOfRecords' | translate}}"
+                       formControlName="numOfRecords"
+                       class="form-control">
+            </div>
+            <!-- Synthetic -->
+            <div class="col-2 flex align-items-center mt-4">
+                <label class="text-900 font-medium" for="synthetic">{{'DatasetManagement.Synthetic' | translate}}</label>
+            </div>
+            <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                <p-checkbox
+                        formControlName="synthetic"
+                        [binary]="true"
+                        inputId="synthetic">
+                </p-checkbox>
+            </div>
+        </div>
+        <div class="flex justify-content-between flex-wrap mt-4">
+            <div class="justify-content-start">
+                <button pButton pRipple
+                        type="button"
+                        label="{{'Back' | translate}}"
+                        class="p-button-raised"
+                        (click)="back()"></button>
+            </div>
+            <div class="justify-content-end">
+                <button pButton pRipple
+                        type="button"
+                        label="{{(this.selectedDataset?.datasetId) ? ('Save' | translate) : ('Next' | translate)}}"
+                        class="p-button-raised"
+                        [disabled]="!datasetForm.valid"
+                        (click)="save()"></button>
+            </div>
+        </div>
+    </p-card>
+</form>
+
