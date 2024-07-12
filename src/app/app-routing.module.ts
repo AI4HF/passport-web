@@ -32,6 +32,11 @@ const routes: Routes = [
                 loadChildren: () => import('./modules/parameter-management/parameter-management.module').then(m => m.ParameterManagementModule),
                 canActivate: [authGuard] // Apply the guard here
             },
+            {
+                path: 'data-engineer-page',
+                loadChildren: () => import('./modules/data-engineer-page/data-engineer-page.module').then(m => m.DataEngineerPageModule),
+                canActivate: [authGuard] // Apply the guard here
+            },
             { path: '', redirectTo: '/login', pathMatch: 'full' }
         ]
     }
