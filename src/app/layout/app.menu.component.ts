@@ -42,12 +42,12 @@ export class AppMenuComponent extends BaseComponent implements OnInit, OnDestroy
     private updateMenuItems() {
         this.model = [
             {
-                label: this.translateService.instant('Manage Studies'),
+                label: this.translateService.instant('Study Management'),
                 icon: 'pi pi-book',
                 routerLink: ['/study-management']
             },
             {
-                label: this.translateService.instant('Organization'),
+                label: this.translateService.instant('Organization Management'),
                 icon: 'pi pi-home',
                 items: [
                     {
@@ -68,7 +68,7 @@ export class AppMenuComponent extends BaseComponent implements OnInit, OnDestroy
                 routerLink: ['/survey-management']
             },
             {
-                label: this.translateService.instant('Data Engineer'),
+                label: this.translateService.instant('Data Management'),
                 icon: 'pi pi-database',
                 items: [
                     {
