@@ -1,23 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DatasetCharacteristicsComponent } from './dataset-characteristics.component';
-import { TranslateModule } from "@ngx-translate/core";
-import { InputTextModule } from "primeng/inputtext";
-import { ReactiveFormsModule } from "@angular/forms";
-import { ButtonModule } from "primeng/button";
-import { RippleModule } from "primeng/ripple";
-import { CardModule } from "primeng/card";
+import { DatasetCharacteristicsTableModule } from './dataset-characteristics-table/dataset-characteristics-table.module';
+import { DatasetCharacteristicsFormModule } from './dataset-characteristics-form/dataset-characteristics-form.module';
+import { DatasetCharacteristicsRoutingModule } from './dataset-characteristics-routing.module';
 
 @NgModule({
-    declarations: [DatasetCharacteristicsComponent],
+    declarations: [],
     imports: [
         CommonModule,
-        TranslateModule,
-        InputTextModule,
-        ReactiveFormsModule,
-        ButtonModule,
-        RippleModule,
-        CardModule
+        DatasetCharacteristicsRoutingModule,
+        DatasetCharacteristicsTableModule,
+        DatasetCharacteristicsFormModule
     ]
 })
 export class DatasetCharacteristicsModule { }
