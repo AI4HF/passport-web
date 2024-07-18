@@ -1,23 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CreationStepAssignmentComponent } from './creation-step-assignment.component';
-import { TranslateModule } from "@ngx-translate/core";
-import { InputTextModule } from "primeng/inputtext";
-import { ReactiveFormsModule } from "@angular/forms";
-import { ButtonModule } from "primeng/button";
-import { RippleModule } from "primeng/ripple";
-import { CardModule } from "primeng/card";
+import { CreationStepAssignmentTableModule } from './creation-step-assignment-table/creation-step-assignment-table.module';
+import { CreationStepAssignmentFormModule } from './creation-step-assignment-form/creation-step-assignment-form.module';
+import { CreationStepAssignmentRoutingModule } from './creation-step-assignment-routing.module';
 
 @NgModule({
-    declarations: [CreationStepAssignmentComponent],
+    declarations: [],
     imports: [
         CommonModule,
-        TranslateModule,
-        InputTextModule,
-        ReactiveFormsModule,
-        ButtonModule,
-        RippleModule,
-        CardModule
+        CreationStepAssignmentRoutingModule,
+        CreationStepAssignmentTableModule,
+        CreationStepAssignmentFormModule
     ]
 })
 export class CreationStepAssignmentModule { }
