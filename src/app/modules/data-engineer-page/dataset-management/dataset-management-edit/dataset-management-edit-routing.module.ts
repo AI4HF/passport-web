@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DatasetDetailsComponent } from './dataset-details/dataset-details.component';
-import { DatasetCharacteristicsComponent } from './dataset-characteristics/dataset-characteristics.component';
-import { CreationStepAssignmentComponent } from './creation-step-assignment/creation-step-assignment.component';
-import { LearningDatasetCreationComponent } from './learning-dataset-creation/learning-dataset-creation.component';
+import { DatasetCharacteristicsTableComponent } from './dataset-characteristics/dataset-characteristics-table/dataset-characteristics-table.component';
+import { CreationStepAssignmentTableComponent } from './creation-step-assignment/creation-step-assignment-table/creation-step-assignment-table.component';
+import { LearningDatasetCreationTableComponent } from './learning-dataset-creation/learning-dataset-creation-table/learning-dataset-creation-table.component';
 import { DatasetManagementEditComponent } from './dataset-management-edit.component';
 
 const routes: Routes = [
@@ -21,15 +21,15 @@ const routes: Routes = [
             },
             {
                 path: 'dataset-characteristics',
-                component: DatasetCharacteristicsComponent,
+                component: DatasetCharacteristicsTableComponent,
             },
             {
                 path: 'creation-step-assignment',
-                component: CreationStepAssignmentComponent,
+                component: CreationStepAssignmentTableComponent,
             },
             {
                 path: 'learning-dataset-creation',
-                component: LearningDatasetCreationComponent,
+                component: LearningDatasetCreationTableComponent,
             }
         ],
         component: DatasetManagementEditComponent

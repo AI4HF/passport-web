@@ -3,9 +3,7 @@ import { BaseComponent } from "../../../../../shared/components/base.component";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { takeUntil } from "rxjs";
 import { Dataset } from "../../../../../shared/models/dataset.model";
-import { DatasetService } from "../../../../../core/services/dataset.service";
 import { DatasetManagementRoutingModule } from "../../dataset-management-routing.module";
-import {FeatureSetService} from "../../../../../core/services/featureset.service";
 
 /**
  * Shows details of a dataset
@@ -22,8 +20,9 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
     featuresets: any[];
     populations: any[];
     organizations: any[];
+    isEditMode: boolean = false;
 
-    constructor(protected injector: Injector, private datasetService: DatasetService, private featuresetService: FeatureSetService) {
+    constructor(protected injector: Injector) {
         super(injector);
     }
 
@@ -31,6 +30,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
         this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
             next: data => {
                 this.selectedDataset = data['dataset'];
+                this.isEditMode = !!this.selectedDataset.datasetId;
                 this.initializeForm();
             },
             error: error => {
@@ -50,27 +50,40 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             description: new FormControl(this.selectedDataset?.description || '', Validators.required),
             version: new FormControl(this.selectedDataset?.version || '', Validators.required),
             referenceEntity: new FormControl(this.selectedDataset?.referenceEntity || '', Validators.required),
-            featuresetId: new FormControl(this.selectedDataset?.featuresetId || null, Validators.required),
-            populationId: new FormControl(this.selectedDataset?.populationId || null, Validators.required),
-            organizationId: new FormControl(this.selectedDataset?.organizationId || null, Validators.required),
+            featureset: new FormControl(this.selectedDataset?.featuresetId || null, Validators.required),
+            population: new FormControl(this.selectedDataset?.populationId || null, Validators.required),
+            organization: new FormControl(this.selectedDataset?.organizationId || null, Validators.required),
             numOfRecords: new FormControl(this.selectedDataset?.numOfRecords || 0, Validators.required),
             synthetic: new FormControl(this.selectedDataset?.synthetic || false)
         });
     }
 
     loadDropdowns() {
-        this.featuresetService.getAllFeatureSets().pipe(takeUntil(this.destroy$)).subscribe(featuresets => this.featuresets = featuresets);
+        this.featureSetService.getAllFeatureSets().pipe(takeUntil(this.destroy$)).subscribe(featuresets => this.featuresets = featuresets);
         this.populationService.getAllPopulations().pipe(takeUntil(this.destroy$)).subscribe(populations => this.populations = populations);
         this.organizationService.getAllOrganizations().pipe(takeUntil(this.destroy$)).subscribe(organizations => this.organizations = organizations);
     }
 
     back() {
-        this.router.navigate([`/${DatasetManagementRoutingModule.route}`]);
+        this.router.navigate([`${DatasetManagementRoutingModule.route}`]);
     }
 
     save() {
+        const formValues = this.datasetForm.value;
+        const datasetPayload = {
+            title: formValues.title,
+            description: formValues.description,
+            version: formValues.version,
+            referenceEntity: formValues.referenceEntity,
+            featuresetId: formValues.featureset.featuresetId,
+            populationId: formValues.population.populationId,
+            organizationId: formValues.organization.id,
+            numOfRecords: formValues.numOfRecords,
+            synthetic: formValues.synthetic
+        };
+
         if (!this.selectedDataset.datasetId) {
-            const newDataset: Dataset = new Dataset({ ...this.datasetForm.value });
+            const newDataset: Dataset = new Dataset({ ...datasetPayload });
             this.datasetService.createDataset(newDataset)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
@@ -93,7 +106,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
                     }
                 });
         } else {
-            const updatedDataset: Dataset = new Dataset({ datasetId: this.selectedDataset.datasetId, ...this.datasetForm.value });
+            const updatedDataset: Dataset = new Dataset({ datasetId: this.selectedDataset.datasetId, ...datasetPayload });
             this.datasetService.updateDataset(updatedDataset)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({

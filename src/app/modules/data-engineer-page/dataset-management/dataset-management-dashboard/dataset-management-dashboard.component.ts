@@ -3,7 +3,6 @@ import { BaseComponent } from "../../../../shared/components/base.component";
 import { takeUntil } from "rxjs";
 import { Dataset } from "../../../../shared/models/dataset.model";
 import { Table } from "primeng/table";
-import { DatasetService } from "../../../../core/services/dataset.service";
 import { DatasetManagementRoutingModule } from "../dataset-management-routing.module";
 
 /**
@@ -24,7 +23,7 @@ export class DatasetManagementDashboardComponent extends BaseComponent implement
     // flag indicating the datasets are being retrieved from the server
     loading: boolean = true;
 
-    constructor(protected injector: Injector, private datasetService: DatasetService) {
+    constructor(protected injector: Injector) {
         super(injector);
 
         // initialize variables
