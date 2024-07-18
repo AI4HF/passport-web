@@ -38,15 +38,15 @@
                        class="form-control">
             </div>
             <!-- Experiment -->
-            <div *ngIf="!selectedFeatureSet.featuresetId" class="col-2 flex align-items-center mt-4">
+            <div class="col-2 flex align-items-center mt-4">
                 <label class="text-900 font-medium" for="experiment">{{'FeatureSetManagement.Experiment' | translate}}</label>
             </div>
-            <div *ngIf="!selectedFeatureSet.featuresetId" class="col-10 text-900 flex align-items-center p-fluid mt-4">
+            <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
                 <p-dropdown
                         [options]="experiments"
                         formControlName="experiment"
                         optionLabel="researchQuestion"
-                        placeholder="{{'FeatureSetManagement.SelectExperiment' | translate}}"
+                        placeholder="{{ 'FeatureSetManagement.SelectAnExperiment' | translate }}"
                         class="form-control">
                 </p-dropdown>
             </div>
@@ -70,3 +70,4 @@
         </div>
     </p-card>
 </form>
+

@@ -2,7 +2,6 @@ import { Component, EventEmitter, Injector, Input, OnChanges, OnInit, Output, Si
 import { BaseComponent } from "../../../../../../shared/components/base.component";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Feature } from "../../../../../../shared/models/feature.model";
-import { FeatureService } from "../../../../../../core/services/feature.service";
 import { takeUntil } from "rxjs";
 
 @Component({
@@ -19,7 +18,7 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
     display: boolean = false;
     selectedFeature: Feature;
 
-    constructor(protected injector: Injector, private featureService: FeatureService) {
+    constructor(protected injector: Injector) {
         super(injector);
     }
 

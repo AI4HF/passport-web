@@ -1,7 +1,6 @@
 <p-dialog (onHide)="closeDialog()" [(visible)]="this.display" [modal]="true" [style]="{width: '80rem'}" header="{{ 'FeatureSetManagement.Feature Form' | translate }}">
   <form *ngIf="this.display" (ngSubmit)="saveFeature()" [formGroup]="featureForm">
     <div class="form-grid grid">
-      <!-- Left Column -->
       <div class="field col">
         <div class="p-field p-col-12 p-md-6">
           <span class="p-input-icon-left w-full mb-4">

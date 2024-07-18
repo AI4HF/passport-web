@@ -17,19 +17,11 @@ import { Experiment } from "../../../../../shared/models/experiment.model";
 })
 export class FeatureSetDetailsComponent extends BaseComponent implements OnInit {
 
-    /**
-     * The selected feature set for the component
-     */
     selectedFeatureSet: FeatureSet;
-
-    /**
-     * The form object keeping the feature set information.
-     */
     featureSetForm: FormGroup;
-
     experiments: Experiment[] = [];
 
-    constructor(protected injector: Injector, private featureSetService: FeatureSetService) {
+    constructor(protected injector: Injector) {
         super(injector);
     }
 
@@ -38,7 +30,6 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
         this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
             next: data => {
                 this.selectedFeatureSet = data['featureSet'];
-                console.log(this.selectedFeatureSet);
                 this.initializeForm();
             },
             error: error => {
@@ -51,24 +42,15 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
         });
     }
 
-    /**
-     * Initializes the form object for the given feature set.
-     */
     initializeForm() {
         this.featureSetForm = new FormGroup({
             title: new FormControl(this.selectedFeatureSet?.title || '', Validators.required),
             description: new FormControl(this.selectedFeatureSet?.description || '', Validators.required),
             featuresetURL: new FormControl(this.selectedFeatureSet?.featuresetURL || '', Validators.required),
-            experiment: new FormControl({
-                value: this.selectedFeatureSet?.experimentId || null,
-                disabled: !!this.selectedFeatureSet.featuresetId
-            }, Validators.required)
+            experiment: new FormControl(this.selectedFeatureSet?.experimentId || null, Validators.required)
         });
     }
 
-    /**
-     * Loads the list of experiments.
-     */
     loadExperiments() {
         this.experimentService.getAllExperiments().pipe(takeUntil(this.destroy$))
             .subscribe({
@@ -83,19 +65,21 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
             });
     }
 
-    /**
-     * Back to feature set management menu
-     */
     back() {
         this.router.navigate([`/${FeatureSetManagementRoutingModule.route}`]);
     }
 
-    /**
-     * Save feature set details
-     */
     save() {
+        const formValues = this.featureSetForm.value;
+        const featureSetPayload = {
+            title: formValues.title,
+            description: formValues.description,
+            featuresetURL: formValues.featuresetURL,
+            experimentId: formValues.experiment.experimentId
+        };
+
         if (!this.selectedFeatureSet.featuresetId) {
-            const newFeatureSet: FeatureSet = new FeatureSet({ ...this.featureSetForm.value });
+            const newFeatureSet: FeatureSet = new FeatureSet({ ...featureSetPayload });
             this.featureSetService.createFeatureSet(newFeatureSet)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
@@ -118,7 +102,7 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
                     }
                 });
         } else {
-            const updatedFeatureSet: FeatureSet = new FeatureSet({ featuresetId: this.selectedFeatureSet.featuresetId, ...this.featureSetForm.value });
+            const updatedFeatureSet: FeatureSet = new FeatureSet({ featuresetId: this.selectedFeatureSet.featuresetId, ...featureSetPayload });
             this.featureSetService.updateFeatureSet(updatedFeatureSet)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({

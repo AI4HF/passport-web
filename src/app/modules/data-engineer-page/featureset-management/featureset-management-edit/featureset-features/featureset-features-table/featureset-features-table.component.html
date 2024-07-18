@@ -1,4 +1,4 @@
-<div class="col-12">
+<div class="content-container">
   <div class="card p-3">
     <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
       <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'FeatureSetManagement.Features' | translate }}</div>
@@ -35,7 +35,7 @@
             <span>{{ feature.title }}</span>
           </td>
           <td>
-            <button pButton pRipple type="button" icon="pi pi-search" class="p-button-text p-button-rounded p-ripple" (click)="showFeatureForm(feature)" pTooltip="{{ 'FeatureSetManagement.Details' | translate }}" tooltipPosition="bottom"></button>
+            <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="showFeatureForm(feature)" pTooltip="{{ 'FeatureSetManagement.Details' | translate }}" tooltipPosition="bottom"></button>
             <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deleteFeature(feature.featureId)" pTooltip="{{ 'FeatureSetManagement.Delete' | translate }}" tooltipPosition="bottom"></button>
           </td>
         </tr>

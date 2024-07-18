@@ -2,7 +2,6 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from "../../../../../../shared/components/base.component";
 import { FeatureSet } from "../../../../../../shared/models/featureset.model";
 import { Feature } from "../../../../../../shared/models/feature.model";
-import { FeatureService } from "../../../../../../core/services/feature.service";
 import { takeUntil } from "rxjs";
 
 @Component({
@@ -19,7 +18,7 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
     loading: boolean = true;
     columns: any[];
 
-    constructor(protected injector: Injector, private featureService: FeatureService) {
+    constructor(protected injector: Injector) {
         super(injector);
     }
 

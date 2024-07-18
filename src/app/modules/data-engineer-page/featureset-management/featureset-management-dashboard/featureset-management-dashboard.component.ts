@@ -3,7 +3,6 @@ import { BaseComponent } from "../../../../shared/components/base.component";
 import { takeUntil } from "rxjs";
 import { FeatureSet } from "../../../../shared/models/featureset.model";
 import { Table } from "primeng/table";
-import { FeatureSetService } from "../../../../core/services/featureset.service";
 import { FeatureSetManagementRoutingModule } from "../featureset-management-routing.module";
 import { Experiment } from "../../../../shared/models/experiment.model";
 
@@ -20,13 +19,11 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
     featureSetList: FeatureSet[] = [];
     experiments: Experiment[] = [];
 
-    // columns of FeatureSet to be displayed on a table
     columns: any[];
 
-    // flag indicating the feature sets are being retrieved from the server
     loading: boolean = true;
 
-    constructor(protected injector: Injector, private featureSetService: FeatureSetService) {
+    constructor(protected injector: Injector) {
         super(injector);
 
         // initialize variables
