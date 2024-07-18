@@ -1,23 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LearningDatasetCreationComponent } from './learning-dataset-creation.component';
-import { TranslateModule } from "@ngx-translate/core";
-import { InputTextModule } from "primeng/inputtext";
-import { ReactiveFormsModule } from "@angular/forms";
-import { ButtonModule } from "primeng/button";
-import { RippleModule } from "primeng/ripple";
-import { CardModule } from "primeng/card";
+import { LearningDatasetCreationTableModule } from './learning-dataset-creation-table/learning-dataset-creation-table.module';
+import { LearningDatasetCreationFormModule } from './learning-dataset-creation-form/learning-dataset-creation-form.module';
+import { LearningDatasetCreationRoutingModule } from './learning-dataset-creation-routing.module';
 
 @NgModule({
-    declarations: [LearningDatasetCreationComponent],
+    declarations: [],
     imports: [
         CommonModule,
-        TranslateModule,
-        InputTextModule,
-        ReactiveFormsModule,
-        ButtonModule,
-        RippleModule,
-        CardModule
+        LearningDatasetCreationRoutingModule,
+        LearningDatasetCreationTableModule,
+        LearningDatasetCreationFormModule
     ]
 })
 export class LearningDatasetCreationModule { }
