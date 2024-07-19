@@ -16,17 +16,26 @@ import { Experiment } from "../../../../shared/models/experiment.model";
 })
 export class FeatureSetManagementDashboardComponent extends BaseComponent implements OnInit {
 
+    /** List of feature sets */
     featureSetList: FeatureSet[] = [];
+
+    /** List of experiments */
     experiments: Experiment[] = [];
 
+    /** Columns to be displayed in the table */
     columns: any[];
 
+    /** Loading state of the table */
     loading: boolean = true;
 
+    /**
+     * Constructor to inject dependencies.
+     * @param injector The dependency injector
+     */
     constructor(protected injector: Injector) {
         super(injector);
 
-        // initialize variables
+        // Initialize columns
         this.columns = [
             { header: 'ID', field: 'featuresetId' },
             { header: 'Title', field: 'title' },
@@ -36,13 +45,16 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
         ];
     }
 
+    /**
+     * Initializes the component.
+     */
     ngOnInit() {
         this.loadExperiments();
         this.getFeatureSetList();
     }
 
     /**
-     * Retrieves all feature sets from the server
+     * Retrieves all feature sets from the server.
      */
     getFeatureSetList() {
         this.loading = true;
@@ -89,7 +101,7 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
     }
 
     /**
-     * Filters a table of information based on a given search criteria
+     * Filters a table of information based on a given search criteria.
      * @param table Table to be filtered
      * @param event Keyboard type event where search text is captured
      */
@@ -98,7 +110,7 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
     }
 
     /**
-     * Navigate the user to FeatureSet create page
+     * Navigates the user to the FeatureSet create page.
      */
     createFeatureSet() {
         if (this.experiments.length === 0) {
@@ -112,16 +124,17 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
         this.router.navigate([`${FeatureSetManagementRoutingModule.route}/new`]);
     }
 
-
     /**
-     * Navigate the user to FeatureSet edit page
+     * Navigates the user to the FeatureSet edit page.
+     * @param id The ID of the FeatureSet to be edited
      */
     editFeatureSet(id: number) {
         this.router.navigate([`${FeatureSetManagementRoutingModule.route}/${id}`]);
     }
 
     /**
-     * Delete a feature set
+     * Deletes a feature set.
+     * @param id The ID of the FeatureSet to be deleted
      */
     deleteFeatureSet(id: number) {
         this.loading = true;
@@ -139,3 +152,4 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
             });
     }
 }
+

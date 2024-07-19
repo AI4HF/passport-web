@@ -6,7 +6,7 @@ import { Dataset } from "../../../../../shared/models/dataset.model";
 import { DatasetManagementRoutingModule } from "../../dataset-management-routing.module";
 
 /**
- * Shows details of a dataset
+ * Component to display and manage the details of a dataset.
  */
 @Component({
     selector: 'app-dataset-details',
@@ -15,17 +15,35 @@ import { DatasetManagementRoutingModule } from "../../dataset-management-routing
 })
 export class DatasetDetailsComponent extends BaseComponent implements OnInit {
 
+    /** The currently selected dataset */
     selectedDataset: Dataset;
+
+    /** The form group for the dataset */
     datasetForm: FormGroup;
+
+    /** List of feature sets */
     featuresets: any[];
+
+    /** List of populations */
     populations: any[];
+
+    /** List of organizations */
     organizations: any[];
+
+    /** Flag to indicate if the form is in edit mode */
     isEditMode: boolean = false;
 
+    /**
+     * Constructor to inject dependencies.
+     * @param injector The dependency injector
+     */
     constructor(protected injector: Injector) {
         super(injector);
     }
 
+    /**
+     * Initializes the component.
+     */
     ngOnInit() {
         this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
             next: data => {
@@ -44,6 +62,9 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
         this.loadDropdowns();
     }
 
+    /**
+     * Initializes the form group with the dataset data.
+     */
     initializeForm() {
         this.datasetForm = new FormGroup({
             title: new FormControl(this.selectedDataset?.title || '', Validators.required),
@@ -58,16 +79,25 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
         });
     }
 
+    /**
+     * Loads the dropdown options for feature sets, populations, and organizations.
+     */
     loadDropdowns() {
         this.featureSetService.getAllFeatureSets().pipe(takeUntil(this.destroy$)).subscribe(featuresets => this.featuresets = featuresets);
         this.populationService.getAllPopulations().pipe(takeUntil(this.destroy$)).subscribe(populations => this.populations = populations);
         this.organizationService.getAllOrganizations().pipe(takeUntil(this.destroy$)).subscribe(organizations => this.organizations = organizations);
     }
 
+    /**
+     * Navigates back to the dataset management page.
+     */
     back() {
         this.router.navigate([`${DatasetManagementRoutingModule.route}`]);
     }
 
+    /**
+     * Saves the dataset, either creating a new one or updating an existing one.
+     */
     save() {
         const formValues = this.datasetForm.value;
         const datasetPayload = {
@@ -130,4 +160,5 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
         }
     }
 }
+
 

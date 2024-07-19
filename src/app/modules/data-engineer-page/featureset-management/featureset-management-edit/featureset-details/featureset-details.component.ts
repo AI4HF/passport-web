@@ -3,12 +3,11 @@ import { BaseComponent } from "../../../../../shared/components/base.component";
 import { takeUntil } from "rxjs";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { FeatureSet } from "../../../../../shared/models/featureset.model";
-import { FeatureSetService } from "../../../../../core/services/featureset.service";
 import { FeatureSetManagementRoutingModule } from "../../featureset-management-routing.module";
 import { Experiment } from "../../../../../shared/models/experiment.model";
 
 /**
- * Shows details of a feature set
+ * Component to display and manage the details of a feature set.
  */
 @Component({
     selector: 'app-featureset-details',
@@ -17,14 +16,26 @@ import { Experiment } from "../../../../../shared/models/experiment.model";
 })
 export class FeatureSetDetailsComponent extends BaseComponent implements OnInit {
 
+    /** The currently selected feature set */
     selectedFeatureSet: FeatureSet;
+
+    /** The form group for the feature set */
     featureSetForm: FormGroup;
+
+    /** List of experiments */
     experiments: Experiment[] = [];
 
+    /**
+     * Constructor to inject dependencies.
+     * @param injector The dependency injector
+     */
     constructor(protected injector: Injector) {
         super(injector);
     }
 
+    /**
+     * Initializes the component.
+     */
     ngOnInit() {
         this.loadExperiments();
         this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
@@ -42,6 +53,9 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
         });
     }
 
+    /**
+     * Initializes the form group with the feature set data.
+     */
     initializeForm() {
         this.featureSetForm = new FormGroup({
             title: new FormControl(this.selectedFeatureSet?.title || '', Validators.required),
@@ -51,6 +65,9 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
         });
     }
 
+    /**
+     * Loads the list of experiments.
+     */
     loadExperiments() {
         this.experimentService.getAllExperiments().pipe(takeUntil(this.destroy$))
             .subscribe({
@@ -65,10 +82,16 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
             });
     }
 
+    /**
+     * Navigates back to the feature set management page.
+     */
     back() {
         this.router.navigate([`/${FeatureSetManagementRoutingModule.route}`]);
     }
 
+    /**
+     * Saves the feature set, either creating a new one or updating an existing one.
+     */
     save() {
         const formValues = this.featureSetForm.value;
         const featureSetPayload = {

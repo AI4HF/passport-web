@@ -4,6 +4,9 @@ import { FeatureSet } from "../../../../../../shared/models/featureset.model";
 import { Feature } from "../../../../../../shared/models/feature.model";
 import { takeUntil } from "rxjs";
 
+/**
+ * Component to display and manage features within a feature set.
+ */
 @Component({
     selector: 'app-featureset-features-table',
     templateUrl: './featureset-features-table.component.html',
@@ -11,17 +14,35 @@ import { takeUntil } from "rxjs";
 })
 export class FeatureSetFeaturesTableComponent extends BaseComponent implements OnInit {
 
+    /** The currently selected feature set */
     selectedFeatureSet: FeatureSet;
+
+    /** List of features in the selected feature set */
     features: Feature[] = [];
+
+    /** Determines if the form is displayed */
     displayForm: boolean = false;
+
+    /** The feature selected for editing */
     selectedFeature: Feature = null;
+
+    /** Loading state of the table */
     loading: boolean = true;
+
+    /** Columns to be displayed in the table */
     columns: any[];
 
+    /**
+     * Constructor to inject dependencies.
+     * @param injector The dependency injector
+     */
     constructor(protected injector: Injector) {
         super(injector);
     }
 
+    /**
+     * Initializes the component.
+     */
     ngOnInit() {
         this.columns = [
             { field: 'featureId', header: 'FeatureSetManagement.FeatureID' },
@@ -43,6 +64,9 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
         });
     }
 
+    /**
+     * Loads the features of the selected feature set.
+     */
     loadFeatures() {
         this.featureService.getFeaturesByFeatureSetId(this.selectedFeatureSet.featuresetId).pipe(takeUntil(this.destroy$))
             .subscribe({
@@ -61,6 +85,10 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
             });
     }
 
+    /**
+     * Deletes a feature by its ID.
+     * @param featureId The ID of the feature to be deleted
+     */
     deleteFeature(featureId: number) {
         this.featureService.deleteFeature(featureId).pipe(takeUntil(this.destroy$))
             .subscribe({
@@ -82,21 +110,36 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
             });
     }
 
+    /**
+     * Displays the form for editing a feature.
+     * @param feature The feature to be edited
+     */
     showFeatureForm(feature: Feature) {
         this.selectedFeature = feature;
         this.displayForm = true;
     }
 
+    /**
+     * Displays the form for creating a new feature.
+     */
     createFeature() {
         this.selectedFeature = null;
         this.displayForm = true;
     }
 
+    /**
+     * Handles the event when the form is closed.
+     */
     onFormClosed() {
         this.displayForm = false;
         this.loadFeatures();
     }
 
+    /**
+     * Filters the table based on the input event.
+     * @param table The table to be filtered
+     * @param event The input event
+     */
     filter(table: any, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }

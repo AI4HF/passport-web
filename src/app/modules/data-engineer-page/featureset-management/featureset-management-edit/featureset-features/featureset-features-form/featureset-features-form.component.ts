@@ -4,34 +4,57 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Feature } from "../../../../../../shared/models/feature.model";
 import { takeUntil } from "rxjs";
 
+/**
+ * Component for managing feature forms within a feature set.
+ */
 @Component({
     selector: 'app-featureset-features-form',
     templateUrl: './featureset-features-form.component.html',
     styleUrls: ['./featureset-features-form.component.scss']
 })
 export class FeatureSetFeaturesFormComponent extends BaseComponent implements OnInit, OnChanges {
+    /** The ID of the selected feature set */
     @Input() selectedFeatureSetId: number;
+    /** The feature to be edited or created */
     @Input() feature: Feature;
+    /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();
 
+    /** The form group for the feature */
     featureForm: FormGroup;
+    /** Whether the form dialog is displayed */
     display: boolean = false;
+    /** The feature being edited or created */
     selectedFeature: Feature;
 
+    /**
+     * Constructor to inject dependencies.
+     * @param injector The dependency injector
+     */
     constructor(protected injector: Injector) {
         super(injector);
     }
 
+    /**
+     * Initializes the component.
+     */
     ngOnInit() {
         this.loadFeature();
     }
 
+    /**
+     * Handles changes to input properties.
+     * @param changes The changes to input properties
+     */
     ngOnChanges(changes: SimpleChanges) {
         if (changes['feature'] && this.feature) {
             this.loadFeature();
         }
     }
 
+    /**
+     * Loads the feature data into the form.
+     */
     loadFeature() {
         if (this.feature) {
             this.selectedFeature = new Feature(this.feature);
@@ -43,6 +66,9 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
         this.display = true;
     }
 
+    /**
+     * Initializes the form group with the feature data.
+     */
     initializeForm() {
         this.featureForm = new FormGroup({
             title: new FormControl(this.selectedFeature.title, Validators.required),
@@ -57,6 +83,9 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
         });
     }
 
+    /**
+     * Saves the feature, either creating a new one or updating an existing one.
+     */
     saveFeature() {
         if (!this.selectedFeature.featureId) {
             const newFeature: Feature = new Feature({ ...this.featureForm.value, featuresetId: this.selectedFeatureSetId });
@@ -111,6 +140,9 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
         }
     }
 
+    /**
+     * Closes the form dialog.
+     */
     closeDialog() {
         this.display = false;
         this.formClosed.emit();

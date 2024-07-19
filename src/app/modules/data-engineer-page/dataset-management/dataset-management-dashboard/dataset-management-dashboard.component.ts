@@ -15,18 +15,22 @@ import { DatasetManagementRoutingModule } from "../dataset-management-routing.mo
 })
 export class DatasetManagementDashboardComponent extends BaseComponent implements OnInit {
 
+    /** List of datasets */
     datasetList: Dataset[] = [];
 
-    // columns of Dataset to be displayed on a table
+    /** Columns to be displayed in the table */
     columns: any[];
 
-    // flag indicating the datasets are being retrieved from the server
+    /** Loading state of the table */
     loading: boolean = true;
 
+    /**
+     * Constructor to inject dependencies.
+     * @param injector The dependency injector
+     */
     constructor(protected injector: Injector) {
         super(injector);
 
-        // initialize variables
         this.columns = [
             { header: 'ID', field: 'datasetId' },
             { header: 'Title', field: 'title' },
@@ -36,12 +40,15 @@ export class DatasetManagementDashboardComponent extends BaseComponent implement
         ];
     }
 
+    /**
+     * Initializes the component.
+     */
     ngOnInit() {
         this.getDatasetList();
     }
 
     /**
-     * Retrieves all datasets from the server
+     * Retrieves all datasets from the server.
      */
     getDatasetList() {
         this.loading = true;
@@ -61,30 +68,32 @@ export class DatasetManagementDashboardComponent extends BaseComponent implement
     }
 
     /**
-     * Filters a table of information based on a given search criteria
-     * @param table Table to be filtered
-     * @param event Keyboard type event where search text is captured
+     * Filters the table based on the input event.
+     * @param table The table to be filtered
+     * @param event The input event
      */
     filter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
 
     /**
-     * Navigate the user to Dataset create page
+     * Navigates the user to the Dataset create page.
      */
     createDataset() {
         this.router.navigate([`/${DatasetManagementRoutingModule.route}/new`]);
     }
 
     /**
-     * Navigate the user to Dataset edit page
+     * Navigates the user to the Dataset edit page.
+     * @param id The ID of the Dataset to be edited
      */
     editDataset(id: number) {
         this.router.navigate([`/${DatasetManagementRoutingModule.route}/${id}`]);
     }
 
     /**
-     * Delete a dataset
+     * Deletes a dataset.
+     * @param id The ID of the Dataset to be deleted
      */
     deleteDataset(id: number) {
         this.loading = true;

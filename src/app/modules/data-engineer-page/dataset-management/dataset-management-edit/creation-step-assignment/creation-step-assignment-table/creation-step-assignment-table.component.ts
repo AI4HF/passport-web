@@ -6,6 +6,9 @@ import { DatasetTransformationStep } from "../../../../../../shared/models/datas
 import { takeUntil } from "rxjs";
 import { Dataset } from "../../../../../../shared/models/dataset.model";
 
+/**
+ * Component for managing and displaying dataset transformation steps.
+ */
 @Component({
     selector: 'app-creation-step-assignment-table',
     templateUrl: './creation-step-assignment-table.component.html',
@@ -13,20 +16,44 @@ import { Dataset } from "../../../../../../shared/models/dataset.model";
 })
 export class CreationStepAssignmentTableComponent extends BaseComponent implements OnInit {
 
+    /** The selected dataset */
     selectedDataset: Dataset;
+
+    /** List of learning datasets */
     learningDatasets: LearningDataset[] = [];
+
+    /** List of dataset transformations */
     transformations: DatasetTransformation[] = [];
+
+    /** The selected dataset transformation */
     selectedTransformation: DatasetTransformation = null;
+
+    /** List of transformation steps */
     transformationSteps: DatasetTransformationStep[] = [];
+
+    /** Determines if the form is displayed */
     displayForm: boolean = false;
+
+    /** The selected transformation step for editing */
     selectedStep: DatasetTransformationStep = null;
+
+    /** Loading state of the table */
     loading: boolean = true;
+
+    /** Columns to be displayed in the table */
     columns: any[];
 
+    /**
+     * Constructor to inject dependencies.
+     * @param injector The dependency injector
+     */
     constructor(protected injector: Injector) {
         super(injector);
     }
 
+    /**
+     * Initializes the component.
+     */
     ngOnInit() {
         this.columns = [
             { field: 'inputFeatures', header: 'Input Features' },
@@ -41,7 +68,9 @@ export class CreationStepAssignmentTableComponent extends BaseComponent implemen
         });
     }
 
-
+    /**
+     * Loads the learning datasets associated with the selected dataset.
+     */
     loadLearningDatasets() {
         this.learningDatasetService.getLearningDatasetsByDatasetId(this.selectedDataset.datasetId).pipe(takeUntil(this.destroy$))
             .subscribe({
@@ -59,6 +88,9 @@ export class CreationStepAssignmentTableComponent extends BaseComponent implemen
             });
     }
 
+    /**
+     * Loads the dataset transformations associated with the learning datasets.
+     */
     loadDatasetTransformations() {
         this.learningDatasets.forEach(learningDataset => {
             this.datasetTransformationService.getDatasetTransformationById(learningDataset.dataTransformationId)
@@ -69,6 +101,9 @@ export class CreationStepAssignmentTableComponent extends BaseComponent implemen
         });
     }
 
+    /**
+     * Loads the transformation steps for the selected transformation.
+     */
     onTransformationSelect() {
         if (this.selectedTransformation) {
             this.loadTransformationSteps();
@@ -77,6 +112,9 @@ export class CreationStepAssignmentTableComponent extends BaseComponent implemen
         }
     }
 
+    /**
+     * Loads the transformation steps associated with the selected transformation.
+     */
     loadTransformationSteps() {
         this.transformationStepService.getDatasetTransformationStepsByTransformationId(this.selectedTransformation.dataTransformationId).pipe(takeUntil(this.destroy$))
             .subscribe({
@@ -95,6 +133,10 @@ export class CreationStepAssignmentTableComponent extends BaseComponent implemen
             });
     }
 
+    /**
+     * Deletes a transformation step.
+     * @param step The transformation step to be deleted
+     */
     deleteTransformationStep(step: DatasetTransformationStep) {
         this.transformationStepService.deleteDatasetTransformationStep(step.stepId).pipe(takeUntil(this.destroy$))
             .subscribe({
@@ -116,21 +158,36 @@ export class CreationStepAssignmentTableComponent extends BaseComponent implemen
             });
     }
 
+    /**
+     * Displays the form for editing a transformation step.
+     * @param step The transformation step to be edited
+     */
     showTransformationStepForm(step: DatasetTransformationStep) {
         this.selectedStep = step;
         this.displayForm = true;
     }
 
+    /**
+     * Displays the form for creating a new transformation step.
+     */
     createTransformationStep() {
         this.selectedStep = null;
         this.displayForm = true;
     }
 
+    /**
+     * Handles the event when the form is closed.
+     */
     onFormClosed() {
         this.displayForm = false;
         this.loadTransformationSteps();
     }
 
+    /**
+     * Filters the table based on the input event.
+     * @param table The table to be filtered
+     * @param event The input event
+     */
     filter(table: any, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }

@@ -4,6 +4,9 @@ import { DatasetCharacteristic } from "../../../../../../shared/models/datasetCh
 import { takeUntil } from "rxjs";
 import { Dataset } from "../../../../../../shared/models/dataset.model";
 
+/**
+ * Component to display and manage dataset characteristics.
+ */
 @Component({
     selector: 'app-dataset-characteristics-table',
     templateUrl: './dataset-characteristics-table.component.html',
@@ -11,17 +14,35 @@ import { Dataset } from "../../../../../../shared/models/dataset.model";
 })
 export class DatasetCharacteristicsTableComponent extends BaseComponent implements OnInit {
 
+    /** The selected dataset */
     selectedDataset: Dataset;
+
+    /** List of dataset characteristics */
     characteristics: DatasetCharacteristic[] = [];
+
+    /** Determines if the form is displayed */
     displayForm: boolean = false;
+
+    /** The characteristic selected for editing */
     selectedCharacteristic: DatasetCharacteristic = null;
+
+    /** Loading state of the table */
     loading: boolean = true;
+
+    /** Columns to be displayed in the table */
     columns: any[];
 
+    /**
+     * Constructor to inject dependencies.
+     * @param injector The dependency injector
+     */
     constructor(protected injector: Injector) {
         super(injector);
     }
 
+    /**
+     * Initializes the component.
+     */
     ngOnInit() {
         this.columns = [
             { field: 'characteristicName', header: 'DatasetCharacteristic.CharacteristicName' },
@@ -36,6 +57,9 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
         });
     }
 
+    /**
+     * Loads the characteristics of the selected dataset.
+     */
     loadCharacteristics() {
         this.datasetCharacteristicService.getCharacteristicsByDatasetId(this.selectedDataset.datasetId).pipe(takeUntil(this.destroy$))
             .subscribe({
@@ -54,6 +78,10 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
             });
     }
 
+    /**
+     * Deletes a characteristic by its ID.
+     * @param characteristic The characteristic to be deleted
+     */
     deleteCharacteristic(characteristic: DatasetCharacteristic) {
         this.datasetCharacteristicService.deleteCharacteristic(characteristic.datasetId, characteristic.featureId).pipe(takeUntil(this.destroy$))
             .subscribe({
@@ -75,21 +103,36 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
             });
     }
 
+    /**
+     * Displays the form for editing a characteristic.
+     * @param characteristic The characteristic to be edited
+     */
     showCharacteristicForm(characteristic: DatasetCharacteristic) {
         this.selectedCharacteristic = characteristic;
         this.displayForm = true;
     }
 
+    /**
+     * Displays the form for creating a new characteristic.
+     */
     createCharacteristic() {
         this.selectedCharacteristic = null;
         this.displayForm = true;
     }
 
+    /**
+     * Handles the event when the form is closed.
+     */
     onFormClosed() {
         this.displayForm = false;
         this.loadCharacteristics();
     }
 
+    /**
+     * Filters the table based on the input event.
+     * @param table The table to be filtered
+     * @param event The input event
+     */
     filter(table: any, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }

@@ -1,7 +1,14 @@
 <div class="content-container">
     <div class="card lg:pt-5">
         <div class="text-900 text-2xl font-semibold mb-3">{{ 'DatasetManagement.SelectDatasetTransformation' | translate }}</div>
-        <p-dropdown [options]="transformations" optionLabel="title" [(ngModel)]="selectedTransformation" (onChange)="onTransformationSelect()" placeholder="{{ 'DatasetManagement.SelectTransformation' | translate }}"></p-dropdown>
+        <p-dropdown
+                [options]="transformations"
+                optionLabel="title"
+                [(ngModel)]="selectedTransformation"
+                (onChange)="onTransformationSelect()"
+                placeholder="{{ 'DatasetManagement.SelectTransformation' | translate }}"
+                class="fixed-width-dropdown">
+        </p-dropdown>
     </div>
 
     <div *ngIf="selectedTransformation" class="table-container mt-3">
