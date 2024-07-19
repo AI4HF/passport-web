@@ -52,6 +52,11 @@ const routes: Routes = [
                 loadChildren: () => import('./modules/model-management/model-management.module').then(m => m.ModelManagementModule),
                 canActivate: [authGuard] // Apply the guard here
             },
+            {
+                path: 'model-management',
+                loadChildren: () => import('./modules/model-management/model-management.module').then(m => m.ModelManagementModule),
+                canActivate: [authGuard] // Apply the guard here
+            },
             { path: '', redirectTo: '/login', pathMatch: 'full' }
         ]
     }
