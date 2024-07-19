@@ -21,6 +21,7 @@ import {LearningDatasetService} from "../../core/services/learning-dataset.servi
 import {DatasetTransformationStepService} from "../../core/services/dataset-transformation-step.service";
 import {DatasetTransformationService} from "../../core/services/dataset-transformation.service";
 import {DatasetCharacteristicService} from "../../core/services/dataset-characteristic.service";
+import {ModelService} from "../../core/services/model.service";
 import {StudyOrganizationService} from "../../core/services/studyOrganization.service";
 
 /**
@@ -63,6 +64,7 @@ export abstract class BaseComponent implements OnDestroy {
   datasetCharacteristicService: DatasetCharacteristicService;
   parameterService: ParameterService;
   studyOrganizationService: StudyOrganizationService;
+  modelService: ModelService;
 
   constructor(injector: Injector){
     this.router = injector.get(Router);
@@ -87,6 +89,7 @@ export abstract class BaseComponent implements OnDestroy {
     this.learningDatasetService = injector.get(LearningDatasetService);
     this.transformationStepService = injector.get(DatasetTransformationStepService);
     this.parameterService = injector.get(ParameterService);
+    this.modelService = injector.get(ModelService);
     this.studyOrganizationService = injector.get(StudyOrganizationService);
   }
 
