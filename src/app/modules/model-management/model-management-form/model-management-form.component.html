@@ -1,0 +1,154 @@
+<p-dialog (onHide)="closeDialog()" [(visible)]="this.display" [modal]="true"
+          [style]="{width: '30rem'}" header="{{ 'ModelManagement.Model Form' | translate }}">
+    <form *ngIf="this.display" (ngSubmit)="saveModel()" [formGroup]="modelForm">
+        <div class="p-fluid">
+            <div class="p-field">
+                <label for="name">{{ 'ModelManagement.Name' | translate }}</label>
+                <input
+                        formControlName="name"
+                        id="name"
+                        pInputText
+                        placeholder="{{ 'ModelManagement.Enter the name' | translate }}"
+                        type="text"
+                />
+            </div>
+            <div class="p-field">
+                <label for="version">{{ 'ModelManagement.Version' | translate }}</label>
+                <input
+                        formControlName="version"
+                        id="version"
+                        pInputText
+                        placeholder="{{ 'ModelManagement.Enter the version' | translate }}"
+                        type="text"
+                >
+            </div>
+            <div class="p-field">
+                <label for="tag">{{ 'ModelManagement.Tag' | translate }}</label>
+                <input
+                        formControlName="tag"
+                        id="tag"
+                        pInputText
+                        placeholder="{{ 'ModelManagement.Enter the tag' | translate }}"
+                        type="text"
+                >
+            </div>
+            <div class="p-field">
+                <label for="modelType">{{ 'ModelManagement.Model Type' | translate }}</label>
+                <input
+                        formControlName="modelType"
+                        id="modelType"
+                        pInputText
+                        placeholder="{{ 'ModelManagement.Enter the model type' | translate }}"
+                        type="text"
+                >
+            </div>
+            <div class="p-field">
+                <label for="productIdentifier">{{ 'ModelManagement.Product Identifier' | translate }}</label>
+                <input
+                        formControlName="productIdentifier"
+                        id="productIdentifier"
+                        pInputText
+                        placeholder="{{ 'ModelManagement.Enter the product identifier' | translate }}"
+                        type="text"
+                >
+            </div>
+            <div class="p-field">
+                <label for="trlLevel">{{ 'ModelManagement.TRL Level' | translate }}</label>
+                <input
+                        formControlName="trlLevel"
+                        id="trlLevel"
+                        pInputText
+                        placeholder="{{ 'ModelManagement.Enter the TRL Level' | translate }}"
+                        type="text"
+                >
+            </div>
+            <div class="p-field">
+                <label for="license">{{ 'ModelManagement.License' | translate }}</label>
+                <input
+                        formControlName="license"
+                        id="license"
+                        pInputText
+                        placeholder="{{ 'ModelManagement.Enter the license' | translate }}"
+                        type="text"
+                >
+            </div>
+            <div class="p-field">
+                <label for="primaryUse">{{ 'ModelManagement.Primary Use' | translate }}</label>
+                <input
+                        formControlName="primaryUse"
+                        id="primaryUse"
+                        pInputText
+                        placeholder="{{ 'ModelManagement.Enter the primary use' | translate }}"
+                        type="text"
+                >
+            </div>
+            <div class="p-field">
+                <label for="secondaryUse">{{ 'ModelManagement.Secondary Use' | translate }}</label>
+                <input
+                        formControlName="secondaryUse"
+                        id="secondaryUse"
+                        pInputText
+                        placeholder="{{ 'ModelManagement.Enter the secondary use' | translate }}"
+                        type="text"
+                >
+            </div>
+            <div class="p-field">
+                <label for="intendedUsers">{{ 'ModelManagement.Intended Users' | translate }}</label>
+                <input
+                        formControlName="intendedUsers"
+                        id="intendedUsers"
+                        pInputText
+                        placeholder="{{ 'ModelManagement.Enter the intended users' | translate }}"
+                        type="text"
+                >
+            </div>
+            <div class="p-field">
+                <label for="counterIndications">{{ 'ModelManagement.Counter Indications' | translate }}</label>
+                <input
+                        formControlName="counterIndications"
+                        id="counterIndications"
+                        pInputText
+                        placeholder="{{ 'ModelManagement.Enter the counter indications' | translate }}"
+                        type="text"
+                >
+            </div>
+            <div class="p-field">
+                <label for="ethicalConsiderations">{{ 'ModelManagement.Ethical Considerations' | translate }}</label>
+                <input
+                        formControlName="ethicalConsiderations"
+                        id="ethicalConsiderations"
+                        pInputText
+                        placeholder="{{ 'ModelManagement.Enter the ethical considerations' | translate }}"
+                        type="text"
+                >
+            </div>
+            <div class="p-field">
+                <label for="limitations">{{ 'ModelManagement.Limitations' | translate }}</label>
+                <input
+                        formControlName="limitations"
+                        id="limitations"
+                        pInputText
+                        placeholder="{{ 'ModelManagement.Enter the limitations' | translate }}"
+                        type="text"
+                >
+            </div>
+            <div class="p-field">
+                <label for="fairnessConstraints">{{ 'ModelManagement.Fairness Constraints' | translate }}</label>
+                <input
+                        formControlName="fairnessConstraints"
+                        id="fairnessConstraints"
+                        pInputText
+                        placeholder="{{ 'ModelManagement.Enter the fairness constraints' | translate }}"
+                        type="text"
+                >
+            </div>
+        </div>
+        <div class="flex justify-content-between">
+            <button (click)="closeDialog()" class="p-button-primary" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton
+                    type="button"></button>
+            <button class="p-button-primary" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton
+                    [disabled]="modelForm.invalid"
+                    type="submit"></button>
+        </div>
+    </form>
+</p-dialog>
