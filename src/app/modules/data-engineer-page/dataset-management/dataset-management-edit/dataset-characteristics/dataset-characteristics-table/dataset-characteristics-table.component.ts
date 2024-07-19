@@ -20,6 +20,9 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
     /** List of dataset characteristics */
     characteristics: DatasetCharacteristic[] = [];
 
+    /** Map of feature IDs to feature names */
+    featureMap: Map<number, string> = new Map<number, string>();
+
     /** Determines if the form is displayed */
     displayForm: boolean = false;
 
@@ -46,14 +49,34 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
     ngOnInit() {
         this.columns = [
             { field: 'characteristicName', header: 'DatasetCharacteristic.CharacteristicName' },
-            { field: 'featureId', header: 'DatasetCharacteristic.FeatureID' },
+            { field: 'featureName', header: 'DatasetCharacteristic.FeatureName' },
             { field: 'value', header: 'DatasetCharacteristic.Value' },
             { field: 'valueDataType', header: 'DatasetCharacteristic.ValueDataType' }
         ];
 
         this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
             this.selectedDataset = data['dataset'];
-            this.loadCharacteristics();
+            this.loadFeatures();
+        });
+    }
+
+    /**
+     * Loads the list of features.
+     */
+    loadFeatures() {
+        this.featureService.getAllFeatures().pipe(takeUntil(this.destroy$)).subscribe({
+            next: features => {
+                this.featureMap = new Map(features.map(feature => [feature.featureId, feature.title]));
+                this.loadCharacteristics();
+            },
+            error: (error: any) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: this.translateService.instant('Error'),
+                    detail: error.message
+                });
+                this.loading = false;
+            }
         });
     }
 
@@ -64,7 +87,10 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
         this.datasetCharacteristicService.getCharacteristicsByDatasetId(this.selectedDataset.datasetId).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: characteristics => {
-                    this.characteristics = characteristics;
+                    this.characteristics = characteristics.map(characteristic => ({
+                        ...characteristic,
+                        featureName: this.featureMap.get(characteristic.featureId) || 'Unknown'
+                    }));
                     this.loading = false;
                 },
                 error: error => {

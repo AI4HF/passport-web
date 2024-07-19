@@ -203,7 +203,7 @@
     "Delete": "Delete",
     "Form": "Characteristic Form",
     "SelectFeature": "Select Feature",
-    "FeatureID": "Feature ID",
+    "FeatureName": "Feature Title",
     "Value": "Value",
     "ValueDataType": "Value Data Type"
   },
