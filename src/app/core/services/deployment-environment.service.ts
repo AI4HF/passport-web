@@ -83,7 +83,7 @@ export class DeploymentEnvironmentService {
      * @return {Observable<DeploymentEnvironment>}
      */
     createDeploymentEnvironment(deploymentEnvironment: DeploymentEnvironment): Observable<DeploymentEnvironment>{
-        const url = `${this.endpoint}/`;
+        const url = `${this.endpoint}`;
         return this.httpClient.post<DeploymentEnvironment>(url, deploymentEnvironment)
             .pipe(
                 map((response: any) =>{
