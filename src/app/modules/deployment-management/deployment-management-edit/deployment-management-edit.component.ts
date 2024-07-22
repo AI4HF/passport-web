@@ -1,6 +1,9 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {BaseComponent} from "../../../shared/components/base.component";
 
+/**
+ * A controller to edit the details of a Model Deployment object
+ */
 @Component({
   selector: 'app-deployment-management-edit',
   templateUrl: './deployment-management-edit.component.html',
