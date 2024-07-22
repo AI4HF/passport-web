@@ -5,6 +5,10 @@ import {Table} from "primeng/table";
 import {DeploymentManagementRoutingModule} from "../../deployment-management/deployment-management-routing.module";
 import {BaseComponent} from "../../../shared/components/base.component";
 
+
+/**
+ * Dashboard component for model deployment management.
+ */
 @Component({
   selector: 'app-deployment-management-dashboard',
   templateUrl: './deployment-management-dashboard.component.html',
