@@ -20,6 +20,7 @@ export class DeploymentManagementDashboardComponent extends BaseComponent implem
   // columns of ModelDeployment to be displayed on a table
   columns: any[];
 
+  // flag indicating objects are being retrieved from the server
   loading: boolean = true;
 
   constructor(protected injector: Injector) {
