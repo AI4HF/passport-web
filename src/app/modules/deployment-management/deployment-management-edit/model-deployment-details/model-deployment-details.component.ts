@@ -3,6 +3,7 @@ import {BaseComponent} from "../../../../shared/components/base.component";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {takeUntil} from "rxjs";
 import {ModelDeployment} from "../../../../shared/models/modelDeployment.model";
+import {Model} from "../../../../shared/models/model.model";
 
 @Component({
   selector: 'app-model-deployment-details',
@@ -21,6 +22,10 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
    */
   environmentIdParam: string;
 
+  /**
+   * All model options displayed at the dropdown menu
+   */
+  modelList: Model[];
 
   /**
    * The form object keeping the model deployment information.
@@ -50,7 +55,32 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       this.environmentIdParam = params['environmentId'];
     });
+
+    // Fetch the model list
+    this.fetchModels();
   }
+
+
+
+  /**
+   * Fetches the model options from the service.
+   */
+  fetchModels() {
+    this.modelService.getModelList().pipe(takeUntil(this.destroy$)).subscribe({
+      next: models => {
+        this.modelList = models;
+      },
+      error: error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translateService.instant('Error'),
+          detail: error.message
+        });
+      }
+    });
+  }
+
+
 
 
   /**
@@ -58,10 +88,12 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
    */
   initializeForm() {
     this.modelDeploymentForm = new FormGroup({
+      modelId: new FormControl(this.selectedModelDeployment.modelId, Validators.required),
       tags: new FormControl(this.selectedModelDeployment.tags, Validators.required),
       identifiedFailures: new FormControl(this.selectedModelDeployment.identifiedFailures, Validators.required),
       status: new FormControl(this.selectedModelDeployment.status, Validators.required)
     });
+
   }
 
 
@@ -77,7 +109,8 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
    */
   save(){
     if(this.selectedModelDeployment.deploymentId === 0){
-      const newModelDeployment: ModelDeployment = new ModelDeployment({ environmentId: this.environmentIdParam, ...this.modelDeploymentForm.value});
+      const newModelDeployment: ModelDeployment = new ModelDeployment(
+          { environmentId: this.environmentIdParam, createdBy: 1, lastUpdatedBy: 1,...this.modelDeploymentForm.value});
       this.modelDeploymentService.createModelDeployment(newModelDeployment)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
