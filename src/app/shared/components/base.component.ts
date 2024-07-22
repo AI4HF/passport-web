@@ -15,6 +15,8 @@ import {OrganizationStateService} from "../../core/services/organization-state.s
 import {AuthorizationService} from "../../core/services/authorization.service";
 import {ParameterService} from "../../core/services/parameter.service";
 import {ModelService} from "../../core/services/model.service";
+import {ModelDeploymentService} from "../../core/services/model-deployment.service";
+import {DeploymentEnvironmentService} from "../../core/services/deployment-environment.service";
 
 /**
  * Base component to provide common properties
@@ -49,6 +51,8 @@ export abstract class BaseComponent implements OnDestroy {
   authorizationService: AuthorizationService;
   parameterService: ParameterService;
   modelService: ModelService;
+  modelDeploymentService: ModelDeploymentService;
+  deploymentEnvironmentService: DeploymentEnvironmentService;
 
   constructor(injector: Injector){
     this.router = injector.get(Router);
@@ -67,6 +71,8 @@ export abstract class BaseComponent implements OnDestroy {
     this.authorizationService = injector.get(AuthorizationService);
     this.parameterService = injector.get(ParameterService);
     this.modelService = injector.get(ModelService);
+    this.modelDeploymentService = injector.get(ModelDeploymentService);
+    this.deploymentEnvironmentService = injector.get(DeploymentEnvironmentService);
   }
 
   /**
