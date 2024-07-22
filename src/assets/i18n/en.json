@@ -184,6 +184,8 @@
     "Model Deployment is updated successfully": "Model Deployment is updated successfully",
     "Model Deployment is created successfully": "Model Deployment is created successfully",
     "Deployment is deleted successfully": "Deployment is deleted successfully",
+    "Model": "Model",
+    "Select Model": "Select Model",
     "Environment": {
       "Title": "Title",
       "Description": "Description",

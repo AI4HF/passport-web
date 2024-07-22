@@ -7,6 +7,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {RippleModule} from "primeng/ripple";
 import {TranslateModule} from "@ngx-translate/core";
 import {ModelDeploymentDetailsComponent} from "./model-deployment-details.component";
+import {DropdownModule} from "primeng/dropdown";
 
 
 
@@ -18,7 +19,8 @@ import {ModelDeploymentDetailsComponent} from "./model-deployment-details.compon
         InputTextModule,
         ReactiveFormsModule,
         RippleModule,
-        TranslateModule
+        TranslateModule,
+        DropdownModule
     ],
     exports: [ModelDeploymentDetailsComponent]
 })

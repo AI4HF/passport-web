@@ -20,6 +20,27 @@ export class ModelService {
         this.httpClient = injector.get(HttpClient);
     }
 
+
+    /**
+     * Retrieves all models
+     * @return {Observable<Model[]>}
+     */
+    getModelList(): Observable<Model[]> {
+        const url = `${this.endpoint}`;
+        return this.httpClient.get<Model[]>(url)
+            .pipe(
+                map((response: any) =>{
+                    return response.map((model: any) => new Model(model));
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    throw error;
+                })
+            );
+    }
+
+
+
     /**
      * Retrieves all models by study ID
      * @param studyId ID of the study
