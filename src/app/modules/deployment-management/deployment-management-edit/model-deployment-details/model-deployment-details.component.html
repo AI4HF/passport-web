@@ -1,0 +1,64 @@
+<form [formGroup]="modelDeploymentForm">
+    <p-card class="p-0 w-full">
+        <div class="grid grid-nogutter">
+            <!-- Tags -->
+            <div class="col-2 flex align-items-center">
+                <label class="text-900 font-medium"
+                       for="tags">{{'DeploymentManagement.Tags' | translate}}</label>
+            </div>
+            <div class="col-10 text-900 flex align-items-center p-fluid">
+                <input type="text"
+                       id="tags"
+                       pInputText
+                       placeholder="{{'DeploymentManagement.Tags' | translate}}"
+                       formControlName="tags"
+                       class="form-control">
+            </div>
+
+            <!-- Identified Failures -->
+            <div class="col-2 flex align-items-center mt-4">
+                <label class="text-900 font-medium"
+                       for="identifiedFailures">{{'DeploymentManagement.Identified Failures' | translate}}</label>
+            </div>
+            <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                <input type="text"
+                       id="identifiedFailures"
+                       pInputText
+                       placeholder="{{'DeploymentManagement.Identified Failures' | translate}}"
+                       formControlName="identifiedFailures"
+                       class="form-control">
+            </div>
+
+            <!-- Status -->
+            <div class="col-2 flex align-items-center mt-4">
+                <label class="text-900 font-medium"
+                       for="status">{{'DeploymentManagement.Status' | translate}}</label>
+            </div>
+            <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                <input type="text"
+                       id="status"
+                       pInputText
+                       placeholder="{{'DeploymentManagement.Status' | translate}}"
+                       formControlName="status"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="flex justify-content-between flex-wrap mt-4">
+            <div class="justify-content-start">
+                <button pButton pRipple
+                        type="button"
+                        label="{{'Back' | translate}}"
+                        class="p-button-raised"
+                        (click)="back()"></button>
+            </div>
+            <div class="justify-content-end">
+                <button pButton pRipple
+                        type="button"
+                        label="{{(this.selectedModelDeployment.deploymentId) ? ('Save' | translate) : ('Finish' | translate)}}"
+                        class="p-button-raised"
+                        [disabled]="!modelDeploymentForm.valid"
+                        (click)="save()"></button>
+            </div>
+        </div>
+    </p-card>
+</form>

@@ -1,0 +1,90 @@
+<div class="col-12">
+    <div class="card p-3">
+        <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'DeploymentManagement.Deployments' | translate }}</div>
+            <div class="inline-flex align-items-center">
+              <span class="p-input-icon-left flex-auto mx-2">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="filter(dt, $event)" placeholder="{{ 'Search' | translate }}"
+                         class="w-full rounded-border"/>
+              </span>
+                <button pButton pRipple icon="pi pi-plus" class="p-button-rounded button-secondary mx-2" (click)="createModelDeployment()"
+                        pTooltip="{{ 'DeploymentManagement.New Deployment' | translate }}" tooltipPosition="bottom"></button>
+            </div>
+        </div>
+        <p-table #dt [value]="modelDeploymentList" [columns]="columns" [rows]="10" [rowHover]="true" [paginator]="true"
+                 [showCurrentPageReport]="true" [currentPageReportTemplate]="'DeploymentManagement.Number of entries' | translate"
+                 [rowsPerPageOptions]="[10,25,50]" [showLoader]="true" [loading]="loading" [filterDelay]="0"
+                 [globalFilterFields]="['id', 'tags', 'meta.status', 'identifiedFailures', 'status']"
+                 [sortField]="'id'">
+            <ng-template pTemplate="header">
+                <tr>
+                    <!-- ModelDeployment ID -->
+                    <th [pSortableColumn]="'deploymentId'"
+                        class="white-space-nowrap min-width-10rem">
+                        {{ 'DeploymentManagement.ID' | translate }}
+                        <p-sortIcon [field]="'deploymentId'"></p-sortIcon>
+                    </th>
+                    <!-- ModelDeployment Tags -->
+                    <th [pSortableColumn]="'tags'"
+                        class="white-space-nowrap min-width-10rem">
+                        {{ 'DeploymentManagement.Tags' | translate }}
+                        <p-sortIcon [field]="'tags'"></p-sortIcon>
+                    </th>
+                    <!-- ModelDeployment Identified Failures -->
+                    <th [pSortableColumn]="'identifiedFailures'" class="white-space-nowrap text-center">
+                        {{ 'DeploymentManagement.Identified Failures' | translate }}
+                        <p-sortIcon [field]="'identifiedFailures'"></p-sortIcon>
+                    </th>
+                    <!-- ModelDeployment Status -->
+                    <th [pSortableColumn]="'status'" class="white-space-nowrap text-center">
+                        {{ 'DeploymentManagement.Status' | translate }}
+                        <p-sortIcon [field]="'status'"></p-sortIcon>
+                    </th>
+                    <!-- ModelDeployment actions -->
+                    <th>
+                        {{ 'DeploymentManagement.Actions' | translate }}
+                    </th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-modelDeployment>
+                <tr>
+                    <!-- ModelDeployment ID -->
+                    <td class="cursor-pointer">
+                        <span>{{ modelDeployment.deploymentId }}</span>
+                    </td>
+
+                    <!-- ModelDeployment Tags -->
+                    <td class="cursor-pointer">
+                        <span>{{ modelDeployment.tags }}</span>
+                    </td>
+
+                    <!-- ModelDeployment Identified Failures -->
+                    <td class="text-center">
+                        <span>{{ modelDeployment.identifiedFailures }}</span>
+                    </td>
+
+                    <!-- ModelDeployment Status -->
+                    <td class="text-center">
+                        <span>{{ modelDeployment.status }}</span>
+                    </td>
+
+                    <!-- ModelDeployment Buttons -->
+                    <td>
+                        <!-- Edit ModelDeployment Button -->
+                        <button
+                                pButton pRipple type="button" [icon]=" 'pi pi-pencil'"
+                                class="p-button-text p-button-rounded p-ripple" tooltipPosition="bottom"
+                                (click)="editModelDeployment(modelDeployment.deploymentId)" pTooltip="{{ 'DeploymentManagement.Edit Deployment' | translate }}"></button >
+                        <!-- Delete ModelDeployment Button-->
+                        <button
+                                pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple"
+                                (click)="deleteModelDeployment(modelDeployment.deploymentId)" pTooltip="{{ 'DeploymentManagement.Delete Deployment' | translate }}"
+                                tooltipPosition="bottom"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
