@@ -45,6 +45,8 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
 
         this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
             next: data => {
+                const environmentId = data['deployment'].environmentId;
+
                 // checking if environment is already created
                 if (this.environmentIdParam === 'new') {
                     this.selectedDeploymentEnvironment = new DeploymentEnvironment({});
