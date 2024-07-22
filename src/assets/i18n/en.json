@@ -267,5 +267,33 @@
     "Edit Model": "Edit Model",
     "Delete Model": "Delete Model",
     "Model is deleted successfully": "Model is deleted successfully"
+  },
+  "DeploymentManagement": {
+    "Deployments": "Deployments",
+    "New Deployment": "New Deployment",
+    "Number of entries": "Showing {first} to {last} of {totalRecords} entries",
+    "ID": "ID",
+    "Tags": "Tags",
+    "Identified Failures": "Identified Failures",
+    "Status": "Status",
+    "Actions": "Actions",
+    "Edit Deployment": "Edit Deployment",
+    "Delete Deployment": "Delete Deployment",
+    "Access Deployment": "Access Deployment",
+    "Deployment Details": "Deployment Details",
+    "Environment Details": "Environment Details",
+    "Model Deployment Details": "Model Deployment Details",
+    "Model Deployment is updated successfully": "Model Deployment is updated successfully",
+    "Model Deployment is created successfully": "Model Deployment is created successfully",
+    "Deployment is deleted successfully": "Deployment is deleted successfully",
+    "Environment": {
+      "Title": "Title",
+      "Description": "Description",
+      "Hardware Properties": "Hardware Properties",
+      "Software Properties": "Software Properties",
+      "Connectivity Details": "Connectivity Details",
+      "Deployment Environment is updated successfully": "Deployment Environment is updated successfully",
+      "Deployment Environment is created successfully": "Deployment Environment is created successfully"
+    }
   }
 }

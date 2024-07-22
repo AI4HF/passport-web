@@ -43,6 +43,11 @@ const routes: Routes = [
                 canActivate: [authGuard]
             },
             {
+                path: 'deployment-management',
+                loadChildren: () => import('./modules/deployment-management/deployment-management.module').then(m => m.DeploymentManagementModule),
+                canActivate: [authGuard] // Apply the guard here
+            },
+            {
                 path: 'model-management',
                 loadChildren: () => import('./modules/model-management/model-management.module').then(m => m.ModelManagementModule),
                 canActivate: [authGuard] // Apply the guard here
