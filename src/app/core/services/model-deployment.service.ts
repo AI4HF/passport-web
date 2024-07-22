@@ -100,7 +100,7 @@ export class ModelDeploymentService {
    * @return {Observable<ModelDeployment>}
    */
   createModelDeployment(modelDeployment: ModelDeployment): Observable<ModelDeployment>{
-    const url = `${this.endpoint}/`;
+    const url = `${this.endpoint}`;
     return this.httpClient.post<ModelDeployment>(url, modelDeployment)
         .pipe(
             map((response: any) =>{
