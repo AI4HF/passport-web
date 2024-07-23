@@ -15,6 +15,8 @@ import {BaseComponent} from "../../../shared/components/base.component";
   styleUrl: './deployment-management-dashboard.component.scss'
 })
 export class DeploymentManagementDashboardComponent extends BaseComponent implements OnInit{
+
+  // list of all model deployments
   modelDeploymentList: ModelDeployment[] = [];
 
   // columns of ModelDeployment to be displayed on a table
