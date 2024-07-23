@@ -1,8 +1,9 @@
 import {Injectable, Injector} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, map, Observable} from "rxjs";
+import {catchError, map, Observable, of} from "rxjs";
 import {ModelDeployment} from "../../shared/models/modelDeployment.model";
 import {environment} from "../../../environments/environment";
+import {er} from "@fullcalendar/core/internal-common";
 
 /**
  * Service to manage the model deployment.
@@ -51,8 +52,12 @@ export class ModelDeploymentService {
                     return new ModelDeployment(response);
                 }),
                 catchError((error) => {
-                    console.error(error);
-                    throw error;
+                    if (error.status === 404) {
+                        return of(new ModelDeployment({ deploymentId: 0 }));
+                    } else {
+                        console.error(error);
+                        throw error;
+                    }
                 })
             );
     }
