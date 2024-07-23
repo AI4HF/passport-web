@@ -37,6 +37,27 @@ export class ModelDeploymentService {
         );
   }
 
+
+    /**
+     * Retrieves the modelDeployment by using environmentId
+     * @param id Id of the deployment environment
+     * @return {Observable<ModelDeployment>}
+     */
+    getModelDeploymentByEnvironmentId(id: number): Observable<ModelDeployment> {
+        const url = `${this.endpoint}/environment/${id}`;
+        return this.httpClient.get<ModelDeployment>(url)
+            .pipe(
+                map((response: any) =>{
+                    return new ModelDeployment(response);
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    throw error;
+                })
+            );
+    }
+
+
   /**
    * Retrieves the modelDeployment by using modelDeploymentId
    * @param id Id of the modelDeployment
