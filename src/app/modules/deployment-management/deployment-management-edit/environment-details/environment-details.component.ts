@@ -5,6 +5,10 @@ import {BaseComponent} from "../../../../shared/components/base.component";
 import {DeploymentEnvironment} from "../../../../shared/models/deploymentEnvironment.model";
 import {DeploymentManagementRoutingModule} from "../../deployment-management-routing.module";
 
+
+/**
+ * Shows details of a deployment environment related to a model deployment
+ */
 @Component({
   selector: 'app-environment-details',
   templateUrl: './environment-details.component.html',
@@ -19,45 +23,48 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
 
 
     /**
+     * The ID of deployment environment created at the environment details form
+     */
+    environmentIdParam: string;
+
+    /**
      * The form object keeping the deploymentEnvironment information.
      */
     deploymentEnvironmentForm: FormGroup;
+
 
     constructor(protected injector: Injector) {
         super(injector);
     }
 
     ngOnInit() {
+        this.route.parent?.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
+            this.environmentIdParam = params['id'];
+        });
+
+
         this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
             next: data => {
-                const environmentId = data['deployment'].environmentId;
-
                 // checking if environment is already created
-                if (environmentId === undefined) {
+                if (this.environmentIdParam === 'new') {
                     this.selectedDeploymentEnvironment = new DeploymentEnvironment({});
                     this.initializeForm();
-                    return;
-                }
-
-                this.deploymentEnvironmentService.getDeploymentEnvironmentById(environmentId).pipe(takeUntil(this.destroy$))
-                    .subscribe({
-                        next: deploymentEnvironment => {
-                            this.selectedDeploymentEnvironment = deploymentEnvironment;
-                            this.initializeForm();
-                        },
-                        error: (error: any) => {
-                            if(error.status === 404){
-                                this.selectedDeploymentEnvironment = new DeploymentEnvironment({});
+                } else {
+                    this.deploymentEnvironmentService.getDeploymentEnvironmentById(+this.environmentIdParam).pipe(takeUntil(this.destroy$))
+                        .subscribe({
+                            next: deploymentEnvironment => {
+                                this.selectedDeploymentEnvironment = deploymentEnvironment;
                                 this.initializeForm();
-                            }else{
+                            },
+                            error: (error: any) => {
                                 this.messageService.add({
                                     severity: 'error',
                                     summary: this.translateService.instant('Error'),
                                     detail: error.message
                                 });
                             }
-                        }
-                    });
+                        });
+                }
             },
             error: (error: any) => {
                 this.messageService.add({
@@ -94,7 +101,7 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
      */
     save(){
         // creating new deployment environment using form inputs
-        if(this.selectedDeploymentEnvironment.environmentId === undefined){
+        if(this.environmentIdParam === 'new'){
             const newDeploymentEnvironment: DeploymentEnvironment = new DeploymentEnvironment({ ...this.deploymentEnvironmentForm.value});
             this.deploymentEnvironmentService.createDeploymentEnvironment(newDeploymentEnvironment)
                 .pipe(takeUntil(this.destroy$))
@@ -106,7 +113,7 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
                             summary: this.translateService.instant('Success'),
                             detail: this.translateService.instant('DeploymentManagement.Environment.Deployment Environment is created successfully')
                         });
-                        this.router.navigate([`../model-deployment-details`], {relativeTo: this.route, queryParams: { environmentId: this.selectedDeploymentEnvironment.environmentId }});
+                        this.router.navigate([`../../${this.selectedDeploymentEnvironment.environmentId}/model-deployment-details`], {relativeTo: this.route});
                     },
                     error: (error: any) => {
                         this.messageService.add({

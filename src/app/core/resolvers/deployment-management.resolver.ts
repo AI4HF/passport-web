@@ -3,6 +3,7 @@ import {ModelDeployment} from "../../shared/models/modelDeployment.model";
 import {Observable, of} from "rxjs";
 import {inject} from "@angular/core";
 import {ModelDeploymentService} from "../services/model-deployment.service";
+import {catchError} from "rxjs/operators";
 
 /**
  * A resolver that provides page data from the server during the navigation
@@ -15,7 +16,11 @@ export const DeploymentManagementResolver: ResolveFn<ModelDeployment> = (route: 
     // if an id is given, then an existing page will be resolved
     if (route.paramMap.get('id') !== 'new') {
         const id = Number(route.paramMap.get('id'));
-        return deploymentManagementService.getModelDeploymentById(id);
+        return deploymentManagementService.getModelDeploymentByEnvironmentId(id).pipe(
+            catchError(error => {
+                return of(new ModelDeployment({ deploymentId: 0 }));
+            })
+        );
     }
     // otherwise, we can assume that a new page can be created
     else {

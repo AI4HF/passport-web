@@ -7,10 +7,9 @@ import { Router } from "@angular/router";
  */
 export const environmentDetailsGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
-    const environmentId = route.queryParams['environmentId'];
 
     // when creating new model deployment, continue to model deployment details page only if environment is created
-    if (route.parent?.params["id"] === 'new' && !environmentId) {
+    if (route.parent?.params["id"] === 'new') {
         router.navigate(['deployment-management/new/environment-details']);
         return false;
     }

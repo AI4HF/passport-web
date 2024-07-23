@@ -5,6 +5,9 @@ import {takeUntil} from "rxjs";
 import {ModelDeployment} from "../../../../shared/models/modelDeployment.model";
 import {Model} from "../../../../shared/models/model.model";
 
+/**
+ * Shows details of a model deployment
+ */
 @Component({
   selector: 'app-model-deployment-details',
   templateUrl: './model-deployment-details.component.html',
@@ -52,14 +55,13 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
     });
 
     // environmentId is required for creating model deployment object
-    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      this.environmentIdParam = params['environmentId'];
+    this.route.parent?.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      this.environmentIdParam = params['id'];
     });
 
     // Fetch the model list
     this.fetchModels();
   }
-
 
 
   /**
@@ -79,8 +81,6 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
       }
     });
   }
-
-
 
 
   /**
@@ -133,7 +133,9 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
             }
           });
     }else{
-      const updatedModelDeployment: ModelDeployment = new ModelDeployment({deploymentId: this.selectedModelDeployment.deploymentId, ...this.modelDeploymentForm.value});
+      const updatedModelDeployment: ModelDeployment = new ModelDeployment(
+          {deploymentId: this.selectedModelDeployment.deploymentId, environmentId: this.selectedModelDeployment.environmentId,
+            createdBy: 1, lastUpdatedBy: 1, ...this.modelDeploymentForm.value});
       this.modelDeploymentService.updateModelDeployment(updatedModelDeployment)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
