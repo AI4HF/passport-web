@@ -16,11 +16,7 @@ export const DeploymentManagementResolver: ResolveFn<ModelDeployment> = (route: 
     // if an id is given, then an existing page will be resolved
     if (route.paramMap.get('id') !== 'new') {
         const id = Number(route.paramMap.get('id'));
-        return deploymentManagementService.getModelDeploymentByEnvironmentId(id).pipe(
-            catchError(error => {
-                return of(new ModelDeployment({ deploymentId: 0 }));
-            })
-        );
+        return deploymentManagementService.getModelDeploymentByEnvironmentId(id);
     }
     // otherwise, we can assume that a new page can be created
     else {
