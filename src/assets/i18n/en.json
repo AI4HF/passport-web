@@ -299,5 +299,22 @@
       "Deployment Environment is updated successfully": "Deployment Environment is updated successfully",
       "Deployment Environment is created successfully": "Deployment Environment is created successfully"
     }
+  },
+  "PassportManagement": {
+    "Passport Management": "Passport Management",
+    "Passports": "Passports",
+    "Create Passport": "Create Passport",
+    "Number of entries": "Showing {first} to {last} of {totalRecords} entries",
+    "ID": "ID",
+    "Deployment": "Deployment",
+    "Export Passport": "Export Passport",
+    "Delete Passport": "Delete Passport",
+    "Access Passport": "Access Passport",
+    "Passport Details": "Passport Details",
+    "Passport is created successfully": "Passport is created successfully",
+    "Passport is deleted successfully": "Passport is deleted successfully",
+    "Passport Form": "Passport Form",
+    "Model": "Model",
+    "Select Model": "Select Model"
   }
 }
