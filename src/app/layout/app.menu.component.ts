@@ -74,12 +74,12 @@ export class AppMenuComponent extends BaseComponent implements OnInit, OnDestroy
                     {
                         label: this.translateService.instant('Feature Management'),
                         icon: 'pi pi-sliders-h',
-                        routerLink: ['/data-engineer-page/featureset-management']
+                        routerLink: ['/featureset-management']
                     },
                     {
                         label: this.translateService.instant('Dataset Management'),
                         icon: 'pi pi-folder-open',
-                        routerLink: ['/data-engineer-page/dataset-management']
+                        routerLink: ['/dataset-management']
                     }
                 ]
             },

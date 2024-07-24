@@ -15,27 +15,32 @@ const routes: Routes = [
             {
                 path: 'study-management',
                 loadChildren: () => import('./modules/study-management/study-management.module').then(m => m.StudyManagementModule),
-                canActivate: [authGuard] // Apply the guard here
+                canActivate: [authGuard]
             },
             {
                 path: 'survey-management',
                 loadChildren: () => import('./modules/survey-management/survey-management.module').then(m => m.SurveyManagementModule),
-                canActivate: [authGuard] // Apply the guard here
+                canActivate: [authGuard]
             },
             {
                 path: 'organization-management',
                 loadChildren: () => import('./modules/organization-management/organization-management.module').then(m => m.OrganizationManagementModule),
-                canActivate: [authGuard] // Apply the guard here
+                canActivate: [authGuard]
             },
             {
                 path: 'parameter-management',
                 loadChildren: () => import('./modules/parameter-management/parameter-management.module').then(m => m.ParameterManagementModule),
-                canActivate: [authGuard] // Apply the guard here
+                canActivate: [authGuard]
             },
             {
-                path: 'data-engineer-page',
-                loadChildren: () => import('./modules/data-engineer-page/data-engineer-page.module').then(m => m.DataEngineerPageModule),
-                canActivate: [authGuard] // Apply the guard here
+                path: 'dataset-management',
+                loadChildren: () => import('./modules/dataset-management/dataset-management.module').then(m => m.DatasetManagementModule),
+                canActivate: [authGuard]
+            },
+            {
+                path: 'featureset-management',
+                loadChildren: () => import('./modules/featureset-management/featureset-management.module').then(m => m.FeatureSetManagementModule),
+                canActivate: [authGuard]
             },
             { path: '', redirectTo: '/login', pathMatch: 'full' }
         ]
