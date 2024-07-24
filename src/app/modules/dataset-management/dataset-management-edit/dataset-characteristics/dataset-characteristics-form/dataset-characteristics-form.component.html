@@ -1,0 +1,50 @@
+<p-dialog (onHide)="closeDialog()" [(visible)]="this.display" [modal]="true" [style]="{width: '30rem'}"
+          header="{{ 'DatasetCharacteristic.Form' | translate }}">
+    <form (ngSubmit)="saveCharacteristic()" *ngIf="this.display" [formGroup]="characteristicForm">
+        <div class="form-grid grid">
+            <div class="field col">
+                <div *ngIf="!isUpdateMode" class="p-field p-col-12 p-md-6">
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-tags"></i>
+                        <p-dropdown
+                                [style]="{'width':'100%'}"
+                                [options]="features"
+                                class="w-full"
+                                dataKey="featureId"
+                                formControlName="featureId"
+                                optionLabel="title"
+                                placeholder="{{ 'DatasetCharacteristic.SelectFeature' | translate }}">
+                        </p-dropdown>
+                    </span>
+                </div>
+                <div class="p-field p-col-12 p-md-6">
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-bookmark"></i>
+                        <input class="w-full" formControlName="characteristicName" id="characteristicName" pInputText
+                               placeholder="{{ 'Characteristic Name' | translate }}">
+                    </span>
+                </div>
+                <div class="p-field p-col-12 p-md-6">
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-hashtag"></i>
+                        <input class="w-full" formControlName="value" id="value" pInputText placeholder="{{ 'Value' | translate }}">
+                    </span>
+                </div>
+                <div class="p-field p-col-12 p-md-6">
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-database"></i>
+                        <input class="w-full" formControlName="valueDataType" id="valueDataType" pInputText
+                               placeholder="{{ 'Value Data Type' | translate }}">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-content-between">
+            <button (click)="closeDialog()" class="p-button-primary" icon="pi pi-times"
+                    label="{{ 'Cancel' | translate }}" pButton type="button"></button>
+            <button [disabled]="characteristicForm.invalid" class="p-button-primary" icon="pi pi-check" label="{{ 'Save' | translate }}"
+                    pButton type="submit"></button>
+        </div>
+    </form>
+</p-dialog>
+
