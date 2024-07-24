@@ -48,10 +48,10 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
      */
     ngOnInit() {
         this.columns = [
-            { field: 'characteristicName', header: 'DatasetCharacteristic.CharacteristicName' },
-            { field: 'featureName', header: 'DatasetCharacteristic.FeatureName' },
-            { field: 'value', header: 'DatasetCharacteristic.Value' },
-            { field: 'valueDataType', header: 'DatasetCharacteristic.ValueDataType' }
+            { field: 'characteristicName', header: 'DatasetManagement.CharacteristicName' },
+            { field: 'featureName', header: 'DatasetManagement.FeatureName' },
+            { field: 'value', header: 'DatasetManagement.Value' },
+            { field: 'valueDataType', header: 'DatasetManagement.ValueDataType' }
         ];
 
         this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
@@ -116,7 +116,7 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('DatasetCharacteristic.Deleted')
+                        detail: this.translateService.instant('DatasetManagement.Deleted')
                     });
                 },
                 error: error => {

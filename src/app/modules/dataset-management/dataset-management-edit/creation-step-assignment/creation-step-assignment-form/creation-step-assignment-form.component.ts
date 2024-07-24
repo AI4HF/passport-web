@@ -118,7 +118,7 @@ export class CreationStepAssignmentFormComponent extends BaseComponent implement
                 this.messageService.add({
                     severity: 'success',
                     summary: this.translateService.instant('Success'),
-                    detail: this.translateService.instant('Transformation Step Updated')
+                    detail: this.translateService.instant('DatasetManagement.TransformationStepUpdated')
                 });
                 this.closeDialog();
             },
@@ -144,7 +144,7 @@ export class CreationStepAssignmentFormComponent extends BaseComponent implement
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('Transformation Step Created')
+                        detail: this.translateService.instant('DatasetManagement.TransformationStepCreated')
                     });
                     this.closeDialog();
                 },

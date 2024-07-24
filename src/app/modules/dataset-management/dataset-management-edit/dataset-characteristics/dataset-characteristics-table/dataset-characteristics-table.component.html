@@ -1,13 +1,13 @@
 <div class="content-container">
     <div class="card lg:pt-5">
         <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
-            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'DatasetCharacteristic.Characteristics' | translate }}</div>
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'DatasetManagement.Characteristics' | translate }}</div>
             <div class="inline-flex align-items-center">
                 <span class="p-input-icon-left flex-auto mx-2">
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" (input)="filter(dt, $event)" placeholder="{{ 'Search' | translate }}" class="w-full rounded-border"/>
                 </span>
-                <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-primary mx-2" (click)="createCharacteristic()" pTooltip="{{ 'DatasetCharacteristic.CreateCharacteristic' | translate }}" tooltipPosition="bottom"></button>
+                <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-primary mx-2" (click)="createCharacteristic()" pTooltip="{{ 'DatasetManagement.CreateCharacteristic' | translate }}" tooltipPosition="bottom"></button>
             </div>
         </div>
         <p-table #dt [value]="characteristics" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['characteristicName', 'featureId', 'value', 'valueDataType']" [sortField]="'characteristicName'" [resizableColumns]="true" [autoLayout]="true">
@@ -28,8 +28,8 @@
                         <span>{{ characteristic[col.field] }}</span>
                     </td>
                     <td>
-                        <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="showCharacteristicForm(characteristic)" pTooltip="{{ 'DatasetCharacteristic.Details' | translate }}" tooltipPosition="bottom"></button>
-                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deleteCharacteristic(characteristic)" pTooltip="{{ 'DatasetCharacteristic.Delete' | translate }}" tooltipPosition="bottom"></button>
+                        <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="showCharacteristicForm(characteristic)" pTooltip="{{ 'DatasetManagement.Details' | translate }}" tooltipPosition="bottom"></button>
+                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deleteCharacteristic(characteristic)" pTooltip="{{ 'DatasetManagement.Delete' | translate }}" tooltipPosition="bottom"></button>
                     </td>
                 </tr>
             </ng-template>

@@ -52,9 +52,9 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
      */
     ngOnInit() {
         this.columns = [
-            { field: 'description', header: 'LearningDataset.Description' },
-            { field: 'transformationTitle', header: 'LearningDataset.TransformationTitle' },
-            { field: 'transformationDescription', header: 'LearningDataset.TransformationDescription' }
+            { field: 'description', header: 'DatasetManagement.Description' },
+            { field: 'transformationTitle', header: 'DatasetManagement.TransformationTitle' },
+            { field: 'transformationDescription', header: 'DatasetManagement.TransformationDescription' }
         ];
 
         this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
@@ -110,7 +110,7 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('LearningDataset.Deleted')
+                        detail: this.translateService.instant('DatasetManagement.Deleted')
                     });
                 },
                 error: error => {

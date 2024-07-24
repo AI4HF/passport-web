@@ -154,7 +154,7 @@ export class LearningDatasetCreationFormComponent extends BaseComponent implemen
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('LearningDataset.Updated')
+                        detail: this.translateService.instant('DatasetManagement.Updated')
                     });
                     this.closeDialog();
                 },
@@ -188,7 +188,7 @@ export class LearningDatasetCreationFormComponent extends BaseComponent implemen
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('LearningDataset.Created')
+                        detail: this.translateService.instant('DatasetManagement.Created')
                     });
                     this.closeDialog();
                 },

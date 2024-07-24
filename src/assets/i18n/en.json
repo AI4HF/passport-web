@@ -132,7 +132,6 @@
   "FeatureSetManagement": {
     "Mandatory": "Mandatory",
     "Unique": "Unique",
-    "Feature Form": "Feature Form",
     "FeatureSets": "Feature Sets",
     "NewFeatureSet": "New Feature Set",
     "NumberOfEntries": "Showing {first} to {last} of {totalRecords} entries",
@@ -193,31 +192,22 @@
     "OutputFeatures": "Output Features",
     "Method": "Method",
     "Explanation": "Explanation",
-    "TransformationStepForm": "Transformation Step Form"
-  },
-  "DatasetCharacteristic": {
+    "TransformationStepForm": "Transformation Step Form",
     "Characteristics": "Characteristics",
     "CreateCharacteristic": "Create Characteristic",
     "CharacteristicName": "Characteristic Name",
     "Details": "Details",
     "Delete": "Delete",
-    "Form": "Characteristic Form",
+    "CharacteristicForm": "Characteristic Form",
     "SelectFeature": "Select Feature",
     "FeatureName": "Feature Title",
     "Value": "Value",
-    "ValueDataType": "Value Data Type"
-  },
-  "LearningDataset": {
+    "ValueDataType": "Value Data Type",
     "LearningDatasets": "Learning Datasets",
     "CreateLearningDataset": "Create Learning Dataset",
-    "Description": "Description",
-    "Details": "Details",
-    "Delete": "Delete",
     "TransformationTitle": "Transformation Title",
-    "TransformationDescription": "Transformation Description"
-  },
-  "Characteristic Name": "Characteristic Name",
-  "Value": "Value",
-  "Value Data Type": "Value Data Type",
-  "Cancel": "Cancel"
+    "TransformationDescription": "Transformation Description",
+    "LearningDatasetForm": "Learning Dataset Form",
+    "LearningDatasetDescription": "Learning Dataset Description"
+  }
 }

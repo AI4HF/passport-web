@@ -129,7 +129,7 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
                         this.messageService.add({
                             severity: 'success',
                             summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('DatasetCharacteristic.Updated')
+                            detail: this.translateService.instant('DatasetManagement.Updated')
                         });
                     },
                     error: (error: any) => {
@@ -153,7 +153,7 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
                         this.messageService.add({
                             severity: 'success',
                             summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('DatasetCharacteristic.Created')
+                            detail: this.translateService.instant('DatasetManagement.Created')
                         });
                     },
                     error: (error: any) => {
