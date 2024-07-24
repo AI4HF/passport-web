@@ -57,44 +57,6 @@ export class DatasetTransformationService {
     }
 
     /**
-     * Create a dataset transformation
-     * @param datasetTransformation dataset transformation to be created
-     * @return {Observable<DatasetTransformation>}
-     */
-    createDatasetTransformation(datasetTransformation: DatasetTransformation): Observable<DatasetTransformation> {
-        const url = `${this.endpoint}`;
-        return this.httpClient.post<DatasetTransformation>(url, datasetTransformation)
-            .pipe(
-                map((response: any) => {
-                    return new DatasetTransformation(response);
-                }),
-                catchError((error) => {
-                    console.error(error);
-                    throw error;
-                })
-            );
-    }
-
-    /**
-     * Update a dataset transformation
-     * @param datasetTransformation updated version of the dataset transformation
-     * @return {Observable<DatasetTransformation>}
-     */
-    updateDatasetTransformation(datasetTransformation: DatasetTransformation): Observable<DatasetTransformation> {
-        const url = `${this.endpoint}/${datasetTransformation.dataTransformationId}`;
-        return this.httpClient.put<DatasetTransformation>(url, datasetTransformation)
-            .pipe(
-                map((response: any) => {
-                    return new DatasetTransformation(response);
-                }),
-                catchError((error) => {
-                    console.error(error);
-                    throw error;
-                })
-            );
-    }
-
-    /**
      * Delete a dataset transformation
      * @param id Id of the dataset transformation
      * @return {Observable<any>}

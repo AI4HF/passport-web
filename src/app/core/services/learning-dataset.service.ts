@@ -3,6 +3,10 @@ import { HttpClient } from "@angular/common/http";
 import { catchError, map, Observable } from "rxjs";
 import { LearningDataset } from "../../shared/models/learningDataset.model";
 import { environment } from "../../../environments/environment";
+import {DatasetTransformation} from "../../shared/models/datasetTransformation.model";
+import {
+    LearningDatasetAndTransformationRequest
+} from "../../shared/models/learningDatasetAndTransformationRequest.model";
 
 /**
  * Service to manage learning datasets.
@@ -43,7 +47,7 @@ export class LearningDatasetService {
      * @return {Observable<LearningDataset[]>}
      */
     getLearningDatasetsByTransformationId(dataTransformationId: number): Observable<LearningDataset[]> {
-        const url = `${this.endpoint}/transformation/${dataTransformationId}`;
+        const url = `${this.endpoint}?dataTransformationId=${dataTransformationId}`;
         return this.httpClient.get<LearningDataset[]>(url)
             .pipe(
                 map((response: any) => {
@@ -62,7 +66,7 @@ export class LearningDatasetService {
      * @return {Observable<LearningDataset[]>}
      */
     getLearningDatasetsByDatasetId(datasetId: number): Observable<LearningDataset[]> {
-        const url = `${this.endpoint}/dataset/${datasetId}`;
+        const url = `${this.endpoint}?datasetId=${datasetId}`;
         return this.httpClient.get<LearningDataset[]>(url)
             .pipe(
                 map((response: any) => {
@@ -95,54 +99,44 @@ export class LearningDatasetService {
     }
 
     /**
-     * Create a learning dataset
-     * @param learningDataset learning dataset to be created
-     * @return {Observable<LearningDataset>}
+     * Updates both learning dataset and dataset transformation in a single transaction.
+     * @param learningDatasetId Id of the learning dataset to be updated
+     * @param request LearningDatasetAndTransformationRequest containing updated LearningDataset and DatasetTransformation.
+     * @return {Observable<LearningDatasetAndTransformationRequest>}
      */
-    createLearningDataset(learningDataset: LearningDataset): Observable<LearningDataset> {
+    updateLearningDatasetWithTransformation(learningDatasetId: number, request: LearningDatasetAndTransformationRequest): Observable<LearningDatasetAndTransformationRequest> {
+        const url = `${this.endpoint}/${learningDatasetId}`;
+        return this.httpClient.put<LearningDatasetAndTransformationRequest>(url, request)
+            .pipe(
+                map((response: any) => {
+                    return {
+                        learningDataset: new LearningDataset(response.learningDataset),
+                        datasetTransformation: new DatasetTransformation(response.datasetTransformation)
+                    };
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    throw error;
+                })
+            );
+    }
+
+
+
+    /**
+     * Creates a LearningDataset and DatasetTransformation in a single transaction.
+     * @param request the request containing both LearningDataset and DatasetTransformation
+     * @return the saved LearningDataset and DatasetTransformation
+     */
+    createLearningDatasetWithTransformation(request: LearningDatasetAndTransformationRequest): Observable<LearningDatasetAndTransformationRequest> {
         const url = `${this.endpoint}`;
-        return this.httpClient.post<LearningDataset>(url, learningDataset)
+        return this.httpClient.post<LearningDatasetAndTransformationRequest>(url, request)
             .pipe(
                 map((response: any) => {
-                    return new LearningDataset(response);
-                }),
-                catchError((error) => {
-                    console.error(error);
-                    throw error;
-                })
-            );
-    }
-
-    /**
-     * Update a learning dataset
-     * @param learningDataset updated version of the learning dataset
-     * @return {Observable<LearningDataset>}
-     */
-    updateLearningDataset(learningDataset: LearningDataset): Observable<LearningDataset> {
-        const url = `${this.endpoint}/${learningDataset.learningDatasetId}`;
-        return this.httpClient.put<LearningDataset>(url, learningDataset)
-            .pipe(
-                map((response: any) => {
-                    return new LearningDataset(response);
-                }),
-                catchError((error) => {
-                    console.error(error);
-                    throw error;
-                })
-            );
-    }
-
-    /**
-     * Delete a learning dataset
-     * @param id Id of the learning dataset
-     * @return {Observable<any>}
-     */
-    deleteLearningDataset(id: number): Observable<any> {
-        const url = `${this.endpoint}/${id}`;
-        return this.httpClient.delete<any>(url)
-            .pipe(
-                map((response: any) => {
-                    return response;
+                    return {
+                        learningDataset: new LearningDataset(response.learningDataset),
+                        datasetTransformation: new DatasetTransformation(response.datasetTransformation)
+                    };
                 }),
                 catchError((error) => {
                     console.error(error);
