@@ -97,6 +97,11 @@ export class AppMenuComponent extends BaseComponent implements OnInit, OnDestroy
                 label: this.translateService.instant('Deployment Management'),
                 icon: 'pi pi-cloud-upload',
                 routerLink: ['/deployment-management']
+            },
+            {
+                label: this.translateService.instant('Passport Management'),
+                icon: 'pi pi-map',
+                routerLink: ['/passport-management']
             }
         ];
     }

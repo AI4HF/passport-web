@@ -69,6 +69,7 @@ export abstract class BaseComponent implements OnDestroy {
   modelService: ModelService;
   modelDeploymentService: ModelDeploymentService;
   deploymentEnvironmentService: DeploymentEnvironmentService;
+  passportService: PassportService;
 
   constructor(injector: Injector){
     this.router = injector.get(Router);
