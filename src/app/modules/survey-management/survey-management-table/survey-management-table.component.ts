@@ -1,11 +1,11 @@
-import { Component, OnInit, Injector } from '@angular/core';
-import { Survey } from '../../../shared/models/survey.model';
-import { takeUntil } from 'rxjs/operators';
-import { BaseComponent } from '../../../shared/components/base.component';
-import { Study } from '../../../shared/models/study.model';
+import { Component, Injector, OnInit } from '@angular/core';
+import { BaseComponent } from "../../../shared/components/base.component";
+import { Survey } from "../../../shared/models/survey.model";
+import { takeUntil } from "rxjs/operators";
+import { forkJoin } from 'rxjs';
 
 /**
- * Component to display and manage a list of survey questions.
+ * Component for managing the survey table.
  */
 @Component({
     selector: 'app-survey-management-table',
@@ -13,31 +13,33 @@ import { Study } from '../../../shared/models/study.model';
     styleUrls: ['./survey-management-table.component.scss']
 })
 export class SurveyManagementTableComponent extends BaseComponent implements OnInit {
-    /** List of survey questions */
-    surveyList: Survey[];
+    /** List of surveys */
+    surveyList: any[] = [];
     /** Columns to be displayed in the table */
     columns: any[];
     /** Loading state of the table */
     loading: boolean = true;
-    /** List of studies */
-    studies: Study[] = [];
     /** Determines if the form is displayed */
     displayForm: boolean = false;
-    /** The ID of the selected survey question for editing */
+    /** The ID of the selected survey for editing */
     selectedSurveyId: number = null;
+    /** List of studies */
+    studies: any[] = [];
 
     /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
      */
-    constructor(protected injector: Injector) {
+    constructor(
+        protected injector: Injector,
+    ) {
         super(injector);
         this.columns = [
             { header: 'ID', field: 'surveyId' },
             { header: 'Question', field: 'question' },
             { header: 'Answer', field: 'answer' },
             { header: 'Category', field: 'category' },
-            { header: 'Study', field: 'study' }
+            { header: 'Study', field: 'studyName' }
         ];
     }
 
@@ -45,46 +47,43 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
      * Initializes the component.
      */
     ngOnInit() {
-        this.loadStudies();
-        this.loadSurveys();
+        this.loadData();
     }
 
     /**
-     * Loads the list of studies.
+     * Loads surveys and studies data.
      */
-    loadStudies() {
-        this.studyService.getStudyList().pipe(takeUntil(this.destroy$)).subscribe(studies => this.studies = studies);
+    loadData() {
+        forkJoin([
+            this.surveyService.getAllSurveys().pipe(takeUntil(this.destroy$)),
+            this.studyService.getStudyList().pipe(takeUntil(this.destroy$))
+        ]).subscribe({
+            next: ([surveys, studies]) => {
+                this.surveyList = surveys.map(survey => ({ ...survey, studyName: '' }));
+                this.studies = studies.map(study => ({ id: study.id, name: study.name }));
+                this.mapStudiesToSurveys();
+            },
+            error: error => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: this.translateService.instant('Error'),
+                    detail: error.message
+                });
+            },
+            complete: () => {
+                this.loading = false;
+            }
+        });
     }
 
     /**
-     * Loads the list of survey questions.
+     * Maps studies to surveys to populate the study name for each survey.
      */
-    loadSurveys() {
-        this.surveyService.getAllSurveys().pipe(takeUntil(this.destroy$))
-            .subscribe({
-                next: surveys => {
-                    this.surveyList = surveys;
-                    this.loading = false;
-                },
-                error: (error: any) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
-                    });
-                    this.loading = false;
-                }
-            });
-    }
-
-    /**
-     * Gets the name of the study for the given study ID.
-     * @param studyId The ID of the study
-     * @returns The name of the study
-     */
-    getStudyName(studyId: number): string {
-        const study = this.studies.find(study => study.id === studyId);
-        return study ? study.name : '';
+    mapStudiesToSurveys() {
+        this.surveyList.forEach(survey => {
+            const study = this.studies.find(s => s.id === survey.studyId);
+            survey.studyName = study ? study.name : '';
+        });
     }
 
     /**
@@ -97,7 +96,7 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
     }
 
     /**
-     * Shows the form for creating a new survey question.
+     * Shows the form for creating a new survey.
      */
     createQuestion() {
         this.selectedSurveyId = null;
@@ -105,8 +104,8 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
     }
 
     /**
-     * Shows the form for editing an existing survey question.
-     * @param survey The survey question to be edited
+     * Shows the form for editing an existing survey.
+     * @param survey The survey to be edited
      */
     editQuestion(survey: Survey) {
         this.selectedSurveyId = survey.surveyId;
@@ -114,35 +113,35 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
     }
 
     /**
-     * Deletes the selected survey question.
-     * @param surveyId The ID of the survey question to be deleted
+     * Deletes the selected survey.
+     * @param surveyId The ID of the survey to be deleted
      */
     deleteQuestion(surveyId: number) {
-        this.surveyService.deleteSurvey(surveyId).pipe(takeUntil(this.destroy$))
-            .subscribe({
-                next: () => {
-                    this.surveyList = this.surveyList.filter(q => q.surveyId !== surveyId);
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('SurveyManagement.Survey is deleted successfully')
-                    });
-                },
-                error: (error: any) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
-                    });
-                }
-            });
+        this.surveyService.deleteSurvey(surveyId).pipe(takeUntil(this.destroy$)).subscribe({
+            next: () => {
+                this.surveyList = this.surveyList.filter(survey => survey.surveyId !== surveyId);
+                this.messageService.add({
+                    severity: 'success',
+                    summary: this.translateService.instant('Success'),
+                    detail: this.translateService.instant('SurveyManagement.Survey is deleted successfully')
+                });
+            },
+            error: error => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: this.translateService.instant('Error'),
+                    detail: error.message
+                });
+            }
+        });
     }
 
     /**
      * Handles the event when the form is closed.
      */
     onFormClosed() {
+        this.selectedSurveyId = null;
         this.displayForm = false;
-        this.loadSurveys();
+        this.loadData();
     }
 }

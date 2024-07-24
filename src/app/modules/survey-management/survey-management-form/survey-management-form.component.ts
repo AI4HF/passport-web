@@ -1,53 +1,50 @@
-import {Component, EventEmitter, Injector, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Survey} from '../../../shared/models/survey.model';
+import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+import { BaseComponent } from "../../../shared/components/base.component";
+import { Survey } from "../../../shared/models/survey.model";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { takeUntil } from "rxjs/operators";
 import {AutoCompleteCompleteEvent} from "primeng/autocomplete";
-import {takeUntil} from 'rxjs/operators';
-import {BaseComponent} from '../../../shared/components/base.component';
-import {Study} from '../../../shared/models/study.model';
 
 /**
- * Component for creating or updating survey questions.
+ * Component for creating or updating surveys.
  */
 @Component({
     selector: 'app-survey-management-form',
     templateUrl: './survey-management-form.component.html',
     styleUrls: ['./survey-management-form.component.scss']
 })
-export class SurveyManagementFormComponent extends BaseComponent implements OnInit, OnChanges {
-    /** Determines if the form is displayed */
-    @Input() displayForm: boolean;
+export class SurveyManagementFormComponent extends BaseComponent implements OnInit {
     /** The ID of the survey to be edited */
     @Input() surveyId: number;
     /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();
 
-    /** The selected survey question */
-    selectedQuestion: Survey = new Survey({});
-    /** Flag to indicate if the form is in creation mode */
-    newQuestion: boolean = false;
-    /** Flag to indicate if the form is in update mode */
-    isUpdateMode: boolean = false;
-    /** List of survey categories */
+    /** The selected survey */
+    selectedSurvey: Survey;
+    /** Form group for survey form controls */
+    surveyForm: FormGroup;
+    /** Flag indicating that dialog is visible */
+    display = false;
+    /** List of studies for the dropdown */
+    studies: any[] = [];
+    /** List of predefined categories */
     categories: any[] = [
         {label: 'Testing', value: 'Testing'},
         {label: 'Robustness', value: 'Robustness'},
         {label: 'Explainability', value: 'Explainability'}
     ];
-    /** List of filtered categories */
-    filteredCategories: any[];
-    /** Form group for survey form controls */
-    surveyForm: FormGroup;
-    /** List of studies */
-    studies: Study[];
-    /** The selected study */
-    selectedStudy: Study;
+    /** Filtered categories for autocomplete */
+    filteredCategories: string[] = [];
+    /** Flag indicating if the form is in update mode */
+    isUpdateMode: boolean = false;
 
     /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
      */
-    constructor(protected injector: Injector) {
+    constructor(
+        protected injector: Injector
+    ) {
         super(injector);
     }
 
@@ -55,57 +52,58 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
      * Initializes the component.
      */
     ngOnInit() {
-        this.studyService.getStudyList().pipe(takeUntil(this.destroy$)).subscribe(studies => this.studies = studies);
-        this.initializeForm();
-        this.loadSurvey();
+        this.loadStudies();
     }
 
     /**
-     * Responds to changes in input properties.
-     * @param changes The changes in input properties
+     * Loads the list of studies.
      */
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes['displayForm'] && this.displayForm) {
-            this.loadSurvey();
-        }
+    loadStudies() {
+        this.studyService.getStudyList().pipe(takeUntil(this.destroy$)).subscribe({
+            next: studies => {
+                this.studies = studies.map(study => ({ id: study.id, name: study.name }));
+                if (this.studies.length === 0 && !this.surveyId) {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: this.translateService.instant('No studies available')
+                    });
+                    this.closeDialog();
+                } else {
+                    this.loadSurvey();
+                }
+            },
+            error: error => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: this.translateService.instant('Error'),
+                    detail: error.message
+                });
+            }
+        });
     }
 
     /**
      * Loads the survey details if a survey ID is provided.
      */
     loadSurvey() {
-        // If no studies are available to match the new surveys with, the process of creating one aborts.
-        if (this.studies.length === 0) {
-            this.messageService.add({
-                severity: 'warn',
-                summary: this.translateService.instant('Warning'),
-                detail: this.translateService.instant('SurveyManagement.NoStudies')
-            });
-            this.closeDialog();
-            return;
-        }
-
         if (this.surveyId) {
-            this.newQuestion = false;
             this.isUpdateMode = true;
-            this.surveyService.getSurveyById(this.surveyId).pipe(takeUntil(this.destroy$))
-                .subscribe({
-                    next: survey => {
-                        this.selectedQuestion = survey;
-                        this.initializeForm();
-                    },
-                    error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
-                        });
-                    }
-                });
+            this.surveyService.getSurveyById(this.surveyId).pipe(takeUntil(this.destroy$)).subscribe({
+                next: survey => {
+                    this.selectedSurvey = new Survey(survey);
+                    this.initializeForm();
+                },
+                error: error => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
         } else {
-            this.newQuestion = true;
-            this.isUpdateMode = false;
-            this.selectedQuestion = new Survey({});
+            this.selectedSurvey = new Survey({});
             this.initializeForm();
         }
     }
@@ -115,95 +113,81 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
      */
     initializeForm() {
         this.surveyForm = new FormGroup({
-            question: new FormControl(this.selectedQuestion.question, Validators.required),
-            answer: new FormControl(this.selectedQuestion.answer, Validators.required),
-            category: new FormControl(this.selectedQuestion.category, Validators.required),
-            study: new FormControl({
-                value: this.selectedQuestion.studyId,
-                disabled: this.isUpdateMode
-            }, Validators.required)
+            question: new FormControl(this.selectedSurvey.question, Validators.required),
+            answer: new FormControl(this.selectedSurvey.answer, Validators.required),
+            category: new FormControl(this.selectedSurvey.category, Validators.required),
+            study: new FormControl(this.selectedSurvey.studyId, Validators.required)
         });
+        this.display = true;
     }
 
     /**
-     * Saves the survey question.
+     * Saves the survey.
      */
     saveQuestion() {
-        if (!this.surveyForm.valid) {
-            this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: this.translateService.instant('SurveyManagement.FormInvalid')
+        const formValue = this.surveyForm.value;
+        if (!this.selectedSurvey.surveyId) {
+            const newSurvey: Survey = new Survey({
+                ...formValue,
+                studyId: formValue.study.id
             });
-            return;
-        }
-
-        const formValues = this.surveyForm.value;
-        formValues.category = formValues.category.value || formValues.category;  // Ensure category is a string
-
-        if (this.isUpdateMode) {
-            formValues.studyId = this.selectedQuestion.studyId;
+            this.surveyService.createSurvey(newSurvey).pipe(takeUntil(this.destroy$)).subscribe({
+                next: survey => {
+                    this.selectedSurvey = survey;
+                    this.initializeForm();
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translateService.instant('Success'),
+                        detail: this.translateService.instant('SurveyManagement.Survey is created successfully')
+                    });
+                },
+                error: error => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                },
+                complete: () => {
+                    this.closeDialog();
+                }
+            });
         } else {
-            formValues.studyId = this.surveyForm.get('study')?.value.id;
-        }
-
-        if (this.newQuestion) {
-            const newSurvey: Survey = new Survey({...formValues});
-            this.surveyService.createSurvey(newSurvey)
-                .pipe(takeUntil(this.destroy$))
-                .subscribe({
-                    next: survey => {
-                        this.selectedQuestion = survey;
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('SurveyManagement.Survey is created successfully')
-                        });
-                        this.closeDialog(true);
-                    },
-                    error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
-                        });
-                    }
-                });
-        } else {
-            const updatedSurvey: Survey = new Survey({surveyId: this.selectedQuestion.surveyId, ...formValues});
-            this.surveyService.updateSurvey(updatedSurvey)
-                .pipe(takeUntil(this.destroy$))
-                .subscribe({
-                    next: survey => {
-                        this.selectedQuestion = survey;
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('SurveyManagement.Survey is updated successfully')
-                        });
-                        this.closeDialog(true);
-                    },
-                    error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
-                        });
-                    }
-                });
+            const updatedSurvey: Survey = new Survey({
+                surveyId: this.selectedSurvey.surveyId,
+                ...formValue,
+                studyId: this.selectedSurvey.studyId
+            });
+            this.surveyService.updateSurvey(updatedSurvey).pipe(takeUntil(this.destroy$)).subscribe({
+                next: survey => {
+                    this.selectedSurvey = survey;
+                    this.initializeForm();
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translateService.instant('Success'),
+                        detail: this.translateService.instant('SurveyManagement.Survey is updated successfully')
+                    });
+                },
+                error: error => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                },
+                complete: () => {
+                    this.closeDialog();
+                }
+            });
         }
     }
 
     /**
-     * Closes the dialog and optionally refreshes the parent component.
-     * @param refresh Indicates whether to refresh the parent component
+     * Closes the dialog.
      */
-    closeDialog(refresh: boolean = false) {
-        this.displayForm = false;
+    closeDialog() {
+        this.display = false;
         this.formClosed.emit();
-        if (refresh) {
-            this.router.navigate(['survey-management']);
-        }
     }
 
     /**
