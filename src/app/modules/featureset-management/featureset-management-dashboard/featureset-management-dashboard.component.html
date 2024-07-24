@@ -1,0 +1,80 @@
+<div class="col-12">
+    <div class="card p-3">
+        <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'FeatureSetManagement.FeatureSets' | translate }}</div>
+            <div class="inline-flex align-items-center">
+                <span class="p-input-icon-left flex-auto mx-2">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="filter(dt, $event)" placeholder="{{ 'Search' | translate }}"
+                           class="w-full rounded-border"/>
+                </span>
+                <button pButton pRipple icon="pi pi-plus" class="p-button-rounded button-secondary mx-2" (click)="createFeatureSet()"
+                        pTooltip="{{ 'FeatureSetManagement.NewFeatureSet' | translate }}" tooltipPosition="bottom"></button>
+            </div>
+        </div>
+        <p-table #dt [value]="featureSetList" [columns]="columns" [rows]="10" [rowHover]="true" [paginator]="true"
+                 [showCurrentPageReport]="true" [currentPageReportTemplate]="'FeatureSetManagement.NumberOfEntries' | translate"
+                 [rowsPerPageOptions]="[10,25,50]" [showLoader]="true" [loading]="loading" [filterDelay]="0"
+                 [globalFilterFields]="['featuresetId', 'title', 'description', 'featuresetURL', 'experimentId']"
+                 [sortField]="'title'">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th [pSortableColumn]="'featuresetId'"
+                        class="white-space-nowrap min-width-10rem">
+                        {{ 'FeatureSetManagement.ID' | translate }}
+                        <p-sortIcon [field]="'featuresetId'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'title'"
+                        class="white-space-nowrap min-width-10rem">
+                        {{ 'FeatureSetManagement.Title' | translate }}
+                        <p-sortIcon [field]="'title'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'description'" class="white-space-nowrap text-center">
+                        {{ 'FeatureSetManagement.Description' | translate }}
+                        <p-sortIcon [field]="'description'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'featuresetURL'" class="white-space-nowrap text-center">
+                        {{ 'FeatureSetManagement.URL' | translate }}
+                        <p-sortIcon [field]="'featuresetURL'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'experimentId'" class="white-space-nowrap text-center">
+                        {{ 'FeatureSetManagement.Experiment' | translate }}
+                        <p-sortIcon [field]="'experimentId'"></p-sortIcon>
+                    </th>
+                    <th>
+                        {{ 'FeatureSetManagement.Actions' | translate }}
+                    </th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-featureSet>
+                <tr>
+                    <td class="cursor-pointer">
+                        <span>{{ featureSet.featuresetId }}</span>
+                    </td>
+                    <td class="cursor-pointer">
+                        <span>{{ featureSet.title }}</span>
+                    </td>
+                    <td class="text-center">
+                        <span>{{ featureSet.description }}</span>
+                    </td>
+                    <td class="text-center">
+                        <span>{{ featureSet.featuresetURL }}</span>
+                    </td>
+                    <td class="text-center">
+                        <span>{{ getExperimentName(featureSet.experimentId) }}</span>
+                    </td>
+                    <td>
+                        <button pButton pRipple type="button" [icon]="'pi pi-pencil'"
+                                class="p-button-text p-button-rounded p-ripple" tooltipPosition="bottom"
+                                (click)="editFeatureSet(featureSet.featuresetId)" pTooltip="{{ 'FeatureSetManagement.EditFeatureSet' | translate }}"></button>
+                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple"
+                                (click)="deleteFeatureSet(featureSet.featuresetId)" pTooltip="{{ 'FeatureSetManagement.DeleteFeatureSet' | translate }}"
+                                tooltipPosition="bottom"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
