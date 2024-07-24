@@ -43,7 +43,7 @@ export class DatasetCharacteristicService {
      * @return {Observable<DatasetCharacteristic[]>}
      */
     getCharacteristicsByDatasetId(datasetId: number): Observable<DatasetCharacteristic[]> {
-        const url = `${this.endpoint}/dataset/${datasetId}`;
+        const url = `${this.endpoint}?datasetId=${datasetId}`;
         return this.httpClient.get<DatasetCharacteristic[]>(url)
             .pipe(
                 map((response: any) => {
@@ -81,7 +81,7 @@ export class DatasetCharacteristicService {
      * @return {Observable<DatasetCharacteristic>}
      */
     updateCharacteristic(characteristic: DatasetCharacteristic): Observable<DatasetCharacteristic> {
-        const url = `${this.endpoint}/dataset/${characteristic.datasetId}/feature/${characteristic.featureId}`;
+        const url = `${this.endpoint}?datasetId=${characteristic.datasetId}&featureId=${characteristic.featureId}`;
         return this.httpClient.put<DatasetCharacteristic>(url, characteristic)
             .pipe(
                 map((response: any) => {
@@ -101,7 +101,7 @@ export class DatasetCharacteristicService {
      * @return {Observable<any>}
      */
     deleteCharacteristic(datasetId: number, featureId: number): Observable<any> {
-        const url = `${this.endpoint}/dataset/${datasetId}/feature/${featureId}`;
+        const url = `${this.endpoint}?datasetId=${datasetId}&featureId=${featureId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) => {
