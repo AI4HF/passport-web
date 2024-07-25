@@ -5,6 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from "../../../../shared/components/base.component";
 import { ROLES } from "../../../../shared/models/roles.constant";
 import { NameAndValueInterface } from "../../../../shared/models/nameAndValue.interface";
+import {PersonnelDTO} from "../../../../shared/models/personnelDTO.model";
+import {Credentials} from "../../../../shared/models/credentials.model";
 
 /**
  * Component for creating or updating personnel.
@@ -64,6 +66,11 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
             role: new FormControl(this.selectedPersonnel.role, Validators.required),
             email: new FormControl(this.selectedPersonnel.email, [Validators.required, Validators.email])
         });
+
+        if (!this.personnelId){
+            this.personnelForm.addControl('username', new FormControl('', [Validators.required]));
+            this.personnelForm.addControl('password', new FormControl('', [Validators.required]));
+        }
     }
 
     /**
@@ -137,8 +144,10 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
                 });
                 return;
             }
+            const credentials = new Credentials(this.personnelForm.value);
             const newPersonnel = new Personnel({ ...this.personnelForm.value, organizationId: organizationId });
-            this.personnelService.createPersonnelByPersonId(newPersonnel).pipe(takeUntil(this.destroy$)).subscribe({
+            const personnelDTO = new PersonnelDTO({personnel: newPersonnel, credentials: credentials});
+            this.personnelService.createPersonnelByPersonId(personnelDTO).pipe(takeUntil(this.destroy$)).subscribe({
                 next: personnel => {
                     this.selectedPersonnel = personnel;
                     this.messageService.add({

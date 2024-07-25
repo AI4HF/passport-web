@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {catchError, map, Observable} from "rxjs";
 import {Personnel} from "../../shared/models/personnel.model";
 import {environment} from "../../../environments/environment";
+import {PersonnelDTO} from "../../shared/models/personnelDTO.model";
 
 /**
  * Service to manage personnel.
@@ -76,13 +77,13 @@ export class PersonnelService {
     }
 
     /**
-     * Create a personnel for the organization
-     * @param personnel personnel to be created
+     * Create a personnel and create a keycloak user for the organization
+     * @param personnelDTO personnel to be created
      * @return {Observable<Personnel>}
      */
-    createPersonnelByPersonId(personnel: Personnel): Observable<Personnel> {
+    createPersonnelByPersonId(personnelDTO: PersonnelDTO): Observable<Personnel> {
         const url = `${this.endpoint}`;
-        return this.httpClient.post<Personnel>(url, personnel)
+        return this.httpClient.post<Personnel>(url, personnelDTO)
             .pipe(
                 map((response: any) =>{
                     return new Personnel(response);
