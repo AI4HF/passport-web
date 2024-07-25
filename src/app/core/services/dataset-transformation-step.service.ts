@@ -43,7 +43,7 @@ export class DatasetTransformationStepService {
      * @return {Observable<DatasetTransformationStep[]>}
      */
     getDatasetTransformationStepsByTransformationId(dataTransformationId: number): Observable<DatasetTransformationStep[]> {
-        const url = `${this.endpoint}/transformation/${dataTransformationId}`;
+        const url = `${this.endpoint}?dataTransformationId=${dataTransformationId}`;
         return this.httpClient.get<DatasetTransformationStep[]>(url)
             .pipe(
                 map((response: any) => {

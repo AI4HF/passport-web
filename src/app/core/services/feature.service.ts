@@ -62,7 +62,7 @@ export class FeatureService {
      * @return {Observable<Feature[]>}
      */
     getFeaturesByFeatureSetId(featureSetId: number): Observable<Feature[]> {
-        const url = `${this.endpoint}/featureset/${featureSetId}`;
+        const url = `${this.endpoint}?featuresetId=${featureSetId}`;
         return this.httpClient.get<Feature[]>(url)
             .pipe(
                 map((response: any) =>{
