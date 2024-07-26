@@ -92,8 +92,18 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
         this.learningDatasets.forEach(learningDataset => {
             this.datasetTransformationService.getDatasetTransformationById(learningDataset.dataTransformationId)
                 .pipe(takeUntil(this.destroy$))
-                .subscribe(transformation => {
-                    this.datasetTransformations[learningDataset.dataTransformationId] = transformation;
+                .subscribe({
+                    next: transformation => {
+                        this.datasetTransformations[learningDataset.dataTransformationId] = transformation;
+                    },
+                    error: error => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: this.translateService.instant('Error'),
+                            detail: error.message
+                        });
+                        this.loading = false;
+                    }
                 });
         });
     }
@@ -107,6 +117,7 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
             .subscribe({
                 next: () => {
                     this.learningDatasets = this.learningDatasets.filter(ld => ld.learningDatasetId !== learningDataset.learningDatasetId);
+                    delete this.datasetTransformations[learningDataset.dataTransformationId];
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translateService.instant('Success'),
