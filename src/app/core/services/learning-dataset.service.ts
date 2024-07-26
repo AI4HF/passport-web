@@ -3,7 +3,6 @@ import { HttpClient } from "@angular/common/http";
 import { catchError, map, Observable } from "rxjs";
 import { LearningDataset } from "../../shared/models/learningDataset.model";
 import { environment } from "../../../environments/environment";
-import {DatasetTransformation} from "../../shared/models/datasetTransformation.model";
 import {
     LearningDatasetAndTransformationRequest
 } from "../../shared/models/learningDatasetAndTransformationRequest.model";
