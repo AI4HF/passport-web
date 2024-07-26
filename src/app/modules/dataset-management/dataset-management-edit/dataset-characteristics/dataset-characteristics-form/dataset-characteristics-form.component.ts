@@ -47,12 +47,12 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
      * Initializes the component.
      */
     ngOnInit() {
-        this.loadFeatures();
         this.initializeForm();
         if (this.characteristic) {
             this.isUpdateMode = true;
             this.updateForm();
         } else {
+            this.loadFeatures();
             this.characteristic = new DatasetCharacteristic({ datasetId: this.datasetId, featureId: null });
         }
         this.display = true;
