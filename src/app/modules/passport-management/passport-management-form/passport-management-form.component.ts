@@ -48,7 +48,7 @@ export class PassportManagementFormComponent extends BaseComponent implements On
    */
   initializeForm() {
     this.passportForm = new FormGroup({
-      deploymentId: new FormControl(Validators.required)
+      deploymentId: new FormControl(null, Validators.required)
     });
     this.display = true;
   }
@@ -92,7 +92,8 @@ export class PassportManagementFormComponent extends BaseComponent implements On
    * Saves the passport.
    */
   savePassport() {
-      const newPassport: Passport = new Passport({createdBy: 1, approvedBy: 1,...this.passportForm.value});
+    if (this.passportForm.valid) {
+      const newPassport: Passport = new Passport({createdBy: 1, approvedBy: 1, ...this.passportForm.value});
       this.passportService.createPassport(newPassport)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
@@ -115,6 +116,7 @@ export class PassportManagementFormComponent extends BaseComponent implements On
               this.closeDialog();
             }
           });
+    }
   }
 
   /**
