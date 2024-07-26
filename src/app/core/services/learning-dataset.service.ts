@@ -109,10 +109,7 @@ export class LearningDatasetService {
         return this.httpClient.put<LearningDatasetAndTransformationRequest>(url, request)
             .pipe(
                 map((response: any) => {
-                    return {
-                        learningDataset: new LearningDataset(response.learningDataset),
-                        datasetTransformation: new DatasetTransformation(response.datasetTransformation)
-                    };
+                    return new LearningDatasetAndTransformationRequest(response);
                 }),
                 catchError((error) => {
                     console.error(error);
@@ -133,10 +130,7 @@ export class LearningDatasetService {
         return this.httpClient.post<LearningDatasetAndTransformationRequest>(url, request)
             .pipe(
                 map((response: any) => {
-                    return {
-                        learningDataset: new LearningDataset(response.learningDataset),
-                        datasetTransformation: new DatasetTransformation(response.datasetTransformation)
-                    };
+                    return new LearningDatasetAndTransformationRequest(response);
                 }),
                 catchError((error) => {
                     console.error(error);

@@ -2,9 +2,9 @@ import { LearningDataset } from "./learningDataset.model";
 import { DatasetTransformation } from "./datasetTransformation.model";
 
 /**
- * Interface for the combined request containing both LearningDataset and DatasetTransformation.
+ * Class for the combined request containing both LearningDataset and DatasetTransformation.
  */
-export interface LearningDatasetAndTransformationRequest {
+export class LearningDatasetAndTransformationRequest {
     /**
      * The learning dataset to be created or updated.
      */
@@ -14,4 +14,12 @@ export interface LearningDatasetAndTransformationRequest {
      * The dataset transformation to be created or updated.
      */
     datasetTransformation: DatasetTransformation;
+
+    constructor(data: any) {
+        if (!data) {
+            return;
+        }
+        this.learningDataset = new LearningDataset(data.learningDataset);
+        this.datasetTransformation = new DatasetTransformation(data.datasetTransformation);
+    }
 }
