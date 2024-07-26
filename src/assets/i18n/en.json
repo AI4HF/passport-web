@@ -158,7 +158,8 @@
     "Units": "Units",
     "Equipment": "Equipment",
     "DataCollection": "Data Collection",
-    "SelectAnExperiment": "Select an experiment"
+    "SelectAnExperiment": "Select an experiment",
+    "Feature Form": "Feature Form"
   },
   "DatasetManagement": {
     "Title": "Title",
@@ -208,6 +209,8 @@
     "TransformationTitle": "Transformation Title",
     "TransformationDescription": "Transformation Description",
     "LearningDatasetForm": "Learning Dataset Form",
-    "LearningDatasetDescription": "Learning Dataset Description"
+    "LearningDatasetDescription": "Learning Dataset Description",
+    "Updated": "Update is successful!",
+    "Created": "Creation is successful!"
   }
 }
