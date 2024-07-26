@@ -1,13 +1,13 @@
-import {Component} from '@angular/core';
-import {Router} from "@angular/router";
+import {Component, DoCheck} from '@angular/core';
 import {StorageUtil} from "../core/services/storageUtil.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-profile',
     templateUrl: './app.profile.component.html',
     styleUrls: ['./app.profile.component.scss']
 })
-export class AppProfileComponent {
+export class AppProfileComponent implements DoCheck{
     /**
      * Menu items displayed under user name
      */
@@ -17,9 +17,27 @@ export class AppProfileComponent {
         {value: 'logout', label: 'Logout', icon: 'pi pi-power-off'}
     ]
 
+    /** The name of logged personnel */
+    personnelName: string;
+    /** The surname of logged personnel */
+    personnelSurname: string;
+    /** The organization name of logged personnel */
+    organizationName: string;
+
     constructor(private router: Router) {
     }
 
+    ngDoCheck() {
+        if(StorageUtil.retrievePersonnelName()){
+            this.personnelName = StorageUtil.retrievePersonnelName();
+        }
+        if(StorageUtil.retrievePersonnelSurname()){
+            this.personnelSurname = StorageUtil.retrievePersonnelSurname();
+        }
+        if(StorageUtil.retrieveOrganizationName()){
+            this.organizationName = StorageUtil.retrieveOrganizationName();
+        }
+    }
 
     /**
      * Fired when user selects a menu item
@@ -47,6 +65,10 @@ export class AppProfileComponent {
      */
     logout() {
         StorageUtil.removeToken();
+        StorageUtil.removeUserId();
+        StorageUtil.removePersonnelName();
+        StorageUtil.removeOrganizationName();
+        StorageUtil.removePersonnelSurname();
         this.router.navigate(['../login'])
     }
 }

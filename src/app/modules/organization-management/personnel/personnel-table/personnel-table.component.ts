@@ -22,7 +22,7 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
     /** Determines if the form is displayed */
     displayForm: boolean = false;
     /** The ID of the selected personnel for editing */
-    selectedPersonnelId: number = null;
+    selectedPersonnelId: string;
 
     /**
      * Constructor to inject dependencies.
@@ -102,7 +102,7 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
      * Deletes the selected personnel.
      * @param personId The ID of the personnel to be deleted
      */
-    deletePersonnel(personId: number) {
+    deletePersonnel(personId: string) {
         this.personnelService.deletePersonnel(personId).pipe(takeUntil(this.destroy$)).subscribe({
             next: () => {
                 this.personnelList = this.personnelList.filter(p => p.personId !== personId);

@@ -8,8 +8,8 @@
         </div>
 
         <div class="flex flex-column">
-            <span class="title username font-medium" [ngClass]="'text-primary'">Okan Mercan</span>
-            <span class="title font-light" [ngClass]="'text-primary'">Org</span>
+            <span class="title username font-medium" [ngClass]="'text-primary'">{{this.personnelName + ' ' + this.personnelSurname}}</span>
+            <span class="title font-light" [ngClass]="'text-primary'">{{this.organizationName}}</span>
         </div>
     </div>
 

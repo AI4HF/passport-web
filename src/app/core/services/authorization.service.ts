@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import {Observable, throwError} from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import {Credentials} from "../../shared/models/credentials.model";
-import {AuthResponse} from "../../shared/models/authResponse.model";
+import {LoginResponse} from "../../shared/models/loginResponse.model";
 
 /**
  * Service to manage the Authorization Request
@@ -25,7 +25,7 @@ export class AuthorizationService {
      * Login request service implementation
      * @param creds Credential pair of the user
      */
-    login(creds:Credentials): Observable<any> {
+    login(creds:Credentials): Observable<LoginResponse> {
         const url = `${this.endpoint}/user/login`;
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ export class AuthorizationService {
 
         return this.httpClient.post<any>(url, creds, { headers })
             .pipe(
-                map((response: AuthResponse) => {
+                map((response: LoginResponse) => {
                     return response;
                 }),
                 catchError((error) => {

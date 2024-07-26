@@ -7,7 +7,7 @@ export class Personnel{
     /**
      * The ID of the Personnel
      */
-    personId: number;
+    personId: string;
 
     /**
      * The ID reference to the Organization

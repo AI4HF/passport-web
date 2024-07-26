@@ -20,7 +20,7 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
     /** Determines if the form is displayed */
     @Input() displayForm: boolean;
     /** The ID of the personnel to be edited */
-    @Input() personnelId: number;
+    @Input() personnelId: string;
     /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();
 

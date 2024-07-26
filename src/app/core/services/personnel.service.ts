@@ -62,7 +62,7 @@ export class PersonnelService {
      * @param personId Id of the person
      * @return {Observable<Personnel>}
      */
-    getPersonnelByPersonId(personId: number): Observable<Personnel> {
+    getPersonnelByPersonId(personId: string): Observable<Personnel> {
         const url = `${this.endpoint}/${personId}`;
         return this.httpClient.get<Personnel>(url)
             .pipe(
@@ -119,7 +119,7 @@ export class PersonnelService {
      * @param personId Id of the person
      * @return {Observable<any>}
      */
-    deletePersonnel(personId: number): Observable<any> {
+    deletePersonnel(personId: string): Observable<any> {
         const url = `${this.endpoint}/${personId}`;
         return this.httpClient.delete<any>(url)
             .pipe(

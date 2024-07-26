@@ -61,8 +61,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
         const { username, password, rememberMe } = this.loginForm.value;
         this.authorizationService.login(new Credentials({ username, password })).pipe(takeUntil(this.destroy$)).subscribe(
             response => {
-                StorageUtil.storeToken(response.access_token, rememberMe);
-                this.router.navigate(['/study-management']);
+                StorageUtil.storeToken(response.authResponse.access_token, rememberMe);
+                StorageUtil.storeUserId(response.userId, rememberMe);
+                this.fetchLoggedPersonnel(rememberMe);
             },
             error => {
                 this.messageService.add({
@@ -72,6 +73,52 @@ export class LoginComponent extends BaseComponent implements OnInit {
                 });
             }
         );
+    }
+
+    /**
+     * Fetch logged personnel information
+     * @param rememberMe boolean for remember feature
+     */
+    fetchLoggedPersonnel(rememberMe: boolean): void {
+        if(StorageUtil.retrieveUserId()){
+            this.personnelService.getPersonnelByPersonId(StorageUtil.retrieveUserId())
+                .pipe(takeUntil(this.destroy$)).subscribe({
+                next: personnel => {
+                    StorageUtil.storePersonnelName(personnel.firstName, rememberMe);
+                    StorageUtil.storePersonnelSurname(personnel.lastName, rememberMe);
+                    this.fetchLoggedOrganization(personnel.organizationId, rememberMe);
+                },
+                error: (error: any) => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
+        }
+    }
+
+    /**
+     * Fetch logged organization information
+     * @param orgId The ID of organization
+     * @param rememberMe boolean for remember feature
+     */
+    fetchLoggedOrganization(orgId: number, rememberMe: boolean): void {
+        this.organizationService.getOrganizationById(orgId)
+            .pipe(takeUntil(this.destroy$)).subscribe({
+            next: organization => {
+                StorageUtil.storeOrganizationName(organization.name, rememberMe);
+                this.router.navigate(['/study-management']);
+            },
+            error: (error: any) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: this.translateService.instant('Error'),
+                    detail: error.message
+                });
+            }
+        });
     }
 }
 
