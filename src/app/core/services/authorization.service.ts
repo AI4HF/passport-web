@@ -25,7 +25,7 @@ export class AuthorizationService {
      * Login request service implementation
      * @param creds Credential pair of the user
      */
-    login(creds:Credentials): Observable<any> {
+    login(creds:Credentials): Observable<AuthResponse> {
         const url = `${this.endpoint}/user/login`;
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'

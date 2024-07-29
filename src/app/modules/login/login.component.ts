@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Credentials } from "../../shared/models/credentials.model";
 import {takeUntil} from "rxjs/operators";
 import {StorageUtil} from "../../core/services/storageUtil.service";
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 /**
  * Login component which handles the main authorization prospects of the system.
@@ -62,7 +63,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
         this.authorizationService.login(new Credentials({ username, password })).pipe(takeUntil(this.destroy$)).subscribe(
             response => {
                 StorageUtil.storeToken(response.access_token, rememberMe);
-                this.router.navigate(['/study-management']);
+                const helper = new JwtHelperService();
+                const decodedToken = helper.decodeToken(response.access_token);
+                StorageUtil.storeUserId(decodedToken.user_id, rememberMe);
+                this.fetchLoggedPersonnel(rememberMe);
             },
             error => {
                 this.messageService.add({
@@ -72,6 +76,52 @@ export class LoginComponent extends BaseComponent implements OnInit {
                 });
             }
         );
+    }
+
+    /**
+     * Fetch logged personnel information
+     * @param rememberMe boolean for remember feature
+     */
+    fetchLoggedPersonnel(rememberMe: boolean): void {
+        if(StorageUtil.retrieveUserId()){
+            this.personnelService.getPersonnelByPersonId(StorageUtil.retrieveUserId())
+                .pipe(takeUntil(this.destroy$)).subscribe({
+                next: personnel => {
+                    StorageUtil.storePersonnelName(personnel.firstName, rememberMe);
+                    StorageUtil.storePersonnelSurname(personnel.lastName, rememberMe);
+                    this.fetchLoggedOrganization(personnel.organizationId, rememberMe);
+                },
+                error: (error: any) => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
+        }
+    }
+
+    /**
+     * Fetch logged organization information
+     * @param orgId The ID of organization
+     * @param rememberMe boolean for remember feature
+     */
+    fetchLoggedOrganization(orgId: number, rememberMe: boolean): void {
+        this.organizationService.getOrganizationById(orgId)
+            .pipe(takeUntil(this.destroy$)).subscribe({
+            next: organization => {
+                StorageUtil.storeOrganizationName(organization.name, rememberMe);
+                this.router.navigate(['/study-management']);
+            },
+            error: (error: any) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: this.translateService.instant('Error'),
+                    detail: error.message
+                });
+            }
+        });
     }
 }
 

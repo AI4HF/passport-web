@@ -87,7 +87,9 @@
     "Personnel is deleted successfully": "Personnel is deleted successfully",
     "Finish Editing": "Finish Editing",
     "Edit": "Edit",
-    "Select a role": "Select a role"
+    "Select a role": "Select a role",
+    "Enter username": "Enter username",
+    "Enter password": "Enter password"
   },
   "SurveyManagement": {
     "Survey Management": "Survey Management",

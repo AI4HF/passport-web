@@ -1,7 +1,7 @@
 /**
  * Response model for authorization tokens and session information.
  */
-export interface AuthResponse {
+export class AuthResponse {
     /**
      * Access token for authorization.
      */
@@ -61,4 +61,24 @@ export interface AuthResponse {
      * The type of the token.
      */
     token_type: string;
+
+    constructor(data: any) {
+
+        if(!data){
+            return;
+        }
+
+        this.access_token = data.access_token;
+        this.error = data.error;
+        this.error_description = data.error_description;
+        this.error_uri = data.error_uri;
+        this.expires_in = data.expires_in;
+        this.id_token = data.id_token;
+        this.not_before_policy = data.not_before_policy;
+        this.refresh_expires_in = data.refresh_expires_in;
+        this.refresh_token = data.refresh_token;
+        this.scope = data.scope;
+        this.session_state = data.session_state;
+        this.token_type = data.token_type;
+    }
 }

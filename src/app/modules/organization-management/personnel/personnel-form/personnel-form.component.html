@@ -2,6 +2,14 @@
           [style]="{width: '25rem'}">
     <form [formGroup]="personnelForm" (ngSubmit)="savePersonnel()">
         <div class="p-fluid">
+            <div *ngIf="!this.personnelId" class="p-field">
+                <label for="username">{{ 'Username' | translate }}</label>
+                <input formControlName="username" id="username" pInputText type="text" placeholder="{{ 'OrganizationManagement.Enter username' | translate }}"/>
+            </div>
+            <div *ngIf="!this.personnelId" class="p-field">
+                <label for="password">{{ 'Password' | translate }}</label>
+                <input formControlName="password" id="password" pInputText type="password" placeholder="{{ 'OrganizationManagement.Enter password' | translate }}"/>
+            </div>
             <div class="p-field">
                 <label for="firstName">{{ 'OrganizationManagement.First Name' | translate }}</label>
                 <input formControlName="firstName" id="firstName" pInputText placeholder="{{ 'OrganizationManagement.Enter first name' | translate }}" type="text" />
