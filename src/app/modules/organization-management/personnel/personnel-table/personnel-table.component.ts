@@ -147,5 +147,3 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
         return roleObj ? roleObj.name : role;
     }
 }
-
-

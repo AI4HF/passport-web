@@ -1,42 +1,57 @@
-<p-dialog [(visible)]="displayForm" [modal]="true" header="{{ 'OrganizationManagement.Personnel Form' | translate }}" (onHide)="closeDialog()"
-          [style]="{width: '25rem'}">
-    <form [formGroup]="personnelForm" (ngSubmit)="savePersonnel()">
-        <div class="p-fluid">
-            <div *ngIf="!this.personnelId" class="p-field">
-                <label for="username">{{ 'Username' | translate }}</label>
-                <input formControlName="username" id="username" pInputText type="text" placeholder="{{ 'OrganizationManagement.Enter username' | translate }}"/>
-            </div>
-            <div *ngIf="!this.personnelId" class="p-field">
-                <label for="password">{{ 'Password' | translate }}</label>
-                <input formControlName="password" id="password" pInputText type="password" placeholder="{{ 'OrganizationManagement.Enter password' | translate }}"/>
-            </div>
-            <div class="p-field">
-                <label for="firstName">{{ 'OrganizationManagement.First Name' | translate }}</label>
-                <input formControlName="firstName" id="firstName" pInputText placeholder="{{ 'OrganizationManagement.Enter first name' | translate }}" type="text" />
-            </div>
-            <div class="p-field">
-                <label for="lastName">{{ 'OrganizationManagement.Last Name' | translate }}</label>
-                <input formControlName="lastName" id="lastName" pInputText placeholder="{{ 'OrganizationManagement.Enter last name' | translate }}" type="text" />
-            </div>
-            <div class="p-field">
-                <label for="role">{{ 'OrganizationManagement.Role' | translate }}</label>
-                <p-dropdown
-                        formControlName="role"
-                        [options]="roles"
-                        optionLabel="name"
-                        optionValue="value"
-                        placeholder="{{ 'OrganizationManagement.Select a role' | translate }}"
-                ></p-dropdown>
-            </div>
-            <div class="p-field margin-bottom-1rem">
-                <label for="email">{{ 'OrganizationManagement.Email' | translate }}</label>
-                <input formControlName="email" id="email" pInputText placeholder="{{ 'OrganizationManagement.Enter email' | translate }}" type="email" />
+<p-dialog [(visible)]="display" [modal]="true" header="{{ 'OrganizationManagement.Personnel Form' | translate }}" (onHide)="closeDialog()"
+          [style]="{width: '30rem'}">
+    <form *ngIf="display" (ngSubmit)="savePersonnel()" [formGroup]="personnelForm">
+        <div *ngIf="!this.personnelId" class="p-field p-col-12 p-md-12">
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-user"></i>
+                        <input formControlName="username" id="username" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter username' | translate }}" type="text">
+                    </span>
+        </div>
+        <div *ngIf="!this.personnelId" class="p-field p-col-12 p-md-12">
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-key"></i>
+                        <input formControlName="password" id="password" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter password' | translate }}" type="password">
+                    </span>
+        </div>
+        <div class="form-grid grid p-p-md-2">
+            <div class="field col">
+                <div class="p-field p-col-12 p-md-12">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-user"></i>
+            <input formControlName="firstName" id="firstName" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter first name' | translate }}" type="text">
+          </span>
+                </div>
+                <div class="p-field p-col-12 p-md-12">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-user"></i>
+            <input formControlName="lastName" id="lastName" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter last name' | translate }}" type="text">
+          </span>
+                </div>
+                <div class="p-field p-col-12 p-md-12">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-briefcase"></i>
+            <p-dropdown
+                    [style]="{'width':'100%'}"
+                    formControlName="role"
+                    [options]="roles"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder="{{ 'OrganizationManagement.Select a role' | translate }}"
+                    class="w-full"
+            ></p-dropdown>
+          </span>
+                </div>
+                <div class="p-field p-col-12 p-md-12">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-envelope"></i>
+            <input formControlName="email" id="email" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter email' | translate }}" type="email">
+          </span>
+                </div>
             </div>
         </div>
-        <div class="flex justify-content-between">
-            <button type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton class="p-button-primary"></button>
+        <div class="flex justify-content-between mt-2">
             <button type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton class="p-button-primary"></button>
+            <button type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton class="p-button-primary" [disabled]="personnelForm.invalid"></button>
         </div>
     </form>
 </p-dialog>
-

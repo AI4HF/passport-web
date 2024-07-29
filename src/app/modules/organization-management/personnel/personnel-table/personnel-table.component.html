@@ -60,5 +60,5 @@
         </p-table>
     </div>
 </div>
-<app-personnel-form (formClosed)="onFormClosed()" [displayForm]="displayForm"
+<app-personnel-form (formClosed)="onFormClosed()" *ngIf="this.displayForm"
                     [personnelId]="selectedPersonnelId"></app-personnel-form>
