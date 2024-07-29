@@ -111,15 +111,14 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
     saveCharacteristic() {
         const formValues = this.characteristicForm.value;
         const characteristicPayload = {
-            featureId: formValues.featureId.featureId,
             characteristicName: formValues.characteristicName,
             value: formValues.value.toString(),
             valueDataType: formValues.valueDataType,
             datasetId: this.datasetId
         };
 
-        const newCharacteristic: DatasetCharacteristic = new DatasetCharacteristic({ ...characteristicPayload });
         if (this.isUpdateMode) {
+            const newCharacteristic: DatasetCharacteristic = new DatasetCharacteristic({ featureId: this.characteristic.featureId, ...characteristicPayload });
             this.datasetCharacteristicService.updateCharacteristic(newCharacteristic)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
@@ -144,6 +143,7 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
                     }
                 });
         } else {
+            const newCharacteristic: DatasetCharacteristic = new DatasetCharacteristic({ featureId: formValues.featureId.featureId, ...characteristicPayload });
             this.datasetCharacteristicService.createCharacteristic(newCharacteristic)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
