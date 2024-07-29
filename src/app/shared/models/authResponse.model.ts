@@ -1,24 +1,4 @@
 /**
- * Response model for AuthResponse and userId.
- */
-export class LoginResponse {
-
-    authResponse: AuthResponse;
-    userId: string;
-
-    constructor(data: any) {
-
-        if(!data){
-            return;
-        }
-
-        this.authResponse = new AuthResponse(data.authResponse);
-        this.userId = data.userId;
-    }
-
-}
-
-/**
  * Response model for authorization tokens and session information.
  */
 export class AuthResponse {

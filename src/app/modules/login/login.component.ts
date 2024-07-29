@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Credentials } from "../../shared/models/credentials.model";
 import {takeUntil} from "rxjs/operators";
 import {StorageUtil} from "../../core/services/storageUtil.service";
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 /**
  * Login component which handles the main authorization prospects of the system.
@@ -61,8 +62,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
         const { username, password, rememberMe } = this.loginForm.value;
         this.authorizationService.login(new Credentials({ username, password })).pipe(takeUntil(this.destroy$)).subscribe(
             response => {
-                StorageUtil.storeToken(response.authResponse.access_token, rememberMe);
-                StorageUtil.storeUserId(response.userId, rememberMe);
+                StorageUtil.storeToken(response.access_token, rememberMe);
+                const helper = new JwtHelperService();
+                const decodedToken = helper.decodeToken(response.access_token);
+                StorageUtil.storeUserId(decodedToken.user_id, rememberMe);
                 this.fetchLoggedPersonnel(rememberMe);
             },
             error => {
