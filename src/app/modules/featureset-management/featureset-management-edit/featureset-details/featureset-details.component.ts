@@ -40,10 +40,10 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
      * Initializes the component.
      */
     ngOnInit() {
-        this.loadExperiments();
         this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
             next: data => {
                 this.selectedFeatureSet = data['featureSet'];
+                this.loadExperiments();
                 this.initializeForm();
             },
             error: error => {
