@@ -159,7 +159,15 @@
     "Equipment": "Equipment",
     "DataCollection": "Data Collection",
     "SelectAnExperiment": "Select an experiment",
-    "Feature Form": "Feature Form"
+    "Feature Form": "Feature Form",
+    "FeatureSetCreated": "Feature Set has been created.",
+    "FeatureSetUpdated": "Feature Set has been updated.",
+    "FeatureSetDeleted": "Feature Set has been deleted.",
+    "FeatureCreated": "Feature has been created.",
+    "FeatureUpdated": "Feature has been updated.",
+    "FeatureDeleted": "Feature has been deleted.",
+    "Create Feature": "Create Feature",
+    "NoExperiments": "There are no experiments. Create one before the next attempt."
   },
   "DatasetManagement": {
     "Title": "Title",
@@ -181,6 +189,7 @@
     "Actions": "Actions",
     "EditDataset": "Edit Dataset",
     "DeleteDataset": "Delete Dataset",
+    "DatasetCreated": "Dataset has been created.",
     "DatasetDetails": "Dataset Details",
     "DatasetCharacteristics": "Dataset Characteristics",
     "LearningDatasetCreation": "Learning Dataset Creation",
@@ -198,7 +207,7 @@
     "CreateCharacteristic": "Create Characteristic",
     "CharacteristicName": "Characteristic Name",
     "Details": "Details",
-    "Delete": "Delete",
+    "Deleted": "Deletion has been successful.",
     "CharacteristicForm": "Characteristic Form",
     "SelectFeature": "Select Feature",
     "FeatureName": "Feature Title",
