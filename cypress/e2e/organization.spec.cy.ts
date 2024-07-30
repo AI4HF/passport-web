@@ -9,15 +9,15 @@ describe('Organization Management Tests', () => {
     });
 
     it('should fail Personnel access and redirect to Organization table', () => {
-        cy.visit('/organization-management/personnel/table');
+        cy.visit('/organization-management/personnel');
 
-        cy.url().should('include', '/organization-management/organization/table');
+        cy.url().should('include', '/organization-management/organization');
     });
 
     it('should access Organization Management and test CRUD operations', () => {
-        cy.visit('/organization-management/organization/table');
+        cy.visit('/organization-management/organization');
 
-        cy.url().should('include', '/organization-management/organization/table');
+        cy.url().should('include', '/organization-management/organization');
 
         cy.wait(500);
 
@@ -43,7 +43,7 @@ describe('Organization Management Tests', () => {
     });
 
     it('should use small edit buttons to update fields individually', () => {
-        cy.visit('/organization-management/organization/table');
+        cy.visit('/organization-management/organization');
 
         cy.wait(500);
 

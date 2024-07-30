@@ -9,20 +9,30 @@ describe('Personnel Management Tests', () => {
     });
 
     it('should navigate to Organization and Personnel pages', () => {
-        cy.visit('/organization-management/organization/table');
-        cy.url().should('include', '/organization-management/organization/table');
-
-        cy.visit('/organization-management/personnel/table');
-        cy.url().should('include', '/organization-management/personnel/table');
+        cy.visit('/organization-management/organization');
+        cy.url().should('include', '/organization-management/organization');
+        cy.wait(500);
+        cy.visit('/organization-management/personnel');
+        cy.url().should('include', '/organization-management/personnel');
     });
 
     it('should create, update, and delete a personnel entry', () => {
-        cy.visit('/organization-management/organization/table');
-        cy.visit('/organization-management/personnel/table');
+        cy.visit('/organization-management/organization');
+        cy.visit('/organization-management/personnel');
 
         cy.wait(500);
 
+        // cancel personnel creation
         cy.get('button .pi-plus').click();
+        cy.get('p-dialog').should('be.visible');
+        cy.get('button').contains('Cancel').click();
+        cy.wait(500);
+        cy.get('p-dialog').should('not.be.visible');
+
+        // create personnel
+        cy.get('button .pi-plus').click();
+        cy.get('input[formControlName="username"]').type('test');
+        cy.get('input[formControlName="password"]').type('test');
         cy.get('input[formControlName="firstName"]').type('test');
         cy.get('input[formControlName="lastName"]').type('test');
         cy.get('input[formControlName="email"]').type('test');
@@ -32,14 +42,15 @@ describe('Personnel Management Tests', () => {
 
         cy.get('button').contains('Save').click();
 
-        cy.get('table tbody tr').first().within(() => {
+        cy.get('table tbody tr').last().within(() => {
             cy.get('td').eq(0).should('contain.text', 'test');
             cy.get('td').eq(1).should('contain.text', 'test');
             cy.get('td').eq(2).should('contain.text', 'Study Owner');
             cy.get('td').eq(3).should('contain.text', 'test');
         });
 
-        cy.get('table tbody tr').first().within(() => {
+        // edit personnel
+        cy.get('table tbody tr').last().within(() => {
             cy.get('button .pi-pencil').click();
         });
         cy.get('input[formControlName="firstName"]').clear().type('test2');
@@ -49,16 +60,29 @@ describe('Personnel Management Tests', () => {
         cy.get('.p-dropdown-item').contains('Study Owner').click();
         cy.get('button').contains('Save').click();
 
-        cy.get('table tbody tr').first().within(() => {
+        cy.get('table tbody tr').last().within(() => {
             cy.get('td').eq(0).should('contain.text', 'test2');
             cy.get('td').eq(1).should('contain.text', 'test2');
             cy.get('td').eq(2).should('contain.text', 'Study Owner');
             cy.get('td').eq(3).should('contain.text', 'test2');
         });
 
-        cy.get('table tbody tr').first().within(() => {
+        // delete personnel
+        cy.get('table tbody tr').last().within(() => {
             cy.get('button .pi-trash').click();
         });
-        cy.get('table tbody tr').should('not.exist');
+    });
+
+    it('should show an error for incomplete personnel form', () => {
+        cy.visit('/organization-management/organization');
+        cy.wait(500);
+
+        cy.visit('/organization-management/personnel');
+        cy.wait(500);
+
+        cy.get('button .pi-plus').click();
+        // saving the personnel form without filling it in
+        cy.get('button').contains('Save').click();
+        cy.get('.p-toast-message').should('contain', 'Http failure response for http://localhost:8080/personnel:');
     });
 });

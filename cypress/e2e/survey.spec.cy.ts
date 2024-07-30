@@ -18,24 +18,35 @@ describe('Survey Management Tests', () => {
 
         cy.wait(500);
 
+        // cancel create survey
+        cy.get('button .pi-plus').click();
+        cy.get('button').contains('Cancel').click();
+        cy.wait(500);
+        cy.get('app-survey-management-form').should('not.be.visible');
+
+        // create survey
         cy.get('button .pi-plus').click();
         cy.get('input[formControlName="question"]').type('test');
         cy.get('textarea[formControlName="answer"]').type('test');
+
         cy.get('p-autoComplete[formControlName="category"] input').type('Testing');
+        cy.wait(500);
+        cy.get('.p-autocomplete-item').contains('Testing').click();
 
         cy.get('p-dropdown[formControlName="study"]').click();
-        cy.get('.p-dropdown-item').contains('new').click();
+        cy.get('.p-dropdown-item').contains('Risk').click();
 
         cy.get('button').contains('Save').click();
 
-        cy.get('table tbody tr').first().within(() => {
+        cy.get('table tbody tr').last().within(() => {
             cy.get('td').eq(1).should('contain.text', 'test');
             cy.get('td').eq(2).should('contain.text', 'test');
             cy.get('td').eq(3).should('contain.text', 'Testing');
-            cy.get('td').eq(4).should('contain.text', 'new');
+            cy.get('td').eq(4).should('contain.text', 'Risk');
         });
 
-        cy.get('table tbody tr').first().within(() => {
+        // edit survey
+        cy.get('table tbody tr').last().within(() => {
             cy.get('button .pi-pencil').click();
         });
         cy.get('input[formControlName="question"]').clear().type('test2');
@@ -44,16 +55,30 @@ describe('Survey Management Tests', () => {
 
         cy.get('button').contains('Save').click();
 
-        cy.get('table tbody tr').first().within(() => {
+        cy.get('table tbody tr').last().within(() => {
             cy.get('td').eq(1).should('contain.text', 'test2');
             cy.get('td').eq(2).should('contain.text', 'test2');
             cy.get('td').eq(3).should('contain.text', 'Testing');
-            cy.get('td').eq(4).should('contain.text', 'new');
+            cy.get('td').eq(4).should('contain.text', 'Risk');
         });
 
-        cy.get('table tbody tr').first().within(() => {
+        // delete survey
+        cy.get('table tbody tr').last().within(() => {
             cy.get('button .pi-trash').click();
         });
         cy.get('table tbody tr').should('not.exist');
+    });
+
+    it('should give error if form is not fully filled', () => {
+        cy.visit('/survey-management');
+        cy.wait(500);
+
+        // filling in a part of the form should give error
+        cy.get('button .pi-plus').click();
+        cy.get('app-survey-management-form').should('be.visible');
+        cy.get('input[formControlName="question"]').type('test');
+        cy.get('textarea[formControlName="answer"]').type('test');
+        cy.get('button').contains('Save').click();
+        cy.get('.p-toast-message').should('contain', 'Form is invalid');
     });
 });
