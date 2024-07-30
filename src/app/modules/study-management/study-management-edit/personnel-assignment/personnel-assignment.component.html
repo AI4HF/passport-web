@@ -1,4 +1,47 @@
-<p-card class="p-0 w-full">
+<p-card class="w-full">
+    <p-dropdown
+            [options]="organizationList"
+            optionLabel="name"
+            optionValue="organizationId"
+            [style]="{'minWidth':'100%'}"
+            placeholder="{{'StudyManagement.Personnel.Select an organization' | translate}}"
+            (onChange)="selectAnOrganization($event.value)"
+    >
+    </p-dropdown>
+    <p-dropdown
+            *ngIf="selectedStudyOrganization"
+            [options]="personnelListForOrganization"
+            [(ngModel)]="selectedResponsiblePersonnelId"
+            optionLabel="firstName"
+            optionValue="personId"
+            [showClear]="true"
+            [style]="{'minWidth':'100%', 'margin-top': '1rem'}"
+            placeholder="{{'StudyManagement.Personnel.Select a responsible personnel' | translate}}"
+    >
+    </p-dropdown>
+    <div  class="flex justify-content-between flex-wrap" *ngIf="selectedStudyOrganization">
+        <div class="checkbox-grid">
+            <div *ngFor="let role of roles" class="field-checkbox">
+                <p-checkbox
+                        class="field-checkbox"
+                        [(ngModel)]="selectedRoles"
+                        [label]="role.name"
+                        name="group"
+                        [value]="role.value" />
+            </div>
+        </div>
+        <div class="justify-content-end align-content-end">
+            <button pButton pRipple
+                    type="button"
+                    label="{{'Save' | translate}}"
+                    class="p-button-raised"
+                    [disabled]="!this.selectedResponsiblePersonnelId || !this.selectedRoles.length"
+                    (click)="saveStudyOrganization()"></button>
+        </div>
+    </div>
+
+</p-card>
+<p-card class="p-0 w-full" *ngIf="selectedStudyOrganization?.personnelId">
     <p-pickList
             [source]="sourcePersonnelList"
             [target]="targetPersonnelList"
@@ -37,7 +80,7 @@
                                 optionValue="value"
                                 appendTo="body"
                                 [showClear]="true"
-                                placeholder="Select a Role"
+                                placeholder="{{'StudyManagement.Personnel.Select a role' | translate}}"
                                 [disabled]="!isPersonnelInTarget(personnel)"
                         />
                     </div>

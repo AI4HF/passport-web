@@ -4,6 +4,9 @@ import {Personnel} from "../../../../shared/models/personnel.model";
 import {combineLatest, takeUntil} from "rxjs";
 import {ROLES} from "../../../../shared/models/roles.constant";
 import {NameAndValueInterface} from "../../../../shared/models/nameAndValue.interface";
+import {Organization} from "../../../../shared/models/organization.model";
+import {StudyOrganization} from "../../../../shared/models/studyOrganization.model";
+import {Role} from "../../../../shared/models/role.enum";
 
 /**
  * Shows list of assigned personnel for the study
@@ -39,11 +42,49 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
    */
   roles: NameAndValueInterface[] = ROLES;
 
+  /**
+   * The organization list provided from organization service
+   */
+  organizationList: Organization[] = [];
+
+  /**
+   * The selected StudyOrganization for dropdown
+   */
+  selectedStudyOrganization: StudyOrganization = null;
+
+  /**
+   * The personnel list for organization
+   */
+  personnelListForOrganization: Personnel[] = [];
+
+  /**
+   * The selected responsible personnel ID for dropdown
+   */
+  selectedResponsiblePersonnelId: string = null;
+
+  /**
+   * The selected roles for study organization
+   */
+  selectedRoles: string[] = [];
+
   constructor(protected injector: Injector) {
     super(injector);
   }
 
   ngOnInit() {
+    this.organizationService.getAllOrganizations().pipe(takeUntil(this.destroy$)).subscribe({
+      next: data => {
+        this.organizationList = data.map(organization => new Organization(organization));
+      },
+      error: error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translateService.instant('Error'),
+          detail: error.message
+        });
+      }
+    });
+
     this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
       next: data => {
         this.studyId = data['study'].id;
@@ -146,4 +187,130 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
     return this.targetPersonnelList.includes(personnel);
   }
 
+  /**
+   * Select an organization from dropdown menu
+   * @param organizationId The ID of the organization
+   */
+  selectAnOrganization(organizationId: number) {
+    this.selectedResponsiblePersonnelId = null;
+    this.selectedStudyOrganization = null;
+    this.selectedRoles = [];
+    this.fetchOrganizationPersonnel(organizationId);
+
+    this.studyOrganizationService.getStudyOrganizationByStudyIdAndOrganizationId(this.studyId, organizationId).pipe(takeUntil(this.destroy$)).subscribe({
+      next: response => {
+        this.selectedStudyOrganization = new StudyOrganization(response);
+        this.selectedResponsiblePersonnelId = this.selectedStudyOrganization.personnelId;
+        this.selectedRoles = this.selectedStudyOrganization.roles;
+      },
+      error: error => {
+        if(error.status === 404) {
+          this.createNewStudyOrganization(organizationId);
+        }else{
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translateService.instant('Error'),
+            detail: error.message
+          });
+        }
+      }
+    })
+  }
+
+  /**
+   * Create a new study organization object
+   * @param organizationId The ID of the organization
+   */
+  private createNewStudyOrganization(organizationId: number) {
+    this.populationService.getPopulationByStudyId(this.studyId).pipe(takeUntil(this.destroy$)).subscribe({
+      next: response => {
+        this.selectedStudyOrganization = new StudyOrganization({studyId: this.studyId, organizationId: organizationId, populationId: response.populationId});
+      },
+      error: error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translateService.instant('Error'),
+          detail: error.message
+        });
+      }
+    });
+  }
+
+  /**
+   * Fetch personnel of the selected organization
+   * @param organizationId The ID of the organization
+   */
+  private fetchOrganizationPersonnel(organizationId: number){
+    this.personnelService.getPersonnelByOrganizationId(organizationId).pipe(takeUntil(this.destroy$)).subscribe({
+      next: response => {
+        this.personnelListForOrganization = response.map(personnel => new Personnel(personnel));
+      },
+      error: error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translateService.instant('Error'),
+          detail: error.message
+        });
+      }
+    });
+  }
+
+  /**
+   * Save study organization information
+   */
+  saveStudyOrganization(){
+    if(this.selectedStudyOrganization.personnelId){
+      this.setRolesAndResponsiblePerson();
+      this.studyOrganizationService.updateStudyOrganization(this.studyId,
+          this.selectedStudyOrganization.organizationId,
+          this.selectedStudyOrganization).pipe(takeUntil(this.destroy$)).subscribe({
+        next: response => {
+          this.selectedStudyOrganization = new StudyOrganization(response);
+          this.selectedResponsiblePersonnelId = this.selectedStudyOrganization.personnelId;
+          this.selectedRoles = this.selectedStudyOrganization.roles;
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translateService.instant('Success'),
+            detail: this.translateService.instant('StudyManagement.Personnel.StudyOrganization is updated successfully')
+          });
+        },
+        error: error => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translateService.instant('Error'),
+            detail: error.message
+          });
+      }});
+    }else{
+      this.setRolesAndResponsiblePerson();
+      this.studyOrganizationService.createStudyOrganization(this.selectedStudyOrganization)
+          .pipe(takeUntil(this.destroy$)).subscribe({
+        next: response => {
+          this.selectedStudyOrganization = new StudyOrganization(response);
+          this.selectedResponsiblePersonnelId = this.selectedStudyOrganization.personnelId;
+          this.selectedRoles = this.selectedStudyOrganization.roles;
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translateService.instant('Success'),
+            detail: this.translateService.instant('StudyManagement.Personnel.StudyOrganization is created successfully')
+          });
+        },
+        error: error => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translateService.instant('Error'),
+            detail: error.message
+          });
+        }
+      });
+    }
+  }
+
+  /**
+   * Save roles and responsible person information into selectedStudyOrganization object.
+   */
+  private setRolesAndResponsiblePerson(){
+    this.selectedStudyOrganization.personnelId = this.selectedResponsiblePersonnelId;
+    this.selectedStudyOrganization.roles = this.selectedRoles.map((role: string) => Role[role as keyof typeof Role]);
+  }
 }

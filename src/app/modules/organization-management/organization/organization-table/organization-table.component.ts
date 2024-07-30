@@ -43,7 +43,7 @@ export class OrganizationTableComponent extends BaseComponent implements OnInit 
             next: (orgs) => {
                 if (orgs.length > 0) {
                     this.organization = orgs[0];
-                    this.organizationStateService.setOrganizationId(orgs[0].id);
+                    this.organizationStateService.setOrganizationId(orgs[0].organizationId);
                 } else {
                     this.organization = null;
                 }
@@ -126,7 +126,7 @@ export class OrganizationTableComponent extends BaseComponent implements OnInit 
      * Deletes the selected organization.
      */
     deleteOrganization(): void {
-        this.organizationService.deleteOrganization(this.organization.id).pipe(takeUntil(this.destroy$)).subscribe({
+        this.organizationService.deleteOrganization(this.organization.organizationId).pipe(takeUntil(this.destroy$)).subscribe({
             next: () => {
                 this.organizationStateService.setOrganizationId(null);
                 this.organization = null;

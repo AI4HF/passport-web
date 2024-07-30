@@ -62,7 +62,7 @@ export class OrganizationService {
      * @return {Observable<Organization>}
      */
     updateOrganization(organization: Organization): Observable<Organization> {
-        const url = `${this.endpoint}/${organization.id}`;
+        const url = `${this.endpoint}/${organization.organizationId}`;
         return this.httpClient.put<Organization>(url, organization)
             .pipe(
                 map((response: any) => {

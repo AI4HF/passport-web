@@ -9,6 +9,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {RippleModule} from "primeng/ripple";
 import {TranslateModule} from "@ngx-translate/core";
 import {PickListModule} from "primeng/picklist";
+import {CheckboxModule} from "primeng/checkbox";
 
 
 
@@ -23,7 +24,8 @@ import {PickListModule} from "primeng/picklist";
     ReactiveFormsModule,
     RippleModule,
     TranslateModule,
-    PickListModule
+    PickListModule,
+    CheckboxModule
   ],
   exports: [PersonnelAssignmentComponent]
 })

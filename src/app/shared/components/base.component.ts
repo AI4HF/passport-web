@@ -21,6 +21,7 @@ import {LearningDatasetService} from "../../core/services/learning-dataset.servi
 import {DatasetTransformationStepService} from "../../core/services/dataset-transformation-step.service";
 import {DatasetTransformationService} from "../../core/services/dataset-transformation.service";
 import {DatasetCharacteristicService} from "../../core/services/dataset-characteristic.service";
+import {StudyOrganizationService} from "../../core/services/studyOrganization.service";
 
 /**
  * Base component to provide common properties
@@ -61,6 +62,7 @@ export abstract class BaseComponent implements OnDestroy {
   transformationStepService: DatasetTransformationStepService;
   datasetCharacteristicService: DatasetCharacteristicService;
   parameterService: ParameterService;
+  studyOrganizationService: StudyOrganizationService;
 
   constructor(injector: Injector){
     this.router = injector.get(Router);
@@ -85,6 +87,7 @@ export abstract class BaseComponent implements OnDestroy {
     this.learningDatasetService = injector.get(LearningDatasetService);
     this.transformationStepService = injector.get(DatasetTransformationStepService);
     this.parameterService = injector.get(ParameterService);
+    this.studyOrganizationService = injector.get(StudyOrganizationService);
   }
 
   /**
