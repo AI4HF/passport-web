@@ -86,7 +86,7 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
      */
     initializeForm() {
         this.characteristicForm = new FormGroup({
-            featureId: new FormControl(this.characteristic?.featureId, Validators.required),
+            feature: new FormControl(this.characteristic?.featureId, Validators.required),
             characteristicName: new FormControl(this.characteristic?.characteristicName, Validators.required),
             value: new FormControl(this.characteristic?.value, Validators.required),
             valueDataType: new FormControl(this.characteristic?.valueDataType, Validators.required)
@@ -98,7 +98,7 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
      */
     updateForm() {
         this.characteristicForm.patchValue({
-            featureId: this.characteristic.featureId,
+            feature: this.characteristic.featureId,
             characteristicName: this.characteristic.characteristicName,
             value: this.characteristic.value,
             valueDataType: this.characteristic.valueDataType
@@ -143,7 +143,7 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
                     }
                 });
         } else {
-            const newCharacteristic: DatasetCharacteristic = new DatasetCharacteristic({ featureId: formValues.featureId.featureId, ...characteristicPayload });
+            const newCharacteristic: DatasetCharacteristic = new DatasetCharacteristic({ featureId: formValues.feature.featureId, ...characteristicPayload });
             this.datasetCharacteristicService.createCharacteristic(newCharacteristic)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
