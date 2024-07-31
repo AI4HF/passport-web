@@ -190,6 +190,8 @@
     "EditDataset": "Edit Dataset",
     "DeleteDataset": "Delete Dataset",
     "DatasetCreated": "Dataset has been created.",
+    "DatasetUpdated": "Dataset has been updated.",
+    "DatasetDeleted": "Dataset has been deleted.",
     "DatasetDetails": "Dataset Details",
     "DatasetCharacteristics": "Dataset Characteristics",
     "LearningDatasetCreation": "Learning Dataset Creation",
