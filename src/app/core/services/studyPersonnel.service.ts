@@ -21,11 +21,12 @@ export class StudyPersonnelService {
 
     /**
      * Retrieves the personnel that assigned to the study
-     * @param id Id of the study
+     * @param studyId Id of the study
+     * @param organizationId Id of the organization
      * @return {Observable<Personnel[]>}
      */
-    getPersonnelListByStudyId(id: number): Observable<Personnel[]> {
-        const url = `${this.endpoint}/personnel?studyId=${id}`;
+    getPersonnelListByStudyIdAndOrganizationId(studyId: number, organizationId: number): Observable<Personnel[]> {
+        const url = `${this.endpoint}/personnel?studyId=${studyId}&organizationId=${organizationId}`;
         return this.httpClient.get<Personnel[]>(url)
             .pipe(
                 map((response: any) =>{
@@ -41,11 +42,12 @@ export class StudyPersonnelService {
     /**
      * Assign personnel to the study
      * @param studyId Id of the study
+     * @param organizationId Id of the organization
      * @param personnelList Personnel to be assigned
      * @return {Observable<Personnel[]>}
      */
-    createStudyPersonnelAssignment(studyId: number, personnelList: Personnel[]): Observable<Personnel[]> {
-        const url = `${this.endpoint}/personnel?studyId=${studyId}`;
+    createStudyPersonnelAssignment(studyId: number, organizationId: number, personnelList: Personnel[]): Observable<Personnel[]> {
+        const url = `${this.endpoint}/personnel?studyId=${studyId}&organizationId=${organizationId}`;
         return this.httpClient.post<Personnel[]>(url, personnelList)
             .pipe(
                 map((response: any) =>{

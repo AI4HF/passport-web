@@ -5,7 +5,7 @@ export class Organization {
     /**
      * The ID of Organization
      */
-    id: number;
+    organizationId: number;
 
     /**
      * The name of Organization
@@ -23,7 +23,7 @@ export class Organization {
             return;
         }
 
-        this.id = data.organizationId;
+        this.organizationId = data.organizationId;
         this.name = data.name;
         this.address = data.address;
     }

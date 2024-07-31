@@ -43,7 +43,12 @@
     "Personnel": {
       "Available Personnel": "Available Personnel",
       "Assigned Personnel": "Assigned Personnel",
-      "Personnel are assigned successfully": "Personnel are assigned successfully"
+      "Personnel are assigned successfully": "Personnel are assigned successfully",
+      "Select a role": "Select a role",
+      "Select an organization": "Select an organization",
+      "Select a responsible personnel": "Select a responsible personnel",
+      "StudyOrganization is updated successfully": "StudyOrganization is updated successfully",
+      "StudyOrganization is created successfully": "StudyOrganization is created successfully"
     },
     "Experiment": {
       "Research Question": "Research Question",
