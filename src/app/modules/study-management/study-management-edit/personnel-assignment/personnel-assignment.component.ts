@@ -88,7 +88,6 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
     this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
       next: data => {
         this.studyId = data['study'].id;
-        this.fetchPersonnelAndAssignmentLists(this.studyId);
       },
       error: error => {
         this.messageService.add({
@@ -103,9 +102,10 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   /**
    * Fetch Available personnel and assigned personnel lists
    * @param studyId ID of the study
+   * @param organizationId ID of the organization
    */
-  private fetchPersonnelAndAssignmentLists(studyId: number){
-    combineLatest([this.personnelService.getAllPersonnel(), this.studyPersonnelService.getPersonnelListByStudyId(studyId)],
+  private fetchPersonnelAndAssignmentLists(studyId: number, organizationId: number) {
+    combineLatest([this.personnelService.getPersonnelByOrganizationId(organizationId), this.studyPersonnelService.getPersonnelListByStudyIdAndOrganizationId(studyId, organizationId)],
       (allPersonnel, assignedPersonnel) => ({allPersonnel, assignedPersonnel}))
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -148,15 +148,14 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
    * Save assigned personnel
    */
   save(){
-    this.studyPersonnelService.createStudyPersonnelAssignment(this.studyId, this.targetPersonnelList)
+    this.studyPersonnelService.createStudyPersonnelAssignment(this.studyId, this.selectedStudyOrganization.organizationId, this.targetPersonnelList)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: response => {
-            this.fetchPersonnelAndAssignmentLists(this.studyId);
             this.messageService.add({
               severity: 'success',
               summary: this.translateService.instant('Success'),
-              detail: this.translateService.instant('StudyManagement.Experiment.Experiments are assigned successfully')
+              detail: this.translateService.instant('StudyManagement.Personnel.Personnel are assigned successfully')
             });
           },
           error: (error: any) => {
@@ -196,6 +195,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
     this.selectedStudyOrganization = null;
     this.selectedRoles = [];
     this.fetchOrganizationPersonnel(organizationId);
+    this.fetchPersonnelAndAssignmentLists(this.studyId, organizationId);
 
     this.studyOrganizationService.getStudyOrganizationByStudyIdAndOrganizationId(this.studyId, organizationId).pipe(takeUntil(this.destroy$)).subscribe({
       next: response => {
