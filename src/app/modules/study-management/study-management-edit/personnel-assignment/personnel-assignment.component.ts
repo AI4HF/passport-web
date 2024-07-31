@@ -43,6 +43,11 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   roles: NameAndValueInterface[] = ROLES;
 
   /**
+   * The allowed roles
+   */
+  allowedRoles: NameAndValueInterface[] = [];
+
+  /**
    * The organization list provided from organization service
    */
   organizationList: Organization[] = [];
@@ -194,6 +199,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
     this.selectedResponsiblePersonnelId = null;
     this.selectedStudyOrganization = null;
     this.selectedRoles = [];
+    this.allowedRoles = [];
     this.fetchOrganizationPersonnel(organizationId);
     this.fetchPersonnelAndAssignmentLists(this.studyId, organizationId);
 
@@ -202,6 +208,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
         this.selectedStudyOrganization = new StudyOrganization(response);
         this.selectedResponsiblePersonnelId = this.selectedStudyOrganization.personnelId;
         this.selectedRoles = this.selectedStudyOrganization.roles;
+        this.allowedRoles = this.roles.filter(role => this.selectedRoles.includes(role.value));
       },
       error: error => {
         if(error.status === 404) {
@@ -268,6 +275,8 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
           this.selectedStudyOrganization = new StudyOrganization(response);
           this.selectedResponsiblePersonnelId = this.selectedStudyOrganization.personnelId;
           this.selectedRoles = this.selectedStudyOrganization.roles;
+          this.allowedRoles = this.roles.filter(role => this.selectedRoles.includes(role.value));
+          this.fetchPersonnelAndAssignmentLists(this.studyId, this.selectedStudyOrganization.organizationId);
           this.messageService.add({
             severity: 'success',
             summary: this.translateService.instant('Success'),
@@ -289,6 +298,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
           this.selectedStudyOrganization = new StudyOrganization(response);
           this.selectedResponsiblePersonnelId = this.selectedStudyOrganization.personnelId;
           this.selectedRoles = this.selectedStudyOrganization.roles;
+          this.allowedRoles = this.roles.filter(role => this.selectedRoles.includes(role.value));
           this.messageService.add({
             severity: 'success',
             summary: this.translateService.instant('Success'),
