@@ -1,0 +1,70 @@
+<p-dialog (onHide)="closeDialog()" [(visible)]="this.display" [modal]="true" [style]="{width: '80rem'}" header="{{ 'FeatureSetManagement.Feature Form' | translate }}">
+  <form *ngIf="this.display" (ngSubmit)="saveFeature()" [formGroup]="featureForm">
+    <div class="form-grid grid">
+      <div class="field col">
+        <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-bookmark"></i>
+            <input formControlName="title" id="title" pInputText class="w-full" placeholder="{{ 'Title' | translate }}">
+          </span>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-comment"></i>
+            <input formControlName="description" id="description" pInputText class="w-full" placeholder="{{ 'Description' | translate }}">
+          </span>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-database"></i>
+            <input formControlName="dataType" id="dataType" pInputText class="w-full" placeholder="{{ 'Data Type' | translate }}">
+          </span>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-tags"></i>
+            <input formControlName="featureType" id="featureType" pInputText class="w-full" placeholder="{{ 'Feature Type' | translate }}">
+          </span>
+        </div>
+      </div>
+      <div class="field col">
+        <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-percentage"></i>
+            <input formControlName="units" id="units" pInputText class="w-full" placeholder="{{ 'Units' | translate }}">
+          </span>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-cog"></i>
+            <input formControlName="equipment" id="equipment" pInputText class="w-full" placeholder="{{ 'Equipment' | translate }}">
+          </span>
+        </div>
+        <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-folder-open"></i>
+            <input formControlName="dataCollection" id="dataCollection" pInputText class="w-full" placeholder="{{ 'Data Collection' | translate }}">
+          </span>
+        </div>
+        <div class="form-grid grid">
+          <div class="field col">
+            <div class="p-field p-col-12 p-md-6">
+              <p-checkbox formControlName="isUnique" [binary]="true" inputId="isUnique" class="align-checkbox"></p-checkbox>
+              <label for="isUnique">{{ 'FeatureSetManagement.Unique' | translate }}</label>
+            </div>
+          </div>
+          <div class="field col">
+            <div class="p-field p-col-12 p-md-6">
+              <p-checkbox formControlName="mandatory" [binary]="true" inputId="mandatory" class="align-checkbox"></p-checkbox>
+              <label for="mandatory">{{ 'FeatureSetManagement.Mandatory' | translate }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-content-between">
+      <button (click)="closeDialog()" class="p-button-primary" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton type="button"></button>
+      <button class="p-button-primary" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton [disabled]="featureForm.invalid" type="submit"></button>
+    </div>
+  </form>
+</p-dialog>

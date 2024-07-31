@@ -1,4 +1,4 @@
-import { Component, Injector, Input, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Injector, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Personnel } from '../../../../shared/models/personnel.model';
 import { takeUntil } from 'rxjs/operators';
@@ -16,9 +16,7 @@ import {Credentials} from "../../../../shared/models/credentials.model";
     templateUrl: './personnel-form.component.html',
     styleUrls: ['./personnel-form.component.scss']
 })
-export class PersonnelFormComponent extends BaseComponent implements OnInit, OnChanges {
-    /** Determines if the form is displayed */
-    @Input() displayForm: boolean;
+export class PersonnelFormComponent extends BaseComponent implements OnInit {
     /** The ID of the personnel to be edited */
     @Input() personnelId: string;
     /** Event emitted when the form is closed */
@@ -28,6 +26,9 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
     selectedPersonnel: Personnel = new Personnel({});
     /** Form group for personnel form controls */
     personnelForm: FormGroup;
+
+    /** Flag indicating that dialog is visible */
+    display = false;
     roles: NameAndValueInterface[] = ROLES;
 
     /**
@@ -45,15 +46,10 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
      */
     ngOnInit() {
         this.initializeForm();
-    }
-
-    /**
-     * Responds to changes in input properties.
-     */
-    ngOnChanges() {
-        if (this.displayForm) {
+        if (this.personnelId) {
             this.loadPersonnel();
         }
+        this.display = true;
     }
 
     /**
@@ -67,7 +63,7 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
             email: new FormControl(this.selectedPersonnel.email, [Validators.required, Validators.email])
         });
 
-        if (!this.personnelId){
+        if (!this.personnelId) {
             this.personnelForm.addControl('username', new FormControl('', [Validators.required]));
             this.personnelForm.addControl('password', new FormControl('', [Validators.required]));
         }
@@ -77,24 +73,19 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
      * Loads the personnel details if a personnel ID is provided.
      */
     loadPersonnel() {
-        if (this.personnelId) {
-            this.personnelService.getPersonnelByPersonId(this.personnelId).pipe(takeUntil(this.destroy$)).subscribe({
-                next: (personnel) => {
-                    this.selectedPersonnel = personnel;
-                    this.updateForm();
-                },
-                error: (error) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
-                    });
-                }
-            });
-        } else {
-            this.selectedPersonnel = new Personnel({ firstName: '', lastName: '', role: '', email: '' });
-            this.initializeForm();
-        }
+        this.personnelService.getPersonnelByPersonId(this.personnelId).pipe(takeUntil(this.destroy$)).subscribe({
+            next: (personnel) => {
+                this.selectedPersonnel = personnel;
+                this.updateForm();
+            },
+            error: (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: this.translateService.instant('Error'),
+                    detail: error.message
+                });
+            }
+        });
     }
 
     /**
@@ -113,40 +104,12 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
      * Saves the personnel details.
      */
     savePersonnel() {
-        if (this.personnelId) {
+        const formValue = this.personnelForm.value;
+        if (!this.selectedPersonnel.personId) {
             const organizationId = this.organizationStateService.getOrganizationId();
-            const updatedPersonnel = new Personnel({ personId: this.selectedPersonnel.personId, ...this.personnelForm.value, organizationId: organizationId });
-            this.personnelService.updatePersonnel(updatedPersonnel).pipe(takeUntil(this.destroy$)).subscribe({
-                next: personnel => {
-                    this.selectedPersonnel = personnel;
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('OrganizationManagement.Personnel is updated successfully')
-                    });
-                    this.closeDialog(true);
-                },
-                error: (error) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
-                    });
-                }
-            });
-        } else {
-            const organizationId = this.organizationStateService.getOrganizationId();
-            if (organizationId === null) {
-                this.messageService.add({
-                    severity: 'warn',
-                    summary: this.translateService.instant('Warning'),
-                    detail: this.translateService.instant('No organization selected.')
-                });
-                return;
-            }
             const credentials = new Credentials(this.personnelForm.value);
-            const newPersonnel = new Personnel({ ...this.personnelForm.value, organizationId: organizationId });
-            const personnelDTO = new PersonnelDTO({personnel: newPersonnel, credentials: credentials});
+            const newPersonnel = new Personnel({ ...formValue, organizationId });
+            const personnelDTO = new PersonnelDTO({ personnel: newPersonnel, credentials: credentials });
             this.personnelService.createPersonnelByPersonId(personnelDTO).pipe(takeUntil(this.destroy$)).subscribe({
                 next: personnel => {
                     this.selectedPersonnel = personnel;
@@ -155,7 +118,6 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
                         summary: this.translateService.instant('Success'),
                         detail: this.translateService.instant('OrganizationManagement.Personnel is created successfully')
                     });
-                    this.closeDialog(true);
                 },
                 error: (error) => {
                     this.messageService.add({
@@ -163,6 +125,32 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
                         summary: this.translateService.instant('Error'),
                         detail: error.message
                     });
+                },
+                complete: () => {
+                    this.closeDialog();
+                }
+            });
+        } else {
+            const organizationId = this.organizationStateService.getOrganizationId();
+            const updatedPersonnel = new Personnel({ personId: this.selectedPersonnel.personId, ...formValue, organizationId });
+            this.personnelService.updatePersonnel(updatedPersonnel).pipe(takeUntil(this.destroy$)).subscribe({
+                next: personnel => {
+                    this.selectedPersonnel = personnel;
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translateService.instant('Success'),
+                        detail: this.translateService.instant('OrganizationManagement.Personnel is updated successfully')
+                    });
+                },
+                error: (error) => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                },
+                complete: () => {
+                    this.closeDialog();
                 }
             });
         }
@@ -170,16 +158,9 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit, OnC
 
     /**
      * Closes the dialog and optionally refreshes the parent component.
-     * @param refresh Indicates whether to refresh the parent component
      */
-    closeDialog(refresh: boolean = false) {
-        this.displayForm = false;
+    closeDialog() {
+        this.display = false
         this.formClosed.emit();
-        if (refresh) {
-            this.router.navigate(['/organization-management/personnel/table']);
-        }
     }
 }
-
-
-

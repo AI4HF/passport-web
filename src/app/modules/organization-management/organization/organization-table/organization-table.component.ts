@@ -154,5 +154,3 @@ export class OrganizationTableComponent extends BaseComponent implements OnInit 
         this.loadOrganizationDetails();
     }
 }
-
-

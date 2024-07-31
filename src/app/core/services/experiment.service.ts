@@ -1,6 +1,6 @@
 import {Injectable, Injector} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, map, Observable, of} from "rxjs";
+import {catchError, map, Observable} from "rxjs";
 import {Experiment} from "../../shared/models/experiment.model";
 import {environment} from "../../../environments/environment";
 
@@ -17,6 +17,24 @@ export class ExperimentService {
 
     constructor(private injector: Injector) {
         this.httpClient = injector.get(HttpClient);
+    }
+
+    /**
+     * Retrieves all experiments
+     * @return {Observable<Experiment[]>}
+     */
+    getAllExperiments(): Observable<Experiment[]> {
+        const url = `${this.endpoint}`;
+        return this.httpClient.get<Experiment[]>(url)
+            .pipe(
+                map((response: any) =>{
+                    return response.map((experiment: any) => new Experiment(experiment));
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    throw error;
+                })
+            );
     }
 
     /**

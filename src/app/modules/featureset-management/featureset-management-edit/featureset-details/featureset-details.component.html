@@ -1,0 +1,75 @@
+<div class="content-container">
+    <form [formGroup]="featureSetForm">
+        <p-card class="p-0 w-full">
+            <h2>{{ 'FeatureSetManagement.FeatureSetDetails' | translate }}</h2>
+            <div class="form-grid grid">
+                <div class="col-6">
+                    <div class="field">
+                        <label class="text-900 font-medium" for="title">{{'FeatureSetManagement.Title' | translate}}</label>
+                        <input type="text"
+                               id="title"
+                               pInputText
+                               placeholder="{{'FeatureSetManagement.Title' | translate}}"
+                               formControlName="title"
+                               class="w-full">
+                    </div>
+                    <div class="field mt-4">
+                        <label class="text-900 font-medium" for="description">{{'FeatureSetManagement.Description' | translate}}</label>
+                        <input type="text"
+                               id="description"
+                               pInputText
+                               placeholder="{{'FeatureSetManagement.Description' | translate}}"
+                               formControlName="description"
+                               class="w-full">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field">
+                        <label class="text-900 font-medium" for="featuresetURL">{{'FeatureSetManagement.URL' | translate}}</label>
+                        <input type="text"
+                               id="featuresetURL"
+                               pInputText
+                               placeholder="{{'FeatureSetManagement.URL' | translate}}"
+                               formControlName="featuresetURL"
+                               class="w-full">
+                    </div>
+                    <div class="field mt-4">
+                        <label class="text-900 font-medium" for="experiment">{{'FeatureSetManagement.Experiment' | translate}}</label>
+                        <p-dropdown
+                                [options]="experiments"
+                                formControlName="experiment"
+                                optionLabel="researchQuestion"
+                                placeholder="{{ 'FeatureSetManagement.SelectAnExperiment' | translate }}"
+                                class="w-full"
+                                [style]="{'width': '100%'}">
+                            <ng-template let-experiment pTemplate="selectedItem">
+                                <span>{{ experiment ? experiment.researchQuestion : '' }}</span>
+                            </ng-template>
+                            <ng-template let-experiment pTemplate="item">
+                                <span>{{ experiment.researchQuestion }}</span>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-content-between flex-wrap">
+                <div class="justify-content-start">
+                    <button pButton pRipple
+                            type="button"
+                            label="{{'Back' | translate}}"
+                            class="p-button-raised"
+                            (click)="back()"></button>
+                </div>
+                <div class="justify-content-end">
+                    <button pButton pRipple
+                            type="button"
+                            label="{{(this.selectedFeatureSet?.featuresetId) ? ('Save' | translate) : ('Next' | translate)}}"
+                            class="p-button-raised"
+                            [disabled]="!featureSetForm.valid"
+                            (click)="save()"></button>
+                </div>
+            </div>
+        </p-card>
+    </form>
+</div>
+

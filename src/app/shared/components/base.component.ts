@@ -14,6 +14,13 @@ import {StudyPersonnelService} from "../../core/services/studyPersonnel.service"
 import {OrganizationStateService} from "../../core/services/organization-state.service";
 import {AuthorizationService} from "../../core/services/authorization.service";
 import {ParameterService} from "../../core/services/parameter.service";
+import {FeatureSetService} from "../../core/services/featureset.service";
+import {FeatureService} from "../../core/services/feature.service";
+import {DatasetService} from "../../core/services/dataset.service";
+import {LearningDatasetService} from "../../core/services/learning-dataset.service";
+import {DatasetTransformationStepService} from "../../core/services/dataset-transformation-step.service";
+import {DatasetTransformationService} from "../../core/services/dataset-transformation.service";
+import {DatasetCharacteristicService} from "../../core/services/dataset-characteristic.service";
 
 /**
  * Base component to provide common properties
@@ -46,6 +53,13 @@ export abstract class BaseComponent implements OnDestroy {
   studyPersonnelService: StudyPersonnelService;
   organizationStateService: OrganizationStateService;
   authorizationService: AuthorizationService;
+  featureSetService: FeatureSetService;
+  featureService: FeatureService;
+  datasetService: DatasetService;
+  learningDatasetService: LearningDatasetService;
+  datasetTransformationService: DatasetTransformationService;
+  transformationStepService: DatasetTransformationStepService;
+  datasetCharacteristicService: DatasetCharacteristicService;
   parameterService: ParameterService;
 
   constructor(injector: Injector){
@@ -63,6 +77,13 @@ export abstract class BaseComponent implements OnDestroy {
     this.studyPersonnelService = injector.get(StudyPersonnelService);
     this.organizationStateService = injector.get(OrganizationStateService);
     this.authorizationService = injector.get(AuthorizationService);
+    this.featureSetService = injector.get(FeatureSetService);
+    this.featureService = injector.get(FeatureService);
+    this.datasetService = injector.get(DatasetService);
+    this.datasetCharacteristicService = injector.get(DatasetCharacteristicService);
+    this.datasetTransformationService = injector.get(DatasetTransformationService);
+    this.learningDatasetService = injector.get(LearningDatasetService);
+    this.transformationStepService = injector.get(DatasetTransformationStepService);
     this.parameterService = injector.get(ParameterService);
   }
 

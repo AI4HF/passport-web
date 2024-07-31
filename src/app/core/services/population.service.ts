@@ -19,6 +19,20 @@ export class PopulationService {
         this.httpClient = injector.get(HttpClient);
     }
 
+    getAllPopulations(): Observable<Population[]> {
+        const url = `${this.endpoint}`;
+        return this.httpClient.get<Population[]>(url)
+            .pipe(
+                map((response: any) =>{
+                    return response.map((population: any) => new Population(population));
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    throw error;
+                })
+            );
+    }
+
     /**
      * Retrieves the population of a study
      * @param id Id of the study
