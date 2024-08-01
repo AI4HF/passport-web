@@ -45,7 +45,7 @@ export class Model{
     /**
      * The owner of the Model
      */
-    owner: string;
+    owner: number;
 
     /**
      * The trl level of the Model
