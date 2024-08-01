@@ -115,7 +115,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             this.datasetForm.patchValue({
                 featureset: this.featuresets.find(f => f.featuresetId === this.selectedDataset.featuresetId) || null,
                 population: this.populations.find(p => p.populationId === this.selectedDataset.populationId) || null,
-                organization: this.organizations.find(o => o.id === this.selectedDataset.organizationId) || null
+                organization: this.organizations.find(o => o.organizationId === this.selectedDataset.organizationId) || null
             });
         }
     }
@@ -139,7 +139,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             referenceEntity: formValues.referenceEntity,
             featuresetId: formValues.featureset.featuresetId,
             populationId: formValues.population.populationId,
-            organizationId: formValues.organization.id,
+            organizationId: formValues.organization.organizationId,
             numOfRecords: formValues.numOfRecords,
             synthetic: formValues.synthetic
         };
