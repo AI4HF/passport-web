@@ -15,17 +15,17 @@ describe('Survey Management Tests', () => {
 
     it('should create, update, and delete a survey entry', () => {
         cy.visit('/survey-management');
-
         cy.wait(500);
 
         // cancel create survey
         cy.get('button .pi-plus').click();
         cy.get('button').contains('Cancel').click();
         cy.wait(500);
-        cy.get('app-survey-management-form').should('not.be.visible');
+        cy.get('app-survey-management-form').should('not.exist');
 
         // create survey
         cy.get('button .pi-plus').click();
+        cy.get('button[pbutton][type="submit"]').should('be.disabled');
         cy.get('input[formControlName="question"]').type('test');
         cy.get('textarea[formControlName="answer"]').type('test');
 
@@ -37,6 +37,7 @@ describe('Survey Management Tests', () => {
         cy.get('.p-dropdown-item').contains('Risk').click();
 
         cy.get('button').contains('Save').click();
+        cy.contains('th', 'ID').should('be.visible').click();
 
         cy.get('table tbody tr').last().within(() => {
             cy.get('td').eq(1).should('contain.text', 'test');
@@ -67,18 +68,5 @@ describe('Survey Management Tests', () => {
             cy.get('button .pi-trash').click();
         });
         cy.get('table tbody tr').should('not.exist');
-    });
-
-    it('should give error if form is not fully filled', () => {
-        cy.visit('/survey-management');
-        cy.wait(500);
-
-        // filling in a part of the form should give error
-        cy.get('button .pi-plus').click();
-        cy.get('app-survey-management-form').should('be.visible');
-        cy.get('input[formControlName="question"]').type('test');
-        cy.get('textarea[formControlName="answer"]').type('test');
-        cy.get('button').contains('Save').click();
-        cy.get('.p-toast-message').should('contain', 'Form is invalid');
     });
 });

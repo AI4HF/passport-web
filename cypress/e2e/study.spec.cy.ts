@@ -24,6 +24,43 @@ describe('Study Management Tests', () => {
         cy.get('input[formControlName="populationUrl"]').type('test');
         cy.get('input[formControlName="description"]').type('test');
         cy.get('input[formControlName="characteristics"]').type('test');
+        cy.get('button').contains('Save').click();
+
+        cy.get('.stepper').contains('Personnel Assignment').click();
+        cy.wait(500);
+        cy.get('p-dropdown').first().click();
+        cy.get('.p-dropdown-item').contains('Amsterdam').click();
+
+        cy.get('p-dropdown').eq(1).click();
+        cy.get('.p-dropdown-item').contains('John').click();
+
+        cy.get('.checkbox-grid .field-checkbox').first().click();
+
+        cy.get('button').contains('Save').click();
+
+        // picklist
+        cy.get('p-pickList').within(() => {
+            // Move personnel from source to target
+            cy.get('.p-picklist-source .p-picklist-item').first().click();
+            cy.get('button[type="button"][aria-label="Move to Target"]').click();
+        });
+
+        // Select a role for the moved personnel
+        cy.get('p-pickList .p-picklist-target .p-picklist-item').within(() => {
+            cy.get('p-dropdown').click();
+        });
+
+        cy.get('.p-dropdown-panel').should('be.visible').within(() => {
+            cy.contains('li', 'Data Scientist').click();
+        });
+
+        cy.get('p-pickList').within(() => {
+            cy.get('.p-picklist-target').should('contain.text', 'Data Scientist');
+        });
+
+        cy.get('p-card').last().within(() => {
+            cy.get('button').contains('Save').click();
+        });
 
         cy.get('.stepper').contains('Survey Inspection').click();
         cy.get('button').contains('Finish').click();
@@ -78,7 +115,7 @@ describe('Study Management Tests', () => {
 
         cy.visit('/study-management');
         cy.wait(500);
-        cy.get('button .pi-pencil').click();
+        cy.get('button .pi-pencil').first().click();
 
         cy.get('.p-timeline-event-content .cursor-pointer').each(($step, index) => {
             const stepName = $step.text().trim().replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().replace(/\s+/g, '-');

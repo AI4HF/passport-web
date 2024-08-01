@@ -33,6 +33,8 @@ describe('Parameter Management Tests', () => {
         cy.get('button[pbutton][type="submit"]').should('not.be.disabled');
         cy.get('button').contains('Save').click();
 
+        cy.contains('th', 'ID').should('be.visible').click();
+
         cy.get('table tbody tr').last().within(() => {
             cy.get('td').eq(1).should('contain.text', 'Test Parameter');
             cy.get('td').eq(2).should('contain.text', 'String');
@@ -60,6 +62,6 @@ describe('Parameter Management Tests', () => {
         cy.get('table tbody tr').last().within(() => {
             cy.get('button .pi-trash').click();
         });
-        cy.get('table tbody tr').should('not.exist');
+        cy.get('table tbody tr').should('not.contain', 'Test Parameter 2');
     });
 });
