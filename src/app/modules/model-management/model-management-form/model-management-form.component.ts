@@ -16,6 +16,8 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
 
   /** The ID of the model to be edited */
   @Input() modelId: number;
+  /** The ID of the selected study */
+  @Input() selectedStudyId: number;
   /** Event emitted when the form is closed */
   @Output() formClosed = new EventEmitter<void>();
 
@@ -95,7 +97,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
    */
   saveModel() {
     if(!this.selectedModel.modelId){
-      const newModel: Model = new Model({...this.modelForm.value, createdBy: 1}); //TODO: Handle createdBy
+      const newModel: Model = new Model({studyId: this.selectedStudyId, ...this.modelForm.value});
       this.modelService.createModel(newModel)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
@@ -104,8 +106,8 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
               this.initializeForm();
               this.messageService.add({
                 severity: 'success',
-                summary: this.translateService.instant('Sucess'),
-                detail: this.translateService.instant('ParameterManagement.Parameter is created successfully')
+                summary: this.translateService.instant('Success'),
+                detail: this.translateService.instant('ModelManagement.Model is created successfully')
               });
             },
             error: (error: any) => {
@@ -120,7 +122,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
             }
           });
     }else{
-      const updatedModel: Model = new Model({modelId: this.selectedModel.modelId, ...this.modelForm.value, updatedBy: 1}); //TODO: Handle updatedBy
+      const updatedModel: Model = new Model({studyId: this.selectedStudyId ,modelId: this.selectedModel.modelId, ...this.modelForm.value});
       this.modelService.updateModel(updatedModel)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
@@ -129,8 +131,8 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
               this.initializeForm();
               this.messageService.add({
                 severity: 'success',
-                summary: this.translateService.instant('Sucess'),
-                detail: this.translateService.instant('ParameterManagement.Parameter is updated successfully')
+                summary: this.translateService.instant('Success'),
+                detail: this.translateService.instant('ModelManagement.Model is updated successfully')
               });
             },
             error: (error: any) => {

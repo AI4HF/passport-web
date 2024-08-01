@@ -74,4 +74,4 @@
         </p-table>
     </div>
 </div>
-<app-model-management-form *ngIf="this.displayForm" [modelId]="selectedModelId" (formClosed)="onFormClosed()"></app-model-management-form>
+<app-model-management-form *ngIf="this.displayForm" [selectedStudyId]="selectedStudyId" [modelId]="selectedModelId" (formClosed)="onFormClosed()"></app-model-management-form>
