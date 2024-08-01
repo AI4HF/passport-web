@@ -35,22 +35,22 @@ export class DatasetTransformationStep {
     /**
      * The creation timestamp of the transformation step
      */
-    createdAt: string;
+    createdAt: Date;
 
     /**
      * The ID of the user who created the transformation step
      */
-    createdBy: number;
+    createdBy: string;
 
     /**
      * The last update timestamp of the transformation step
      */
-    lastUpdatedAt: string;
+    lastUpdatedAt: Date;
 
     /**
      * The ID of the user who last updated the transformation step
      */
-    lastUpdatedBy: number;
+    lastUpdatedBy: string;
 
     constructor(data: any) {
         if (!data) {

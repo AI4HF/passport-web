@@ -40,7 +40,7 @@ export class ModelDeployment{
     /**
      * The ID of the personnel that created the ModelDeployment
      */
-    createdBy: number;
+    createdBy: string;
 
     /**
      * The latest update date of the ModelDeployment
@@ -50,7 +50,7 @@ export class ModelDeployment{
     /**
      * The ID of the personnel that updated the ModelDeployment last
      */
-    lastUpdatedBy: number;
+    lastUpdatedBy: string;
 
     constructor(data: any) {
 

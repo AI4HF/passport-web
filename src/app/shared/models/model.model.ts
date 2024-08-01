@@ -45,7 +45,7 @@ export class Model{
     /**
      * The owner of the Model
      */
-    owner: number;
+    owner: string;
 
     /**
      * The trl level of the Model
@@ -100,7 +100,7 @@ export class Model{
     /**
      * The personnel id that created this model
      */
-    createdBy: number;
+    createdBy: string;
 
     /**
      * The last update time of the Model
@@ -110,7 +110,7 @@ export class Model{
     /**
      * The last personnel id that updated this model
      */
-    lastUpdatedBy: number;
+    lastUpdatedBy: string;
 
     constructor(data: any) {
 
