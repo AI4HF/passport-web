@@ -68,6 +68,7 @@ export class AppProfileComponent implements DoCheck{
         StorageUtil.removeUserId();
         StorageUtil.removePersonnelName();
         StorageUtil.removeOrganizationName();
+        StorageUtil.removeOrganizationId();
         StorageUtil.removePersonnelSurname();
         this.router.navigate(['../login'])
     }

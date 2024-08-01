@@ -112,6 +112,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
             .pipe(takeUntil(this.destroy$)).subscribe({
             next: organization => {
                 StorageUtil.storeOrganizationName(organization.name, rememberMe);
+                StorageUtil.storeOrganizationId(organization.organizationId, rememberMe);
                 this.router.navigate(['/study-management']);
             },
             error: (error: any) => {

@@ -36,6 +36,7 @@ export class AuthInterceptor implements HttpInterceptor {
                     StorageUtil.removeToken();
                     StorageUtil.removeUserId();
                     StorageUtil.removeOrganizationName();
+                    StorageUtil.removeOrganizationId();
                     StorageUtil.removePersonnelName();
                     StorageUtil.removePersonnelSurname();
                     this.router.navigate(['/login']);
