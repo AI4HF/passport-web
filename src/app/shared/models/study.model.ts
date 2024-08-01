@@ -30,7 +30,7 @@ export class Study{
     /**
      * The owner personelId of the Study
      */
-    owner: number;
+    owner: string;
 
     constructor(data: any) {
 
