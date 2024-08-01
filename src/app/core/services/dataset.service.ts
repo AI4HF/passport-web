@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { catchError, map, Observable } from "rxjs";
 import { Dataset } from "../../shared/models/dataset.model";
 import { environment } from "../../../environments/environment";
+import {StorageUtil} from "./storageUtil.service";
 
 /**
  * Service to manage datasets.
@@ -82,6 +83,8 @@ export class DatasetService {
      */
     createDataset(dataset: Dataset): Observable<Dataset> {
         const url = `${this.endpoint}`;
+        dataset.createdBy = StorageUtil.retrieveUserId();
+        dataset.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.post<Dataset>(url, dataset)
             .pipe(
                 map((response: any) => {
@@ -101,6 +104,7 @@ export class DatasetService {
      */
     updateDataset(dataset: Dataset): Observable<Dataset> {
         const url = `${this.endpoint}/${dataset.datasetId}`;
+        dataset.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.put<Dataset>(url, dataset)
             .pipe(
                 map((response: any) => {

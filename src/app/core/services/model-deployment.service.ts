@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {catchError, map, Observable, of} from "rxjs";
 import {ModelDeployment} from "../../shared/models/modelDeployment.model";
 import {environment} from "../../../environments/environment";
-import {er} from "@fullcalendar/core/internal-common";
+import {StorageUtil} from "./storageUtil.service";
 
 /**
  * Service to manage the model deployment.
@@ -89,6 +89,7 @@ export class ModelDeploymentService {
    */
   updateModelDeployment(modelDeployment: ModelDeployment): Observable<ModelDeployment>{
     const url = `${this.endpoint}/${modelDeployment.deploymentId}`;
+      modelDeployment.lastUpdatedBy = StorageUtil.retrieveUserId();
     return this.httpClient.put<ModelDeployment>(url, modelDeployment)
         .pipe(
             map((response: any) =>{
@@ -127,6 +128,8 @@ export class ModelDeploymentService {
    */
   createModelDeployment(modelDeployment: ModelDeployment): Observable<ModelDeployment>{
     const url = `${this.endpoint}`;
+      modelDeployment.createdBy = StorageUtil.retrieveUserId();
+      modelDeployment.lastUpdatedBy = StorageUtil.retrieveUserId();
     return this.httpClient.post<ModelDeployment>(url, modelDeployment)
         .pipe(
             map((response: any) =>{

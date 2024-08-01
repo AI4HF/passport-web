@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { catchError, map, Observable } from "rxjs";
 import { Feature } from "../../shared/models/feature.model";
 import { environment } from "../../../environments/environment";
+import {StorageUtil} from "./storageUtil.service";
 
 /**
  * Service to manage features.
@@ -82,6 +83,8 @@ export class FeatureService {
      */
     createFeature(feature: Feature): Observable<Feature> {
         const url = `${this.endpoint}`;
+        feature.createdBy = StorageUtil.retrieveUserId();
+        feature.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.post<Feature>(url, feature)
             .pipe(
                 map((response: any) =>{
@@ -101,6 +104,7 @@ export class FeatureService {
      */
     updateFeature(feature: Feature): Observable<Feature> {
         const url = `${this.endpoint}/${feature.featureId}`;
+        feature.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.put<Feature>(url, feature)
             .pipe(
                 map((response: any) =>{

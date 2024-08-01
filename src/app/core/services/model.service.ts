@@ -3,6 +3,7 @@ import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {catchError, map, Observable} from "rxjs";
 import {Model} from "../../shared/models/model.model";
+import {StorageUtil} from "./storageUtil.service";
 
 
 /**
@@ -86,6 +87,8 @@ export class ModelService {
      */
     createModel(model: Model): Observable<Model> {
         const url = `${this.endpoint}`;
+        model.createdBy = StorageUtil.retrieveUserId();
+        model.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.post<Model>(url, model)
             .pipe(
                 map((response: any) =>{
@@ -105,6 +108,7 @@ export class ModelService {
      */
     updateModel(model: Model): Observable<Model> {
         const url = `${this.endpoint}/${model.modelId}`;
+        model.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.put<Model>(url, model)
             .pipe(
                 map((response: any) =>{
