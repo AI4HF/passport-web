@@ -126,11 +126,15 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
      */
     saveQuestion() {
         const formValue = this.surveyForm.value;
+        const categoryValue = typeof formValue.category === 'object' ? formValue.category.value : formValue.category;
+        const surveyData = {
+            ...formValue,
+            category: categoryValue,
+            studyId: formValue.study.id
+        };
+
         if (!this.selectedSurvey.surveyId) {
-            const newSurvey: Survey = new Survey({
-                ...formValue,
-                studyId: formValue.study.id
-            });
+            const newSurvey: Survey = new Survey(surveyData);
             this.surveyService.createSurvey(newSurvey).pipe(takeUntil(this.destroy$)).subscribe({
                 next: survey => {
                     this.selectedSurvey = survey;
@@ -155,7 +159,7 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
         } else {
             const updatedSurvey: Survey = new Survey({
                 surveyId: this.selectedSurvey.surveyId,
-                ...formValue,
+                ...surveyData,
                 studyId: this.selectedSurvey.studyId
             });
             this.surveyService.updateSurvey(updatedSurvey).pipe(takeUntil(this.destroy$)).subscribe({
