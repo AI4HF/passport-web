@@ -24,6 +24,7 @@ import {ModelService} from "../../core/services/model.service";
 import {ModelDeploymentService} from "../../core/services/model-deployment.service";
 import {DeploymentEnvironmentService} from "../../core/services/deployment-environment.service";
 import {StudyOrganizationService} from "../../core/services/studyOrganization.service";
+import {PassportService} from "../../core/services/passport.service";
 
 /**
  * Base component to provide common properties
@@ -95,6 +96,7 @@ export abstract class BaseComponent implements OnDestroy {
     this.modelDeploymentService = injector.get(ModelDeploymentService);
     this.deploymentEnvironmentService = injector.get(DeploymentEnvironmentService);
     this.studyOrganizationService = injector.get(StudyOrganizationService);
+    this.passportService = injector.get(PassportService);
   }
 
   /**

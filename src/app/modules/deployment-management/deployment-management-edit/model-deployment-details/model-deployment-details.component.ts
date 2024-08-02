@@ -40,29 +40,36 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
   }
 
   ngOnInit() {
-    this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
-      next: data => {
-        this.selectedModelDeployment = data['deployment'];
-        this.initializeForm();
-      },
-      error: error => {
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translateService.instant('Error'),
-          detail: error.message
-        });
-      }
+    this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      this.environmentIdParam = params.get('id');
     });
 
-    // environmentId is required for creating model deployment object
-    this.route.parent?.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      this.environmentIdParam = params['id'];
-    });
-
-    // Fetch the model list
+    this.loadModelDeployment(+this.environmentIdParam);
     this.fetchModels();
   }
 
+  /**
+   * Load model deployment by environmentId
+   */
+  loadModelDeployment(id: number) {
+    this.modelDeploymentService.getModelDeploymentByEnvironmentId(id).pipe(takeUntil(this.destroy$)).subscribe({
+      next: modelDeployment => {
+        this.selectedModelDeployment = modelDeployment;
+        this.initializeForm();
+      },
+      error: error => {
+        if (error.status === 404) {
+          this.selectedModelDeployment = new ModelDeployment({deploymentId: 0});
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translateService.instant('Error'),
+            detail: error.message
+          });
+        }
+      }
+    });
+  }
 
   /**
    * Fetches the model options from the service.
@@ -82,7 +89,6 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
     });
   }
 
-
   /**
    * Initializes the form object for the given model deployment.
    */
@@ -93,9 +99,7 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
       identifiedFailures: new FormControl(this.selectedModelDeployment.identifiedFailures, Validators.required),
       status: new FormControl(this.selectedModelDeployment.status, Validators.required)
     });
-
   }
-
 
   /**
    * Back to environment details form
@@ -147,8 +151,6 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
                 summary: this.translateService.instant('Success'),
                 detail: this.translateService.instant('DeploymentManagement.Model Deployment is updated successfully')
               });
-              // reloading the browser to trigger the deployment resolver, otherwise data['deployment'] is not updated
-              window.location.reload();
             },
             error: (error: any) => {
               this.messageService.add({
@@ -160,5 +162,4 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
           });
     }
   }
-
 }
