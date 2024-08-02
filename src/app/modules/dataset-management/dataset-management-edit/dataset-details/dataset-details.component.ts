@@ -45,10 +45,25 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
      * Initializes the component.
      */
     ngOnInit() {
-        this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
-            next: data => {
-                this.selectedDataset = data['dataset'];
-                this.isEditMode = !!this.selectedDataset.datasetId;
+        this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+            const id = params.get('id');
+            if (id !== 'new') {
+                this.loadDataset(+id);
+            } else {
+                this.selectedDataset = new Dataset({id: 0});
+                this.initializeForm();
+            }
+        });
+        this.loadDropdowns();
+    }
+
+    /**
+     * Load Dataset by ID
+     */
+    loadDataset(id: number) {
+        this.datasetService.getDatasetById(id).pipe(takeUntil(this.destroy$)).subscribe({
+            next: dataset => {
+                this.selectedDataset = dataset;
                 this.initializeForm();
             },
             error: error => {
@@ -59,7 +74,6 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
                 });
             }
         });
-        this.loadDropdowns();
     }
 
     /**

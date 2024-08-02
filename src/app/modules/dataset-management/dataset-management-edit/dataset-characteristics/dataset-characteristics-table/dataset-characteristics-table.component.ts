@@ -2,7 +2,6 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from "../../../../../shared/components/base.component";
 import { DatasetCharacteristic } from "../../../../../shared/models/datasetCharacteristic.model";
 import { takeUntil } from "rxjs";
-import { Dataset } from "../../../../../shared/models/dataset.model";
 
 /**
  * Component to display and manage dataset characteristics.
@@ -15,7 +14,7 @@ import { Dataset } from "../../../../../shared/models/dataset.model";
 export class DatasetCharacteristicsTableComponent extends BaseComponent implements OnInit {
 
     /** The selected dataset */
-    selectedDataset: Dataset;
+    selectedDatasetId: number;
 
     /** List of dataset characteristics */
     characteristics: DatasetCharacteristic[] = [];
@@ -54,8 +53,8 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
             { field: 'valueDataType', header: 'DatasetManagement.ValueDataType' }
         ];
 
-        this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
-            this.selectedDataset = data['dataset'];
+        this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+            this.selectedDatasetId = +params.get('id');
             this.loadFeatures();
         });
     }
@@ -84,7 +83,7 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
      * Loads the characteristics of the selected dataset.
      */
     loadCharacteristics() {
-        this.datasetCharacteristicService.getCharacteristicsByDatasetId(this.selectedDataset.datasetId).pipe(takeUntil(this.destroy$))
+        this.datasetCharacteristicService.getCharacteristicsByDatasetId(this.selectedDatasetId).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: characteristics => {
                     this.characteristics = characteristics.map(characteristic => ({

@@ -3,7 +3,6 @@ import { BaseComponent } from "../../../../../shared/components/base.component";
 import { LearningDataset } from "../../../../../shared/models/learningDataset.model";
 import { DatasetTransformation } from "../../../../../shared/models/datasetTransformation.model";
 import { takeUntil } from "rxjs";
-import { Dataset } from "../../../../../shared/models/dataset.model";
 
 /**
  * Component for managing and displaying the learning datasets creation table.
@@ -16,7 +15,7 @@ import { Dataset } from "../../../../../shared/models/dataset.model";
 export class LearningDatasetCreationTableComponent extends BaseComponent implements OnInit {
 
     /** The selected dataset */
-    selectedDataset: Dataset;
+    selectedDatasetId: number;
 
     /** List of learning datasets */
     learningDatasets: LearningDataset[] = [];
@@ -57,8 +56,8 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
             { field: 'transformationDescription', header: 'DatasetManagement.TransformationDescription' }
         ];
 
-        this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
-            this.selectedDataset = data['dataset'];
+        this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+            this.selectedDatasetId = +params.get('id');
             this.loadLearningDatasets();
         });
     }
@@ -67,7 +66,7 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
      * Loads the learning datasets associated with the selected dataset.
      */
     loadLearningDatasets() {
-        this.learningDatasetService.getLearningDatasetsByDatasetId(this.selectedDataset.datasetId).pipe(takeUntil(this.destroy$))
+        this.learningDatasetService.getLearningDatasetsByDatasetId(this.selectedDatasetId).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningDatasets => {
                     this.learningDatasets = learningDatasets;

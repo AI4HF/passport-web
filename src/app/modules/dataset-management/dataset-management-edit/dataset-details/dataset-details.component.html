@@ -1,5 +1,5 @@
 <div class="content-container">
-    <form [formGroup]="datasetForm">
+    <form *ngIf="datasetForm" [formGroup]="datasetForm">
         <p-card class="p-0 w-full">
             <div class="grid grid-nogutter">
                 <div class="col-2 flex align-items-center">
