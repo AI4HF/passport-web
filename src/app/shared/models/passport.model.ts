@@ -21,7 +21,7 @@ export class Passport{
     /**
      * The ID of the personnel that created the Passport
      */
-    createdBy: number;
+    createdBy: string;
 
     /**
      * The approval date of the Passport
@@ -31,7 +31,7 @@ export class Passport{
     /**
      * The ID of the personnel that approved the Passport
      */
-    approvedBy: number;
+    approvedBy: string;
 
     constructor(data: any) {
 
