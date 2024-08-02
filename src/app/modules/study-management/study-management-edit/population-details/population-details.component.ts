@@ -29,9 +29,9 @@ export class PopulationDetailsComponent extends BaseComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
-      next: data => {
-        this.populationService.getPopulationByStudyId(data['study'].id).pipe(takeUntil(this.destroy$))
+    this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe({
+      next: params => {
+        this.populationService.getPopulationByStudyId(+params.get('id')).pipe(takeUntil(this.destroy$))
             .subscribe({
               next: population => {
                 this.selectedPopulation = population;
@@ -39,7 +39,7 @@ export class PopulationDetailsComponent extends BaseComponent implements OnInit{
               },
               error: (error: any) => {
                 if(error.status === 404){
-                  this.selectedPopulation = new Population({populationId: 0, studyId: data['study'].id});
+                  this.selectedPopulation = new Population({populationId: 0, studyId: +params.get('id')});
                   this.initializeForm();
                 }else{
                   this.messageService.add({

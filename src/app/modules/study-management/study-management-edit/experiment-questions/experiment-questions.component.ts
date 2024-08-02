@@ -35,8 +35,8 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
 
 
   ngOnInit(): void {
-    this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
-      this.studyId = data['study'].id;
+    this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      this.studyId = +params.get('id');
       this.fetchExperimentsByStudyId(this.studyId);
     });
 

@@ -90,9 +90,9 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
       }
     });
 
-    this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
-      next: data => {
-        this.studyId = data['study'].id;
+    this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe({
+      next: params => {
+        this.studyId = +params.get('id');
       },
       error: error => {
         this.messageService.add({

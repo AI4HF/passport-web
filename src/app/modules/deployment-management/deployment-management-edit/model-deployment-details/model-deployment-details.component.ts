@@ -110,7 +110,7 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
   save(){
     if(this.selectedModelDeployment.deploymentId === 0){
       const newModelDeployment: ModelDeployment = new ModelDeployment(
-          { environmentId: this.environmentIdParam, createdBy: 1, lastUpdatedBy: 1,...this.modelDeploymentForm.value});
+          { environmentId: this.environmentIdParam,...this.modelDeploymentForm.value});
       this.modelDeploymentService.createModelDeployment(newModelDeployment)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
@@ -135,7 +135,7 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
     }else{
       const updatedModelDeployment: ModelDeployment = new ModelDeployment(
           {deploymentId: this.selectedModelDeployment.deploymentId, environmentId: this.selectedModelDeployment.environmentId,
-            createdBy: 1, lastUpdatedBy: 1, ...this.modelDeploymentForm.value});
+             ...this.modelDeploymentForm.value});
       this.modelDeploymentService.updateModelDeployment(updatedModelDeployment)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
