@@ -1,8 +1,8 @@
 import {Component, Injector, Input, OnInit} from '@angular/core';
-import { Personnel } from '../../../../shared/models/personnel.model';
+import { Personnel } from '../../../../../shared/models/personnel.model';
 import { takeUntil } from 'rxjs/operators';
-import { BaseComponent } from "../../../../shared/components/base.component";
-import { ROLES } from '../../../../shared/models/roles.constant';
+import { BaseComponent } from "../../../../../shared/components/base.component";
+import { ROLES } from '../../../../../shared/models/roles.constant';
 
 /**
  * Component to display and manage a list of personnel.
@@ -110,9 +110,8 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
                     summary: this.translateService.instant('Success'),
                     detail: this.translateService.instant('OrganizationManagement.Personnel is deleted successfully')
                 });
-                const organizationId = this.organizationStateService.getOrganizationId();
-                if (organizationId) {
-                    this.loadPersonnelList(organizationId);
+                if (this.organizationId) {
+                    this.loadPersonnelList(this.organizationId);
                 }
             },
             error: (error) => {
@@ -130,9 +129,8 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
      */
     onFormClosed() {
         this.displayForm = false;
-        const organizationId = this.organizationStateService.getOrganizationId();
-        if (organizationId) {
-            this.loadPersonnelList(organizationId);
+        if (this.organizationId) {
+            this.loadPersonnelList(this.organizationId);
         }
     }
 
