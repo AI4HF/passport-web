@@ -66,6 +66,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
                 const helper = new JwtHelperService();
                 const decodedToken = helper.decodeToken(response.access_token);
                 StorageUtil.storeUserId(decodedToken.user_id, rememberMe);
+                StorageUtil.storePersonnelName(decodedToken.given_name, rememberMe);
+                StorageUtil.storePersonnelSurname(decodedToken.family_name, rememberMe);
                 this.fetchLoggedPersonnel(rememberMe);
             },
             error => {
@@ -92,11 +94,16 @@ export class LoginComponent extends BaseComponent implements OnInit {
                     this.fetchLoggedOrganization(personnel.organizationId, rememberMe);
                 },
                 error: (error: any) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
-                    });
+                    if(error.status === 404) {
+                        this.router.navigate(['/organization-management/organization']);
+                    }else{
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: this.translateService.instant('Error'),
+                            detail: error.message
+                        });
+                    }
+
                 }
             });
         }

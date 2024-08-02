@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import {Component, Injector, Input, OnInit} from '@angular/core';
 import { Personnel } from '../../../../shared/models/personnel.model';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from "../../../../shared/components/base.component";
@@ -24,6 +24,7 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
     /** The ID of the selected personnel for editing */
     selectedPersonnelId: string;
 
+    @Input() organizationId: number;
     /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
@@ -42,11 +43,9 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
      * Initializes the component.
      */
     ngOnInit() {
-        this.organizationStateService.organizationId$.pipe(takeUntil(this.destroy$)).subscribe(id => {
-            if (id !== null) {
-                this.loadPersonnelList(id);
-            }
-        });
+        if (this.organizationId) {
+            this.loadPersonnelList(this.organizationId);
+        }
     }
 
     /**

@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from '../../../../shared/components/base.component';
 
 /**
- * Component to display and manage a list of organizations.
+ * Component to display and manage an organization.
  */
 @Component({
     selector: 'app-organization-table',

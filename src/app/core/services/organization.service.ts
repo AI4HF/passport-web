@@ -57,6 +57,25 @@ export class OrganizationService {
     }
 
     /**
+     * Retrieves the organization by using organizationAdminId
+     * @param organizationAdminId Id of the organization admin
+     * @return {Observable<Organization>}
+     */
+    getOrganizationByOrganizationAdminId(organizationAdminId: string): Observable<Organization> {
+        const url = `${this.endpoint}?organizationAdminId=${organizationAdminId}`;
+        return this.httpClient.get<Organization>(url)
+            .pipe(
+                map((response: any) => {
+                    return new Organization(response[0]);
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    throw error;
+                })
+            );
+    }
+
+    /**
      * Update the organization
      * @param organization updated version of the organization
      * @return {Observable<Organization>}

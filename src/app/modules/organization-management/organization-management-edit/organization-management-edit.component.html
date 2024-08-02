@@ -1,0 +1,9 @@
+<div class="content-container">
+    <div class="p-3 mb-3">
+        <app-organization-details (organizationId)="setSelectedOrganizationId($event)"></app-organization-details>
+    </div>
+    <div>
+        <app-personnel-table *ngIf="selectedOrganizationId" [organizationId]="selectedOrganizationId"></app-personnel-table>
+    </div>
+</div>
+

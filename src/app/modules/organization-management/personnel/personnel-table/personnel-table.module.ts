@@ -11,6 +11,9 @@ import {PersonnelFormModule} from "../personnel-form/personnel-form.module";
 
 @NgModule({
     declarations: [PersonnelTableComponent],
+    exports: [
+        PersonnelTableComponent
+    ],
     imports: [
         CommonModule,
         TableModule,

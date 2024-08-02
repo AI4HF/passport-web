@@ -17,6 +17,11 @@ export class Organization {
      */
     address: string;
 
+    /**
+     * The ID of Organization Admin
+     */
+    organizationAdminId: string;
+
     constructor(data: any) {
 
         if(!data){
@@ -26,5 +31,6 @@ export class Organization {
         this.organizationId = data.organizationId;
         this.name = data.name;
         this.address = data.address;
+        this.organizationAdminId = data.organizationAdminId;
     }
 }

@@ -5,7 +5,7 @@ import {organizationPersonnelGuard} from "../../core/guards/organization-personn
 const routes: Routes = [
     {
         path: 'organization',
-        loadChildren: () => import('./organization/organization.module').then(m => m.OrganizationModule)
+        loadChildren: () => import('./organization-management-edit/organization-management-edit.module').then(m => m.OrganizationManagementEditModule)
     },
     {
         path: 'personnel',

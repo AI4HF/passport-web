@@ -1,0 +1,43 @@
+<div *ngIf="selectedOrganization" class="content-container">
+    <form [formGroup]="organizationForm">
+        <p-card class="p-0 w-full">
+            <h2>{{ 'OrganizationManagement.Owned Organization' | translate }}</h2>
+            <div class="form-grid grid">
+                <div class="col-6">
+                    <div class="field">
+                        <label class="text-900 font-medium" for="name">{{'OrganizationManagement.Organization Name' | translate}}</label>
+                        <input type="text"
+                               id="name"
+                               pInputText
+                               placeholder="{{'OrganizationManagement.Organization Name' | translate}}"
+                               formControlName="name"
+                               class="w-full">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field">
+                        <label class="text-900 font-medium" for="address">{{'OrganizationManagement.Organization Address' | translate}}</label>
+                        <input type="text"
+                               id="address"
+                               pInputText
+                               placeholder="{{'OrganizationManagement.Organization Address' | translate}}"
+                               formControlName="address"
+                               class="w-full">
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-content-between flex-wrap">
+                <div class="justify-content-start"></div>
+                <div class="justify-content-end">
+                    <button pButton pRipple
+                            type="button"
+                            label="{{ 'Save' | translate }}"
+                            class="p-button-raised"
+                            [disabled]="!organizationForm.valid"
+                            (click)="save()"></button>
+                </div>
+            </div>
+        </p-card>
+    </form>
+</div>
+
