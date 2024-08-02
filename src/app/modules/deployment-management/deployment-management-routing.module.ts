@@ -1,8 +1,6 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
 import {DeploymentManagementDashboardComponent} from "./deployment-management-dashboard/deployment-management-dashboard.component";
-import {DeploymentManagementResolver} from "../../core/resolvers/deployment-management.resolver";
-
 
 const routes: Routes = [
     {
@@ -18,8 +16,7 @@ const routes: Routes = [
                 loadChildren: () => import('./deployment-management-edit/deployment-management-edit.module')
                     .then(m => m.DeploymentManagementEditModule)
             }
-        ],
-        resolve: {deployment: DeploymentManagementResolver}
+        ]
     }
 ];
 

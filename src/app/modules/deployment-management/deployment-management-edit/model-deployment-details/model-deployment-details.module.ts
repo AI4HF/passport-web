@@ -20,7 +20,8 @@ import {DropdownModule} from "primeng/dropdown";
         ReactiveFormsModule,
         RippleModule,
         TranslateModule,
-        DropdownModule
+        DropdownModule,
+        NgIf
     ],
     exports: [ModelDeploymentDetailsComponent]
 })

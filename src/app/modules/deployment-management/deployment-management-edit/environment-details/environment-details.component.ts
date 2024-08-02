@@ -5,7 +5,6 @@ import {BaseComponent} from "../../../../shared/components/base.component";
 import {DeploymentEnvironment} from "../../../../shared/models/deploymentEnvironment.model";
 import {DeploymentManagementRoutingModule} from "../../deployment-management-routing.module";
 
-
 /**
  * Shows details of a deployment environment related to a model deployment
  */
@@ -21,7 +20,6 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
      */
     selectedDeploymentEnvironment: DeploymentEnvironment;
 
-
     /**
      * The ID of deployment environment created at the environment details form
      */
@@ -32,7 +30,6 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
      */
     deploymentEnvironmentForm: FormGroup;
 
-
     constructor(protected injector: Injector) {
         super(injector);
     }
@@ -42,11 +39,8 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
             this.environmentIdParam = params['id'];
         });
 
-
         this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
             next: data => {
-                const environmentId = data['deployment'].environmentId;
-
                 // checking if environment is already created
                 if (this.environmentIdParam === 'new') {
                     this.selectedDeploymentEnvironment = new DeploymentEnvironment({});
@@ -149,5 +143,4 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
                 });
         }
     }
-
 }
