@@ -48,6 +48,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
         this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
             const id = params.get('id');
             if (id !== 'new') {
+                this.isEditMode = true;
                 this.loadDataset(+id);
             } else {
                 this.selectedDataset = new Dataset({id: 0});
@@ -91,6 +92,10 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             numOfRecords: new FormControl(this.selectedDataset?.numOfRecords || 0, Validators.required),
             synthetic: new FormControl(this.selectedDataset?.synthetic || false)
         });
+
+        if (this.isEditMode) {
+            this.setDropdownValues();
+        }
     }
 
     /**
@@ -208,3 +213,4 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
         }
     }
 }
+
