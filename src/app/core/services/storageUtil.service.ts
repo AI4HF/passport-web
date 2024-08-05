@@ -69,6 +69,19 @@ export class StorageUtil {
     }
 
     /**
+     * Stores the organizationId in the appropriate storage based on the rememberMe flag.
+     * @param organizationId The organizationId to store.
+     * @param rememberMe Whether to remember the user across sessions.
+     */
+    static storeOrganizationId(organizationId: number, rememberMe: boolean): void {
+        if (rememberMe) {
+            localStorage.setItem('organizationId', String(organizationId));
+        } else {
+            sessionStorage.setItem('organizationId', String(organizationId));
+        }
+    }
+
+    /**
      * Retrieves the token from storage.
      * @returns The token from either localStorage or sessionStorage.
      */
@@ -109,6 +122,14 @@ export class StorageUtil {
     }
 
     /**
+     * Retrieves the organizationId from storage.
+     * @returns The organizationId from either localStorage or sessionStorage.
+     */
+    static retrieveOrganizationId(): string | null {
+        return localStorage.getItem('organizationId') || sessionStorage.getItem('organizationId');
+    }
+
+    /**
      * Removes the token from both localStorage and sessionStorage.
      */
     static removeToken(): void {
@@ -146,5 +167,13 @@ export class StorageUtil {
     static removeOrganizationName(): void {
         localStorage.removeItem('organizationName');
         sessionStorage.removeItem('organizationName');
+    }
+
+    /**
+     * Removes the organizationId from both localStorage and sessionStorage.
+     */
+    static removeOrganizationId(): void {
+        localStorage.removeItem('organizationId');
+        sessionStorage.removeItem('organizationId');
     }
 }

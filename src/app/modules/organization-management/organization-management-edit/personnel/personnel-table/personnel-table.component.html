@@ -61,4 +61,5 @@
     </div>
 </div>
 <app-personnel-form (formClosed)="onFormClosed()" *ngIf="this.displayForm"
-                    [personnelId]="selectedPersonnelId"></app-personnel-form>
+                    [personnelId]="selectedPersonnelId"
+                    [organizationId]="organizationId"></app-personnel-form>

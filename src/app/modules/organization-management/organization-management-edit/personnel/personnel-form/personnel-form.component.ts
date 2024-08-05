@@ -1,12 +1,12 @@
 import { Component, Injector, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Personnel } from '../../../../shared/models/personnel.model';
+import { Personnel } from '../../../../../shared/models/personnel.model';
 import { takeUntil } from 'rxjs/operators';
-import { BaseComponent } from "../../../../shared/components/base.component";
-import { ROLES } from "../../../../shared/models/roles.constant";
-import { NameAndValueInterface } from "../../../../shared/models/nameAndValue.interface";
-import {PersonnelDTO} from "../../../../shared/models/personnelDTO.model";
-import {Credentials} from "../../../../shared/models/credentials.model";
+import { BaseComponent } from "../../../../../shared/components/base.component";
+import { ROLES } from "../../../../../shared/models/roles.constant";
+import { NameAndValueInterface } from "../../../../../shared/models/nameAndValue.interface";
+import {PersonnelDTO} from "../../../../../shared/models/personnelDTO.model";
+import {Credentials} from "../../../../../shared/models/credentials.model";
 
 /**
  * Component for creating or updating personnel.
@@ -19,6 +19,8 @@ import {Credentials} from "../../../../shared/models/credentials.model";
 export class PersonnelFormComponent extends BaseComponent implements OnInit {
     /** The ID of the personnel to be edited */
     @Input() personnelId: string;
+    /** The ID of the organization */
+    @Input() organizationId: number;
     /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();
 
@@ -106,9 +108,8 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
     savePersonnel() {
         const formValue = this.personnelForm.value;
         if (!this.selectedPersonnel.personId) {
-            const organizationId = this.organizationStateService.getOrganizationId();
             const credentials = new Credentials(this.personnelForm.value);
-            const newPersonnel = new Personnel({ ...formValue, organizationId });
+            const newPersonnel = new Personnel({ ...formValue, organizationId: this.organizationId });
             const personnelDTO = new PersonnelDTO({ personnel: newPersonnel, credentials: credentials });
             this.personnelService.createPersonnelByPersonId(personnelDTO).pipe(takeUntil(this.destroy$)).subscribe({
                 next: personnel => {
@@ -131,8 +132,7 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
                 }
             });
         } else {
-            const organizationId = this.organizationStateService.getOrganizationId();
-            const updatedPersonnel = new Personnel({ personId: this.selectedPersonnel.personId, ...formValue, organizationId });
+            const updatedPersonnel = new Personnel({ personId: this.selectedPersonnel.personId, ...formValue, organizationId: this.organizationId });
             this.personnelService.updatePersonnel(updatedPersonnel).pipe(takeUntil(this.destroy$)).subscribe({
                 next: personnel => {
                     this.selectedPersonnel = personnel;
