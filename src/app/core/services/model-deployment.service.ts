@@ -45,7 +45,7 @@ export class ModelDeploymentService {
      * @return {Observable<ModelDeployment>}
      */
     getModelDeploymentByEnvironmentId(id: number): Observable<ModelDeployment> {
-        const url = `${this.endpoint}/environment/${id}`;
+        const url = `${this.endpoint}?environmentId=${id}`;
         return this.httpClient.get<ModelDeployment>(url)
             .pipe(
                 map((response: any) =>{
