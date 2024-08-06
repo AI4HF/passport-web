@@ -70,7 +70,6 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
         objectives: new FormControl(this.selectedStudy.objectives, Validators.required),
         ethics: new FormControl(this.selectedStudy.ethics, Validators.required)
       });
-      console.log(this.studyForm.value.name);
     }
 
   /**
