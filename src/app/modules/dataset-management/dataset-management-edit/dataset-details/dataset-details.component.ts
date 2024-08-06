@@ -59,7 +59,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
     }
 
     /**
-     * Load Dataset by ID
+     * Loads the Dataset details by id if entity is being edited.
      */
     loadDataset(id: number) {
         this.datasetService.getDatasetById(id).pipe(takeUntil(this.destroy$)).subscribe({

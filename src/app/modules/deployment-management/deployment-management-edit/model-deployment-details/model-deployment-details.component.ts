@@ -49,7 +49,7 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
   }
 
   /**
-   * Load model deployment by environmentId
+   * Loads the Deployment details by environment id if entity is being edited.
    */
   loadModelDeployment(id: number) {
     this.modelDeploymentService.getModelDeploymentByEnvironmentId(id).pipe(takeUntil(this.destroy$)).subscribe({

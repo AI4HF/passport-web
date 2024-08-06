@@ -4,7 +4,6 @@ import { LearningDataset } from "../../../../../shared/models/learningDataset.mo
 import { DatasetTransformation } from "../../../../../shared/models/datasetTransformation.model";
 import { DatasetTransformationStep } from "../../../../../shared/models/datasetTransformationStep.model";
 import { takeUntil } from "rxjs";
-import { Dataset } from "../../../../../shared/models/dataset.model";
 
 /**
  * Component for managing and displaying dataset transformation steps.
@@ -16,7 +15,7 @@ import { Dataset } from "../../../../../shared/models/dataset.model";
 })
 export class CreationStepAssignmentTableComponent extends BaseComponent implements OnInit {
 
-    /** The selected dataset */
+    /** The selected dataset's ID */
     selectedDatasetId: number;
 
     /** List of learning datasets */

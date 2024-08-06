@@ -13,7 +13,7 @@ import { takeUntil } from "rxjs";
 })
 export class DatasetCharacteristicsTableComponent extends BaseComponent implements OnInit {
 
-    /** The selected dataset */
+    /** The selected dataset's ID */
     selectedDatasetId: number;
 
     /** List of dataset characteristics */

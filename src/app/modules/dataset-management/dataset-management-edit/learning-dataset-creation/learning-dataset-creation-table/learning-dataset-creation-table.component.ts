@@ -14,7 +14,7 @@ import { takeUntil } from "rxjs";
 })
 export class LearningDatasetCreationTableComponent extends BaseComponent implements OnInit {
 
-    /** The selected dataset */
+    /** The selected dataset's ID */
     selectedDatasetId: number;
 
     /** List of learning datasets */
