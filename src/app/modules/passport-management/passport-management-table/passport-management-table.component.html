@@ -10,13 +10,12 @@
                 <button pButton pRipple icon="pi pi-plus" class="p-button-rounded button-secondary mx-2" (click)="createPassport()" pTooltip="{{ 'PassportManagement.Create Passport' | translate }}" tooltipPosition="bottom"></button>
             </div>
         </div>
-        <p-table #dt [value]="passportWithModelNameList" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['passportId', 'modelName']" [sortField]="'passportId'">
+        <p-table #dt [value]="passportWithModelNameList" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['passport.passportId', 'modelName']" [sortField]="'passport.passportId'">
             <ng-template pTemplate="header">
                 <tr>
-                    <!-- Passport Id-->
-                    <th [pSortableColumn]="'passportId'" class="white-space-nowrap min-width-10rem">
+                    <th [pSortableColumn]="'passport.passportId'" class="white-space-nowrap min-width-10rem">
                         {{ 'PassportManagement.ID' | translate }}
-                        <p-sortIcon [field]="'passportId'"></p-sortIcon>
+                        <p-sortIcon [field]="'passport.passportId'"></p-sortIcon>
                     </th>
 
                     <!-- Model Name-->
@@ -29,20 +28,19 @@
                     </th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-passport>
+            <ng-template pTemplate="body" let-passportWithModelName>
                 <tr>
                     <!-- Passport Id-->
                     <td class="cursor-pointer">
-                        <span>{{ passport.passportId }}</span>
+                        <span>{{ passportWithModelName.passport.passportId }}</span>
                     </td>
 
-                    <!-- Model Name-->
                     <td class="cursor-pointer">
-                        <span>{{ passport.modelName }}</span>
+                        <span>{{ passportWithModelName.modelName }}</span>
                     </td>
                     <td>
                         <button pButton pRipple type="button" icon="pi pi-upload" class="p-button-text p-button-rounded p-ripple" pTooltip="{{ 'PassportManagement.Export Passport' | translate }}" tooltipPosition="bottom"></button>
-                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deletePassport(passport.passportId)" pTooltip="{{ 'PassportManagement.Delete Passport' | translate }}" tooltipPosition="bottom"></button>
+                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deletePassport(passportWithModelName.passport.passportId)" pTooltip="{{ 'PassportManagement.Delete Passport' | translate }}" tooltipPosition="bottom"></button>
                     </td>
                 </tr>
             </ng-template>

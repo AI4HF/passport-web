@@ -1,8 +1,10 @@
-import {Component, EventEmitter, Injector, OnInit, Output} from '@angular/core';
-import {Passport} from "../../../shared/models/passport.model";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {BaseComponent} from "../../../shared/components/base.component";
-import {forkJoin, takeUntil} from "rxjs";
+import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
+import { Passport } from "../../../shared/models/passport.model";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { BaseComponent } from "../../../shared/components/base.component";
+import { forkJoin, takeUntil } from "rxjs";
+import { ModelWithName } from "../../../shared/models/modelWithName.model";
+import { ModelDeploymentWithModelName } from "../../../shared/models/modelDeploymentWithModelName.model";
 
 /**
  * Component for creating passport.
@@ -20,11 +22,10 @@ export class PassportManagementFormComponent extends BaseComponent implements On
     passportForm: FormGroup;
     /** flag indicating that dialog is visible */
     display = false;
-    /** All deployed model names that will be displayed at the dropdown menu*/
-    modelDeploymentList: any[];
-    /** All model names*/
-    modelNameList: any[];
-
+    /** All deployed model names that will be displayed at the dropdown menu */
+    modelDeploymentList: ModelDeploymentWithModelName[];
+    /** All model names */
+    modelNameList: ModelWithName[];
 
     /**
      * Constructor to inject dependencies.
@@ -42,7 +43,6 @@ export class PassportManagementFormComponent extends BaseComponent implements On
         this.initializeForm();
     }
 
-
     /**
      * Initializes the form group.
      */
@@ -53,7 +53,6 @@ export class PassportManagementFormComponent extends BaseComponent implements On
         this.display = true;
     }
 
-
     /**
      * Loads models and model deployments data.
      */
@@ -63,11 +62,8 @@ export class PassportManagementFormComponent extends BaseComponent implements On
             this.modelService.getModelList().pipe(takeUntil(this.destroy$))
         ]).subscribe({
             next: ([modelDeployments, models]) => {
-                this.modelDeploymentList = modelDeployments.map(modelDeployment => ({
-                    ...modelDeployment,
-                    modelName: ''
-                }));
-                this.modelNameList = models.map(model => ({id: model.modelId, name: model.name}));
+                this.modelDeploymentList = modelDeployments.map(modelDeployment => new ModelDeploymentWithModelName(modelDeployment, ''));
+                this.modelNameList = models.map(model => new ModelWithName(model));
                 this.mapModelsToModelDeployments();
             },
             error: error => {
@@ -84,12 +80,11 @@ export class PassportManagementFormComponent extends BaseComponent implements On
      * Maps models to modelDeployments to populate the model name for each model deployment.
      */
     mapModelsToModelDeployments() {
-        this.modelDeploymentList.forEach(modelDeployment => {
-            const model = this.modelNameList.find(m => m.id === modelDeployment.modelId);
-            modelDeployment.modelName = model ? model.name : '';
+        this.modelDeploymentList.forEach(modelDeploymentWithModelName => {
+            const model = this.modelNameList.find(m => m.id === modelDeploymentWithModelName.modelDeployment.modelId);
+            modelDeploymentWithModelName.modelName = model ? model.name : '';
         });
     }
-
 
     /**
      * Saves the passport.

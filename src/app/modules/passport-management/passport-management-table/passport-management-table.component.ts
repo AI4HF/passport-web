@@ -1,6 +1,8 @@
-import {Component, Injector, OnInit} from '@angular/core';
-import {BaseComponent} from "../../../shared/components/base.component";
-import {forkJoin, of, switchMap, takeUntil} from "rxjs";
+import { Component, Injector, OnInit } from '@angular/core';
+import { BaseComponent } from "../../../shared/components/base.component";
+import { forkJoin, of, switchMap, takeUntil } from "rxjs";
+import { ModelWithName } from "../../../shared/models/modelWithName.model";
+import { PassportWithModelName } from "../../../shared/models/passportWithModelName.model";
 import {ModelDeployment} from "../../../shared/models/modelDeployment.model";
 
 /**
@@ -11,7 +13,7 @@ import {ModelDeployment} from "../../../shared/models/modelDeployment.model";
   templateUrl: './passport-management-table.component.html',
   styleUrl: './passport-management-table.component.scss'
 })
-export class PassportManagementTableComponent extends BaseComponent implements OnInit{
+export class PassportManagementTableComponent extends BaseComponent implements OnInit {
   /** Columns to be displayed in the table */
   columns: any[];
   /** Loading state of the table */
@@ -19,10 +21,9 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   /** Determines if the form is displayed */
   displayForm: boolean = false;
   /** All passports with model names included */
-  passportWithModelNameList: any[];
+  passportWithModelNameList: PassportWithModelName[] = [];
   /** All models */
-  modelList: any[];
-
+  modelList: ModelWithName[] = [];
 
   /**
    * Constructor to inject dependencies.
@@ -31,7 +32,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   constructor(protected injector: Injector) {
     super(injector);
     this.columns = [
-      { header: 'Passport ID', field: 'id' },
+      { header: 'Passport ID', field: 'passport.passportId' },
       { header: 'Model', field: 'modelName' }
     ];
   }
@@ -43,7 +44,6 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     this.loadPassports();
   }
 
-
   /**
    * Loads passports and models data.
    */
@@ -53,8 +53,8 @@ export class PassportManagementTableComponent extends BaseComponent implements O
       this.modelService.getModelList().pipe(takeUntil(this.destroy$))
     ]).subscribe({
       next: ([passports, models]) => {
-        this.passportWithModelNameList = passports.map(passport => ({ ...passport, modelName: '' }));
-        this.modelList = models.map(model => ({ id: model.modelId, name: model.name }));
+        this.passportWithModelNameList = passports.map(passport => new PassportWithModelName(passport, ''));
+        this.modelList = models.map(model => new ModelWithName(model));
         this.mapModelsToPassports();
       },
       error: error => {
@@ -70,23 +70,21 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     });
   }
 
-
   /**
    * Maps models to passports to show the model name for each passport.
    */
   mapModelsToPassports() {
-    this.passportWithModelNameList.forEach(passport => {
-      this.modelDeploymentService.getModelDeploymentById(passport.deploymentId).pipe(
+    this.passportWithModelNameList.forEach(passportWithModelName => {
+      this.modelDeploymentService.getModelDeploymentById(passportWithModelName.passport.deploymentId).pipe(
           switchMap((deployment: ModelDeployment) => {
             const model = this.modelList.find(m => m.id === deployment.modelId);
-            passport.modelName = model ? model.name : '';
-            return of(passport);
+            passportWithModelName.modelName = model ? model.name : '';
+            return of(passportWithModelName);
           }),
           takeUntil(this.destroy$)
       ).subscribe();
     });
   }
-
 
   /**
    * Filters the table based on the input event.
@@ -104,7 +102,6 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     this.displayForm = true;
   }
 
-
   /**
    * Deletes the selected passport.
    * @param passportId The ID of the Passport to be deleted
@@ -113,7 +110,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     this.passportService.deletePassport(passportId).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            this.passportWithModelNameList = this.passportWithModelNameList.filter(passport => passport.passportId !== passportId);
+            this.passportWithModelNameList = this.passportWithModelNameList.filter(passport => passport.passport.passportId !== passportId);
             this.messageService.add({
               severity: 'success',
               summary: this.translateService.instant('Success'),
