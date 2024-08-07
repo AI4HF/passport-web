@@ -77,8 +77,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     this.passportWithModelNameList.forEach(passportWithModelName => {
       this.modelDeploymentService.getModelDeploymentById(passportWithModelName.passport.deploymentId).pipe(
           switchMap((deployment: ModelDeployment) => {
-            const model = this.modelList.find(m => m.id === deployment.modelId);
-            passportWithModelName.modelName = model ? model.name : '';
+            passportWithModelName.modelName = (this.modelList.find(m => m.id === deployment.modelId)).name;
             return of(passportWithModelName);
           }),
           takeUntil(this.destroy$)

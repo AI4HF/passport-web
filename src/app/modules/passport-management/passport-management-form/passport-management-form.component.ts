@@ -81,8 +81,7 @@ export class PassportManagementFormComponent extends BaseComponent implements On
      */
     mapModelsToModelDeployments() {
         this.modelDeploymentList.forEach(modelDeploymentWithModelName => {
-            const model = this.modelNameList.find(m => m.id === modelDeploymentWithModelName.modelDeployment.modelId);
-            modelDeploymentWithModelName.modelName = model ? model.name : '';
+            modelDeploymentWithModelName.modelName = (this.modelNameList.find(m => m.id === modelDeploymentWithModelName.modelDeployment.modelId)).name;
         });
     }
 
