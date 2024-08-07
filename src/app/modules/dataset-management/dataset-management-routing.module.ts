@@ -17,8 +17,7 @@ const routes: Routes = [
                 loadChildren: () => import('./dataset-management-edit/dataset-management-edit.module')
                     .then(m => m.DatasetManagementEditModule)
             }
-        ],
-        resolve: {dataset: DatasetResolver}
+        ]
     }
 ];
 

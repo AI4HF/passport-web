@@ -1,7 +1,6 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
 import {StudyManagementDashboardComponent} from "./study-management-dashboard/study-management-dashboard.component";
-import {StudyManagementResolver} from "../../core/resolvers/study-management.resolver";
 
 
 const routes: Routes = [
@@ -18,8 +17,7 @@ const routes: Routes = [
                 loadChildren: () => import('./study-management-edit/study-management-edit.module')
                     .then(m => m.StudyManagementEditModule)
             }
-        ],
-        resolve: {study: StudyManagementResolver}
+        ]
     }
 ];
 

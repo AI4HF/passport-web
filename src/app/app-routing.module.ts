@@ -42,6 +42,23 @@ const routes: Routes = [
                 loadChildren: () => import('./modules/featureset-management/featureset-management.module').then(m => m.FeatureSetManagementModule),
                 canActivate: [authGuard]
             },
+            {
+                path: 'deployment-management',
+                loadChildren: () => import('./modules/deployment-management/deployment-management.module').then(m => m.DeploymentManagementModule),
+                canActivate: [authGuard] // Apply the guard here
+            },
+            {
+                path: 'model-management',
+                loadChildren: () => import('./modules/model-management/model-management.module').then(m => m.ModelManagementModule),
+                canActivate: [authGuard] // Apply the guard here
+            },
+
+            {
+                path: 'passport-management',
+                loadChildren: () => import('./modules/passport-management/passport-management.module').then(m => m.PassportManagementModule),
+                canActivate: [authGuard] // Apply the guard here
+            },
+
             { path: '', redirectTo: '/login', pathMatch: 'full' }
         ]
     }

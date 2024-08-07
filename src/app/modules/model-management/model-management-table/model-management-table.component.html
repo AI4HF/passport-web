@@ -1,0 +1,77 @@
+<div class="flex-grow w-full">
+    <div class="card p-3 mb-5">
+        <p-dropdown
+                (onChange)="loadModelsByStudyId($event.value)"
+                [options]="studies"
+                optionLabel="name"
+                optionValue="id"
+                [style]="{'minWidth':'100%'}"
+                placeholder="{{ 'ModelManagement.Select a study' | translate }}"
+        ></p-dropdown>
+    </div>
+    <div *ngIf="!this.loading" class="card p-3">
+        <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'ModelManagement.Model Management' | translate }}</div>
+            <div class="inline-flex align-items-center">
+                <span class="p-input-icon-left flex-auto mx-2">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="filter(dt, $event)" placeholder="{{ 'Search' | translate }}" class="w-full rounded-border"/>
+                </span>
+                <button pButton pRipple icon="pi pi-plus" class="p-button-rounded button-secondary mx-2" (click)="createModel()" pTooltip="{{ 'ModelManagement.Create Model' | translate }}" tooltipPosition="bottom"></button>
+            </div>
+        </div>
+        <p-table #dt [value]="modelList" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['modelId', 'name', 'version', 'tag', 'modelType']" [sortField]="'name'">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th [pSortableColumn]="'modelId'" class="white-space-nowrap min-width-10rem">
+                        {{ 'ModelManagement.ID' | translate }}
+                        <p-sortIcon [field]="'modelId'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'name'" class="white-space-nowrap min-width-10rem">
+                        {{ 'ModelManagement.Name' | translate }}
+                        <p-sortIcon [field]="'name'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'version'" class="white-space-nowrap min-width-10rem">
+                        {{ 'ModelManagement.Version' | translate }}
+                        <p-sortIcon [field]="'version'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'tag'" class="white-space-nowrap min-width-10rem">
+                        {{ 'ModelManagement.Tag' | translate }}
+                        <p-sortIcon [field]="'tag'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'modelType'" class="white-space-nowrap min-width-10rem">
+                        {{ 'ModelManagement.Model Type' | translate }}
+                        <p-sortIcon [field]="'modelType'"></p-sortIcon>
+                    </th>
+                    <th>
+                        {{ 'Actions' | translate }}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-model>
+                <tr>
+                    <td class="cursor-pointer">
+                        <span>{{ model.modelId }}</span>
+                    </td>
+                    <td class="cursor-pointer">
+                        <span>{{ model.name }}</span>
+                    </td>
+                    <td class="cursor-pointer">
+                        <span>{{ model.version }}</span>
+                    </td>
+                    <td class="cursor-pointer">
+                        <span>{{ model.tag }}</span>
+                    </td>
+                    <td class="cursor-pointer">
+                        <span>{{ model.modelType }}</span>
+                    </td>
+                    <td>
+                        <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="editModel(model)" pTooltip="{{ 'ModelManagement.Edit Model' | translate }}" tooltipPosition="bottom"></button>
+                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deleteModel(model.modelId)" pTooltip="{{ 'ModelManagement.Delete Model' | translate }}" tooltipPosition="bottom"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<app-model-management-form *ngIf="this.displayForm" [selectedStudyId]="selectedStudyId" [modelId]="selectedModelId" (formClosed)="onFormClosed()"></app-model-management-form>

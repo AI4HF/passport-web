@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { catchError, map, Observable } from "rxjs";
 import { DatasetTransformationStep } from "../../shared/models/datasetTransformationStep.model";
 import { environment } from "../../../environments/environment";
+import {StorageUtil} from "./storageUtil.service";
 
 /**
  * Service to manage dataset transformation steps.
@@ -82,6 +83,8 @@ export class DatasetTransformationStepService {
      */
     createDatasetTransformationStep(datasetTransformationStep: DatasetTransformationStep): Observable<DatasetTransformationStep> {
         const url = `${this.endpoint}`;
+        datasetTransformationStep.createdBy = StorageUtil.retrieveUserId();
+        datasetTransformationStep.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.post<DatasetTransformationStep>(url, datasetTransformationStep)
             .pipe(
                 map((response: any) => {
@@ -101,6 +104,7 @@ export class DatasetTransformationStepService {
      */
     updateDatasetTransformationStep(datasetTransformationStep: DatasetTransformationStep): Observable<DatasetTransformationStep> {
         const url = `${this.endpoint}/${datasetTransformationStep.stepId}`;
+        datasetTransformationStep.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.put<DatasetTransformationStep>(url, datasetTransformationStep)
             .pipe(
                 map((response: any) => {

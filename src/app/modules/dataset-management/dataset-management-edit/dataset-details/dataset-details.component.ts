@@ -45,10 +45,26 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
      * Initializes the component.
      */
     ngOnInit() {
-        this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
-            next: data => {
-                this.selectedDataset = data['dataset'];
-                this.isEditMode = !!this.selectedDataset.datasetId;
+        this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+            const id = params.get('id');
+            if (id !== 'new') {
+                this.isEditMode = true;
+                this.loadDataset(+id);
+            } else {
+                this.selectedDataset = new Dataset({id: 0});
+                this.initializeForm();
+            }
+        });
+        this.loadDropdowns();
+    }
+
+    /**
+     * Loads the Dataset details by id if entity is being edited.
+     */
+    loadDataset(id: number) {
+        this.datasetService.getDatasetById(id).pipe(takeUntil(this.destroy$)).subscribe({
+            next: dataset => {
+                this.selectedDataset = dataset;
                 this.initializeForm();
             },
             error: error => {
@@ -59,7 +75,6 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
                 });
             }
         });
-        this.loadDropdowns();
     }
 
     /**
@@ -77,6 +92,10 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             numOfRecords: new FormControl(this.selectedDataset?.numOfRecords || 0, Validators.required),
             synthetic: new FormControl(this.selectedDataset?.synthetic || false)
         });
+
+        if (this.isEditMode) {
+            this.setDropdownValues();
+        }
     }
 
     /**
@@ -115,7 +134,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             this.datasetForm.patchValue({
                 featureset: this.featuresets.find(f => f.featuresetId === this.selectedDataset.featuresetId) || null,
                 population: this.populations.find(p => p.populationId === this.selectedDataset.populationId) || null,
-                organization: this.organizations.find(o => o.id === this.selectedDataset.organizationId) || null
+                organization: this.organizations.find(o => o.organizationId === this.selectedDataset.organizationId) || null
             });
         }
     }
@@ -139,7 +158,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             referenceEntity: formValues.referenceEntity,
             featuresetId: formValues.featureset.featuresetId,
             populationId: formValues.population.populationId,
-            organizationId: formValues.organization.id,
+            organizationId: formValues.organization.organizationId,
             numOfRecords: formValues.numOfRecords,
             synthetic: formValues.synthetic
         };
@@ -194,3 +213,4 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
         }
     }
 }
+

@@ -57,6 +57,21 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
                 label: this.translateService.instant('Parameter Management'),
                 icon: 'pi pi-cog',
                 routerLink: ['/parameter-management']
+            },
+            {
+                label: this.translateService.instant('Model Management'),
+                icon: 'pi pi-code',
+                routerLink: ['/model-management']
+            },
+            {
+                label: this.translateService.instant('Deployment Management'),
+                icon: 'pi pi-cloud-upload',
+                routerLink: ['/deployment-management']
+            },
+            {
+                label: this.translateService.instant('Passport Management'),
+                icon: 'pi pi-map',
+                routerLink: ['/passport-management']
             }
         ];
     }

@@ -30,22 +30,22 @@ export class FeatureSet {
     /**
      * The creation timestamp of the FeatureSet
      */
-    createdAt: string;
+    createdAt: Date;
 
     /**
      * The ID of the user who created the FeatureSet
      */
-    createdBy: number;
+    createdBy: string;
 
     /**
      * The last update timestamp of the FeatureSet
      */
-    lastUpdatedAt: string;
+    lastUpdatedAt: Date;
 
     /**
      * The ID of the user who last updated the FeatureSet
      */
-    lastUpdatedBy: number;
+    lastUpdatedBy: string;
 
     constructor(data: any) {
         if (!data) {

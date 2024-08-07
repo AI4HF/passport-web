@@ -1,5 +1,5 @@
 <div class="content-container">
-    <form [formGroup]="datasetForm">
+    <form *ngIf="datasetForm" [formGroup]="datasetForm">
         <p-card class="p-0 w-full">
             <div class="grid grid-nogutter">
                 <div class="col-2 flex align-items-center">
@@ -57,6 +57,12 @@
                             optionLabel="title"
                             placeholder="{{'DatasetManagement.SelectFeatureSet' | translate}}"
                             class="form-control">
+                        <ng-template let-featureset pTemplate="selectedItem">
+                            <span>{{ featureset ? featureset.title : '' }}</span>
+                        </ng-template>
+                        <ng-template let-featureset pTemplate="item">
+                            <span>{{ featureset.title }}</span>
+                        </ng-template>
                     </p-dropdown>
                 </div>
                 <div class="col-2 flex align-items-center mt-4">
@@ -70,6 +76,12 @@
                             optionLabel="populationUrl"
                             placeholder="{{'DatasetManagement.SelectPopulation' | translate}}"
                             class="form-control">
+                        <ng-template let-population pTemplate="selectedItem">
+                            <span>{{ population ? population.populationUrl : '' }}</span>
+                        </ng-template>
+                        <ng-template let-population pTemplate="item">
+                            <span>{{ population.populationUrl }}</span>
+                        </ng-template>
                     </p-dropdown>
                 </div>
                 <div class="col-2 flex align-items-center mt-4">
@@ -83,6 +95,12 @@
                             optionLabel="name"
                             placeholder="{{'DatasetManagement.SelectOrganization' | translate}}"
                             class="form-control">
+                        <ng-template let-organization pTemplate="selectedItem">
+                            <span>{{ organization ? organization.name : '' }}</span>
+                        </ng-template>
+                        <ng-template let-organization pTemplate="item">
+                            <span>{{ organization.name }}</span>
+                        </ng-template>
                     </p-dropdown>
                 </div>
                 <div class="col-2 flex align-items-center mt-4">
@@ -127,3 +145,4 @@
         </p-card>
     </form>
 </div>
+

@@ -1,4 +1,4 @@
-<form [formGroup]="studyForm">
+<form *ngIf="studyForm" [formGroup]="studyForm">
     <p-card class="p-0 w-full">
         <div class="grid grid-nogutter">
             <!-- Name -->

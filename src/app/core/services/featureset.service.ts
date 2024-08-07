@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { catchError, map, Observable } from "rxjs";
 import { FeatureSet } from "../../shared/models/featureset.model";
 import { environment } from "../../../environments/environment";
+import {StorageUtil} from "./storageUtil.service";
 
 /**
  * Service to manage feature sets.
@@ -63,6 +64,8 @@ export class FeatureSetService {
      */
     createFeatureSet(featureSet: FeatureSet): Observable<FeatureSet> {
         const url = `${this.endpoint}`;
+        featureSet.createdBy = StorageUtil.retrieveUserId();
+        featureSet.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.post<FeatureSet>(url, featureSet)
             .pipe(
                 map((response: any) =>{
@@ -82,6 +85,7 @@ export class FeatureSetService {
      */
     updateFeatureSet(featureSet: FeatureSet): Observable<FeatureSet> {
         const url = `${this.endpoint}/${featureSet.featuresetId}`;
+        featureSet.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.put<FeatureSet>(url, featureSet)
             .pipe(
                 map((response: any) =>{

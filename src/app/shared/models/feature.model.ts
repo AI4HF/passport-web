@@ -60,22 +60,22 @@ export class Feature {
     /**
      * The creation timestamp of the Feature
      */
-    createdAt: string;
+    createdAt: Date;
 
     /**
      * The ID of the user who created the Feature
      */
-    createdBy: number;
+    createdBy: string;
 
     /**
      * The last update timestamp of the Feature
      */
-    lastUpdatedAt: string;
+    lastUpdatedAt: Date;
 
     /**
      * The ID of the user who last updated the Feature
      */
-    lastUpdatedBy: number;
+    lastUpdatedBy: string;
 
     constructor(data: any) {
         if (!data) {

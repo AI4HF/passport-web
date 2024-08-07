@@ -30,9 +30,24 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
-      next: data => {
-        this.selectedStudy = data['study'];
+    this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      const id = params.get('id');
+      if (id !== 'new') {
+        this.loadStudy(+id);
+      } else {
+        this.selectedStudy = new Study({id: 0});
+        this.initializeForm();
+      }
+    });
+  }
+
+  /**
+   * Load study by ID
+   */
+  loadStudy(id: number) {
+    this.studyService.getStudyById(id).pipe(takeUntil(this.destroy$)).subscribe({
+      next: study => {
+        this.selectedStudy = study;
         this.initializeForm();
       },
       error: error => {
