@@ -43,7 +43,7 @@ export class PopulationService {
         return this.httpClient.get<Population>(url)
             .pipe(
                 map((response: any) =>{
-                    return new Population(response);
+                    return new Population(response[0]);
                 }),
                 catchError((error) => {
                     console.error(error);
