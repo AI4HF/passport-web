@@ -5,6 +5,7 @@ import { Credentials } from "../../shared/models/credentials.model";
 import {takeUntil} from "rxjs/operators";
 import {StorageUtil} from "../../core/services/storageUtil.service";
 import { JwtHelperService } from '@auth0/angular-jwt';
+import {Role} from "../../shared/models/role.enum";
 
 /**
  * Login component which handles the main authorization prospects of the system.
@@ -51,7 +52,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     checkRememberedUser() {
         const token = StorageUtil.retrieveToken();
         if (token) {
-            this.router.navigate(['/study-management']);
+            this.navigateAccordingToRole();
         }
     }
 
@@ -68,6 +69,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
                 StorageUtil.storeUserId(decodedToken.user_id, rememberMe);
                 StorageUtil.storePersonnelName(decodedToken.given_name, rememberMe);
                 StorageUtil.storePersonnelSurname(decodedToken.family_name, rememberMe);
+                const role: Role = decodedToken.realm_access.roles?.find((role: string) => Role[role as keyof typeof Role] !== undefined);
+                this.roleService.setRole(role);
                 this.fetchLoggedPersonnel(rememberMe);
             },
             error => {
@@ -120,7 +123,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
             next: organization => {
                 StorageUtil.storeOrganizationName(organization.name, rememberMe);
                 StorageUtil.storeOrganizationId(organization.organizationId, rememberMe);
-                this.router.navigate(['/study-management']);
+                this.navigateAccordingToRole();
             },
             error: (error: any) => {
                 this.messageService.add({
@@ -130,6 +133,49 @@ export class LoginComponent extends BaseComponent implements OnInit {
                 });
             }
         });
+    }
+
+    /**
+     * Navigate the user according to the user role
+     */
+    navigateAccordingToRole(){
+        this.roleService.getRoleAsObservable().pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: role => {
+                    switch (role){
+                        case Role.STUDY_OWNER:
+                            this.router.navigate(['/study-management']);
+                            break;
+                        case Role.DATA_SCIENTIST:
+                            this.router.navigate(['/parameter-management']);
+                            break;
+                        case Role.SURVEY_MANAGER:
+                            this.router.navigate(['/survey-management']);
+                            break;
+                        case Role.DATA_ENGINEER:
+                            this.router.navigate(['/featureset-management']);
+                            break;
+                        case Role.ML_ENGINEER:
+                            //TODO:
+                            this.router.navigate(['/']);
+                            break;
+                        case Role.QUALITY_ASSURANCE_SPECIALIST:
+                            //TODO:
+                            this.router.navigate(['/']);
+                            break;
+                        case Role.ORGANIZATION_ADMIN:
+                            this.router.navigate(['/organization-management/organization']);
+                            break;
+                    }
+                },
+                error: (error: any) => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
     }
 }
 
