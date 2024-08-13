@@ -18,7 +18,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {DropdownModule} from "primeng/dropdown";
 
 @NgModule({
-    declarations: [LearningStageParameterAssignmentTableComponent, LearningStageParameterAssignmentFormComponent],
+    declarations: [LearningStageParameterAssignmentTableComponent],
     imports: [
         CommonModule,
         TableModule,

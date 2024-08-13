@@ -8,11 +8,11 @@ import { takeUntil } from "rxjs";
  * Component for managing and displaying the LearningProcessParameter assignments.
  */
 @Component({
-    selector: 'app-learning-process-parameter-assignment-table',
-    templateUrl: './learning-process-parameter-assignment-table.component.html',
-    styleUrls: ['./learning-process-parameter-assignment-table.component.scss']
+    selector: 'app-lp-parameter-table',
+    templateUrl: './learning-process-parameter-table.component.html',
+    styleUrls: ['./learning-process-parameter-table.component.scss']
 })
-export class LearningProcessParameterAssignmentTableComponent extends BaseComponent implements OnInit {
+export class LearningProcessParameterTableComponent extends BaseComponent implements OnInit {
 
     /** List of LearningProcessParameters */
     learningProcessParameters: LearningProcessParameter[] = [];

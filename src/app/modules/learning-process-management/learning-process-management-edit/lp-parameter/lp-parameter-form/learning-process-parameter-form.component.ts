@@ -9,11 +9,11 @@ import { takeUntil } from "rxjs";
  * Component for managing the form to create or update LearningProcessParameter assignments.
  */
 @Component({
-    selector: 'app-learning-process-parameter-assignment-form',
-    templateUrl: './learning-process-parameter-assignment-form.component.html',
-    styleUrls: ['./learning-process-parameter-assignment-form.component.scss']
+    selector: 'app-lp-parameter-form',
+    templateUrl: './learning-process-parameter-form.component.html',
+    styleUrls: ['./learning-process-parameter-form.component.scss']
 })
-export class LearningProcessParameterAssignmentFormComponent extends BaseComponent implements OnInit {
+export class LearningProcessParameterFormComponent extends BaseComponent implements OnInit {
 
     /** The ID of the LearningProcess */
     @Input() learningProcessId: number;

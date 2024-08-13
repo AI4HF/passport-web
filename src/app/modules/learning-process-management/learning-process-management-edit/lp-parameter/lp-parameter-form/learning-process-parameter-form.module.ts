@@ -5,12 +5,12 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { LearningProcessParameterAssignmentFormComponent } from './learning-process-parameter-assignment-form.component';
+import { LearningProcessParameterFormComponent } from './learning-process-parameter-form.component';
 import { TranslateModule } from "@ngx-translate/core";
 import { DropdownModule } from "primeng/dropdown";
 
 @NgModule({
-    declarations: [LearningProcessParameterAssignmentFormComponent],
+    declarations: [LearningProcessParameterFormComponent],
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -21,6 +21,6 @@ import { DropdownModule } from "primeng/dropdown";
         TranslateModule,
         DropdownModule
     ],
-    exports: [LearningProcessParameterAssignmentFormComponent]
+    exports: [LearningProcessParameterFormComponent]
 })
-export class LearningProcessParameterAssignmentFormModule { }
+export class LearningProcessParameterFormModule { }

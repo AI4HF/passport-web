@@ -12,6 +12,7 @@ import { StepperModule } from "../../../shared/components/stepper/stepper.module
 import { LearningProcessAndImplementationDetailsModule } from "./learning-process-and-implementation-details/learning-process-and-implementation-details.module";
 import { LearningProcessManagementEditRoutingModule } from "./learning-process-management-edit-routing.module";
 import { LearningProcessDatasetAndStageAssignmentModule } from "./learning-process-dataset-and-stage-assignment/learning-process-dataset-and-stage-assignment.module";
+import {LearningProcessParameterModule} from "./lp-parameter/learning-process-parameter.module";
 
 @NgModule({
     declarations: [LearningProcessManagementEditComponent],
@@ -27,7 +28,8 @@ import { LearningProcessDatasetAndStageAssignmentModule } from "./learning-proce
         StepperModule,
         LearningProcessAndImplementationDetailsModule,
         LearningProcessManagementEditRoutingModule,
-        LearningProcessDatasetAndStageAssignmentModule
+        LearningProcessDatasetAndStageAssignmentModule,
+        LearningProcessParameterModule
     ]
 })
 export class LearningProcessManagementEditModule { }

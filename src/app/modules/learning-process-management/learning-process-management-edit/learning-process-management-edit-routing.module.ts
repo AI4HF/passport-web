@@ -6,8 +6,8 @@ import {
     LearningProcessAndImplementationDetailsComponent
 } from "./learning-process-and-implementation-details/learning-process-and-implementation-details.component";
 import {
-    LearningProcessParameterAssignmentTableComponent
-} from "./learning-process-parameter-assignment/learning-process-parameter-assignment-table/learning-process-parameter-assignment-table.component";
+    LearningProcessParameterTableComponent
+} from "./lp-parameter/learning-process-parameter-table/learning-process-parameter-table.component";
 
 const routes: Routes = [
     {
@@ -28,7 +28,7 @@ const routes: Routes = [
             },
             {
                 path: 'learning-process-parameter-assignment',
-                component: LearningProcessParameterAssignmentTableComponent
+                component: LearningProcessParameterTableComponent
             }
         ],
         component: LearningProcessManagementEditComponent
