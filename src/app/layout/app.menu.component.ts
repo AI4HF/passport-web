@@ -103,7 +103,6 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
                 this.model.push({});
                 break;
             case Role.QUALITY_ASSURANCE_SPECIALIST:
-                //TODO:
                 this.model.push({
                     label: this.translateService.instant('Passport Management'),
                     icon: 'pi pi-map',

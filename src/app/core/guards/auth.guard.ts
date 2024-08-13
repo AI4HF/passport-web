@@ -29,7 +29,7 @@ export const authGuard: CanActivateFn = () => {
             }
             break;
         case Role.DATA_SCIENTIST:
-            if(!path.includes('parameter-management')){
+            if(!path.includes('parameter-management') && !path.includes('model-management') && !path.includes('deployment-management')){
                 router.navigate(['/login']);
                 return false;
             }
@@ -51,8 +51,10 @@ export const authGuard: CanActivateFn = () => {
             return false;
             break;
         case Role.QUALITY_ASSURANCE_SPECIALIST:
-            //TODO:
-            return false;
+            if(!path.includes('passport-management')){
+                router.navigate(['/login']);
+                return false;
+            }
             break;
         case Role.ORGANIZATION_ADMIN:
             if(!path.includes('organization-management')){
