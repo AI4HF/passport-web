@@ -42,6 +42,14 @@ export class RoleService {
     }
 
     /**
+     * Get role of the user
+     * @return {Role}
+     */
+    getRole(): Role {
+        return this.role.getValue();
+    }
+
+    /**
      * Clear role of the user
      */
     clearRole(){

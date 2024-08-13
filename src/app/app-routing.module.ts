@@ -63,8 +63,8 @@ const routes: Routes = [
                 loadChildren: () => import('./modules/passport-management/passport-management.module').then(m => m.PassportManagementModule),
                 canActivate: [authGuard]
             },
-
-            { path: '', redirectTo: '/login', pathMatch: 'full' }
+            { path: '', redirectTo: '/login', pathMatch: 'full' },
+            { path: '**', redirectTo: '/login'}
         ]
     }
 ];
