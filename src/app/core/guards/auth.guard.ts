@@ -41,7 +41,7 @@ export const authGuard: CanActivateFn = () => {
             }
             break;
         case Role.DATA_ENGINEER:
-            if(!path.includes('featureset-management') || !path.includes('dataset-management')){
+            if(!path.includes('featureset-management') && !path.includes('dataset-management')){
                 router.navigate(['/login']);
                 return false;
             }
