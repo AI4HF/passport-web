@@ -160,8 +160,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
                             this.router.navigate(['/']);
                             break;
                         case Role.QUALITY_ASSURANCE_SPECIALIST:
-                            //TODO:
-                            this.router.navigate(['/']);
+                            this.router.navigate(['/passport-management']);
                             break;
                         case Role.ORGANIZATION_ADMIN:
                             this.router.navigate(['/organization-management/organization']);

@@ -1,7 +1,5 @@
 import {Component, DoCheck, Injector, OnInit} from '@angular/core';
 import {StorageUtil} from "../core/services/storageUtil.service";
-import {Router} from "@angular/router";
-import {RoleService} from "../core/services/role.service";
 import {takeUntil} from "rxjs/operators";
 import {BaseComponent} from "../shared/components/base.component";
 import {ROLES} from "../shared/models/roles.constant";
@@ -84,8 +82,10 @@ export class AppProfileComponent extends BaseComponent implements DoCheck, OnIni
     ngOnInit(): void {
         this.roleService.getRoleAsObservable().pipe(takeUntil(this.destroy$))
             .subscribe({next: role => {
-                const roleString = ROLES.find((roles) => role.toString() === roles.value);
-                this.personnelRole = roleString.name;
+                if(role){
+                    const roleString = ROLES.find((roles) => role.toString() === roles.value);
+                    this.personnelRole = roleString.name;
+                }
                 }});
     }
 }
