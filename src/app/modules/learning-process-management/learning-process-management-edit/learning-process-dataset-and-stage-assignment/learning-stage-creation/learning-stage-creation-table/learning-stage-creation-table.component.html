@@ -1,0 +1,41 @@
+<div class="content-container">
+    <div class="card lg:pt-5">
+        <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'LearningProcessManagement.LearningStages' | translate }}</div>
+            <div class="inline-flex align-items-center">
+                <span class="p-input-icon-left flex-auto mx-2">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="filter(dt, $event)" placeholder="{{ 'Search' | translate }}" class="w-full rounded-border"/>
+                </span>
+                <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-primary mx-2" (click)="createLearningStage()" pTooltip="{{ 'LearningProcessManagement.CreateLearningStage' | translate }}" tooltipPosition="bottom"></button>
+            </div>
+        </div>
+        <p-table #dt [value]="learningStages" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['learningStageName', 'description', 'datasetPercentage']" [sortField]="'learningStageName'">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="white-space-nowrap min-width-10rem">
+                        {{ col.header | translate }}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                    <th>
+                        {{ 'Actions' | translate }}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-learningStage>
+                <tr>
+                    <td *ngFor="let col of columns" class="cursor-pointer">
+                        <span>{{ learningStage[col.field] }}</span>
+                    </td>
+                    <td>
+                        <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="showLearningStageForm(learningStage)" pTooltip="{{ 'LearningProcessManagement.Edit' | translate }}" tooltipPosition="bottom"></button>
+                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deleteLearningStage(learningStage)" pTooltip="{{ 'LearningProcessManagement.Delete' | translate }}" tooltipPosition="bottom"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <button pButton pRipple icon="pi pi-arrow-left" label="{{ 'LearningProcessManagement.GoToLearningProcessDatasetAssignment' | translate }}" class="p-button-rounded p-button-primary p-button-outlined fixed-bottom-right" (click)="goToLearningProcessDatasetAssignment()"></button>
+</div>
+
+<app-learning-stage-creation-form *ngIf="displayForm" [learningProcessId]="learningProcessId" [learningStageId]="selectedLearningStageId" (formClosed)="onFormClosed()"></app-learning-stage-creation-form>

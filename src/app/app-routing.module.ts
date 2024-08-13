@@ -48,6 +48,11 @@ const routes: Routes = [
                 canActivate: [authGuard] // Apply the guard here
             },
             {
+                path: 'learning-process-management',
+                loadChildren: () => import('./modules/learning-process-management/learning-process-management.module').then(m => m.LearningProcessManagementModule),
+                canActivate: [authGuard] // Apply the guard here
+            },
+            {
                 path: 'model-management',
                 loadChildren: () => import('./modules/model-management/model-management.module').then(m => m.ModelManagementModule),
                 canActivate: [authGuard] // Apply the guard here
