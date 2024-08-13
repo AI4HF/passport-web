@@ -8,8 +8,9 @@
         </div>
 
         <div class="flex flex-column">
-            <span class="title username font-medium" [ngClass]="'text-primary'">{{this.personnelName + ' ' + this.personnelSurname}}</span>
+            <span class="title font-semibold" [ngClass]="'text-primary'">{{this.personnelName + ' ' + this.personnelSurname}}</span>
             <span class="title font-light" [ngClass]="'text-primary'">{{this.organizationName}}</span>
+            <span class="title font-light font-italic" [ngClass]="'text-primary'">{{this.personnelRole}}</span>
         </div>
     </div>
 

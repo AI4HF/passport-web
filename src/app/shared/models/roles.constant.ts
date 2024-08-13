@@ -11,4 +11,5 @@ export const ROLES: NameAndValueInterface[] = [
     { name: 'Data Engineer', value: Role.DATA_ENGINEER },
     { name: 'ML Engineer', value: Role.ML_ENGINEER },
     { name: 'Quality Assurance Specialist', value: Role.QUALITY_ASSURANCE_SPECIALIST },
+    { name: 'Organization Admin', value: Role.ORGANIZATION_ADMIN },
 ];
