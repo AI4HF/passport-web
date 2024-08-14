@@ -3,7 +3,7 @@ import { BaseComponent } from "../../../../../shared/components/base.component";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { LearningProcessParameter } from "../../../../../shared/models/learningProcessParameter.model";
 import { Parameter } from "../../../../../shared/models/parameter.model";
-import { takeUntil } from "rxjs";
+import { takeUntil, switchMap } from "rxjs";
 
 /**
  * Component for managing the form to create or update LearningProcessParameter assignments.
@@ -18,8 +18,8 @@ export class LearningProcessParameterFormComponent extends BaseComponent impleme
     /** The ID of the LearningProcess */
     @Input() learningProcessId: number;
 
-    /** The LearningProcessParameter to be edited or created */
-    @Input() learningProcessParameter: LearningProcessParameter;
+    /** The ID of the Parameter to be edited or created */
+    @Input() parameterId: number;
 
     /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();
@@ -32,6 +32,9 @@ export class LearningProcessParameterFormComponent extends BaseComponent impleme
 
     /** Whether the form dialog is displayed */
     display: boolean = false;
+
+    /** The current LearningProcessParameter being edited */
+    learningProcessParameter: LearningProcessParameter;
 
     /**
      * Constructor to inject dependencies.
@@ -49,8 +52,8 @@ export class LearningProcessParameterFormComponent extends BaseComponent impleme
         this.loadParameters();
         this.display = true;
 
-        if (this.learningProcessParameter) {
-            this.updateForm();
+        if (this.parameterId) {
+            this.loadLearningProcessParameter();
         }
     }
 
@@ -85,14 +88,41 @@ export class LearningProcessParameterFormComponent extends BaseComponent impleme
     }
 
     /**
+     * Loads the selected LearningProcessParameter using the provided IDs.
+     */
+    loadLearningProcessParameter() {
+        this.learningProcessParameterService.getLearningProcessParameterById(this.learningProcessId, this.parameterId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: learningProcessParameter => {
+                    this.learningProcessParameter = learningProcessParameter;
+                    this.updateForm();
+                },
+                error: error => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
+    }
+
+    /**
      * Updates the form with the LearningProcessParameter data.
      */
     updateForm() {
-        this.form.patchValue({
-            parameterId: this.learningProcessParameter.parameterId,
-            type: this.learningProcessParameter.type,
-            value: this.learningProcessParameter.value
-        });
+        if (this.learningProcessParameter) {
+            const selectedParameter = this.parameters.find(
+                param => param.parameterId === this.learningProcessParameter.parameterId
+            );
+
+            this.form.patchValue({
+                parameterId: selectedParameter || null,
+                type: this.learningProcessParameter.type,
+                value: this.learningProcessParameter.value
+            });
+        }
     }
 
     /**
@@ -103,23 +133,24 @@ export class LearningProcessParameterFormComponent extends BaseComponent impleme
 
         const learningProcessParameterPayload = {
             learningProcessId: this.learningProcessId,
-            parameterId: formValues.parameterId,
+            parameterId: formValues.parameterId.parameterId,
             type: formValues.type,
             value: formValues.value
         };
 
-        if (this.learningProcessParameter) {
+        if (this.parameterId) {
+            // Update existing Learning Process Parameter
             this.updateLearningProcessParameter(learningProcessParameterPayload);
         } else {
+            // Create new Learning Process Parameter
             this.createLearningProcessParameter(learningProcessParameterPayload);
         }
     }
-
     /**
      * Creates a new LearningProcessParameter.
      * @param learningProcessParameter The LearningProcessParameter to be created
      */
-    createLearningProcessParameter(learningProcessParameter: LearningProcessParameter) {
+    createLearningProcessParameter(learningProcessParameter: any) {
         this.learningProcessParameterService.createLearningProcessParameter(learningProcessParameter)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
@@ -145,10 +176,9 @@ export class LearningProcessParameterFormComponent extends BaseComponent impleme
      * Updates an existing LearningProcessParameter.
      * @param learningProcessParameter The LearningProcessParameter to be updated
      */
-    updateLearningProcessParameter(learningProcessParameter: LearningProcessParameter) {
-        this.learningProcessParameterService.updateLearningProcessParameter(
-            learningProcessParameter
-        ).pipe(takeUntil(this.destroy$))
+    updateLearningProcessParameter(learningProcessParameter: any) {
+        this.learningProcessParameterService.updateLearningProcessParameter(learningProcessParameter)
+            .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.messageService.add({
