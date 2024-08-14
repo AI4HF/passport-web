@@ -5,12 +5,12 @@ export class LearningProcessDataset {
     /**
      * The ID of the related LearningProcess
      */
-    learningProcessId: string;
+    learningProcessId: number;
 
     /**
      * The ID of the related LearningDataset
      */
-    learningDatasetId: string;
+    learningDatasetId: number;
 
     /**
      * The description of the LearningProcessDataset

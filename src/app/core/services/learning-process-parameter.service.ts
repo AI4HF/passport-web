@@ -66,7 +66,7 @@ export class LearningProcessParameterService {
         return this.httpClient.get<LearningProcessParameter>(url)
             .pipe(
                 map((response: any) => {
-                    return new LearningProcessParameter(response);
+                    return new LearningProcessParameter(response[0]);
                 }),
                 catchError((error) => {
                     console.error(error);

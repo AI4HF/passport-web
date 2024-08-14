@@ -43,12 +43,12 @@ export class LearningProcessDatasetService {
      * @param learningDatasetId Id of the learning dataset
      * @return {Observable<LearningProcessDataset>}
      */
-    getLearningProcessDatasetById(learningProcessId: string, learningDatasetId: string): Observable<LearningProcessDataset> {
+    getLearningProcessDatasetById(learningProcessId: number, learningDatasetId: number): Observable<LearningProcessDataset> {
         const url = `${this.endpoint}?learningProcessId=${learningProcessId}&learningDatasetId=${learningDatasetId}`;
         return this.httpClient.get<LearningProcessDataset>(url)
             .pipe(
                 map((response: any) => {
-                    return new LearningProcessDataset(response);
+                    return new LearningProcessDataset(response[0]);
                 }),
                 catchError((error) => {
                     console.error(error);
@@ -62,7 +62,7 @@ export class LearningProcessDatasetService {
      * @param learningProcessId Id of the learning process
      * @return {Observable<LearningProcessDataset>}
      */
-    getLearningProcessDatasetsByLearningProcessId(learningProcessId: string): Observable<LearningProcessDataset[]> {
+    getLearningProcessDatasetsByLearningProcessId(learningProcessId: number): Observable<LearningProcessDataset[]> {
         const url = `${this.endpoint}?learningProcessId=${learningProcessId}`;
         return this.httpClient.get<LearningProcessDataset[]>(url)
             .pipe(
@@ -120,7 +120,7 @@ export class LearningProcessDatasetService {
      * @param learningDatasetId Id of the learning dataset
      * @return {Observable<any>}
      */
-    deleteLearningProcessDataset(learningProcessId: string, learningDatasetId: string): Observable<any> {
+    deleteLearningProcessDataset(learningProcessId: number, learningDatasetId: number): Observable<any> {
         const url = `${this.endpoint}?learningProcessId=${learningProcessId}&learningDatasetId=${learningDatasetId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
