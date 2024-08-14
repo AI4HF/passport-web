@@ -6,7 +6,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
 import { LearningProcessParameterTableComponent } from './learning-process-parameter-table.component';
-import { LearningProcessParameterFormModule } from '../lp-parameter-form/learning-process-parameter-form.module';
+import { LearningProcessParameterFormModule } from '../learning-process-parameter-form/learning-process-parameter-form.module';
 import {TranslateModule} from "@ngx-translate/core";
 import {RippleModule} from "primeng/ripple";
 import {ChipsModule} from "primeng/chips";

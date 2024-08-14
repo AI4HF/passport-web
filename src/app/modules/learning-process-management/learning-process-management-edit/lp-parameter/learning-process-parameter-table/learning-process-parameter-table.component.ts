@@ -23,8 +23,9 @@ export class LearningProcessParameterTableComponent extends BaseComponent implem
     /** Determines if the form is displayed */
     displayForm: boolean = false;
 
-    /** The LearningProcessParameter selected for editing */
-    selectedLearningProcessParameter: LearningProcessParameter = null;
+    /** The IDs for the selected LearningProcessParameter for editing */
+    selectedLearningProcessId: number;
+    selectedParameterId: number;
 
     /** Loading state of the table */
     loading: boolean = true;
@@ -52,6 +53,7 @@ export class LearningProcessParameterTableComponent extends BaseComponent implem
 
         this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
             const learningProcessId = +params.get('id');
+            this.selectedLearningProcessId = learningProcessId;
             this.loadLearningProcessParameters(learningProcessId);
         });
     }
@@ -129,7 +131,7 @@ export class LearningProcessParameterTableComponent extends BaseComponent implem
      * @param learningProcessParameter The LearningProcessParameter to be edited
      */
     showLearningProcessParameterForm(learningProcessParameter: LearningProcessParameter) {
-        this.selectedLearningProcessParameter = learningProcessParameter;
+        this.selectedParameterId = learningProcessParameter.parameterId;
         this.displayForm = true;
     }
 
@@ -137,7 +139,7 @@ export class LearningProcessParameterTableComponent extends BaseComponent implem
      * Displays the form for creating a new LearningProcessParameter.
      */
     createLearningProcessParameter() {
-        this.selectedLearningProcessParameter = null;
+        this.selectedParameterId = null;
         this.displayForm = true;
     }
 
@@ -146,7 +148,7 @@ export class LearningProcessParameterTableComponent extends BaseComponent implem
      */
     onFormClosed() {
         this.displayForm = false;
-        this.loadLearningProcessParameters(this.selectedLearningProcessParameter.learningProcessId);
+        this.loadLearningProcessParameters(this.selectedLearningProcessId);
     }
 
     /**

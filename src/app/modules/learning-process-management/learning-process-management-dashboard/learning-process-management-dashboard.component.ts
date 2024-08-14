@@ -33,10 +33,7 @@ export class LearningProcessManagementDashboardComponent extends BaseComponent i
 
         this.columns = [
             { header: 'ID', field: 'learningProcessId' },
-            { header: 'Title', field: 'title' },
-            { header: 'Description', field: 'description' },
-            { header: 'Version', field: 'version' },
-            { header: 'Reference Entity', field: 'referenceEntity' }
+            { header: 'Description', field: 'description' }
         ];
     }
 

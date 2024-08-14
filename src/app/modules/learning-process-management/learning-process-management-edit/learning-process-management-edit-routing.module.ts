@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LearningProcessManagementEditComponent } from './learning-process-management-edit.component';
-import { LearningProcessDatasetAssignmentTableComponent } from './learning-process-dataset-and-stage-assignment/learning-process-dataset-assignment/learning-process-dataset-assignment-table/learning-process-dataset-assignment-table.component'
+import { LearningProcessDatasetAssignmentTableComponent } from './learning-process-dataset-assignment/learning-process-dataset-assignment-table/learning-process-dataset-assignment-table.component';
+import { LearningStageCreationTableComponent } from './learning-stage-creation/learning-stage-creation-table/learning-stage-creation-table.component';
 import {
     LearningProcessAndImplementationDetailsComponent
 } from "./learning-process-and-implementation-details/learning-process-and-implementation-details.component";
@@ -15,7 +16,7 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'dataset-details',
+                redirectTo: 'learning-process-and-implementation-details',
                 pathMatch: 'full'
             },
             {
@@ -25,6 +26,10 @@ const routes: Routes = [
             {
                 path: 'learning-process-dataset-assignment',
                 component: LearningProcessDatasetAssignmentTableComponent
+            },
+            {
+                path: 'learning-stage-management',
+                loadChildren: () => import('./learning-stage-creation/learning-stage-creation.module').then(m => m.LearningStageCreationModule)
             },
             {
                 path: 'learning-process-parameter-assignment',

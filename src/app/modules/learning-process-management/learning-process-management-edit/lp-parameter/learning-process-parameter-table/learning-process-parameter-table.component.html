@@ -37,4 +37,4 @@
     </div>
 </div>
 
-<app-lp-parameter-form *ngIf="displayForm" [learningProcessId]="selectedLearningProcessParameter?.learningProcessId" [learningProcessParameter]="selectedLearningProcessParameter" (formClosed)="onFormClosed()"></app-lp-parameter-form>
+<app-lp-parameter-form *ngIf="displayForm" [learningProcessId]="selectedLearningProcessId" [parameterId]="selectedParameterId" (formClosed)="onFormClosed()"></app-lp-parameter-form>

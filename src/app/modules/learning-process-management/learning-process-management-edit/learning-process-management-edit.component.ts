@@ -23,8 +23,9 @@ export class LearningProcessManagementEditComponent extends BaseComponent implem
     ngOnInit() {
         this.learningProcessSteps = [
             { name: this.translateService.instant('LearningProcessManagement.LearningProcessDetails'), routerLink: 'learning-process-and-implementation-details' },
-            { name: this.translateService.instant('LearningProcessManagement.LearningProcessCharacteristics'), routerLink: 'learning-process-dataset-assignment' },
-            { name: this.translateService.instant('LearningProcessManagement.LearningLearningProcessCreation'), routerLink: 'learning-process-parameter-assignment' }
+            { name: this.translateService.instant('LearningProcessManagement.LearningProcessDataset'), routerLink: 'learning-process-dataset-assignment' },
+            { name: this.translateService.instant('LearningProcessManagement.LearningStageManagement'), routerLink: 'learning-stage-management' },
+            { name: this.translateService.instant('LearningProcessManagement.LearningProcessParameter'), routerLink: 'learning-process-parameter-assignment' }
         ];
     }
 }

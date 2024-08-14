@@ -24,22 +24,9 @@
                         {{ 'LearningProcessManagement.ID' | translate }}
                         <p-sortIcon [field]="'learningProcessId'"></p-sortIcon>
                     </th>
-                    <th [pSortableColumn]="'title'"
-                        class="white-space-nowrap min-width-10rem">
-                        {{ 'LearningProcessManagement.Title' | translate }}
-                        <p-sortIcon [field]="'title'"></p-sortIcon>
-                    </th>
                     <th [pSortableColumn]="'description'" class="white-space-nowrap text-center">
                         {{ 'LearningProcessManagement.Description' | translate }}
                         <p-sortIcon [field]="'description'"></p-sortIcon>
-                    </th>
-                    <th [pSortableColumn]="'version'" class="white-space-nowrap text-center">
-                        {{ 'LearningProcessManagement.Version' | translate }}
-                        <p-sortIcon [field]="'version'"></p-sortIcon>
-                    </th>
-                    <th [pSortableColumn]="'referenceEntity'" class="white-space-nowrap text-center">
-                        {{ 'LearningProcessManagement.ReferenceEntity' | translate }}
-                        <p-sortIcon [field]="'referenceEntity'"></p-sortIcon>
                     </th>
                     <th>
                         {{ 'LearningProcessManagement.Actions' | translate }}
@@ -52,17 +39,8 @@
                     <td class="cursor-pointer">
                         <span>{{ learningProcess.learningProcessId }}</span>
                     </td>
-                    <td class="cursor-pointer">
-                        <span>{{ learningProcess.title }}</span>
-                    </td>
                     <td class="text-center">
                         <span>{{ learningProcess.description }}</span>
-                    </td>
-                    <td class="text-center">
-                        <span>{{ learningProcess.version }}</span>
-                    </td>
-                    <td class="text-center">
-                        <span>{{ learningProcess.referenceEntity }}</span>
                     </td>
                     <td>
                         <button pButton pRipple type="button" [icon]="'pi pi-pencil'"

@@ -11,8 +11,11 @@ import { RippleModule } from "primeng/ripple";
 import { StepperModule } from "../../../shared/components/stepper/stepper.module";
 import { LearningProcessAndImplementationDetailsModule } from "./learning-process-and-implementation-details/learning-process-and-implementation-details.module";
 import { LearningProcessManagementEditRoutingModule } from "./learning-process-management-edit-routing.module";
-import { LearningProcessDatasetAndStageAssignmentModule } from "./learning-process-dataset-and-stage-assignment/learning-process-dataset-and-stage-assignment.module";
 import {LearningProcessParameterModule} from "./lp-parameter/learning-process-parameter.module";
+import {LearningStageCreationModule} from "./learning-stage-creation/learning-stage-creation.module";
+import {
+    LearningProcessDatasetAssignmentModule
+} from "./learning-process-dataset-assignment/learning-process-dataset-assignment.module";
 
 @NgModule({
     declarations: [LearningProcessManagementEditComponent],
@@ -28,7 +31,8 @@ import {LearningProcessParameterModule} from "./lp-parameter/learning-process-pa
         StepperModule,
         LearningProcessAndImplementationDetailsModule,
         LearningProcessManagementEditRoutingModule,
-        LearningProcessDatasetAndStageAssignmentModule,
+        LearningProcessDatasetAssignmentModule,
+        LearningStageCreationModule,
         LearningProcessParameterModule
     ]
 })

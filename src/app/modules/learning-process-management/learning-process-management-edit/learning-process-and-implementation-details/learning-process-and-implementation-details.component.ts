@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from "../../../../shared/components/base.component";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { takeUntil, forkJoin } from "rxjs";
+import { takeUntil } from "rxjs";
 import { LearningProcess } from "../../../../shared/models/learningProcess.model";
 import { Implementation } from "../../../../shared/models/implementation.model";
 import { LearningProcessManagementRoutingModule } from "../../learning-process-management-routing.module";
@@ -29,6 +29,9 @@ export class LearningProcessAndImplementationDetailsComponent extends BaseCompon
     /** List of algorithms */
     algorithms: Algorithm[] = [];
 
+    /** The selected algorithm */
+    selectedAlgorithm: Algorithm;
+
     /** Flag to indicate if the form is in edit mode */
     isEditMode: boolean = false;
 
@@ -50,7 +53,7 @@ export class LearningProcessAndImplementationDetailsComponent extends BaseCompon
                 this.isEditMode = true;
                 this.loadLearningProcess(+id);
             } else {
-                this.selectedLearningProcess = new LearningProcess({ id: 0 });
+                this.selectedLearningProcess = new LearningProcess({ learningProcessId: 0 });
                 this.selectedImplementation = new Implementation({ implementationId: 0 });
                 this.initializeForm();
             }
@@ -109,6 +112,11 @@ export class LearningProcessAndImplementationDetailsComponent extends BaseCompon
             // Learning Process Field
             description: new FormControl(this.selectedLearningProcess?.description || '', Validators.required),
         });
+
+        // Set the selected algorithm if in edit mode
+        if (this.isEditMode && this.algorithms.length > 0) {
+            this.setDropdownValues();
+        }
     }
 
     /**
@@ -209,14 +217,12 @@ export class LearningProcessAndImplementationDetailsComponent extends BaseCompon
     saveLearningProcess(implementationId: number) {
         const formValues = this.formGroup.value;
 
-        // Prepare Learning Process payload
         const learningProcessPayload = {
             description: formValues.description,
             implementationId: implementationId
         };
 
         if (!this.selectedLearningProcess.learningProcessId) {
-            // Create new Learning Process
             const newLearningProcess: LearningProcess = new LearningProcess({ ...learningProcessPayload });
             this.learningProcessService.createLearningProcess(newLearningProcess)
                 .pipe(takeUntil(this.destroy$))
