@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
-import { BaseComponent } from '../../../../../../shared/components/base.component';
+import { BaseComponent } from '../../../../../shared/components/base.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LearningStage } from '../../../../../../shared/models/learningStage.model';
+import { LearningStage } from '../../../../../shared/models/learningStage.model';
 import { takeUntil } from 'rxjs';
 
 /**
@@ -15,10 +15,10 @@ import { takeUntil } from 'rxjs';
 export class LearningStageCreationFormComponent extends BaseComponent implements OnInit {
 
     /** The ID of the learning process */
-    @Input() learningProcessId: string;
+    @Input() learningProcessId: number;
 
     /** The ID of the learning stage to be edited or created */
-    @Input() learningStageId: string;
+    @Input() learningStageId: number;
 
     /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();

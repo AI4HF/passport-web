@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { BaseComponent } from '../../../../../../shared/components/base.component';
-import { LearningStage } from '../../../../../../shared/models/learningStage.model';
-import { Dataset } from '../../../../../../shared/models/dataset.model';
+import { BaseComponent } from '../../../../../shared/components/base.component';
+import { LearningStage } from '../../../../../shared/models/learningStage.model';
+import { Dataset } from '../../../../../shared/models/dataset.model';
 import { takeUntil } from 'rxjs';
 
 /**
@@ -15,7 +15,7 @@ import { takeUntil } from 'rxjs';
 export class LearningStageCreationTableComponent extends BaseComponent implements OnInit {
 
     /** The ID of the learning process */
-    learningProcessId: string;
+    learningProcessId: number;
 
     /** List of learning stages */
     learningStages: LearningStage[] = [];
@@ -27,7 +27,7 @@ export class LearningStageCreationTableComponent extends BaseComponent implement
     displayForm: boolean = false;
 
     /** The learning stage ID selected for editing */
-    selectedLearningStageId: string = null;
+    selectedLearningStageId: number = null;
 
     /** Loading state of the table */
     loading: boolean = true;
@@ -53,8 +53,9 @@ export class LearningStageCreationTableComponent extends BaseComponent implement
             { field: 'datasetPercentage', header: 'LearningProcessManagement.DatasetPercentage' }
         ];
 
-        this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            this.learningProcessId = params.get('id');
+        this.route.parent.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+            this.learningProcessId = +params.get('id');
+            console.log(this.learningProcessId);
             this.loadLearningStages();
         });
     }
@@ -63,7 +64,7 @@ export class LearningStageCreationTableComponent extends BaseComponent implement
      * Loads the learning stages associated with the selected learning process.
      */
     loadLearningStages() {
-        this.learningStageService.getLearningStagesByLearningProcessId(+this.learningProcessId)
+        this.learningStageService.getLearningStagesByLearningProcessId(this.learningProcessId)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningStages => {
@@ -108,9 +109,8 @@ export class LearningStageCreationTableComponent extends BaseComponent implement
      * @param learningStage The learning stage to be deleted
      */
     deleteLearningStage(learningStage: LearningStage) {
-        this.learningStageService.deleteLearningStage(
-            +learningStage.learningStageId
-        ).pipe(takeUntil(this.destroy$))
+        this.learningStageService.deleteLearningStage(learningStage.learningStageId)
+            .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.learningStages = this.learningStages.filter(
@@ -167,9 +167,10 @@ export class LearningStageCreationTableComponent extends BaseComponent implement
     }
 
     /**
-     * Navigates to the learning process dataset assignment table.
+     * Navigates to the learning stage parameter assignment table.
+     * @param learningStageId The ID of the selected learning stage
      */
-    goToLearningProcessDatasetAssignment() {
-        this.router.navigate([`/learning-process-management-edit/${this.learningProcessId}/learning-process-dataset-assignment`]);
+    goToLearningStageParameterAssignment(learningStageId: number) {
+        this.router.navigate([`/learning-process-management/${this.learningProcessId}/learning-stage-management/${learningStageId}/learning-stage-parameter-assignment`]);
     }
 }

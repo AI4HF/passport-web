@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { BaseComponent } from '../../../../../../../shared/components/base.component';
-import { LearningStageParameter } from '../../../../../../../shared/models/learningStageParameter.model';
-import { Parameter } from '../../../../../../../shared/models/parameter.model';
+import { BaseComponent } from '../../../../../../shared/components/base.component';
+import { LearningStageParameter } from '../../../../../../shared/models/learningStageParameter.model';
+import { Parameter } from '../../../../../../shared/models/parameter.model';
 import { takeUntil } from 'rxjs';
 
 /**
@@ -53,8 +53,9 @@ export class LearningStageParameterAssignmentTableComponent extends BaseComponen
             { field: 'value', header: 'Value' }
         ];
 
-        this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            this.learningStageId = +params.get('id');
+        this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+            this.learningStageId = +params.get('learningStageId');
+            console.log(this.learningStageId);
             this.loadParameterAssignments();
         });
     }

@@ -8,16 +8,16 @@
                         <i class="pi pi-tags"></i>
                         <p-dropdown
                                 [style]="{'width':'100%'}"
-                                [options]="datasets"
-                                formControlName="datasetId"
-                                optionLabel="title"
-                                placeholder="{{'LearningProcessManagement.SelectDataset' | translate}}"
+                                [options]="learningDatasets"
+                                formControlName="learningDataset"
+                                optionLabel="description"
+                                placeholder="{{'LearningProcessManagement.SelectLearningDataset' | translate}}"
                                 class="form-control">
-                            <ng-template let-dataset pTemplate="selectedItem">
-                                <span>{{ dataset ? dataset.title : '' }}</span>
+                            <ng-template let-learningDataset pTemplate="selectedItem">
+                                <span>{{ learningDataset ? learningDataset.description : '' }}</span>
                             </ng-template>
-                            <ng-template let-dataset pTemplate="item">
-                                <span>{{ dataset.title }}</span>
+                            <ng-template let-learningDataset pTemplate="item">
+                                <span>{{ learningDataset.description }}</span>
                             </ng-template>
                         </p-dropdown>
                     </span>

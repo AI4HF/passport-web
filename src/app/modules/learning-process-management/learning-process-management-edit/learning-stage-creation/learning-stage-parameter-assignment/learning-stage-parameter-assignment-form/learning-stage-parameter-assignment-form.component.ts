@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
-import { BaseComponent } from '../../../../../../../shared/components/base.component';
+import { BaseComponent } from '../../../../../../shared/components/base.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LearningStageParameter } from '../../../../../../../shared/models/learningStageParameter.model';
-import { Parameter } from '../../../../../../../shared/models/parameter.model';
+import { LearningStageParameter } from '../../../../../../shared/models/learningStageParameter.model';
+import { Parameter } from '../../../../../../shared/models/parameter.model';
 import { takeUntil, forkJoin } from 'rxjs';
 
 /**
@@ -133,7 +133,7 @@ export class LearningStageParameterAssignmentFormComponent extends BaseComponent
 
         const payload = new LearningStageParameter({
             learningStageId: this.learningStageId,
-            parameterId: formValues.parameterId,
+            parameterId: formValues.parameterId.parameterId,
             type: formValues.type,
             value: formValues.value
         });

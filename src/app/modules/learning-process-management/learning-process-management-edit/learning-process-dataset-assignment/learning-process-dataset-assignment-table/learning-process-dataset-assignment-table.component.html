@@ -10,7 +10,7 @@
                 <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-primary mx-2" (click)="createLearningProcessDataset()" pTooltip="{{ 'LearningProcessManagement.CreateLearningProcessDataset' | translate }}" tooltipPosition="bottom"></button>
             </div>
         </div>
-        <p-table #dt [value]="learningProcessDatasets" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['description', 'datasetName']" [sortField]="'description'">
+        <p-table #dt [value]="learningProcessDatasetsWithDescriptions" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['description', 'learningDatasetDescription']" [sortField]="'description'">
             <ng-template pTemplate="header">
                 <tr>
                     <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="white-space-nowrap min-width-10rem">
@@ -25,7 +25,7 @@
             <ng-template pTemplate="body" let-learningProcessDataset>
                 <tr>
                     <td *ngFor="let col of columns" class="cursor-pointer">
-                        <span>{{ learningProcessDataset[col.field] || (col.field === 'datasetName' ? datasets[learningProcessDataset.learningDatasetId]?.title : '') }}</span>
+                        <span>{{ learningProcessDataset[col.field] }}</span>
                     </td>
                     <td>
                         <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="showLearningProcessDatasetForm(learningProcessDataset)" pTooltip="{{ 'LearningProcessManagement.Edit' | translate }}" tooltipPosition="bottom"></button>
@@ -35,7 +35,6 @@
             </ng-template>
         </p-table>
     </div>
-    <button pButton pRipple icon="pi pi-arrow-right" label="{{ 'LearningProcessManagement.GoToLearningStageCreation' | translate }}" class="p-button-rounded p-button-primary p-button-outlined fixed-bottom-right" (click)="goToLearningStageCreation()"></button>
 </div>
 
-<app-learning-process-dataset-assignment-form *ngIf="displayForm" [learningProcessId]="learningProcessId" [learningProcessDatasetId]="selectedLearningProcessDatasetId" (formClosed)="onFormClosed()"></app-learning-process-dataset-assignment-form>
+<app-learning-process-dataset-assignment-form *ngIf="displayForm" [learningProcessId]="learningProcessId" [learningDatasetId]="selectedLearningDatasetId" (formClosed)="onFormClosed()"></app-learning-process-dataset-assignment-form>
