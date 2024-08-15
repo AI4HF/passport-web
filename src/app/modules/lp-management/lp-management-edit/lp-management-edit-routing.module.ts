@@ -8,6 +8,7 @@ import {
 import {
     LpParameterTableComponent
 } from "./lp-parameter/lp-parameter-table/lp-parameter-table.component";
+import {LpGuard} from "../../../core/guards/lp.guard";
 
 const routes: Routes = [
     {
@@ -20,19 +21,22 @@ const routes: Routes = [
             },
             {
                 path: 'learning-process-and-implementation-details',
-                component: LpDetailsComponent,
+                component: LpDetailsComponent
             },
             {
                 path: 'learning-process-dataset-assignment',
-                component: LpDatasetTableComponent
+                component: LpDatasetTableComponent,
+                canActivate: [LpGuard]
             },
             {
                 path: 'learning-stage-management',
-                loadChildren: () => import('./ls-creation/ls-creation.module').then(m => m.LsCreationModule)
+                loadChildren: () => import('./ls-creation/ls-creation.module').then(m => m.LsCreationModule),
+                canActivate: [LpGuard]
             },
             {
                 path: 'learning-process-parameter-assignment',
-                component: LpParameterTableComponent
+                component: LpParameterTableComponent,
+                canActivate: [LpGuard]
             }
         ],
         component: LpManagementEditComponent
