@@ -89,22 +89,44 @@ export class LearningProcessManagementDashboardComponent extends BaseComponent i
     }
 
     /**
-     * Deletes a learningProcess.
+     * Deletes the implementation, which cascades to delete the associated learningProcess.
      * @param id The ID of the LearningProcess to be deleted
      */
     deleteLearningProcess(id: number) {
         this.loading = true;
-        this.learningProcessService.deleteLearningProcess(id).pipe(takeUntil(this.destroy$))
-            .subscribe({
-                next: (response: any) => this.getLearningProcessList(),
-                error: (error: any) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
-                    });
-                },
-                complete: () => this.loading = false
+        const learningProcess = this.learningProcessList.find(lp => lp.learningProcessId === id);
+
+        if (learningProcess) {
+            const implementationId = learningProcess.implementationId;
+
+            this.implementationService.deleteImplementation(implementationId)
+                .pipe(takeUntil(this.destroy$))
+                .subscribe({
+                    next: () => {
+                        this.learningProcessList = this.learningProcessList.filter(lp => lp.learningProcessId !== id);
+
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: this.translateService.instant('Success'),
+                            detail: this.translateService.instant('LearningProcessManagement.Deleted')
+                        });
+                    },
+                    error: (error: any) => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: this.translateService.instant('Error'),
+                            detail: error.message
+                        });
+                    },
+                    complete: () => this.loading = false
+                });
+        } else {
+            this.messageService.add({
+                severity: 'error',
+                summary: this.translateService.instant('Error'),
+                detail: this.translateService.instant('LearningProcessManagement.ProcessNotFound')
             });
+            this.loading = false;
+        }
     }
 }

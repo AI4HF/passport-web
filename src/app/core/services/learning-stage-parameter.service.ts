@@ -48,7 +48,7 @@ export class LearningStageParameterService {
         return this.httpClient.get<LearningStageParameter>(url)
             .pipe(
                 map((response: any) => {
-                    return new LearningStageParameter(response);
+                    return new LearningStageParameter(response[0]);
                 }),
                 catchError((error) => {
                     console.error(error);

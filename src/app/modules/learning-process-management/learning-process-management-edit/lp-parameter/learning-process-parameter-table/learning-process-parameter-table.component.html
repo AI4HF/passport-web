@@ -1,13 +1,13 @@
 <div class="content-container">
     <div class="card lg:pt-5">
         <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
-            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'LearningProcessParameters' | translate }}</div>
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'ParameterAssignment.LearningProcessParameters' | translate }}</div>
             <div class="inline-flex align-items-center">
                 <span class="p-input-icon-left flex-auto mx-2">
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" (input)="filter(dt, $event)" placeholder="{{ 'Search' | translate }}" class="w-full rounded-border"/>
                 </span>
-                <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-primary mx-2" (click)="createLearningProcessParameter()" pTooltip="{{ 'Create New' | translate }}" tooltipPosition="bottom"></button>
+                <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-primary mx-2" (click)="createLearningProcessParameter()" pTooltip="{{ 'ParameterAssignment.CreateParameterAssignment' | translate }}" tooltipPosition="bottom"></button>
             </div>
         </div>
         <p-table #dt [value]="learningProcessParameters" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['type', 'value', 'parameterTitle']" [sortField]="'type'">

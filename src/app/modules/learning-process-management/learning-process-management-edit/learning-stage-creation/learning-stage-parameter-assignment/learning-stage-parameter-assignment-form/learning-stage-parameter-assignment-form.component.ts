@@ -51,6 +51,7 @@ export class LearningStageParameterAssignmentFormComponent extends BaseComponent
      * Initializes the component.
      */
     ngOnInit() {
+        this.loadParameters();
         this.initializeForm();
         this.display = true;
         if (this.parameterId) {
@@ -59,7 +60,6 @@ export class LearningStageParameterAssignmentFormComponent extends BaseComponent
         } else {
             this.parameterAssignment = new LearningStageParameter({ learningStageId: this.learningStageId });
         }
-        this.loadParameters();
     }
 
     /**
@@ -98,11 +98,16 @@ export class LearningStageParameterAssignmentFormComponent extends BaseComponent
      * Updates the form with the loaded parameter assignment details.
      */
     updateForm() {
-        this.form.patchValue({
-            parameterId: this.parameterAssignment.parameterId,
-            type: this.parameterAssignment.type,
-            value: this.parameterAssignment.value
-        });
+        if (this.parameterAssignment) {
+            const selectedParameter = this.parameters.find(
+                param => param.parameterId === this.parameterAssignment.parameterId
+            );
+            this.form.patchValue({
+                parameterId: selectedParameter || null,
+                type: this.parameterAssignment.type,
+                value: this.parameterAssignment.value
+            });
+        }
     }
 
     /**

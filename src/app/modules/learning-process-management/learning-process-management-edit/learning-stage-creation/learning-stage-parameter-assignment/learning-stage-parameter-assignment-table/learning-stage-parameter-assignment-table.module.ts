@@ -11,9 +11,6 @@ import {TranslateModule} from "@ngx-translate/core";
 import {RippleModule} from "primeng/ripple";
 import {ChipsModule} from "primeng/chips";
 import {CheckboxModule} from "primeng/checkbox";
-import {
-    LearningStageParameterAssignmentFormComponent
-} from "../learning-stage-parameter-assignment-form/learning-stage-parameter-assignment-form.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {DropdownModule} from "primeng/dropdown";
 

@@ -3,7 +3,7 @@ import { BaseComponent } from "../../../../../shared/components/base.component";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { LearningProcessParameter } from "../../../../../shared/models/learningProcessParameter.model";
 import { Parameter } from "../../../../../shared/models/parameter.model";
-import { takeUntil, switchMap } from "rxjs";
+import { takeUntil } from "rxjs";
 
 /**
  * Component for managing the form to create or update LearningProcessParameter assignments.
@@ -146,6 +146,7 @@ export class LearningProcessParameterFormComponent extends BaseComponent impleme
             this.createLearningProcessParameter(learningProcessParameterPayload);
         }
     }
+
     /**
      * Creates a new LearningProcessParameter.
      * @param learningProcessParameter The LearningProcessParameter to be created
@@ -158,7 +159,7 @@ export class LearningProcessParameterFormComponent extends BaseComponent impleme
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('Created')
+                        detail: this.translateService.instant('ParameterAssignment.Created')
                     });
                     this.closeDialog();
                 },
@@ -184,7 +185,7 @@ export class LearningProcessParameterFormComponent extends BaseComponent impleme
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('Updated')
+                        detail: this.translateService.instant('ParameterAssignment.Updated')
                     });
                     this.closeDialog();
                 },

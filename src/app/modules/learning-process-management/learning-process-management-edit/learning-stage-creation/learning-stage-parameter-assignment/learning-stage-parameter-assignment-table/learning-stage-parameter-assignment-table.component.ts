@@ -26,6 +26,9 @@ export class LearningStageParameterAssignmentTableComponent extends BaseComponen
     /** The learning stage ID from the route */
     learningStageId: number;
 
+    /** The learning process ID from the route */
+    learningProcessId: number;
+
     /** The parameter ID selected for editing */
     selectedParameterId: number = null;
 
@@ -53,9 +56,12 @@ export class LearningStageParameterAssignmentTableComponent extends BaseComponen
             { field: 'value', header: 'Value' }
         ];
 
+        this.route.parent.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+            this.learningProcessId = +params.get('id');
+        });
+
         this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
             this.learningStageId = +params.get('learningStageId');
-            console.log(this.learningStageId);
             this.loadParameterAssignments();
         });
     }
@@ -167,6 +173,6 @@ export class LearningStageParameterAssignmentTableComponent extends BaseComponen
      * Navigates back to the learning stage creation table.
      */
     returnToLearningStages() {
-        this.router.navigate([`/learning-stage-creation`]);
+        this.router.navigate([`/learning-process-management/${this.learningProcessId}/learning-stage-management`]);
     }
 }

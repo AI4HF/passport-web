@@ -46,9 +46,9 @@ export class LearningProcessParameterTableComponent extends BaseComponent implem
      */
     ngOnInit() {
         this.columns = [
-            { field: 'type', header: 'Type' },
-            { field: 'value', header: 'Value' },
-            { field: 'parameterTitle', header: 'Parameter' }
+            { field: 'parameterTitle', header: 'ParameterAssignment.ParameterName' },
+            { field: 'type', header: 'ParameterAssignment.Type' },
+            { field: 'value', header: 'ParameterAssignment.Value' }
         ];
 
         this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
@@ -113,7 +113,7 @@ export class LearningProcessParameterTableComponent extends BaseComponent implem
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('Deleted')
+                        detail: this.translateService.instant('ParameterAssignment.Deleted')
                     });
                 },
                 error: error => {
