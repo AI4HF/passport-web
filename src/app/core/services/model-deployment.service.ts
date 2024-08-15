@@ -49,7 +49,7 @@ export class ModelDeploymentService {
         return this.httpClient.get<ModelDeployment>(url)
             .pipe(
                 map((response: any) =>{
-                    return new ModelDeployment(response);
+                    return new ModelDeployment(response[0]);
                 }),
                 catchError((error) => {
                     if (error.status === 404) {
