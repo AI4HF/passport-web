@@ -34,7 +34,13 @@
                 </tr>
             </ng-template>
         </p-table>
-        <button pButton pRipple type="button" label="{{ 'ReturnToLearningStages' | translate }}" class="p-button-secondary p-button-sm mt-3" (click)="returnToLearningStages()"></button>
+        <div class="justify-content-start">
+            <button pButton pRipple
+                    type="button"
+                    label="{{ 'ParameterAssignment.ReturnToLearningStageManagement' | translate }}"
+                    class="p-button-raised"
+                    (click)="returnToLearningStages()"></button>
+        </div>
     </div>
 </div>
 
