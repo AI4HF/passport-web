@@ -1,12 +1,18 @@
-<p-dialog (onHide)="closeDialog()" [(visible)]="this.display" [modal]="true" [style]="{width: '30rem'}"
-          header="{{ 'ParameterAssignment.ParameterForm' | translate }}">
+<p-dialog (onHide)="closeDialog()" [(visible)]="this.display" [modal]="true" [style]="{width: '50rem'}"
+          header="{{ 'ParameterAssignment.LearningProcessParameterForm' | translate }}">
     <form (ngSubmit)="save()" *ngIf="this.display" [formGroup]="form">
         <div class="form-grid grid">
             <div class="field col">
-                <div class="p-field p-col-12 p-md-6">
+                <div *ngIf="!isUpdateMode" class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-tags"></i>
-                        <p-dropdown [style]="{'width':'100%'}" [options]="parameters" formControlName="parameterId" optionLabel="name" placeholder="{{ 'ParameterAssignment.SelectParameter' | translate }}" class="form-control">
+                        <p-dropdown
+                                [style]="{'width':'100%'}"
+                                [options]="parameters"
+                                formControlName="parameterId"
+                                optionLabel="name"
+                                placeholder="{{'ParameterAssignment.SelectParameter' | translate}}"
+                                class="form-control">
                             <ng-template let-parameter pTemplate="selectedItem">
                                 <span>{{ parameter ? parameter.name : '' }}</span>
                             </ng-template>
@@ -18,21 +24,25 @@
                 </div>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-cog"></i>
-                        <input class="w-full" formControlName="type" id="type" pInputText placeholder="{{ 'ParameterAssignment.Type' | translate }}">
+                        <i class="pi pi-bookmark"></i>
+                        <input class="w-full" formControlName="type" id="type" pInputText
+                               placeholder="{{ 'ParameterAssignment.Type' | translate }}">
                     </span>
                 </div>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-align-left"></i>
-                        <input class="w-full" formControlName="value" id="value" pInputText placeholder="{{ 'ParameterAssignment.Value' | translate }}">
+                        <i class="pi pi-bookmark"></i>
+                        <input class="w-full" formControlName="value" id="value" pInputText
+                               placeholder="{{ 'ParameterAssignment.Value' | translate }}">
                     </span>
                 </div>
             </div>
         </div>
         <div class="flex justify-content-between">
-            <button (click)="closeDialog()" class="p-button-primary" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton type="button"></button>
-            <button [disabled]="form.invalid" class="p-button-primary" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton type="submit"></button>
+            <button (click)="closeDialog()" class="p-button-primary" icon="pi pi-times"
+                    label="{{ 'Cancel' | translate }}" pButton type="button"></button>
+            <button [disabled]="form.invalid" class="p-button-primary" icon="pi pi-check" label="{{ 'Save' | translate }}"
+                    pButton type="submit"></button>
         </div>
     </form>
 </p-dialog>

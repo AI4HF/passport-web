@@ -51,15 +51,15 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
      * Initializes the component.
      */
     ngOnInit() {
+        this.isUpdateMode = !!this.learningDatasetId;
         this.initializeForm();
         this.display = true;
-        this.loadLearningDatasets();
 
-        if (this.learningDatasetId) {
-            this.isUpdateMode = true;
+        if (this.isUpdateMode) {
             this.loadLearningProcessDataset();
         } else {
             this.learningProcessDataset = new LearningProcessDataset({ learningProcessId: this.learningProcessId });
+            this.loadLearningDatasets(); // Only load datasets if not in update mode
         }
     }
 
@@ -68,18 +68,53 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
      */
     initializeForm() {
         this.form = new FormGroup({
-            learningDataset: new FormControl('', Validators.required),
+            learningDataset: new FormControl({ value: '', disabled: this.isUpdateMode }, this.isUpdateMode ? [] : Validators.required),
             description: new FormControl('', Validators.required)
         });
     }
 
     /**
      * Loads the learning datasets to populate the dropdown.
+     * Only executed when creating a new entry, not during updates.
      */
     loadLearningDatasets() {
         this.learningDatasetService.getAllLearningDatasets().pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: datasets => this.learningDatasets = datasets,
+                next: datasets => {
+                    this.learningDatasets = datasets;
+                    this.filterAvailableDatasets();
+                },
+                error: error => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
+    }
+
+    /**
+     * Filters the learning datasets to remove those that are already associated with the learning process.
+     * If the filtered list is empty, closes the form and shows an error message.
+     */
+    filterAvailableDatasets() {
+        this.learningProcessDatasetService.getLearningProcessDatasetsByLearningProcessId(this.learningProcessId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: learningProcessDatasets => {
+                    const usedDatasetIds = learningProcessDatasets.map(dataset => dataset.learningDatasetId);
+                    this.learningDatasets = this.learningDatasets.filter(dataset => !usedDatasetIds.includes(dataset.learningDatasetId));
+
+                    if (this.learningDatasets.length === 0) {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: this.translateService.instant('Error'),
+                            detail: this.translateService.instant('LearningProcessManagement.NoAvailableDatasets')
+                        });
+                        this.closeDialog();
+                    }
+                },
                 error: error => {
                     this.messageService.add({
                         severity: 'error',
@@ -113,18 +148,12 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
 
     /**
      * Updates the form with the loaded learning process dataset details.
+     * Only the description field is updated; the learning dataset is not modified.
      */
     updateForm() {
-        console.log(this.learningDatasets);
-        const selectedLearningDataset = this.learningDatasets.find(
-            (dataset) => dataset.learningDatasetId === this.learningDatasetId
-        );
-        console.log(this.learningProcessDataset);
         this.form.patchValue({
-            learningDataset: selectedLearningDataset || null,
             description: this.learningProcessDataset.description
         });
-        console.log(this.form.value);
     }
 
     /**
@@ -135,14 +164,13 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
 
         const learningProcessDatasetPayload = {
             learningProcessId: this.learningProcessId,
-            learningDatasetId: formValues.learningDataset.learningDatasetId,
+            learningDatasetId: this.isUpdateMode ? this.learningDatasetId : formValues.learningDataset.learningDatasetId,
             description: formValues.description
         };
 
         if (this.isUpdateMode) {
             const updatedLearningProcessDataset: LearningProcessDataset = new LearningProcessDataset({
-                ...learningProcessDatasetPayload,
-                learningDatasetId: this.learningDatasetId
+                ...learningProcessDatasetPayload
             });
 
             this.learningProcessDatasetService.updateLearningProcessDataset(updatedLearningProcessDataset)

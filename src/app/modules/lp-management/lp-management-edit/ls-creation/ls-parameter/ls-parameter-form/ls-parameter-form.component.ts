@@ -3,7 +3,7 @@ import { BaseComponent } from '../../../../../../shared/components/base.componen
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LearningStageParameter } from '../../../../../../shared/models/learningStageParameter.model';
 import { Parameter } from '../../../../../../shared/models/parameter.model';
-import { takeUntil, forkJoin } from 'rxjs';
+import { takeUntil } from 'rxjs';
 
 /**
  * Component for managing and displaying the form for creating or updating learning stage parameter assignments.
@@ -51,14 +51,15 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
      * Initializes the component.
      */
     ngOnInit() {
-        this.loadParameters();
+        this.isUpdateMode = !!this.parameterId;
         this.initializeForm();
         this.display = true;
-        if (this.parameterId) {
-            this.isUpdateMode = true;
+
+        if (this.isUpdateMode) {
             this.loadData();
         } else {
             this.parameterAssignment = new LearningStageParameter({ learningStageId: this.learningStageId });
+            this.loadParameters(); // Only load parameters if not in update mode
         }
     }
 
@@ -67,10 +68,62 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
      */
     initializeForm() {
         this.form = new FormGroup({
-            parameterId: new FormControl(null, Validators.required),
+            parameterId: new FormControl({ value: '', disabled: this.isUpdateMode }, this.isUpdateMode ? [] : Validators.required),
             type: new FormControl('', Validators.required),
             value: new FormControl('', Validators.required)
         });
+    }
+
+    /**
+     * Loads all available parameters for the dropdown.
+     * Only executed when creating a new entry, not during updates.
+     */
+    loadParameters() {
+        this.parameterService.getAllParameters().pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: parameters => {
+                    this.parameters = parameters;
+                    this.filterAvailableParameters();
+                },
+                error: error => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
+    }
+
+    /**
+     * Filters the parameters to remove those that are already associated with the learning stage.
+     * If the filtered list is empty, closes the form and shows an error message.
+     */
+    filterAvailableParameters() {
+        this.learningStageParameterService.getLearningStageParametersByStageId(this.learningStageId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: learningStageParameters => {
+                    const usedParameterIds = learningStageParameters.map(param => param.parameterId);
+                    this.parameters = this.parameters.filter(param => !usedParameterIds.includes(param.parameterId));
+
+                    if (this.parameters.length === 0) {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: this.translateService.instant('Error'),
+                            detail: this.translateService.instant('ParameterAssignment.NoAvailableParameters')
+                        });
+                        this.closeDialog();
+                    }
+                },
+                error: error => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
     }
 
     /**
@@ -99,35 +152,11 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
      */
     updateForm() {
         if (this.parameterAssignment) {
-            const selectedParameter = this.parameters.find(
-                param => param.parameterId === this.parameterAssignment.parameterId
-            );
             this.form.patchValue({
-                parameterId: selectedParameter || null,
                 type: this.parameterAssignment.type,
                 value: this.parameterAssignment.value
             });
         }
-    }
-
-    /**
-     * Loads all available parameters for the dropdown.
-     */
-    loadParameters() {
-        this.parameterService.getAllParameters()
-            .pipe(takeUntil(this.destroy$))
-            .subscribe({
-                next: parameters => {
-                    this.parameters = parameters;
-                },
-                error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
-                    });
-                }
-            });
     }
 
     /**
@@ -138,7 +167,7 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
 
         const payload = new LearningStageParameter({
             learningStageId: this.learningStageId,
-            parameterId: formValues.parameterId.parameterId,
+            parameterId: this.isUpdateMode ? this.parameterId : formValues.parameterId.parameterId,
             type: formValues.type,
             value: formValues.value
         });

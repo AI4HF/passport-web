@@ -36,6 +36,9 @@ export class LpParameterFormComponent extends BaseComponent implements OnInit {
     /** The current LearningProcessParameter being edited */
     learningProcessParameter: LearningProcessParameter;
 
+    /** Flag indicating if the form is in update mode */
+    isUpdateMode: boolean = false;
+
     /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
@@ -48,12 +51,15 @@ export class LpParameterFormComponent extends BaseComponent implements OnInit {
      * Initializes the component.
      */
     ngOnInit() {
+        this.isUpdateMode = !!this.parameterId;
         this.initializeForm();
-        this.loadParameters();
         this.display = true;
 
-        if (this.parameterId) {
+        if (this.isUpdateMode) {
             this.loadLearningProcessParameter();
+        } else {
+            this.learningProcessParameter = new LearningProcessParameter({ learningProcessId: this.learningProcessId });
+            this.loadParameters();
         }
     }
 
@@ -62,7 +68,7 @@ export class LpParameterFormComponent extends BaseComponent implements OnInit {
      */
     initializeForm() {
         this.form = new FormGroup({
-            parameterId: new FormControl(null, Validators.required),
+            parameterId: new FormControl({ value: '', disabled: this.isUpdateMode }, this.isUpdateMode ? [] : Validators.required),
             type: new FormControl('', Validators.required),
             value: new FormControl('', Validators.required)
         });
@@ -70,12 +76,45 @@ export class LpParameterFormComponent extends BaseComponent implements OnInit {
 
     /**
      * Loads all available Parameters for the dropdown.
+     * Only executed when creating a new entry, not during updates.
      */
     loadParameters() {
         this.parameterService.getAllParameters().pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: parameters => {
                     this.parameters = parameters;
+                    this.filterAvailableParameters();
+                },
+                error: error => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
+    }
+
+    /**
+     * Filters the parameters to remove those that are already associated with the learning process.
+     * If the filtered list is empty, closes the form and shows an error message.
+     */
+    filterAvailableParameters() {
+        this.learningProcessParameterService.getLearningProcessParametersByProcessId(this.learningProcessId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: learningProcessParameters => {
+                    const usedParameterIds = learningProcessParameters.map(param => param.parameterId);
+                    this.parameters = this.parameters.filter(param => !usedParameterIds.includes(param.parameterId));
+
+                    if (this.parameters.length === 0) {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: this.translateService.instant('Error'),
+                            detail: this.translateService.instant('ParameterAssignment.NoAvailableParameters')
+                        });
+                        this.closeDialog();
+                    }
                 },
                 error: error => {
                     this.messageService.add({
@@ -113,12 +152,7 @@ export class LpParameterFormComponent extends BaseComponent implements OnInit {
      */
     updateForm() {
         if (this.learningProcessParameter) {
-            const selectedParameter = this.parameters.find(
-                param => param.parameterId === this.learningProcessParameter.parameterId
-            );
-
             this.form.patchValue({
-                parameterId: selectedParameter || null,
                 type: this.learningProcessParameter.type,
                 value: this.learningProcessParameter.value
             });
@@ -133,16 +167,14 @@ export class LpParameterFormComponent extends BaseComponent implements OnInit {
 
         const learningProcessParameterPayload = {
             learningProcessId: this.learningProcessId,
-            parameterId: formValues.parameterId.parameterId,
+            parameterId: this.isUpdateMode ? this.parameterId : formValues.parameterId.parameterId,
             type: formValues.type,
             value: formValues.value
         };
 
-        if (this.parameterId) {
-            // Update existing Learning Process Parameter
+        if (this.isUpdateMode) {
             this.updateLearningProcessParameter(learningProcessParameterPayload);
         } else {
-            // Create new Learning Process Parameter
             this.createLearningProcessParameter(learningProcessParameterPayload);
         }
     }
