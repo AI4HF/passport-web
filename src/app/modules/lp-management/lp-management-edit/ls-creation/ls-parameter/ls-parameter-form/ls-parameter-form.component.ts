@@ -56,10 +56,10 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
         this.display = true;
 
         if (this.isUpdateMode) {
-            this.loadData();
+            this.loadParameterById();
         } else {
             this.parameterAssignment = new LearningStageParameter({ learningStageId: this.learningStageId });
-            this.loadParameters(); // Only load parameters if not in update mode
+            this.loadParameters();
         }
     }
 
@@ -68,7 +68,7 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
      */
     initializeForm() {
         this.form = new FormGroup({
-            parameterId: new FormControl({ value: '', disabled: this.isUpdateMode }, this.isUpdateMode ? [] : Validators.required),
+            parameterId: new FormControl({ value: '', disabled: false }, this.isUpdateMode ? [] : Validators.required),
             type: new FormControl('', Validators.required),
             value: new FormControl('', Validators.required)
         });
@@ -129,13 +129,15 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
     /**
      * Loads the parameter assignment data if editing.
      */
-    loadData() {
-        this.learningStageParameterService.getLearningStageParameterById(this.learningStageId, this.parameterId)
+    loadParameterById() {
+        this.parameterService.getParameterById(this.parameterId)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: assignment => {
-                    this.parameterAssignment = assignment;
-                    this.updateForm();
+                next: parameter => {
+                    this.parameters = [parameter];
+                    this.form.patchValue({
+                        parameterId: parameter
+                    });
                 },
                 error: error => {
                     this.messageService.add({
@@ -145,18 +147,30 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
                     });
                 }
             });
+        this.updateForm();
     }
 
     /**
      * Updates the form with the loaded parameter assignment details.
      */
     updateForm() {
-        if (this.parameterAssignment) {
-            this.form.patchValue({
-                type: this.parameterAssignment.type,
-                value: this.parameterAssignment.value
+        this.learningStageParameterService.getLearningStageParameterById(this.learningStageId, this.parameterId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: learningStageParameter => {
+                    this.form.patchValue({
+                        type: learningStageParameter.type,
+                        value: learningStageParameter.value
+                    });
+                },
+                error: error => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
             });
-        }
     }
 
     /**
@@ -223,3 +237,4 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
         this.formClosed.emit();
     }
 }
+

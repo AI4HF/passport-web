@@ -3,7 +3,7 @@
     <form (ngSubmit)="save()" *ngIf="this.display" [formGroup]="form">
         <div class="form-grid grid">
             <div class="field col">
-                <div *ngIf="!isUpdateMode" class="p-field p-col-12 p-md-6">
+                <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-tags"></i>
                         <p-dropdown
@@ -12,7 +12,8 @@
                                 formControlName="learningDataset"
                                 optionLabel="description"
                                 placeholder="{{'LearningProcessManagement.SelectLearningDataset' | translate}}"
-                                class="form-control">
+                                class="form-control"
+                                [readonly]="isUpdateMode">
                             <ng-template let-learningDataset pTemplate="selectedItem">
                                 <span>{{ learningDataset ? learningDataset.description : '' }}</span>
                             </ng-template>

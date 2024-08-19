@@ -56,7 +56,7 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
         this.display = true;
 
         if (this.isUpdateMode) {
-            this.loadLearningProcessDataset();
+            this.loadDatasetById();
         } else {
             this.learningProcessDataset = new LearningProcessDataset({ learningProcessId: this.learningProcessId });
             this.loadLearningDatasets(); // Only load datasets if not in update mode
@@ -68,7 +68,7 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
      */
     initializeForm() {
         this.form = new FormGroup({
-            learningDataset: new FormControl({ value: '', disabled: this.isUpdateMode }, this.isUpdateMode ? [] : Validators.required),
+            learningDataset: new FormControl({ value: '', disabled: false }, this.isUpdateMode ? [] : Validators.required),
             description: new FormControl('', Validators.required)
         });
     }
@@ -128,12 +128,15 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
     /**
      * Loads the learning process dataset details using the provided IDs.
      */
-    loadLearningProcessDataset() {
-        this.learningProcessDatasetService.getLearningProcessDatasetById(this.learningProcessId, this.learningDatasetId)
+    loadDatasetById() {
+        this.learningDatasetService.getLearningDatasetById(this.learningDatasetId)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: learningProcessDataset => {
-                    this.learningProcessDataset = learningProcessDataset;
+                next: dataset => {
+                    this.learningDatasets = [dataset];
+                    this.form.patchValue({
+                        learningDataset: dataset
+                    });
                     this.updateForm();
                 },
                 error: error => {
@@ -148,12 +151,24 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
 
     /**
      * Updates the form with the loaded learning process dataset details.
-     * Only the description field is updated; the learning dataset is not modified.
      */
     updateForm() {
-        this.form.patchValue({
-            description: this.learningProcessDataset.description
-        });
+        this.learningProcessDatasetService.getLearningProcessDatasetById(this.learningProcessId, this.learningDatasetId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: learningProcessDataset => {
+                    this.form.patchValue({
+                        description: learningProcessDataset.description
+                    });
+                },
+                error: error => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
     }
 
     /**
@@ -162,59 +177,69 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
     save() {
         const formValues = this.form.value;
 
-        const learningProcessDatasetPayload = {
+        const learningProcessDatasetPayload = new LearningProcessDataset({
             learningProcessId: this.learningProcessId,
             learningDatasetId: this.isUpdateMode ? this.learningDatasetId : formValues.learningDataset.learningDatasetId,
             description: formValues.description
-        };
+        });
 
         if (this.isUpdateMode) {
-            const updatedLearningProcessDataset: LearningProcessDataset = new LearningProcessDataset({
-                ...learningProcessDatasetPayload
-            });
-
-            this.learningProcessDatasetService.updateLearningProcessDataset(updatedLearningProcessDataset)
-                .pipe(takeUntil(this.destroy$))
-                .subscribe({
-                    next: () => {
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('LearningProcessManagement.Updated')
-                        });
-                        this.closeDialog();
-                    },
-                    error: error => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
-                        });
-                    }
-                });
+            this.updateLearningProcessDataset(learningProcessDatasetPayload);
         } else {
-            const newLearningProcessDataset: LearningProcessDataset = new LearningProcessDataset(learningProcessDatasetPayload);
-
-            this.learningProcessDatasetService.createLearningProcessDataset(newLearningProcessDataset)
-                .pipe(takeUntil(this.destroy$))
-                .subscribe({
-                    next: () => {
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('LearningProcessManagement.Created')
-                        });
-                        this.closeDialog();
-                    },
-                    error: error => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
-                        });
-                    }
-                });
+            this.createLearningProcessDataset(learningProcessDatasetPayload);
         }
+    }
+
+    /**
+     * Creates a new learning process dataset.
+     * @param learningProcessDataset The learning process dataset to be created
+     */
+    createLearningProcessDataset(learningProcessDataset: LearningProcessDataset) {
+        this.learningProcessDatasetService.createLearningProcessDataset(learningProcessDataset)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: () => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translateService.instant('Success'),
+                        detail: this.translateService.instant('LearningProcessManagement.Created')
+                    });
+                    this.closeDialog();
+                },
+                error: error => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
+    }
+
+    /**
+     * Updates an existing learning process dataset.
+     * @param learningProcessDataset The learning process dataset to be updated
+     */
+    updateLearningProcessDataset(learningProcessDataset: LearningProcessDataset) {
+        this.learningProcessDatasetService.updateLearningProcessDataset(learningProcessDataset)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: () => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translateService.instant('Success'),
+                        detail: this.translateService.instant('LearningProcessManagement.Updated')
+                    });
+                    this.closeDialog();
+                },
+                error: error => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
     }
 
     /**
