@@ -55,7 +55,6 @@ export class LsCreationTableComponent extends BaseComponent implements OnInit {
 
         this.route.parent.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
             this.learningProcessId = +params.get('id');
-            console.log(this.learningProcessId);
             this.loadLearningStages();
         });
     }
