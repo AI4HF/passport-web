@@ -3,7 +3,7 @@
     <form (ngSubmit)="saveCharacteristic()" *ngIf="this.display" [formGroup]="characteristicForm">
         <div class="form-grid grid">
             <div class="field col">
-                <div *ngIf="!isUpdateMode" class="p-field p-col-12 p-md-6">
+                <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-tags"></i>
                         <p-dropdown
@@ -13,7 +13,8 @@
                                 dataKey="featureId"
                                 formControlName="feature"
                                 optionLabel="title"
-                                placeholder="{{ 'DatasetManagement.SelectFeature' | translate }}">
+                                placeholder="{{ 'DatasetManagement.SelectFeature' | translate }}"
+                                [readonly]="isUpdateMode">
                         </p-dropdown>
                     </span>
                 </div>

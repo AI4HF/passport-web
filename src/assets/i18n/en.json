@@ -228,7 +228,8 @@
     "LearningDatasetForm": "Learning Dataset Form",
     "LearningDatasetDescription": "Learning Dataset Description",
     "Updated": "Update is successful!",
-    "Created": "Creation is successful!"
+    "Created": "Creation is successful!",
+    "NoAvailableFeatures": "There are no available Features!"
   },
   "ModelManagement": {
     "ID": "ID",
