@@ -65,7 +65,7 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
                 });
                 this.model.push({
                     label: this.translateService.instant('Learning Process Management'),
-                    icon: 'pi pi-code',
+                    icon: 'pi pi-globe',
                     routerLink: ['/learning-process-management']
                 });
                 this.model.push({

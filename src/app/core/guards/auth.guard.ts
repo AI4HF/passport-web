@@ -29,7 +29,7 @@ export const authGuard: CanActivateFn = () => {
             }
             break;
         case Role.DATA_SCIENTIST:
-            if(!path.includes('parameter-management') && !path.includes('model-management') && !path.includes('deployment-management')){
+            if(!path.includes('parameter-management') && !path.includes('model-management') && !path.includes('deployment-management') && !path.includes('learning-process-management')){
                 router.navigate(['/login']);
                 return false;
             }
