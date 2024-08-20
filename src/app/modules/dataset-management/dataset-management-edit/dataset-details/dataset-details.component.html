@@ -66,44 +66,6 @@
                     </p-dropdown>
                 </div>
                 <div class="col-2 flex align-items-center mt-4">
-                    <label class="text-900 font-medium" for="population">{{'DatasetManagement.Population' | translate}}</label>
-                </div>
-                <div class="col-10 text-900 flex-grow-1 align-items-center mt-4">
-                    <p-dropdown
-                            [style]="{'width':'100%'}"
-                            [options]="populations"
-                            formControlName="population"
-                            optionLabel="populationUrl"
-                            placeholder="{{'DatasetManagement.SelectPopulation' | translate}}"
-                            class="form-control">
-                        <ng-template let-population pTemplate="selectedItem">
-                            <span>{{ population ? population.populationUrl : '' }}</span>
-                        </ng-template>
-                        <ng-template let-population pTemplate="item">
-                            <span>{{ population.populationUrl }}</span>
-                        </ng-template>
-                    </p-dropdown>
-                </div>
-                <div class="col-2 flex align-items-center mt-4">
-                    <label class="text-900 font-medium" for="organization">{{'DatasetManagement.Organization' | translate}}</label>
-                </div>
-                <div class="col-10 text-900 flex-grow-1 align-items-center p-fluid mt-4">
-                    <p-dropdown
-                            [style]="{'width':'100%'}"
-                            [options]="organizations"
-                            formControlName="organization"
-                            optionLabel="name"
-                            placeholder="{{'DatasetManagement.SelectOrganization' | translate}}"
-                            class="form-control">
-                        <ng-template let-organization pTemplate="selectedItem">
-                            <span>{{ organization ? organization.name : '' }}</span>
-                        </ng-template>
-                        <ng-template let-organization pTemplate="item">
-                            <span>{{ organization.name }}</span>
-                        </ng-template>
-                    </p-dropdown>
-                </div>
-                <div class="col-2 flex align-items-center mt-4">
                     <label class="text-900 font-medium" for="numOfRecords">{{'DatasetManagement.NumOfRecords' | translate}}</label>
                 </div>
                 <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
