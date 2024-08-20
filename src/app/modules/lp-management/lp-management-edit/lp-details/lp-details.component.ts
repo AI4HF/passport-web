@@ -59,8 +59,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
     }
 
     /**
-     * Loads the Learning Process and its Implementation details by id if entity is being edited.
-     * Method used to properly access the learning process details upon opening update steps.
+     * Loads the Learning Process and its Implementation details by Learning Process ID if the entity is being edited.
      */
     loadLearningProcess(id: number) {
         this.learningProcessService.getLearningProcessById(id).pipe(takeUntil(this.destroy$)).subscribe({
