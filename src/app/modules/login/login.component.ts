@@ -53,6 +53,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
         const token = StorageUtil.retrieveToken();
         if (token) {
             this.navigateAccordingToRole();
+        }else{
+            this.roleService.clearRole();
         }
     }
 

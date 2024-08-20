@@ -1,10 +1,9 @@
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import {StorageUtil} from "../services/storageUtil.service";
-import {RoleService} from "../services/role.service";
 
 /**
  * An HTTP interceptor which sets up all requests' Authorization headers and logouts if there is an Unauthorized check.
@@ -35,8 +34,6 @@ export class AuthInterceptor implements HttpInterceptor {
             catchError((error: HttpErrorResponse) => {
                 if (error.status === 401) {
                     StorageUtil.removeToken();
-                    const roleService = inject(RoleService);
-                    roleService.clearRole();
                     StorageUtil.removeUserId();
                     StorageUtil.removeOrganizationName();
                     StorageUtil.removeOrganizationId();
