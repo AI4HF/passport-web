@@ -34,20 +34,19 @@ export class PopulationDetailsComponent extends BaseComponent implements OnInit{
         this.populationService.getPopulationByStudyId(+params.get('id')).pipe(takeUntil(this.destroy$))
             .subscribe({
               next: population => {
-                this.selectedPopulation = population;
+                if(!population.populationId){
+                  this.selectedPopulation = new Population({populationId: 0, studyId: +params.get('id')});
+                }else{
+                  this.selectedPopulation = population;
+                }
                 this.initializeForm();
               },
               error: (error: any) => {
-                if(error.status === 404){
-                  this.selectedPopulation = new Population({populationId: 0, studyId: +params.get('id')});
-                  this.initializeForm();
-                }else{
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
-                  });
-                }
+                this.messageService.add({
+                  severity: 'error',
+                  summary: this.translateService.instant('Error'),
+                  detail: error.message
+                });
               }
             });
       },
@@ -83,8 +82,8 @@ export class PopulationDetailsComponent extends BaseComponent implements OnInit{
    * Save population details
    */
   save(){
-    if(this.selectedPopulation.populationId === 0){
-      const newPopulation: Population = new Population({ studyId: this.selectedPopulation.studyId, ...this.populationForm.value});
+    if(!this.selectedPopulation.populationId){
+      const newPopulation: Population = new Population({ ...this.populationForm.value, studyId: this.selectedPopulation.studyId });
       this.populationService.createPopulation(newPopulation)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
