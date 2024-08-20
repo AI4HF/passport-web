@@ -59,7 +59,7 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
             this.loadDatasetById();
         } else {
             this.learningProcessDataset = new LearningProcessDataset({ learningProcessId: this.learningProcessId });
-            this.loadLearningDatasets(); // Only load datasets if not in update mode
+            this.loadLearningDatasets();
         }
     }
 

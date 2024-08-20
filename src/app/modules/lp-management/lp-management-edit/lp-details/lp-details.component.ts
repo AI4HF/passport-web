@@ -29,9 +29,6 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
     /** List of algorithms */
     algorithms: Algorithm[] = [];
 
-    /** The selected algorithm */
-    selectedAlgorithm: Algorithm;
-
     /** Flag to indicate if the form is in edit mode */
     isEditMode: boolean = false;
 
@@ -63,6 +60,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
 
     /**
      * Loads the Learning Process and its Implementation details by id if entity is being edited.
+     * Method used to properly access the learning process details upon opening update steps.
      */
     loadLearningProcess(id: number) {
         this.learningProcessService.getLearningProcessById(id).pipe(takeUntil(this.destroy$)).subscribe({
