@@ -1,8 +1,10 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from '../../../../../shared/components/base.component';
-import { LearningProcessDataset } from '../../../../../shared/models/learningProcessDataset.model';
 import { LearningDataset } from '../../../../../shared/models/learningDataset.model';
 import { takeUntil } from 'rxjs';
+import {
+    LearningProcessDatasetWithDescriptionModel
+} from "../../../../../shared/models/learningProcessDatasetWithDescription.model";
 
 /**
  * Component for managing and displaying the learning process datasets assignment table.
@@ -18,7 +20,7 @@ export class LpDatasetTableComponent extends BaseComponent implements OnInit {
     learningProcessId: number;
 
     /** List of learning process datasets with descriptions */
-    learningProcessDatasetsWithDescriptions: Array<{ description: string, learningDatasetDescription: string, learningProcessDataset: LearningProcessDataset }> = [];
+    learningProcessDatasetsWithDescriptions: Array<LearningProcessDatasetWithDescriptionModel> = [];
 
     /** List of all learning datasets */
     learningDatasets: LearningDataset[] = [];
@@ -88,11 +90,7 @@ export class LpDatasetTableComponent extends BaseComponent implements OnInit {
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningProcessDatasets => {
-                    this.learningProcessDatasetsWithDescriptions = learningProcessDatasets.map(lpd => ({
-                        description: lpd.description,
-                        learningDatasetDescription: this.getLearningDatasetDescription(lpd.learningDatasetId),
-                        learningProcessDataset: lpd
-                    }));
+                    this.learningProcessDatasetsWithDescriptions = learningProcessDatasets.map(lpd => new LearningProcessDatasetWithDescriptionModel(lpd, this.getLearningDatasetDescription(lpd.learningDatasetId), lpd.description));
                     this.loading = false;
                 },
                 error: error => {
