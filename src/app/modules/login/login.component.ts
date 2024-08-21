@@ -55,6 +55,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
             this.navigateAccordingToRole();
         }else{
             this.roleService.clearRole();
+            this.activeStudyService.clearActiveStudy();
+            this.activeStudyService.clearStudies();
         }
     }
 
