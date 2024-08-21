@@ -1,15 +1,5 @@
 <div class="flex-grow w-full">
-    <div class="card p-3 mb-5">
-        <p-dropdown
-                (onChange)="loadModelsByStudyId($event.value)"
-                [options]="studies"
-                [(ngModel)]="this.selectedStudyId"
-                optionLabel="name"
-                optionValue="id"
-                [style]="{'minWidth':'100%'}"
-                placeholder="{{ 'ModelManagement.Select a study' | translate }}"
-        ></p-dropdown>
-    </div>
+    <app-selected-study-dropdown (onChangeStudy)="loadModelsByStudyId($event)"></app-selected-study-dropdown>
     <div *ngIf="!this.loading" class="card p-3">
         <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
             <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'ModelManagement.Model Management' | translate }}</div>

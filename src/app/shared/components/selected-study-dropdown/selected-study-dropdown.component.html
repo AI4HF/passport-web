@@ -1,0 +1,11 @@
+<div class="card p-3 mb-5">
+    <p-dropdown
+            (onChange)="changeStudy($event.value)"
+            [options]="studies"
+            [(ngModel)]="this.selectedStudyId"
+            optionLabel="name"
+            optionValue="id"
+            [style]="{'minWidth':'100%'}"
+            placeholder="{{ 'ModelManagement.Select a study' | translate }}"
+    ></p-dropdown>
+</div>

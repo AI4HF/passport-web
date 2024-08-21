@@ -15,6 +15,9 @@ import {TranslateModule} from "@ngx-translate/core";
 import {DropdownModule} from "primeng/dropdown";
 import {PaginatorModule} from "primeng/paginator";
 import {ReactiveFormsModule} from "@angular/forms";
+import {
+    SelectedStudyDropdownModule
+} from "../../../shared/components/selected-study-dropdown/selected-study-dropdown.module";
 
 
 
@@ -34,7 +37,8 @@ import {ReactiveFormsModule} from "@angular/forms";
         ModelManagementFormModule,
         DropdownModule,
         PaginatorModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        SelectedStudyDropdownModule
     ],
   exports: [ModelManagementTableComponent]
 })
