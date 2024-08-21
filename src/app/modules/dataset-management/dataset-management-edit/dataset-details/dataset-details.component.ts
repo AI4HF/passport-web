@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from "../../../../shared/components/base.component";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { takeUntil, forkJoin } from "rxjs";
+import { takeUntil } from "rxjs";
 import { Dataset } from "../../../../shared/models/dataset.model";
 import { DatasetManagementRoutingModule } from "../../dataset-management-routing.module";
 
@@ -94,7 +94,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
      * Loads the dropdown options for feature sets, populations, and organizations.
      */
     loadDropdowns() {
-        this.featureSetService.getAllFeatureSets().pipe(takeUntil(this.destroy$)).subscribe({
+        this.featureSetService.getAllFeatureSetsByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$)).subscribe({
             next: (featuresets) => {
                 this.featuresets = featuresets;
                 if (this.isEditMode) {
