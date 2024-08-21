@@ -86,7 +86,7 @@ export class LsCreationTableComponent extends BaseComponent implements OnInit {
      * Loads all datasets and maps them by their ID.
      */
     loadDatasets() {
-        this.datasetService.getAllDatasets().pipe(takeUntil(this.destroy$))
+        this.datasetService.getAllDatasetsByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: datasets => {
                     datasets.forEach(dataset => {

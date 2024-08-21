@@ -21,11 +21,12 @@ export class DatasetService {
     }
 
     /**
-     * Retrieves all datasets
+     * Retrieves all datasets by studyId
+     * @param studyId Id of the study
      * @return {Observable<Dataset[]>}
      */
-    getAllDatasets(): Observable<Dataset[]> {
-        const url = `${this.endpoint}`;
+    getAllDatasetsByStudyId(studyId: number): Observable<Dataset[]> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.get<Dataset[]>(url)
             .pipe(
                 map((response: any) => {
