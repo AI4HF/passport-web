@@ -46,10 +46,14 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
    * Initializes the component.
    */
   ngOnInit() {
-    this.studyPersonnelService.getStudiesByPersonnelId().pipe(takeUntil(this.destroy$))
+    this.activeStudyService.fetchStudies().pipe(takeUntil(this.destroy$))
         .subscribe({
           next: studies => {
             this.studies = studies.map(study => new Study(study));
+            if(this.activeStudyService.getActiveStudy()){
+              this.selectedStudyId = this.activeStudyService.getActiveStudy().id;
+              this.loadModelsByStudyId(this.activeStudyService.getActiveStudy().id);
+            }
           },
           error: (error: any) => {
             this.messageService.add({
@@ -67,8 +71,9 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
    * @param studyId ID of the study
    */
   loadModelsByStudyId(studyId: number) {
-    this.selectedStudyId = studyId;
-    this.modelService.getModelsByStudyId(studyId).pipe(takeUntil(this.destroy$))
+    this.activeStudyService.setActiveStudy(studyId);
+    this.selectedStudyId = this.activeStudyService.getActiveStudy().id;
+    this.modelService.getModelsByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: models => {
             this.modelList = models.map(model => new Model(model));
@@ -144,7 +149,7 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
   onFormClosed() {
     this.selectedModelId = null;
     this.displayForm = false;
-    this.loadModelsByStudyId(this.selectedStudyId);
+    this.loadModelsByStudyId(this.activeStudyService.getActiveStudy().id);
   }
 
 }

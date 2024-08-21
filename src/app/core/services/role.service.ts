@@ -13,6 +13,9 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 })
 export class RoleService {
 
+    /**
+     * Role of the personnel
+     */
     role: BehaviorSubject<Role> = new BehaviorSubject(null);
 
     constructor(private injector: Injector) {

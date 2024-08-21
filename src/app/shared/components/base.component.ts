@@ -33,6 +33,7 @@ import {LearningProcessParameterService} from "../../core/services/learning-proc
 import {LearningStageService} from "../../core/services/learning-stage.service";
 import {LearningStageParameterService} from "../../core/services/learning-stage-parameter.service";
 import {RoleService} from "../../core/services/role.service";
+import {ActiveStudyService} from "../../core/services/activeStudy.service";
 
 /**
  * Base component to provide common properties
@@ -85,6 +86,7 @@ export abstract class BaseComponent implements OnDestroy {
   learningStageService: LearningStageService;
   learningStageParameterService: LearningStageParameterService;
   roleService: RoleService;
+  activeStudyService: ActiveStudyService;
 
   constructor(injector: Injector){
     this.router = injector.get(Router);
@@ -121,6 +123,7 @@ export abstract class BaseComponent implements OnDestroy {
     this.studyOrganizationService = injector.get(StudyOrganizationService);
     this.passportService = injector.get(PassportService);
     this.roleService = injector.get(RoleService);
+    this.activeStudyService = injector.get(ActiveStudyService);
   }
 
   /**
