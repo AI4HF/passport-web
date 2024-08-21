@@ -46,7 +46,7 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
    * Initializes the component.
    */
   ngOnInit() {
-    this.studyService.getStudyList().pipe(takeUntil(this.destroy$))
+    this.studyPersonnelService.getStudiesByPersonnelId().pipe(takeUntil(this.destroy$))
         .subscribe({
           next: studies => {
             this.studies = studies.map(study => new Study(study));
