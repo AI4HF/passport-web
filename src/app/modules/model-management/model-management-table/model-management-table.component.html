@@ -3,6 +3,7 @@
         <p-dropdown
                 (onChange)="loadModelsByStudyId($event.value)"
                 [options]="studies"
+                [(ngModel)]="this.selectedStudyId"
                 optionLabel="name"
                 optionValue="id"
                 [style]="{'minWidth':'100%'}"
@@ -74,4 +75,4 @@
         </p-table>
     </div>
 </div>
-<app-model-management-form *ngIf="this.displayForm" [selectedStudyId]="selectedStudyId" [modelId]="selectedModelId" (formClosed)="onFormClosed()"></app-model-management-form>
+<app-model-management-form *ngIf="this.displayForm" [modelId]="selectedModelId" (formClosed)="onFormClosed()"></app-model-management-form>

@@ -16,11 +16,8 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
 
   /** The ID of the model to be edited */
   @Input() modelId: number;
-  /** The ID of the selected study */
-  @Input() selectedStudyId: number;
   /** Event emitted when the form is closed */
   @Output() formClosed = new EventEmitter<void>();
-
   /** The selected model */
   selectedModel: Model;
   /** Form group for model form controls */
@@ -97,7 +94,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
    */
   saveModel() {
     if(!this.selectedModel.modelId){
-      const newModel: Model = new Model({studyId: this.selectedStudyId, ...this.modelForm.value});
+      const newModel: Model = new Model({studyId: this.activeStudyService.getActiveStudy().id, ...this.modelForm.value});
       this.modelService.createModel(newModel)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
@@ -122,7 +119,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
             }
           });
     }else{
-      const updatedModel: Model = new Model({studyId: this.selectedStudyId ,modelId: this.selectedModel.modelId, ...this.modelForm.value});
+      const updatedModel: Model = new Model({studyId: this.activeStudyService.getActiveStudy().id, modelId: this.selectedModel.modelId, ...this.modelForm.value});
       this.modelService.updateModel(updatedModel)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
