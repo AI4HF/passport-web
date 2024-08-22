@@ -65,7 +65,7 @@ export class LpDatasetTableComponent extends BaseComponent implements OnInit {
      * Loads the learning datasets and then loads the learning process datasets.
      */
     loadLearningDatasets() {
-        this.learningDatasetService.getAllLearningDatasets().pipe(takeUntil(this.destroy$))
+        this.learningDatasetService.getAllLearningDatasetsByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: datasets => {
                     this.learningDatasets = datasets;
