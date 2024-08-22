@@ -269,7 +269,8 @@
     "Create Model": "Create Model",
     "Edit Model": "Edit Model",
     "Delete Model": "Delete Model",
-    "Model is deleted successfully": "Model is deleted successfully"
+    "Model is deleted successfully": "Model is deleted successfully",
+    "SelectLearningProcess": "Select Learning Process"
   },
   "DeploymentManagement": {
     "Deployments": "Deployments",

@@ -1,6 +1,20 @@
 <p-dialog [(visible)]="display" [modal]="true" header="{{ 'ModelManagement.Model Form' | translate }}" (onHide)="closeDialog()"
           [style]="{width: '80rem'}">
     <form *ngIf="display" (ngSubmit)="saveModel()" [formGroup]="modelForm">
+        <div class="p-field p-col-12 p-md-12 mt-2">
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-globe"></i>
+                        <p-dropdown
+                                [style]="{'width':'100%'}"
+                                [options]="learningProcess"
+                                formControlName="learningProcessId"
+                                optionValue="learningProcessId"
+                                optionLabel="description"
+                                placeholder="{{'ModelManagement.SelectLearningProcess' | translate}}"
+                                class="form-control">
+                        </p-dropdown>
+                    </span>
+        </div>
         <div class="form-grid grid p-p-md-2">
             <div class="field col">
                 <div class="p-field p-col-12 p-md-6">
