@@ -20,19 +20,6 @@
                         <p-autoComplete styleClass="w-full" [inputStyle]="{'width':'100%'}" (completeMethod)="filterCategory($event)" [forceSelection]="false" [suggestions]="filteredCategories" formControlName="category" placeholder="{{ 'SurveyManagement.Select or enter a category' | translate }}"></p-autoComplete>
                     </span>
                 </div>
-                <div *ngIf="!isUpdateMode" class="p-field p-col-12 p-md-12">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-briefcase"></i>
-                        <p-dropdown
-                                [style]="{'width':'100%'}"
-                                [options]="studies"
-                                formControlName="study"
-                                optionLabel="name"
-                                class="w-full"
-                                placeholder="{{ 'SurveyManagement.Select a study' | translate }}">
-                        </p-dropdown>
-                    </span>
-                </div>
             </div>
         </div>
         <div class="flex justify-content-between">

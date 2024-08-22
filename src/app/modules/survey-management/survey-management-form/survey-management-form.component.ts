@@ -25,8 +25,6 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
     surveyForm: FormGroup;
     /** Flag indicating that dialog is visible */
     display = false;
-    /** List of studies for the dropdown */
-    studies: any[] = [];
     /** List of predefined categories */
     categories: any[] = [
         {label: 'Testing', value: 'Testing'},
@@ -35,8 +33,6 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
     ];
     /** Filtered categories for autocomplete */
     filteredCategories: string[] = [];
-    /** Flag indicating if the form is in update mode */
-    isUpdateMode: boolean = false;
 
     /**
      * Constructor to inject dependencies.
@@ -52,61 +48,30 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
      * Initializes the component.
      */
     ngOnInit() {
-        this.loadStudies();
-    }
-
-    /**
-     * Loads the list of studies.
-     */
-    loadStudies() {
-        this.studyService.getStudyList().pipe(takeUntil(this.destroy$)).subscribe({
-            next: studies => {
-                this.studies = studies.map(study => ({ id: study.id, name: study.name }));
-                if (this.studies.length === 0 && !this.surveyId) {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: this.translateService.instant('No studies available')
-                    });
-                    this.closeDialog();
-                } else {
-                    this.loadSurvey();
-                }
-            },
-            error: error => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+        if(this.surveyId){
+            this.surveyService.getSurveyById(this.surveyId).pipe(takeUntil(this.destroy$))
+                .subscribe({
+                    next: survey => {
+                        this.selectedSurvey = survey;
+                        this.initializeForm();
+                    },
+                    error: error => {
+                        if(error.status === 404) {
+                            this.selectedSurvey = new Survey({});
+                        }
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: this.translateService.instant('Error'),
+                            detail: error.message
+                        });
+                    }
                 });
-            }
-        });
-    }
-
-    /**
-     * Loads the survey details if a survey ID is provided.
-     */
-    loadSurvey() {
-        if (this.surveyId) {
-            this.isUpdateMode = true;
-            this.surveyService.getSurveyById(this.surveyId).pipe(takeUntil(this.destroy$)).subscribe({
-                next: survey => {
-                    this.selectedSurvey = new Survey(survey);
-                    this.initializeForm();
-                },
-                error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
-                    });
-                }
-            });
-        } else {
+        }else{
             this.selectedSurvey = new Survey({});
             this.initializeForm();
         }
     }
+
 
     /**
      * Initializes the form group.
@@ -115,8 +80,7 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
         this.surveyForm = new FormGroup({
             question: new FormControl(this.selectedSurvey.question, Validators.required),
             answer: new FormControl(this.selectedSurvey.answer, Validators.required),
-            category: new FormControl(this.selectedSurvey.category, Validators.required),
-            study: new FormControl(this.selectedSurvey.studyId, Validators.required)
+            category: new FormControl(this.selectedSurvey.category, Validators.required)
         });
         this.display = true;
     }
@@ -130,7 +94,7 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
         const surveyData = {
             ...formValue,
             category: categoryValue,
-            studyId: formValue.study.id
+            studyId: this.activeStudyService.getActiveStudy().id
         };
 
         if (!this.selectedSurvey.surveyId) {
