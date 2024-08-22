@@ -58,7 +58,7 @@ export class PassportManagementFormComponent extends BaseComponent implements On
      */
     loadData() {
         forkJoin([
-            this.modelDeploymentService.getModelDeploymentList().pipe(takeUntil(this.destroy$)),
+            this.modelDeploymentService.getModelDeploymentListByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$)),
             this.modelService.getModelList().pipe(takeUntil(this.destroy$))
         ]).subscribe({
             next: ([modelDeployments, models]) => {
