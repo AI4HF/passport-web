@@ -139,6 +139,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
     return personnelList.filter(allPersonnelElement =>
         !assignedPersonnelList.some(assignedPersonnelElement =>
             assignedPersonnelElement.personId === allPersonnelElement.personId))
+        .filter(personnelElement => this.allowedRoles.some(allowedRole => allowedRole.value === personnelElement.role))
         .map(personnel => new Personnel(personnel));
   }
 
@@ -185,13 +186,6 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   }
 
   /**
-   * Check personnel whether it is in the target list
-   */
-  isPersonnelInTarget(personnel: Personnel): boolean {
-    return this.targetPersonnelList.includes(personnel);
-  }
-
-  /**
    * Select an organization from dropdown menu
    * @param organizationId The ID of the organization
    */
@@ -201,7 +195,6 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
     this.selectedRoles = [];
     this.allowedRoles = [];
     this.fetchOrganizationPersonnel(organizationId);
-    this.fetchPersonnelAndAssignmentLists(this.studyId, organizationId);
 
     this.studyOrganizationService.getStudyOrganizationByStudyIdAndOrganizationId(this.studyId, organizationId).pipe(takeUntil(this.destroy$)).subscribe({
       next: response => {
@@ -209,6 +202,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
         this.selectedResponsiblePersonnelId = this.selectedStudyOrganization.personnelId;
         this.selectedRoles = this.selectedStudyOrganization.roles;
         this.allowedRoles = this.roles.filter(role => this.selectedRoles.includes(role.value));
+        this.fetchPersonnelAndAssignmentLists(this.studyId, organizationId);
       },
       error: error => {
         if(error.status === 404) {
@@ -299,6 +293,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
           this.selectedResponsiblePersonnelId = this.selectedStudyOrganization.personnelId;
           this.selectedRoles = this.selectedStudyOrganization.roles;
           this.allowedRoles = this.roles.filter(role => this.selectedRoles.includes(role.value));
+          this.fetchPersonnelAndAssignmentLists(this.studyId, this.selectedStudyOrganization.organizationId);
           this.messageService.add({
             severity: 'success',
             summary: this.translateService.instant('Success'),
@@ -322,5 +317,13 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   private setRolesAndResponsiblePerson(){
     this.selectedStudyOrganization.personnelId = this.selectedResponsiblePersonnelId;
     this.selectedStudyOrganization.roles = this.selectedRoles.map((role: string) => Role[role as keyof typeof Role]);
+  }
+
+  /**
+   * Convert personnel role into readable form
+   * @param RoleValue The value of the role
+   */
+  public convertPersonnelRoleValueToName(RoleValue: string){
+    return this.roles.find(role => role.value === RoleValue).name;
   }
 }
