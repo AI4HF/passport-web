@@ -78,7 +78,7 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
      * Only executed when creating a new entry, not during updates.
      */
     loadLearningDatasets() {
-        this.learningDatasetService.getAllLearningDatasets().pipe(takeUntil(this.destroy$))
+        this.learningDatasetService.getAllLearningDatasetsByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: datasets => {
                     this.learningDatasets = datasets;

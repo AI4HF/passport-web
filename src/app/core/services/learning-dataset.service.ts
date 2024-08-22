@@ -23,11 +23,12 @@ export class LearningDatasetService {
     }
 
     /**
-     * Retrieves all learning datasets
+     * Retrieves all learning datasets by studyId
+     * @param studyId The ID of the study
      * @return {Observable<LearningDataset[]>}
      */
-    getAllLearningDatasets(): Observable<LearningDataset[]> {
-        const url = `${this.endpoint}`;
+    getAllLearningDatasetsByStudyId(studyId: number): Observable<LearningDataset[]> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.get<LearningDataset[]>(url)
             .pipe(
                 map((response: any) => {

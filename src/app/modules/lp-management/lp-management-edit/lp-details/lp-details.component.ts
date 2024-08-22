@@ -221,7 +221,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         };
 
         if (!this.selectedLearningProcess.learningProcessId) {
-            const newLearningProcess: LearningProcess = new LearningProcess({ ...learningProcessPayload });
+            const newLearningProcess: LearningProcess = new LearningProcess({ studyId: this.activeStudyService.getActiveStudy().id, ...learningProcessPayload });
             this.learningProcessService.createLearningProcess(newLearningProcess)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({

@@ -20,11 +20,12 @@ export class LearningProcessService {
     }
 
     /**
-     * Retrieves all learning processes
+     * Retrieves all learning processes by studyId
+     * @param studyId Id of the study
      * @return {Observable<LearningProcess[]>}
      */
-    getAllLearningProcesses(): Observable<LearningProcess[]> {
-        const url = `${this.endpoint}`;
+    getAllLearningProcessesByStudyId(studyId: number): Observable<LearningProcess[]> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.get<LearningProcess[]>(url)
             .pipe(
                 map((response: any) => {
