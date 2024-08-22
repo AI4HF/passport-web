@@ -36,9 +36,15 @@ export class AppProfileComponent extends BaseComponent implements DoCheck, OnIni
     ngDoCheck() {
         if(StorageUtil.retrievePersonnelName()){
             this.personnelName = StorageUtil.retrievePersonnelName();
+            if(this.personnelName === 'undefined'){
+                this.personnelName = 'Organization';
+            }
         }
         if(StorageUtil.retrievePersonnelSurname()){
             this.personnelSurname = StorageUtil.retrievePersonnelSurname();
+            if(this.personnelSurname === 'undefined'){
+                this.personnelSurname = 'Admin';
+            }
         }
         if(StorageUtil.retrieveOrganizationName()){
             this.organizationName = StorageUtil.retrieveOrganizationName();

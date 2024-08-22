@@ -1,5 +1,6 @@
-<div class="col-12">
-  <div class="card p-3">
+<div class="flex-grow w-full">
+  <app-selected-study-dropdown (onChangeStudy)="loadSurveys($event)"></app-selected-study-dropdown>
+  <div *ngIf="!this.loading" class="card p-3">
     <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
       <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'SurveyManagement.Survey Management' | translate }}</div>
       <div class="inline-flex align-items-center">
@@ -29,10 +30,6 @@
             {{ 'SurveyManagement.Category' | translate }}
             <p-sortIcon [field]="'category'"></p-sortIcon>
           </th>
-          <th [pSortableColumn]="'studyName'" class="white-space-nowrap min-width-10rem">
-            {{ 'SurveyManagement.Study' | translate }}
-            <p-sortIcon [field]="'studyName'"></p-sortIcon>
-          </th>
           <th>
             {{ 'Actions' | translate }}
           </th>
@@ -51,9 +48,6 @@
           </td>
           <td class="cursor-pointer">
             <span>{{ survey.category }}</span>
-          </td>
-          <td class="cursor-pointer">
-            <span>{{ survey.studyName }}</span>
           </td>
           <td>
             <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="editQuestion(survey)" pTooltip="{{ 'SurveyManagement.Edit Question' | translate }}" tooltipPosition="bottom"></button>
