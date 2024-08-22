@@ -73,16 +73,7 @@
                         </span>
                     </div>
                     <div class="role flex z-2 justify-content-end">
-                        <p-dropdown
-                                [options]="allowedRoles"
-                                [(ngModel)]="personnel.role"
-                                optionLabel="name"
-                                optionValue="value"
-                                appendTo="body"
-                                [showClear]="true"
-                                placeholder="{{'StudyManagement.Personnel.Select a role' | translate}}"
-                                [disabled]="!isPersonnelInTarget(personnel)"
-                        />
+                        <span>{{ convertPersonnelRoleValueToName(personnel.role) }}</span>
                     </div>
                 </div>
         </ng-template>
