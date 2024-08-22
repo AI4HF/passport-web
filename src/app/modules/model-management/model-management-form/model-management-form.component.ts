@@ -3,6 +3,7 @@ import {BaseComponent} from "../../../shared/components/base.component";
 import {Model} from "../../../shared/models/model.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {takeUntil} from "rxjs/operators";
+import {LearningProcess} from "../../../shared/models/learningProcess.model";
 
 /**
  * Component for creating or updating model.
@@ -22,6 +23,8 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
   selectedModel: Model;
   /** Form group for model form controls */
   modelForm: FormGroup;
+  /** List of learning process */
+  learningProcess: LearningProcess[] = [];
   /** flag indicating that dialog is visible */
   display = false;
 
@@ -49,7 +52,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
           .subscribe({
             next: model => {
               this.selectedModel = new Model(model);
-              this.initializeForm();
+              this.loadLearningProcess();
             },
             error: (error: any) => {
               this.messageService.add({
@@ -61,8 +64,28 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
           });
     } else {
       this.selectedModel = new Model({});
-      this.initializeForm();
+      this.loadLearningProcess();
     }
+  }
+
+  /**
+   * Loads the learning process to populate the dropdown.
+   */
+  loadLearningProcess() {
+    this.learningProcessService.getAllLearningProcessesByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: learningProcess => {
+            this.learningProcess = learningProcess;
+            this.initializeForm();
+          },
+          error: error => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translateService.instant('Error'),
+              detail: error.message
+            });
+          }
+        });
   }
 
   /**
@@ -70,7 +93,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
    */
   initializeForm() {
     this.modelForm = new FormGroup({
-      learningProcessId: new FormControl(1, Validators.required),
+      learningProcessId: new FormControl(this.selectedModel.learningProcessId, Validators.required),
       name: new FormControl(this.selectedModel.name, Validators.required),
       version: new FormControl(this.selectedModel.version, Validators.required),
       tag: new FormControl(this.selectedModel.tag, Validators.required),
@@ -100,7 +123,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
           .subscribe({
             next: model => {
               this.selectedModel = model;
-              this.initializeForm();
+              this.loadLearningProcess();
               this.messageService.add({
                 severity: 'success',
                 summary: this.translateService.instant('Success'),
@@ -125,7 +148,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
           .subscribe({
             next: (model: Model) => {
               this.selectedModel = model;
-              this.initializeForm();
+              this.loadLearningProcess();
               this.messageService.add({
                 severity: 'success',
                 summary: this.translateService.instant('Success'),
