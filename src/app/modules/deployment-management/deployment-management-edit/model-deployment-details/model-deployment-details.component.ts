@@ -75,7 +75,7 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
    * Fetches the model options from the service.
    */
   fetchModels() {
-    this.modelService.getModelList().pipe(takeUntil(this.destroy$)).subscribe({
+    this.modelService.getModelsByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$)).subscribe({
       next: models => {
         this.modelList = models;
       },

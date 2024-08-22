@@ -21,11 +21,12 @@ export class ModelDeploymentService {
   }
 
   /**
-   * Retrieves all model deployments
+   * Retrieves all model deployments by studyId
+   * @param studyId The ID of the study
    * @return {Observable<ModelDeployment[]>}
    */
-  getModelDeploymentList(): Observable<ModelDeployment[]> {
-    const url = `${this.endpoint}`;
+  getModelDeploymentListByStudyId(studyId: number): Observable<ModelDeployment[]> {
+    const url = `${this.endpoint}?studyId=${studyId}`;
     return this.httpClient.get<ModelDeployment[]>(url)
         .pipe(
             map((response: any) =>{
@@ -49,7 +50,11 @@ export class ModelDeploymentService {
         return this.httpClient.get<ModelDeployment>(url)
             .pipe(
                 map((response: any) =>{
-                    return new ModelDeployment(response[0]);
+                    if(response.length === 0){
+                        return new ModelDeployment({ deploymentId: 0 });
+                    }else{
+                        return new ModelDeployment(response[0]);
+                    }
                 }),
                 catchError((error) => {
                     if (error.status === 404) {
