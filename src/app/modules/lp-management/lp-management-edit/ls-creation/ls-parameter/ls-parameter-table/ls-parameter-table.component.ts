@@ -93,7 +93,7 @@ export class LsParameterTableComponent extends BaseComponent implements OnInit {
      * Loads the parameters associated with the assignments.
      */
     loadParameters() {
-        this.parameterService.getAllParameters().pipe(takeUntil(this.destroy$))
+        this.parameterService.getAllParametersByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: parameters => {
                     parameters.forEach(param => this.parameters[param.parameterId] = param);

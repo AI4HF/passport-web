@@ -79,7 +79,7 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
      * Only executed when creating a new entry, not during updates.
      */
     loadParameters() {
-        this.parameterService.getAllParameters().pipe(takeUntil(this.destroy$))
+        this.parameterService.getAllParametersByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: parameters => {
                     this.parameters = parameters;

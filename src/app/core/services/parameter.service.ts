@@ -21,11 +21,12 @@ export class ParameterService {
     }
 
     /**
-     * Retrieves all parameters in database
+     * Retrieves all parameters by studyId in database
+     * @param studyId The ID of the study
      * @return {Observable<Parameter[]>}
      */
-    getAllParameters(): Observable<Parameter[]> {
-        const url = `${this.endpoint}`;
+    getAllParametersByStudyId(studyId: number): Observable<Parameter[]> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.get<Parameter[]>(url)
             .pipe(
                 map((response: any) =>{

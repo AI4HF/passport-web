@@ -85,7 +85,7 @@ export class LpParameterTableComponent extends BaseComponent implements OnInit {
      * Loads all Parameters and maps them to their IDs.
      */
     loadParameters() {
-        this.parameterService.getAllParameters().pipe(takeUntil(this.destroy$))
+        this.parameterService.getAllParametersByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (parameters: Parameter[]) => {
                     parameters.forEach(param => this.parameters[param.parameterId] = param);

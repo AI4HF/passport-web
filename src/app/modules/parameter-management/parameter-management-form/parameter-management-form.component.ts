@@ -59,7 +59,7 @@ export class ParameterManagementFormComponent extends BaseComponent implements O
             }
           });
     } else {
-      this.selectedParameter = new Parameter({});
+      this.selectedParameter = new Parameter({studyId: this.activeStudyService.getActiveStudy().id});
       this.initializeForm();
     }
   }
@@ -81,7 +81,7 @@ export class ParameterManagementFormComponent extends BaseComponent implements O
    */
   saveParameter() {
     if(!this.selectedParameter.parameterId){
-      const newParameter: Parameter = new Parameter({...this.parameterForm.value});
+      const newParameter: Parameter = new Parameter({studyId: this.activeStudyService.getActiveStudy().id, ...this.parameterForm.value});
       this.parameterService.createParameter(newParameter)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
@@ -106,7 +106,7 @@ export class ParameterManagementFormComponent extends BaseComponent implements O
             }
           });
     }else{
-      const updatedParameter: Parameter = new Parameter({parameterId: this.selectedParameter.parameterId, ...this.parameterForm.value});
+      const updatedParameter: Parameter = new Parameter({studyId: this.activeStudyService.getActiveStudy().id, parameterId: this.selectedParameter.parameterId, ...this.parameterForm.value});
       this.parameterService.updateParameter(updatedParameter)
           .pipe(takeUntil(this.destroy$))
           .subscribe({

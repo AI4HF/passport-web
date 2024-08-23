@@ -9,22 +9,26 @@ import {TableModule} from "primeng/table";
 import {TooltipModule} from "primeng/tooltip";
 import {TranslateModule} from "@ngx-translate/core";
 import {ParameterManagementFormModule} from "../parameter-management-form/parameter-management-form.module";
+import {
+    SelectedStudyDropdownModule
+} from "../../../shared/components/selected-study-dropdown/selected-study-dropdown.module";
 
 
 
 @NgModule({
   declarations: [ParameterManagementTableComponent],
-  imports: [
-    CommonModule,
-    ButtonModule,
-    InputTextModule,
-    RippleModule,
-    SharedModule,
-    TableModule,
-    TooltipModule,
-    TranslateModule,
-    ParameterManagementFormModule,
-  ],
+    imports: [
+        CommonModule,
+        ButtonModule,
+        InputTextModule,
+        RippleModule,
+        SharedModule,
+        TableModule,
+        TooltipModule,
+        TranslateModule,
+        ParameterManagementFormModule,
+        SelectedStudyDropdownModule,
+    ],
   exports: [ParameterManagementTableComponent]
 })
 export class ParameterManagementTableModule { }
