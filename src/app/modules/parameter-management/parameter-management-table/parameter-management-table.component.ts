@@ -41,14 +41,17 @@ export class ParameterManagementTableComponent extends BaseComponent implements 
    * Initializes the component.
    */
   ngOnInit() {
-    this.loadParameters();
+    if(this.activeStudyService.getActiveStudy()){
+      this.loadParameters(this.activeStudyService.getActiveStudy().id);
+    }
   }
 
   /**
-   * Loads the list of parameter.
+   * Loads the list of parameter by studyId.
+   * @param studyId The ID of the study
    */
-  loadParameters() {
-    this.parameterService.getAllParameters().pipe(takeUntil(this.destroy$))
+  loadParameters(studyId: number) {
+    this.parameterService.getAllParametersByStudyId(studyId).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: parameters => {
             this.parameterList = parameters.map(parameter => new Parameter(parameter));
@@ -123,6 +126,6 @@ export class ParameterManagementTableComponent extends BaseComponent implements 
   onFormClosed() {
     this.selectedParameterId = null;
     this.displayForm = false;
-    this.loadParameters();
+    this.loadParameters(this.activeStudyService.getActiveStudy().id);
   }
 }
