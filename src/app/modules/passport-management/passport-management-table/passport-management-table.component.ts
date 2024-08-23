@@ -4,6 +4,11 @@ import { forkJoin, of, switchMap, takeUntil } from "rxjs";
 import { ModelWithName } from "../../../shared/models/modelWithName.model";
 import { PassportWithModelName } from "../../../shared/models/passportWithModelName.model";
 import {ModelDeployment} from "../../../shared/models/modelDeployment.model";
+import {DeploymentEnvironment} from "../../../shared/models/deploymentEnvironment.model";
+import {Model} from "../../../shared/models/model.model";
+import {Study} from "../../../shared/models/study.model";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 /**
  * Component to display and manage a list of passports.
@@ -24,6 +29,14 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   passportWithModelNameList: PassportWithModelName[] = [];
   /** All models */
   modelList: ModelWithName[] = [];
+
+  selectedPassportId: number | null = null;
+  deploymentDetails: ModelDeployment | null = null;
+  environmentDetails: DeploymentEnvironment | null = null;
+  modelDetails: Model | null = null;
+  studyDetails: Study | null = null;
+
+  showPdfPreview: boolean = false;
 
   /**
    * Constructor to inject dependencies.
@@ -133,4 +146,65 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     this.displayForm = false;
     this.loadPassports();
   }
+  selectPassportForImport(passportId: number) {
+    this.openPdfPreview();
+    this.selectedPassportId = passportId;
+
+    // Retrieve deployment details based on passport's deploymentId
+    this.passportService.getPassportById(passportId).pipe(
+        switchMap(passport => this.modelDeploymentService.getModelDeploymentById(passport.deploymentId)),
+        switchMap(deployment => {
+          this.deploymentDetails = deployment;
+          return forkJoin([
+            this.deploymentEnvironmentService.getDeploymentEnvironmentById(deployment.environmentId),
+            this.modelService.getModelById(deployment.modelId)
+          ]);
+        }),
+        switchMap(([environment, model]) => {
+          this.environmentDetails = environment;
+          this.modelDetails = model;
+          return this.studyService.getStudyById(model.studyId);
+        }),
+        takeUntil(this.destroy$)
+    ).subscribe({
+      next: (study) => {
+        this.studyDetails = study;
+      },
+      error: error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translateService.instant('Error'),
+          detail: error.message
+        });
+      }
+    });
+  }
+  generatePdf() {
+    const dataElement = document.getElementById('pdfPreviewContainer');
+    if (dataElement) {
+      // Ensure the element is visible
+      html2canvas(dataElement).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('DeploymentDetails.pdf');
+
+        // Hide the modal after exporting
+        this.closePdfPreview();
+      });
+    }
+  }
+
+  openPdfPreview() {
+    this.showPdfPreview = true; // Open the modal
+  }
+
+  closePdfPreview() {
+    this.showPdfPreview = false; // Close the modal
+  }
+
+
 }
