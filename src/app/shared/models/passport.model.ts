@@ -12,6 +12,10 @@ export class Passport{
      */
     deploymentId: number;
 
+    /**
+     * The ID of the Study
+     */
+    studyId: number;
 
     /**
      * The creation date of the Passport
@@ -41,6 +45,7 @@ export class Passport{
 
         this.passportId = data.passportId;
         this.deploymentId = data.deploymentId;
+        this.studyId = data.studyId;
         this.createdAt = data.createdAt;
         this.createdBy = data.createdBy;
         this.approvedAt = data.approvedAt;
