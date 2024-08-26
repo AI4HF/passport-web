@@ -11,6 +11,9 @@ import {PassportManagementTableComponent} from "./passport-management-table.comp
 import {PassportManagementFormModule} from "../passport-management-form/passport-management-form.module";
 import {CardModule} from "primeng/card";
 import {DialogModule} from "primeng/dialog";
+import {
+    SelectedStudyDropdownModule
+} from "../../../shared/components/selected-study-dropdown/selected-study-dropdown.module";
 
 
 
@@ -27,7 +30,8 @@ import {DialogModule} from "primeng/dialog";
         TranslateModule,
         PassportManagementFormModule,
         CardModule,
-        DialogModule
+        DialogModule,
+        SelectedStudyDropdownModule
     ],
     exports: [PassportManagementTableComponent]
 })

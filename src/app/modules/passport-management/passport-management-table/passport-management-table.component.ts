@@ -9,6 +9,10 @@ import {Model} from "../../../shared/models/model.model";
 import {Study} from "../../../shared/models/study.model";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import {Parameter} from "../../../shared/models/parameter.model";
+import {Population} from "../../../shared/models/population.model";
+import {Experiment} from "../../../shared/models/experiment.model";
+import {Survey} from "../../../shared/models/survey.model";
 
 /**
  * Component to display and manage a list of passports.
@@ -35,6 +39,10 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   environmentDetails: DeploymentEnvironment | null = null;
   modelDetails: Model | null = null;
   studyDetails: Study | null = null;
+  parameters: Parameter[] | [] = [];
+  populationDetails: Population | null = null;
+  experiments: Experiment[] | [] = [];
+  surveys: Survey[] | [] = [];
 
   showPdfPreview: boolean = false;
 
@@ -54,15 +62,17 @@ export class PassportManagementTableComponent extends BaseComponent implements O
    * Initializes the component.
    */
   ngOnInit() {
-    this.loadPassports();
+    if(this.activeStudyService.getActiveStudy()){
+      this.loadPassports(this.activeStudyService.getActiveStudy().id);
+    }
   }
 
   /**
    * Loads passports and models data.
    */
-  loadPassports() {
+  loadPassports(studyId: number) {
     forkJoin([
-      this.passportService.getPassportList().pipe(takeUntil(this.destroy$)),
+      this.passportService.getPassportListByStudy(studyId).pipe(takeUntil(this.destroy$)),
       this.modelService.getModelList().pipe(takeUntil(this.destroy$))
     ]).subscribe({
       next: ([passports, models]) => {
@@ -144,31 +154,40 @@ export class PassportManagementTableComponent extends BaseComponent implements O
    */
   onFormClosed() {
     this.displayForm = false;
-    this.loadPassports();
+    this.loadPassports(this.activeStudyService.getActiveStudy().id);
   }
   selectPassportForImport(passportId: number) {
     this.openPdfPreview();
     this.selectedPassportId = passportId;
 
-    // Retrieve deployment details based on passport's deploymentId
     this.passportService.getPassportById(passportId).pipe(
         switchMap(passport => this.modelDeploymentService.getModelDeploymentById(passport.deploymentId)),
         switchMap(deployment => {
           this.deploymentDetails = deployment;
           return forkJoin([
             this.deploymentEnvironmentService.getDeploymentEnvironmentById(deployment.environmentId),
-            this.modelService.getModelById(deployment.modelId)
+            this.modelService.getModelById(deployment.modelId),
           ]);
         }),
         switchMap(([environment, model]) => {
           this.environmentDetails = environment;
           this.modelDetails = model;
-          return this.studyService.getStudyById(model.studyId);
+          return forkJoin([
+            this.studyService.getStudyById(model.studyId),
+            this.parameterService.getAllParametersByStudyId(model.studyId),
+            this.populationService.getPopulationByStudyId(model.studyId),
+            this.surveyService.getSurveysByStudyId(model.studyId),
+            this.experimentService.getExperimentListByStudyId(model.studyId)
+          ]);
         }),
         takeUntil(this.destroy$)
     ).subscribe({
-      next: (study) => {
+      next: ([study, parameters, population, surveys, experiments]) => {
         this.studyDetails = study;
+        this.parameters = parameters.sort((a, b) => b.parameterId - a.parameterId).slice(0, 5);
+        this.populationDetails = population;
+        this.surveys = surveys.sort((a, b) => b.surveyId - a.surveyId).slice(0, 5);
+        this.experiments = experiments.sort((a, b) => b.experimentId - a.experimentId).slice(0, 5);
       },
       error: error => {
         this.messageService.add({
@@ -179,32 +198,55 @@ export class PassportManagementTableComponent extends BaseComponent implements O
       }
     });
   }
+
   generatePdf() {
     const dataElement = document.getElementById('pdfPreviewContainer');
     if (dataElement) {
-      // Ensure the element is visible
-      html2canvas(dataElement).then(canvas => {
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      html2canvas(dataElement, {
+        scrollY: -window.scrollY,
+        scale: 2,
+        windowWidth: dataElement.scrollWidth,
+        windowHeight: dataElement.scrollHeight
+      }).then(canvas => {
         const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
         const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+        heightLeft -= pdfHeight;
+
+        while (heightLeft > 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+          heightLeft -= pdfHeight;
+        }
+
         pdf.save('DeploymentDetails.pdf');
 
-        // Hide the modal after exporting
         this.closePdfPreview();
+      }).catch(error => {
+        console.error('Error generating PDF:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translateService.instant('Error'),
+          detail: this.translateService.instant('PassportManagement.PDF generation failed')
+        });
       });
     }
   }
 
   openPdfPreview() {
-    this.showPdfPreview = true; // Open the modal
+    this.showPdfPreview = true;
   }
 
   closePdfPreview() {
-    this.showPdfPreview = false; // Close the modal
+    this.showPdfPreview = false;
   }
-
-
 }
