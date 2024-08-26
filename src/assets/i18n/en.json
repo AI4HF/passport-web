@@ -329,7 +329,6 @@
     "Model Version": "Model Version",
     "Model Type": "Model Type",
     "Product Identifier": "Product Identifier",
-    "Owner": "Owner",
     "TRL Level": "TRL Level",
     "License": "License",
     "Primary Use": "Primary Use",
@@ -350,7 +349,17 @@
     "Model Details": "Model Details",
     "Study Details": "Study Details",
     "EXPORT": "EXPORT",
-    "CANCEL": "CANCEL"
+    "CANCEL": "CANCEL",
+    "Experiment Details": "Experiment Details",
+    "Parameter Name": "Parameter Name",
+    "Data Type": "Data Type",
+    "Description": "Description",
+    "Population URL": "Population URL",
+    "Characteristics": "Characteristics",
+    "Question": "Question",
+    "Answer": "Answer",
+    "Category": "Category",
+    "Research Question": "Research Question"
   },
   "LearningProcessManagement": {
     "LearningProcesses": "Learning Processes",
