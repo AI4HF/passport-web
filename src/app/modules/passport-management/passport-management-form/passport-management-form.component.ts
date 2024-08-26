@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Injector, Input, OnInit, Output} from '@angular/core';
 import { Passport } from "../../../shared/models/passport.model";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { BaseComponent } from "../../../shared/components/base.component";
@@ -89,7 +89,8 @@ export class PassportManagementFormComponent extends BaseComponent implements On
      * Saves the passport.
      */
     savePassport() {
-        const newPassport: Passport = new Passport({...this.passportForm.value});
+        // @ts-ignore
+        const newPassport: Passport = new Passport({...this.passportForm.value, studyId: this.activeStudyService.getActiveStudy().id});
         this.passportService.createPassport(newPassport)
             .pipe(takeUntil(this.destroy$))
             .subscribe({

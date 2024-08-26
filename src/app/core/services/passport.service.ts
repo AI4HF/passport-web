@@ -25,8 +25,8 @@ export class PassportService {
      * Retrieves all passports
      * @return {Observable<Passport[]>}
      */
-    getPassportList(): Observable<Passport[]> {
-        const url = `${this.endpoint}`;
+    getPassportListByStudy(studyId: number): Observable<Passport[]> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.get<Passport[]>(url)
             .pipe(
                 map((response: any) =>{
