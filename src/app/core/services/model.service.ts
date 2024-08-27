@@ -89,6 +89,7 @@ export class ModelService {
         const url = `${this.endpoint}`;
         model.createdBy = StorageUtil.retrieveUserId();
         model.lastUpdatedBy = StorageUtil.retrieveUserId();
+        model.owner = +StorageUtil.retrieveOrganizationId();
         return this.httpClient.post<Model>(url, model)
             .pipe(
                 map((response: any) =>{
