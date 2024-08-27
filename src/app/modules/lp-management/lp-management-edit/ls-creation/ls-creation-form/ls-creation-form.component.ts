@@ -64,7 +64,12 @@ export class LsCreationFormComponent extends BaseComponent implements OnInit {
         this.form = new FormGroup({
             learningStageName: new FormControl('', Validators.required),
             description: new FormControl('', Validators.required),
-            datasetPercentage: new FormControl('', [Validators.required, Validators.min(1), Validators.max(100)])
+            datasetPercentage: new FormControl('', [
+                Validators.required,
+                Validators.min(0),
+                Validators.max(100),
+                Validators.pattern('^[0-9]+$')
+            ])
         });
     }
 
