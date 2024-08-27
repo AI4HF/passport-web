@@ -34,6 +34,9 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   /** All models */
   modelList: ModelWithName[] = [];
 
+  /**
+   * Passport content to be served during export.
+   */
   selectedPassportId: number | null = null;
   deploymentDetails: ModelDeployment | null = null;
   environmentDetails: DeploymentEnvironment | null = null;
@@ -44,6 +47,9 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   experiments: Experiment[] | [] = [];
   surveys: Survey[] | [] = [];
 
+  /**
+   * Boolean passport preview visibility trigger.
+    */
   showPdfPreview: boolean = false;
 
   /**
@@ -136,7 +142,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
             this.messageService.add({
               severity: 'success',
               summary: this.translateService.instant('Success'),
-              detail: this.translateService.instant('PassportManagement.Passport is deleted successfully')
+              detail: this.translateService.instant('PassportManagement.Deleted')
             });
           },
           error: (error: any) => {
@@ -156,6 +162,11 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     this.displayForm = false;
     this.loadPassports(this.activeStudyService.getActiveStudy().id);
   }
+
+  /**
+   * Handles the content generation for the Passport.
+   * @param passportId Selected Passport's id.
+   */
   selectPassportForImport(passportId: number) {
     this.openPdfPreview();
     this.selectedPassportId = passportId;
@@ -199,6 +210,9 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     });
   }
 
+  /**
+   * Handles the pdf generation from the existing data.
+   */
   generatePdf() {
     const dataElement = document.getElementById('pdfPreviewContainer');
     if (dataElement) {
@@ -242,10 +256,16 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     }
   }
 
+  /**
+   * Boolean trigger for opening pdf preview screen.
+   */
   openPdfPreview() {
     this.showPdfPreview = true;
   }
 
+  /**
+   * Boolean trigger for closing pdf previewscreen.
+   */
   closePdfPreview() {
     this.showPdfPreview = false;
   }

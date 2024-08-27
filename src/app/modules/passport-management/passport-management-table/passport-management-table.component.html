@@ -7,7 +7,7 @@
                 <span class="p-input-icon-left flex-auto mx-2">
                     <i class="pi pi-search"></i>
                     <input (input)="filter(dt, $event)" class="w-full rounded-border" pInputText
-                           placeholder="{{ 'PassportManagement.Search' | translate }}" type="text"/>
+                           placeholder="{{ 'Search' | translate }}" type="text"/>
                 </span>
                 <button (click)="createPassport()" class="p-button-rounded button-secondary mx-2" icon="pi pi-plus"
                         pButton
@@ -47,7 +47,6 @@
                                 pTooltip="{{ 'PassportManagement.Export Passport' | translate }}"
                                 tooltipPosition="bottom"
                                 type="button">
-                            {{ 'PassportManagement.Export Passport' | translate }}
                         </button>
                         <button (click)="deletePassport(passportWithModelName.passport.passportId)"
                                 class="p-button-text p-button-rounded p-ripple" icon="pi pi-trash" pButton
@@ -55,7 +54,6 @@
                                 pTooltip="{{ 'PassportManagement.Delete Passport' | translate }}"
                                 tooltipPosition="bottom"
                                 type="button">
-                            {{ 'PassportManagement.Delete Passport' | translate }}
                         </button>
                     </td>
                 </tr>
@@ -74,16 +72,13 @@
                 <h2 class="text-center">{{ 'PassportManagement.AI4HF Product Passport' | translate }}</h2>
             </div>
 
-            <!-- Data Science Title -->
             <div class="col-12 section-title">
                 <h3>{{ 'PassportManagement.Data Science' | translate }}</h3>
             </div>
 
-            <!-- Data Science Modules -->
             <div class="col-12 section-container">
                 <div class="grid grid-nogutter">
                     <div class="col-6">
-                        <!-- Model Details -->
                         <p-card class="p-0 w-full">
                             <div class="section-title">
                                 <h3>{{ 'PassportManagement.Model Details' | translate }}</h3>
@@ -92,7 +87,7 @@
                                 <div class="col-4 flex align-items-center">
                                     <label class="text-900 font-semibold">{{ 'PassportManagement.Model Name' | translate }}:</label>
                                 </div>
-                                <div class="col-8 text-700 flex align-items-center p-card-content">
+                                <div class="col-8 text-700 flex align-items-center">
                                     <span>{{ modelDetails?.name }}</span>
                                 </div>
                                 <div class="col-4 flex align-items-center">
@@ -202,7 +197,6 @@
                     </div>
 
                     <div class="col-6">
-                        <!-- Model Deployment Details -->
                         <p-card class="p-0 w-full">
                             <div class="section-title">
                                 <h3>{{ 'PassportManagement.Model Deployment Details' | translate }}</h3>
@@ -255,7 +249,6 @@
                     </div>
 
                     <div class="col-6">
-                        <!-- Deployment Environment Details -->
                         <p-card class="p-0 w-full">
                             <div class="section-title">
                                 <h3>{{ 'PassportManagement.Environment Details' | translate }}</h3>
@@ -296,7 +289,6 @@
                     </div>
 
                     <div class="col-6">
-                        <!-- Parameter Details -->
                         <p-card class="p-0 w-full">
                             <div class="section-title">
                                 <h3>{{ 'PassportManagement.Parameter Details' | translate }}</h3>
@@ -305,7 +297,7 @@
                                 <div class="col-4 flex align-items-center">
                                     <label class="text-900 font-semibold">{{ 'PassportManagement.Parameter Name' | translate }}:</label>
                                 </div>
-                                <div class="col-8 text-700 flex align-items-center p-card-content">
+                                <div class="col-8 text-700 flex align-items-center">
                                     <span>{{ parameter.name }}</span>
                                 </div>
                                 <div class="col-4 flex align-items-center">
@@ -329,16 +321,13 @@
                 </div>
             </div>
 
-            <!-- Study Management Title -->
             <div class="col-12 section-title">
                 <h3>{{ 'PassportManagement.Study Management' | translate }}</h3>
             </div>
 
-            <!-- Study Management Modules -->
             <div class="col-12 section-container">
                 <div class="grid grid-nogutter">
                     <div class="col-6">
-                        <!-- Study Details -->
                         <p-card class="p-0 w-full">
                             <div class="section-title">
                                 <h3>{{ 'PassportManagement.Study Details' | translate }}</h3>
@@ -347,7 +336,7 @@
                                 <div class="col-4 flex align-items-center">
                                     <label class="text-900 font-semibold">{{ 'PassportManagement.Study Name' | translate }}:</label>
                                 </div>
-                                <div class="col-8 text-700 flex align-items-center p-card-content">
+                                <div class="col-8 text-700 flex align-items-center">
                                     <span>{{ studyDetails?.name }}</span>
                                 </div>
                                 <div class="col-4 flex align-items-center">
@@ -377,9 +366,7 @@
                             </div>
                         </p-card>
                     </div>
-
                     <div class="col-6">
-                        <!-- Experiment Details -->
                         <p-card class="p-0 w-full">
                             <div class="section-title">
                                 <h3>{{ 'PassportManagement.Experiment Details' | translate }}</h3>
@@ -399,7 +386,6 @@
                     </div>
 
                     <div class="col-6">
-                        <!-- Population Details -->
                         <p-card class="p-0 w-full">
                             <div class="section-title">
                                 <h3>{{ 'PassportManagement.Population Details' | translate }}</h3>
@@ -428,7 +414,7 @@
                     </div>
 
                     <div class="col-6">
-                        <!-- Survey Details -->
+                        <
                         <p-card class="p-0 w-full">
                             <div class="section-title">
                                 <h3>{{ 'PassportManagement.Survey Details' | translate }}</h3>

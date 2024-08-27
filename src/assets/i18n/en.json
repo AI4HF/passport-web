@@ -359,7 +359,16 @@
     "Question": "Question",
     "Answer": "Answer",
     "Category": "Category",
-    "Research Question": "Research Question"
+    "Research Question": "Research Question",
+    "Data Science": "Data Science",
+    "Study Management": "Study Management",
+    "Parameter Details": "Parameter Details",
+    "Population Details": "Population Details",
+    "Survey Details": "Survey Details",
+    "Passport Form": "Passport Form",
+    "Created": "Creation is successful!",
+    "Deleted": "Deletion has been successful.",
+    "PDF generation failed": "PDF generation has failed."
   },
   "LearningProcessManagement": {
     "LearningProcesses": "Learning Processes",
