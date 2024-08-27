@@ -99,7 +99,7 @@ export class PassportManagementFormComponent extends BaseComponent implements On
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('PassportManagement.Passport is created successfully')
+                        detail: this.translateService.instant('PassportManagement.Created')
                     });
                 },
                 error: (error: any) => {
