@@ -161,7 +161,6 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
     save() {
         const formValues = this.formGroup.value;
 
-        // Prepare Implementation payload
         const implementationPayload = {
             software: formValues.software,
             name: formValues.name,
@@ -169,7 +168,6 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         };
 
         if (!this.selectedImplementation.implementationId) {
-            // Create new Implementation
             const newImplementation: Implementation = new Implementation({ ...implementationPayload });
             this.implementationService.createImplementation(newImplementation)
                 .pipe(takeUntil(this.destroy$))
@@ -187,7 +185,6 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                     }
                 });
         } else {
-            // Update existing Implementation
             const updatedImplementation: Implementation = new Implementation({ implementationId: this.selectedImplementation.implementationId, ...implementationPayload });
             this.implementationService.updateImplementation(updatedImplementation)
                 .pipe(takeUntil(this.destroy$))
@@ -231,7 +228,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                             summary: this.translateService.instant('Success'),
                             detail: this.translateService.instant('LearningProcessManagement.LearningProcessCreated')
                         });
-                        this.router.navigate([`${LpManagementRoutingModule.route}/${learningProcess.learningProcessId}`]);
+                        this.router.navigate([`${LpManagementRoutingModule.route}/${learningProcess.learningProcessId}/learning-process-dataset-assignment`]);
                     },
                     error: (error: any) => {
                         this.messageService.add({
@@ -242,7 +239,6 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                     }
                 });
         } else {
-            // Update existing Learning Process
             const updatedLearningProcess: LearningProcess = new LearningProcess({ learningProcessId: this.selectedLearningProcess.learningProcessId, ...learningProcessPayload });
             this.learningProcessService.updateLearningProcess(updatedLearningProcess)
                 .pipe(takeUntil(this.destroy$))
@@ -254,6 +250,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                             summary: this.translateService.instant('Success'),
                             detail: this.translateService.instant('LearningProcessManagement.LearningProcessUpdated')
                         });
+                        this.router.navigate([`${LpManagementRoutingModule.route}/${learningProcess.learningProcessId}/learning-process-dataset-assignment`]);
                     },
                     error: (error: any) => {
                         this.messageService.add({
