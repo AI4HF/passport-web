@@ -40,7 +40,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   /**
    * The role enumeration
    */
-  roles: NameAndValueInterface[] = ROLES;
+  roles: NameAndValueInterface[] = ROLES.filter(role => role.value !== Role.STUDY_OWNER);
 
   /**
    * The allowed roles
