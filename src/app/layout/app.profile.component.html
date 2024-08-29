@@ -1,5 +1,4 @@
 <div class="profile flex align-items-center h-full px-4">
-
     <div *ngIf="true" (click)="op.show($event)"
          class="flex gap-2 align-items-center cursor-pointer">
         <div class="icon flex justify-content-center align-items-center border-primary border-circle"
@@ -8,9 +7,9 @@
         </div>
 
         <div class="flex flex-column">
-            <span class="title font-semibold" [ngClass]="'text-primary'">{{this.personnelName + ' ' + this.personnelSurname}}</span>
-            <span class="title font-light" [ngClass]="'text-primary'">{{this.organizationName ?? ''}}</span>
-            <span class="title font-light font-italic" [ngClass]="'text-primary'">{{this.personnelRole ?? 'Organization Admin'}}</span>
+            <span class="title font-semibold" [ngClass]="'text-primary'">{{personnelName + ' ' + personnelSurname}}</span>
+            <span *ngIf="organizationName" class="title font-light" [ngClass]="'text-primary'">{{organizationName}}</span>
+            <span class="title font-light font-italic" [ngClass]="'text-primary'">{{personnelRole ?? 'Organization Admin'}}</span>
         </div>
     </div>
 
@@ -23,6 +22,7 @@
         <span [ngClass]="'text-primary'">{{ 'Login' | translate }}</span>
     </div>
 </div>
+
 
 
 <!-- Overlay panel to display menu -->
