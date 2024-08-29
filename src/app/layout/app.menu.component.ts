@@ -1,9 +1,9 @@
-import {Injector, OnInit} from '@angular/core';
+import { Injector, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { BaseComponent } from "../shared/components/base.component";
 import { MenuItem } from 'primeng/api';
-import {Role} from "../shared/models/role.enum";
-import {takeUntil} from "rxjs/operators";
+import { Role } from "../shared/models/role.enum";
+import { takeUntil } from "rxjs/operators";
 
 /**
  * Menu component which handles the navigation header connections.
@@ -23,7 +23,9 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
      */
     userRole: Role;
 
-    constructor(private injector: Injector) {
+    constructor(
+        private injector: Injector
+    ) {
         super(injector);
     }
 
@@ -42,14 +44,18 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
                     });
                 }
             });
+
+        this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
+            this.markActiveItem();
+        });
     }
 
     /**
      * Configure navigation menu according to the role of user.
      */
-    configureNavigationMenu(){
+    configureNavigationMenu() {
         this.model = [];
-        switch (this.userRole){
+        switch (this.userRole) {
             case Role.STUDY_OWNER:
                 this.model.push({
                     label: this.translateService.instant('Study Management'),
@@ -117,5 +123,16 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
                 });
                 break;
         }
+        this.markActiveItem();
+    }
+
+    /**
+     * Marks the active item in the menu based on the current route.
+     */
+    markActiveItem() {
+        const currentRoute = this.router.url;
+        this.model.forEach(item => {
+            item.expanded = item.routerLink && currentRoute.startsWith(item.routerLink[0]);
+        });
     }
 }
