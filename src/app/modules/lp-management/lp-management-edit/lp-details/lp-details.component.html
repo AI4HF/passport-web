@@ -2,33 +2,10 @@
     <form *ngIf="formGroup" [formGroup]="formGroup">
         <p-card class="p-0 w-full">
             <div class="grid grid-nogutter">
-                <!-- Implementation Fields -->
                 <div class="col-2 flex align-items-center">
-                    <label class="text-900 font-medium" for="software">{{'LearningProcessManagement.Software' | translate}}</label>
-                </div>
-                <div class="col-10 text-900 flex align-items-center p-fluid">
-                    <input type="text"
-                           id="software"
-                           pInputText
-                           placeholder="{{'LearningProcessManagement.Software' | translate}}"
-                           formControlName="software"
-                           class="form-control">
-                </div>
-                <div class="col-2 flex align-items-center mt-4">
-                    <label class="text-900 font-medium" for="name">{{'LearningProcessManagement.ImplementationName' | translate}}</label>
-                </div>
-                <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
-                    <input type="text"
-                           id="name"
-                           pInputText
-                           placeholder="{{'LearningProcessManagement.ImplementationName' | translate}}"
-                           formControlName="name"
-                           class="form-control">
-                </div>
-                <div class="col-2 flex align-items-center mt-4">
                     <label class="text-900 font-medium" for="algorithm">{{'LearningProcessManagement.Algorithm' | translate}}</label>
                 </div>
-                <div class="col-10 text-900 flex-grow-1 align-items-center p-fluid mt-4">
+                <div class="col-10 text-900 flex-grow-1 align-items-center p-fluid">
                     <p-dropdown
                             [style]="{'width':'100%'}"
                             [options]="algorithms"
@@ -44,8 +21,28 @@
                         </ng-template>
                     </p-dropdown>
                 </div>
-
-                <!-- Learning Process Field -->
+                <div class="col-2 flex align-items-center mt-4">
+                    <label class="text-900 font-medium" for="software">{{'LearningProcessManagement.Software' | translate}}</label>
+                </div>
+                <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                    <input type="text"
+                           id="software"
+                           pInputText
+                           placeholder="{{'LearningProcessManagement.Software' | translate}}"
+                           formControlName="software"
+                           class="form-control">
+                </div>
+                <div class="col-2 flex align-items-center mt-4">
+                    <label class="text-900 font-medium" for="name">{{'LearningProcessManagement.Implementation' | translate}}</label>
+                </div>
+                <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                    <input type="text"
+                           id="name"
+                           pInputText
+                           placeholder="{{'LearningProcessManagement.Implementation' | translate}}"
+                           formControlName="name"
+                           class="form-control">
+                </div>
                 <div class="col-2 flex align-items-center mt-4">
                     <label class="text-900 font-medium" for="description">{{'LearningProcessManagement.Description' | translate}}</label>
                 </div>

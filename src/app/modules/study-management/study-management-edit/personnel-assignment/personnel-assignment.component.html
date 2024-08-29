@@ -1,13 +1,19 @@
 <p-card class="w-full">
+    <p>
+        <strong>{{ 'StudyManagement.Personnel.Responsible Organization' | translate }}</strong>
+    </p>
     <p-dropdown
             [options]="organizationList"
             optionLabel="name"
             optionValue="organizationId"
-            [style]="{'minWidth':'100%'}"
+            [style]="{'minWidth':'100%', 'margin-bottom': '2rem'}"
             placeholder="{{'StudyManagement.Personnel.Select an organization' | translate}}"
             (onChange)="selectAnOrganization($event.value)"
     >
     </p-dropdown>
+    <p *ngIf="selectedStudyOrganization">
+        <strong>{{ 'StudyManagement.Personnel.Responsible Personnel' | translate }}</strong>
+    </p>
     <p-dropdown
             *ngIf="selectedStudyOrganization"
             [options]="personnelListForOrganization"
@@ -15,11 +21,12 @@
             optionLabel="firstName"
             optionValue="personId"
             [showClear]="true"
-            [style]="{'minWidth':'100%', 'margin-top': '1rem'}"
+            [style]="{'minWidth':'100%'}"
             placeholder="{{'StudyManagement.Personnel.Select a responsible personnel' | translate}}"
     >
     </p-dropdown>
-    <div  class="flex justify-content-between flex-wrap" *ngIf="selectedStudyOrganization">
+
+    <div class="flex justify-content-between flex-wrap" *ngIf="selectedStudyOrganization">
         <div class="checkbox-grid">
             <div *ngFor="let role of roles" class="field-checkbox">
                 <p-checkbox
@@ -39,8 +46,8 @@
                     (click)="saveStudyOrganization()"></button>
         </div>
     </div>
-
 </p-card>
+
 <p-card class="p-0 w-full" *ngIf="selectedStudyOrganization?.personnelId">
     <p-pickList
             [source]="sourcePersonnelList"
@@ -61,21 +68,21 @@
             (onMoveAllToSource)="onMoveToSource($event)"
             (onMoveToSource)="onMoveToSource($event)">
         <ng-template let-personnel pTemplate="item">
-                <div class="flex flex-row align-items-center justify-content-start gap-2">
-                    <div class="firstName">
-                        <span class="font-bold">
-                            {{ personnel.firstName }}
-                        </span>
-                    </div>
-                    <div class="lastName">
-                        <span>
-                            {{ personnel.lastName }}
-                        </span>
-                    </div>
-                    <div class="role flex z-2 justify-content-end">
-                        <span>{{ convertPersonnelRoleValueToName(personnel.role) }}</span>
-                    </div>
+            <div class="flex flex-row align-items-center justify-content-start gap-2">
+                <div class="firstName">
+                    <span class="font-bold">
+                        {{ personnel.firstName }}
+                    </span>
                 </div>
+                <div class="lastName">
+                    <span>
+                        {{ personnel.lastName }}
+                    </span>
+                </div>
+                <div class="role flex z-2 justify-content-end">
+                    <span>{{ convertPersonnelRoleValueToName(personnel.role) }}</span>
+                </div>
+            </div>
         </ng-template>
     </p-pickList>
     <div class="flex justify-content-between flex-wrap mt-4">
