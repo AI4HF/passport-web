@@ -1,13 +1,12 @@
 <form [formGroup]="modelDeploymentForm" *ngIf="modelDeploymentForm">
     <p-card class="p-0 w-full">
         <div class="grid">
-
             <!-- Model Dropdown -->
             <div class="col-2 flex align-items-center">
-                <label class="text-900 font-medium"
-                       for="model">{{'DeploymentManagement.Model' | translate}}</label>
+                <label class="text-900 font-medium" for="model">{{'DeploymentManagement.Model' | translate}}</label>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid">
+                <app-tooltip class="ml-2" message="DeploymentManagement.ModelTooltip"></app-tooltip>
                 <p-dropdown
                         [options]="modelList"
                         id="model"
@@ -18,12 +17,12 @@
                         class="form-control w-full">
                 </p-dropdown>
             </div>
-
             <!-- Tags -->
             <div class="col-2 flex align-items-center">
                 <label class="text-900 font-medium" for="tags">{{ 'DeploymentManagement.Tags' | translate }}</label>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid">
+                <app-tooltip class="ml-2" message="DeploymentManagement.TagsTooltip"></app-tooltip>
                 <input type="text"
                        id="tags"
                        pInputText
@@ -31,13 +30,12 @@
                        formControlName="tags"
                        class="form-control">
             </div>
-
             <!-- Identified Failures -->
             <div class="col-2 flex align-items-center">
-                <label class="text-900 font-medium"
-                       for="identifiedFailures">{{'DeploymentManagement.Identified Failures' | translate}}</label>
+                <label class="text-900 font-medium" for="identifiedFailures">{{'DeploymentManagement.Identified Failures' | translate}}</label>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid">
+                <app-tooltip class="ml-2" message="DeploymentManagement.IdentifiedFailuresTooltip"></app-tooltip>
                 <input type="text"
                        id="identifiedFailures"
                        pInputText
@@ -45,13 +43,12 @@
                        formControlName="identifiedFailures"
                        class="form-control">
             </div>
-
             <!-- Status -->
             <div class="col-2 flex align-items-center">
-                <label class="text-900 font-medium"
-                       for="status">{{'DeploymentManagement.Status' | translate}}</label>
+                <label class="text-900 font-medium" for="status">{{'DeploymentManagement.Status' | translate}}</label>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid">
+                <app-tooltip class="ml-2" message="DeploymentManagement.StatusTooltip"></app-tooltip>
                 <input type="text"
                        id="status"
                        pInputText

@@ -67,388 +67,334 @@
 <p-dialog [(visible)]="showPdfPreview" [closable]="false" [modal]="true"
           header="{{ 'PassportManagement.PDF Preview' | translate }}" styleClass="small-preview-dialog">
     <div class="page-preview-container" id="pdfPreviewContainer">
-        <div class="grid" style="padding: 1rem;">
-            <div class="col-12">
-                <h2 class="text-center">{{ 'PassportManagement.AI4HF Product Passport' | translate }}</h2>
+        <div class="pdf-container">
+            <!-- Header Section -->
+            <div class="pdf-header">
+                <div class="logo-section">
+                    <img src="path/to/logo.png" alt="AI4HF Logo">
+                </div>
+                <div class="title-section">
+                    <h1 class="pdf-title">{{ 'PassportManagement.AI4HF Product Passport' | translate }}</h1>
+                </div>
             </div>
 
-            <div class="col-12 section-title">
-                <h3>{{ 'PassportManagement.Data Science' | translate }}</h3>
+            <!-- Top of the Page Decoration -->
+            <div class="top-decoration">
+                <!-- Insert your decorative SVG or styled div here -->
             </div>
 
-            <div class="col-12 section-container">
-                <div class="grid grid-nogutter">
-                    <div class="col-6">
-                        <p-card class="p-0 w-full">
-                            <div class="section-title">
-                                <h3>{{ 'PassportManagement.Model Details' | translate }}</h3>
-                            </div>
-                            <div class="grid grid-nogutter attribute-container p-card-content">
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Model Name' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.name }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Model Version' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.version }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Model Type' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.modelType }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Product Identifier' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.productIdentifier }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Owner' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.owner }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.TRL Level' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.trlLevel }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.License' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.license }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Primary Use' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.primaryUse }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Secondary Use' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.secondaryUse }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Intended Users' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.intendedUsers }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Counter Indications' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.counterIndications }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Ethical Considerations' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.ethicalConsiderations }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Limitations' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.limitations }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Fairness Constraints' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.fairnessConstraints }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Created At' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.createdAt | date: 'medium' }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Created By' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.createdBy }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Last Updated At' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.lastUpdatedAt | date: 'medium' }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Last Updated By' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ modelDetails?.lastUpdatedBy }}</span>
-                                </div>
-                            </div>
-                        </p-card>
+            <!-- Model Details Section -->
+            <div class="section">
+                <h2 class="section-title">{{ 'PassportManagement.Model Details' | translate }}</h2>
+                <div class="section-content">
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Model Name' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.name }}</span>
+                        </div>
                     </div>
-
-                    <div class="col-6">
-                        <p-card class="p-0 w-full">
-                            <div class="section-title">
-                                <h3>{{ 'PassportManagement.Model Deployment Details' | translate }}</h3>
-                            </div>
-                            <div class="grid grid-nogutter attribute-container p-card-content">
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Deployment Tags' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ deploymentDetails?.tags }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Deployment Status' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ deploymentDetails?.status }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Identified Failures' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ deploymentDetails?.identifiedFailures }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Created At' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ deploymentDetails?.createdAt | date: 'medium' }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Created By' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ deploymentDetails?.createdBy }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Last Updated At' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ deploymentDetails?.lastUpdatedAt | date: 'medium' }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Last Updated By' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ deploymentDetails?.lastUpdatedBy }}</span>
-                                </div>
-                            </div>
-                        </p-card>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Model Version' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.version }}</span>
+                        </div>
                     </div>
-
-                    <div class="col-6">
-                        <p-card class="p-0 w-full">
-                            <div class="section-title">
-                                <h3>{{ 'PassportManagement.Environment Details' | translate }}</h3>
-                            </div>
-                            <div class="grid grid-nogutter attribute-container p-card-content">
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Environment Title' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ environmentDetails?.title }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Environment Description' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ environmentDetails?.description }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Hardware Properties' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ environmentDetails?.hardwareProperties }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Software Properties' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ environmentDetails?.softwareProperties }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Connectivity Details' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ environmentDetails?.connectivityDetails }}</span>
-                                </div>
-                            </div>
-                        </p-card>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Model Type' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.modelType }}</span>
+                        </div>
                     </div>
-
-                    <div class="col-6">
-                        <p-card class="p-0 w-full">
-                            <div class="section-title">
-                                <h3>{{ 'PassportManagement.Parameter Details' | translate }}</h3>
-                            </div>
-                            <div *ngFor="let parameter of parameters" class="grid grid-nogutter attribute-container p-card-content">
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Parameter Name' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ parameter.name }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Data Type' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ parameter.dataType }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Description' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ parameter.description }}</span>
-                                </div>
-                            </div>
-                            <div *ngIf="parameters.length === 5" class="text-center" style="font-size: 1.5rem;">
-                                &bull; &bull; &bull;
-                            </div>
-                        </p-card>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Product Identifier' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.productIdentifier }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Owner' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.owner }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.TRL Level' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.trlLevel }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.License' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.license }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Primary Use' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.primaryUse }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Secondary Use' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.secondaryUse }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Intended Users' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.intendedUsers }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Counter Indications' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.counterIndications }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Ethical Considerations' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.ethicalConsiderations }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Limitations' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.limitations }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Fairness Constraints' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.fairnessConstraints }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Created At' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.createdAt | date: 'medium' }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Created By' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.createdBy }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Last Updated At' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.lastUpdatedAt | date: 'medium' }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Last Updated By' | translate }}:</span>
+                            <span class="attribute-value">{{ modelDetails?.lastUpdatedBy }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-12 section-title">
-                <h3>{{ 'PassportManagement.Study Management' | translate }}</h3>
+            <!-- Model Deployment Details Section -->
+            <div class="section">
+                <h2 class="section-title">{{ 'PassportManagement.Model Deployment Details' | translate }}</h2>
+                <div class="section-content">
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Deployment Tags' | translate }}:</span>
+                            <span class="attribute-value">{{ deploymentDetails?.tags }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Deployment Status' | translate }}:</span>
+                            <span class="attribute-value">{{ deploymentDetails?.status }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Identified Failures' | translate }}:</span>
+                            <span class="attribute-value">{{ deploymentDetails?.identifiedFailures }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Created At' | translate }}:</span>
+                            <span class="attribute-value">{{ deploymentDetails?.createdAt | date: 'medium' }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Created By' | translate }}:</span>
+                            <span class="attribute-value">{{ deploymentDetails?.createdBy }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Last Updated At' | translate }}:</span>
+                            <span class="attribute-value">{{ deploymentDetails?.lastUpdatedAt | date: 'medium' }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Last Updated By' | translate }}:</span>
+                            <span class="attribute-value">{{ deploymentDetails?.lastUpdatedBy }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-12 section-container">
-                <div class="grid grid-nogutter">
-                    <div class="col-6">
-                        <p-card class="p-0 w-full">
-                            <div class="section-title">
-                                <h3>{{ 'PassportManagement.Study Details' | translate }}</h3>
-                            </div>
-                            <div class="grid grid-nogutter attribute-container p-card-content">
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Study Name' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ studyDetails?.name }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Study Description' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ studyDetails?.description }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Study Objectives' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ studyDetails?.objectives }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Study Ethics' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ studyDetails?.ethics }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Owner' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ studyDetails?.owner }}</span>
-                                </div>
-                            </div>
-                        </p-card>
+            <!-- Environment Details Section -->
+            <div class="section">
+                <h2 class="section-title">{{ 'PassportManagement.Environment Details' | translate }}</h2>
+                <div class="section-content">
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Environment Title' | translate }}:</span>
+                            <span class="attribute-value">{{ environmentDetails?.title }}</span>
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <p-card class="p-0 w-full">
-                            <div class="section-title">
-                                <h3>{{ 'PassportManagement.Experiment Details' | translate }}</h3>
-                            </div>
-                            <div *ngFor="let experiment of experiments" class="grid grid-nogutter attribute-container p-card-content">
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Research Question' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ experiment.researchQuestion }}</span>
-                                </div>
-                            </div>
-                            <div *ngIf="experiments.length === 5" class="text-center" style="font-size: 1.5rem;">
-                                &bull; &bull; &bull;
-                            </div>
-                        </p-card>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Environment Description' | translate }}:</span>
+                            <span class="attribute-value">{{ environmentDetails?.description }}</span>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Hardware Properties' | translate }}:</span>
+                            <span class="attribute-value">{{ environmentDetails?.hardwareProperties }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Software Properties' | translate }}:</span>
+                            <span class="attribute-value">{{ environmentDetails?.softwareProperties }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Connectivity Details' | translate }}:</span>
+                            <span class="attribute-value">{{ environmentDetails?.connectivityDetails }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                    <div class="col-6">
-                        <p-card class="p-0 w-full">
-                            <div class="section-title">
-                                <h3>{{ 'PassportManagement.Population Details' | translate }}</h3>
-                            </div>
-                            <div class="grid grid-nogutter attribute-container p-card-content">
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Population URL' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ populationDetails?.populationUrl }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Description' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ populationDetails?.description }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Characteristics' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ populationDetails?.characteristics }}</span>
-                                </div>
-                            </div>
-                        </p-card>
+            <!-- Study Details Section -->
+            <div class="section">
+                <h2 class="section-title">{{ 'PassportManagement.Study Details' | translate }}</h2>
+                <div class="section-content">
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Study Name' | translate }}:</span>
+                            <span class="attribute-value">{{ studyDetails?.name }}</span>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Study Description' | translate }}:</span>
+                            <span class="attribute-value">{{ studyDetails?.description }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Study Objectives' | translate }}:</span>
+                            <span class="attribute-value">{{ studyDetails?.objectives }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Study Ethics' | translate }}:</span>
+                            <span class="attribute-value">{{ studyDetails?.ethics }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="attribute-title">{{ 'PassportManagement.Owner' | translate }}:</span>
+                            <span class="attribute-value">{{ studyDetails?.owner }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                    <div class="col-6">
-                        <p-card class="p-0 w-full">
-                            <div class="section-title">
-                                <h3>{{ 'PassportManagement.Survey Details' | translate }}</h3>
-                            </div>
-                            <div *ngFor="let survey of surveys" class="grid grid-nogutter attribute-container p-card-content">
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Question' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ survey.question }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Answer' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ survey.answer }}</span>
-                                </div>
-                                <div class="col-4 flex align-items-center">
-                                    <label class="text-900 font-semibold">{{ 'PassportManagement.Category' | translate }}:</label>
-                                </div>
-                                <div class="col-8 text-700 flex align-items-center">
-                                    <span>{{ survey.category }}</span>
-                                </div>
-                            </div>
-                            <div *ngIf="surveys.length === 5" class="text-center" style="font-size: 1.5rem;">
-                                &bull; &bull; &bull;
-                            </div>
-                        </p-card>
-                    </div>
+            <!-- Experiment Details Section -->
+            <div class="section">
+                <h2 class="section-title">{{ 'PassportManagement.Experiment Details' | translate }}</h2>
+                <div class="section-content">
+                    <p-table [value]="experiments">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>{{ 'PassportManagement.Experiment ID' | translate }}</th>
+                                <th>{{ 'PassportManagement.Research Question' | translate }}</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-experiment>
+                            <tr>
+                                <td>{{ experiment.experimentId }}</td>
+                                <td>{{ experiment.researchQuestion }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+
+            <!-- Survey Details Section -->
+            <div class="section">
+                <h2 class="section-title">{{ 'PassportManagement.Survey Details' | translate }}</h2>
+                <div class="section-content">
+                    <p-table [value]="surveys">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>{{ 'PassportManagement.Survey ID' | translate }}</th>
+                                <th>{{ 'PassportManagement.Question' | translate }}</th>
+                                <th>{{ 'PassportManagement.Answer' | translate }}</th>
+                                <th>{{ 'PassportManagement.Category' | translate }}</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-survey>
+                            <tr>
+                                <td>{{ survey.surveyId }}</td>
+                                <td>{{ survey.question }}</td>
+                                <td>{{ survey.answer }}</td>
+                                <td>{{ survey.category }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+
+            <!-- Population Details Section -->
+            <div class="section">
+                <h2 class="section-title">{{ 'PassportManagement.Population Details' | translate }}</h2>
+                <div class="section-content">
+                    <p-table [value]="populationDetails">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>{{ 'PassportManagement.Population ID' | translate }}</th>
+                                <th>{{ 'PassportManagement.Population URL' | translate }}</th>
+                                <th>{{ 'PassportManagement.Description' | translate }}</th>
+                                <th>{{ 'PassportManagement.Characteristics' | translate }}</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-population>
+                            <tr>
+                                <td>{{ population.populationId }}</td>
+                                <td>{{ population.populationUrl }}</td>
+                                <td>{{ population.description }}</td>
+                                <td>{{ population.characteristics }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="ui-dialog-footer" style="padding-top: 10px; padding-bottom: 10px;">
+        <div class="ui-dialog-footer" style="padding-top: 10px; padding-bottom: 10px;">
         <button (click)="closePdfPreview()" icon="pi pi-times" label="{{ 'PassportManagement.CANCEL' | translate }}"
                 pButton
                 style="float: left;" type="button"></button>

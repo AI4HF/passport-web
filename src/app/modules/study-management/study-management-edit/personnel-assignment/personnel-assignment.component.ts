@@ -225,7 +225,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   private createNewStudyOrganization(organizationId: number) {
     this.populationService.getPopulationByStudyId(this.studyId).pipe(takeUntil(this.destroy$)).subscribe({
       next: response => {
-        this.selectedStudyOrganization = new StudyOrganization({studyId: this.studyId, organizationId: organizationId, populationId: response.populationId});
+        this.selectedStudyOrganization = new StudyOrganization({studyId: this.studyId, organizationId: organizationId, populationId: response[0].populationId});
       },
       error: error => {
         this.messageService.add({

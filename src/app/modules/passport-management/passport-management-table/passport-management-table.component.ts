@@ -43,7 +43,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   modelDetails: Model | null = null;
   studyDetails: Study | null = null;
   parameters: Parameter[] | [] = [];
-  populationDetails: Population | null = null;
+  populationDetails: Population[] | [] = [];
   experiments: Experiment[] | [] = [];
   surveys: Survey[] | [] = [];
 
@@ -193,12 +193,12 @@ export class PassportManagementTableComponent extends BaseComponent implements O
         }),
         takeUntil(this.destroy$)
     ).subscribe({
-      next: ([study, parameters, population, surveys, experiments]) => {
+      next: ([study, parameters, populations, surveys, experiments]) => {
         this.studyDetails = study;
-        this.parameters = parameters.sort((a, b) => b.parameterId - a.parameterId).slice(0, 5);
-        this.populationDetails = population;
-        this.surveys = surveys.sort((a, b) => b.surveyId - a.surveyId).slice(0, 5);
-        this.experiments = experiments.sort((a, b) => b.experimentId - a.experimentId).slice(0, 5);
+        this.parameters = parameters;
+        this.populationDetails = populations;
+        this.surveys = surveys;
+        this.experiments = experiments;
       },
       error: error => {
         this.messageService.add({

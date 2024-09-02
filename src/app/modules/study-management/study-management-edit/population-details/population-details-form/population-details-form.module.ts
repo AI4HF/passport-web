@@ -5,15 +5,12 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { LpParameterFormComponent } from './lp-parameter-form.component';
-import { TranslateModule } from "@ngx-translate/core";
-import { DropdownModule } from "primeng/dropdown";
-import {
-    StudyDetailsModule
-} from "../../../../study-management/study-management-edit/study-details/study-details.module";
+import { PopulationDetailsFormComponent } from './population-details-form.component';
+import {TranslateModule} from "@ngx-translate/core";
+import {StudyDetailsModule} from "../../study-details/study-details.module";
 
 @NgModule({
-    declarations: [LpParameterFormComponent],
+    declarations: [PopulationDetailsFormComponent],
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -22,9 +19,8 @@ import {
         InputTextModule,
         ButtonModule,
         TranslateModule,
-        DropdownModule,
         StudyDetailsModule
     ],
-    exports: [LpParameterFormComponent]
+    exports: [PopulationDetailsFormComponent]
 })
-export class LpParameterFormModule { }
+export class PopulationDetailsFormModule { }

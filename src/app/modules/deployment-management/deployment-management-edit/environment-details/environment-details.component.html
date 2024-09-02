@@ -3,10 +3,10 @@
         <div class="grid grid-nogutter">
             <!-- Title -->
             <div class="col-2 flex align-items-center">
-                <label class="text-900 font-medium"
-                       for="title">{{'DeploymentManagement.Environment.Title' | translate}}</label>
+                <label class="text-900 font-medium" for="title">{{'DeploymentManagement.Environment.Title' | translate}}</label>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid">
+                <app-tooltip class="ml-2" message="DeploymentManagement.Environment.TitleTooltip"></app-tooltip>
                 <input type="text"
                        id="title"
                        pInputText
@@ -16,10 +16,10 @@
             </div>
             <!-- Description -->
             <div class="col-2 flex align-items-center mt-4">
-                <label class="text-900 font-medium"
-                       for="description">{{'DeploymentManagement.Environment.Description' | translate}}</label>
+                <label class="text-900 font-medium" for="description">{{'DeploymentManagement.Environment.Description' | translate}}</label>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                <app-tooltip class="ml-2" message="DeploymentManagement.Environment.DescriptionTooltip"></app-tooltip>
                 <input type="text"
                        id="description"
                        pInputText
@@ -29,10 +29,10 @@
             </div>
             <!-- Hardware Properties -->
             <div class="col-2 flex align-items-center mt-4">
-                <label class="text-900 font-medium"
-                       for="hardwareProperties">{{'DeploymentManagement.Environment.Hardware Properties' | translate}}</label>
+                <label class="text-900 font-medium" for="hardwareProperties">{{'DeploymentManagement.Environment.Hardware Properties' | translate}}</label>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                <app-tooltip class="ml-2" message="DeploymentManagement.Environment.HardwarePropertiesTooltip"></app-tooltip>
                 <input type="text"
                        id="hardwareProperties"
                        pInputText
@@ -40,13 +40,12 @@
                        formControlName="hardwareProperties"
                        class="form-control">
             </div>
-
             <!-- Software Properties -->
             <div class="col-2 flex align-items-center mt-4">
-                <label class="text-900 font-medium"
-                       for="softwareProperties">{{'DeploymentManagement.Environment.Software Properties' | translate}}</label>
+                <label class="text-900 font-medium" for="softwareProperties">{{'DeploymentManagement.Environment.Software Properties' | translate}}</label>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                <app-tooltip class="ml-2" message="DeploymentManagement.Environment.SoftwarePropertiesTooltip"></app-tooltip>
                 <input type="text"
                        id="softwareProperties"
                        pInputText
@@ -54,13 +53,12 @@
                        formControlName="softwareProperties"
                        class="form-control">
             </div>
-
             <!-- Connectivity Details -->
             <div class="col-2 flex align-items-center mt-4">
-                <label class="text-900 font-medium"
-                       for="connectivityDetails">{{'DeploymentManagement.Environment.Connectivity Details' | translate}}</label>
+                <label class="text-900 font-medium" for="connectivityDetails">{{'DeploymentManagement.Environment.Connectivity Details' | translate}}</label>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                <app-tooltip class="ml-2" message="DeploymentManagement.Environment.ConnectivityDetailsTooltip"></app-tooltip>
                 <input type="text"
                        id="connectivityDetails"
                        pInputText

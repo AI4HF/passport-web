@@ -1,5 +1,11 @@
 <p-dialog (onHide)="closeDialog()" [(visible)]="this.display" [modal]="true" [style]="{width: '50rem'}"
           header="{{ 'ParameterAssignment.ParameterForm' | translate }}">
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center">
+            <h5 class="text-900 font-bold mb-0">{{ 'ParameterAssignment.ParameterForm' | translate }}</h5>
+            <app-tooltip class="ml-2" message="ParameterAssignment.ParameterFormTooltip"></app-tooltip>
+        </div>
+    </ng-template>
     <form (ngSubmit)="save()" *ngIf="this.display" [formGroup]="form">
         <div class="form-grid grid">
             <div class="field col">

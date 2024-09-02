@@ -3,9 +3,12 @@
         <p-card class="p-0 w-full">
             <div class="grid grid-nogutter">
                 <div class="col-2 flex align-items-center">
-                    <label class="text-900 font-medium" for="title">{{'DatasetManagement.Title' | translate}}</label>
+                    <label class="text-900 font-medium" for="title">
+                        {{'DatasetManagement.Title' | translate}}
+                    </label>
                 </div>
                 <div class="col-10 text-900 flex align-items-center p-fluid">
+                    <app-tooltip class="ml-2" message="DatasetManagement.TitleTooltip"></app-tooltip>
                     <input type="text"
                            id="title"
                            pInputText
@@ -14,9 +17,12 @@
                            class="form-control">
                 </div>
                 <div class="col-2 flex align-items-center mt-4">
-                    <label class="text-900 font-medium" for="description">{{'DatasetManagement.Description' | translate}}</label>
+                    <label class="text-900 font-medium" for="description">
+                        {{'DatasetManagement.Description' | translate}}
+                    </label>
                 </div>
                 <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                    <app-tooltip class="ml-2" message="DatasetManagement.DescriptionTooltip"></app-tooltip>
                     <input type="text"
                            id="description"
                            pInputText
@@ -25,9 +31,12 @@
                            class="form-control">
                 </div>
                 <div class="col-2 flex align-items-center mt-4">
-                    <label class="text-900 font-medium" for="version">{{'DatasetManagement.Version' | translate}}</label>
+                    <label class="text-900 font-medium" for="version">
+                        {{'DatasetManagement.Version' | translate}}
+                    </label>
                 </div>
                 <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                    <app-tooltip class="ml-2" message="DatasetManagement.VersionTooltip"></app-tooltip>
                     <input type="text"
                            id="version"
                            pInputText
@@ -36,9 +45,12 @@
                            class="form-control">
                 </div>
                 <div class="col-2 flex align-items-center mt-4">
-                    <label class="text-900 font-medium" for="referenceEntity">{{'DatasetManagement.ReferenceEntity' | translate}}</label>
+                    <label class="text-900 font-medium" for="referenceEntity">
+                        {{'DatasetManagement.ReferenceEntity' | translate}}
+                    </label>
                 </div>
                 <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                    <app-tooltip class="ml-2" message="DatasetManagement.ReferenceEntityTooltip"></app-tooltip>
                     <input type="text"
                            id="referenceEntity"
                            pInputText
@@ -47,28 +59,36 @@
                            class="form-control">
                 </div>
                 <div class="col-2 flex align-items-center mt-4">
-                    <label class="text-900 font-medium" for="featureset">{{'DatasetManagement.FeatureSet' | translate}}</label>
+                    <label class="text-900 font-medium" for="featureset">
+                        {{'DatasetManagement.FeatureSet' | translate}}
+                    </label>
                 </div>
                 <div class="col-10 text-900 flex-grow-1 align-items-center p-fluid mt-4">
-                    <p-dropdown
-                            [style]="{'width':'100%'}"
-                            [options]="featuresets"
-                            formControlName="featureset"
-                            optionLabel="title"
-                            placeholder="{{'DatasetManagement.SelectFeatureSet' | translate}}"
-                            class="form-control">
-                        <ng-template let-featureset pTemplate="selectedItem">
-                            <span>{{ featureset ? featureset.title : '' }}</span>
-                        </ng-template>
-                        <ng-template let-featureset pTemplate="item">
-                            <span>{{ featureset.title }}</span>
-                        </ng-template>
-                    </p-dropdown>
+                    <div class="flex align-items-center w-full">
+                        <app-tooltip class="ml-2" message="DatasetManagement.FeatureSetTooltip"></app-tooltip>
+                        <p-dropdown
+                                [style]="{'width':'100%'}"
+                                [options]="featuresets"
+                                formControlName="featureset"
+                                optionLabel="title"
+                                placeholder="{{'DatasetManagement.SelectFeatureSet' | translate}}"
+                                class="form-control">
+                            <ng-template let-featureset pTemplate="selectedItem">
+                                <span>{{ featureset ? featureset.title : '' }}</span>
+                            </ng-template>
+                            <ng-template let-featureset pTemplate="item">
+                                <span>{{ featureset.title }}</span>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
                 </div>
                 <div class="col-2 flex align-items-center mt-4">
-                    <label class="text-900 font-medium" for="numOfRecords">{{'DatasetManagement.NumOfRecords' | translate}}</label>
+                    <label class="text-900 font-medium" for="numOfRecords">
+                        {{'DatasetManagement.NumOfRecords' | translate}}
+                    </label>
                 </div>
                 <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                    <app-tooltip class="ml-2" message="DatasetManagement.NumOfRecordsTooltip"></app-tooltip>
                     <input type="number"
                            id="numOfRecords"
                            pInputText
@@ -77,9 +97,12 @@
                            class="form-control">
                 </div>
                 <div class="col-2 flex align-items-center mt-4">
-                    <label class="text-900 font-medium" for="synthetic">{{'DatasetManagement.Synthetic' | translate}}</label>
+                    <label class="text-900 font-medium" for="synthetic">
+                        {{'DatasetManagement.Synthetic' | translate}}
+                    </label>
                 </div>
                 <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                    <app-tooltip class="ml-2" message="DatasetManagement.SyntheticTooltip"></app-tooltip>
                     <p-checkbox
                             formControlName="synthetic"
                             [binary]="true"
@@ -107,4 +130,3 @@
         </p-card>
     </form>
 </div>
-

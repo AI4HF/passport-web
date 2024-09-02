@@ -6,25 +6,30 @@
                     <label class="text-900 font-medium" for="algorithm">{{'LearningProcessManagement.Algorithm' | translate}}</label>
                 </div>
                 <div class="col-10 text-900 flex-grow-1 align-items-center p-fluid">
-                    <p-dropdown
-                            [style]="{'width':'100%'}"
-                            [options]="algorithms"
-                            formControlName="algorithm"
-                            optionLabel="name"
-                            placeholder="{{'LearningProcessManagement.SelectAlgorithm' | translate}}"
-                            class="form-control">
-                        <ng-template let-algorithm pTemplate="selectedItem">
-                            <span>{{ algorithm ? algorithm.name : '' }}</span>
-                        </ng-template>
-                        <ng-template let-algorithm pTemplate="item">
-                            <span>{{ algorithm.name }}</span>
-                        </ng-template>
-                    </p-dropdown>
+                    <div class="flex align-items-center w-full">
+                        <app-tooltip class="ml-2" message="LearningProcessManagement.AlgorithmTooltip"></app-tooltip>
+                        <p-dropdown
+                                [style]="{'width':'100%'}"
+                                [options]="algorithms"
+                                formControlName="algorithm"
+                                optionLabel="name"
+                                placeholder="{{'LearningProcessManagement.SelectAlgorithm' | translate}}"
+                                class="form-control">
+                            <ng-template let-algorithm pTemplate="selectedItem">
+                                <span>{{ algorithm ? algorithm.name : '' }}</span>
+                            </ng-template>
+                            <ng-template let-algorithm pTemplate="item">
+                                <span>{{ algorithm.name }}</span>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
                 </div>
+
                 <div class="col-2 flex align-items-center mt-4">
                     <label class="text-900 font-medium" for="software">{{'LearningProcessManagement.Software' | translate}}</label>
                 </div>
                 <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                    <app-tooltip class="ml-2" message="LearningProcessManagement.SoftwareTooltip"></app-tooltip>
                     <input type="text"
                            id="software"
                            pInputText
@@ -32,10 +37,12 @@
                            formControlName="software"
                            class="form-control">
                 </div>
+
                 <div class="col-2 flex align-items-center mt-4">
                     <label class="text-900 font-medium" for="name">{{'LearningProcessManagement.Implementation' | translate}}</label>
                 </div>
                 <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                    <app-tooltip class="ml-2" message="LearningProcessManagement.ImplementationTooltip"></app-tooltip>
                     <input type="text"
                            id="name"
                            pInputText
@@ -43,10 +50,12 @@
                            formControlName="name"
                            class="form-control">
                 </div>
+
                 <div class="col-2 flex align-items-center mt-4">
                     <label class="text-900 font-medium" for="description">{{'LearningProcessManagement.Description' | translate}}</label>
                 </div>
                 <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                    <app-tooltip class="ml-2" message="LearningProcessManagement.DescriptionTooltip"></app-tooltip>
                     <input type="text"
                            id="description"
                            pInputText

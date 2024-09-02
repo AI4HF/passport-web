@@ -1,7 +1,10 @@
 <div class="card p-3 mb-5">
     <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
-        <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">
-            {{ 'ModelManagement.ActiveStudy' | translate }}
+        <div class="flex align-items-center">
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">
+                {{ 'ModelManagement.ActiveStudy' | translate }}
+            </div>
+            <app-tooltip class="ml-2 mt-1" message="ModelManagement.ActiveStudyTooltip"></app-tooltip>
         </div>
     </div>
     <p-dropdown

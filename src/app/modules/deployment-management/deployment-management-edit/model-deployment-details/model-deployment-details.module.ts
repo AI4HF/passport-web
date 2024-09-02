@@ -8,6 +8,7 @@ import {RippleModule} from "primeng/ripple";
 import {TranslateModule} from "@ngx-translate/core";
 import {ModelDeploymentDetailsComponent} from "./model-deployment-details.component";
 import {DropdownModule} from "primeng/dropdown";
+import {StudyDetailsModule} from "../../../study-management/study-management-edit/study-details/study-details.module";
 
 
 
@@ -21,7 +22,8 @@ import {DropdownModule} from "primeng/dropdown";
         RippleModule,
         TranslateModule,
         DropdownModule,
-        NgIf
+        NgIf,
+        StudyDetailsModule
     ],
     exports: [ModelDeploymentDetailsComponent]
 })

@@ -1,6 +1,7 @@
 <p-card class="w-full">
-    <p>
+    <p class="flex align-items-center">
         <strong>{{ 'StudyManagement.Personnel.Responsible Organization' | translate }}</strong>
+        <app-tooltip class="ml-2" message="StudyManagement.ResponsibleOrganizationTooltip"></app-tooltip>
     </p>
     <p-dropdown
             [options]="organizationList"
@@ -11,8 +12,9 @@
             (onChange)="selectAnOrganization($event.value)"
     >
     </p-dropdown>
-    <p *ngIf="selectedStudyOrganization">
+    <p *ngIf="selectedStudyOrganization" class="flex align-items-center">
         <strong>{{ 'StudyManagement.Personnel.Responsible Personnel' | translate }}</strong>
+        <app-tooltip class="ml-2" message="StudyManagement.ResponsiblePersonnelTooltip"></app-tooltip>
     </p>
     <p-dropdown
             *ngIf="selectedStudyOrganization"

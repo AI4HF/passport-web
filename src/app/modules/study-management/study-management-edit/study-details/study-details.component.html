@@ -2,9 +2,11 @@
     <p-card class="p-0 w-full">
         <div class="grid grid-nogutter">
             <!-- Name -->
-            <div class="col-2 flex align-items-center">
-                <label class="text-900 font-medium"
-                       for="name">{{'StudyManagement.Name' | translate}}</label>
+            <div class="col-2 flex align-items-center justify-content-between">
+                <label class="text-900 font-medium" for="name">
+                    {{'StudyManagement.Name' | translate}}
+                </label>
+                <app-tooltip message="StudyManagement.NameTooltip"></app-tooltip>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid">
                 <input type="text"
@@ -14,10 +16,13 @@
                        formControlName="name"
                        class="form-control">
             </div>
+
             <!-- Description -->
-            <div class="col-2 flex align-items-center mt-4">
-                <label class="text-900 font-medium"
-                       for="description">{{'StudyManagement.Description' | translate}}</label>
+            <div class="col-2 flex align-items-center justify-content-between mt-4">
+                <label class="text-900 font-medium" for="description">
+                    {{'StudyManagement.Description' | translate}}
+                </label>
+                <app-tooltip message="StudyManagement.DescriptionTooltip"></app-tooltip>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
                 <input type="text"
@@ -27,10 +32,13 @@
                        formControlName="description"
                        class="form-control">
             </div>
+
             <!-- Objectives -->
-            <div class="col-2 flex align-items-center mt-4">
-                <label class="text-900 font-medium"
-                       for="objectives">{{'StudyManagement.Objectives' | translate}}</label>
+            <div class="col-2 flex align-items-center justify-content-between mt-4">
+                <label class="text-900 font-medium" for="objectives">
+                {{'StudyManagement.Objectives' | translate}}
+                </label>
+                <app-tooltip message="StudyManagement.ObjectivesTooltip"></app-tooltip>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
                 <input type="text"
@@ -40,10 +48,13 @@
                        formControlName="objectives"
                        class="form-control">
             </div>
+
             <!-- Ethics -->
-            <div class="col-2 flex align-items-center mt-4">
-                <label class="text-900 font-medium"
-                       for="ethics">{{'StudyManagement.Ethics' | translate}}</label>
+            <div class="col-2 flex align-items-center justify-content-between mt-4">
+                <label class="text-900 font-medium" for="ethics">
+                    {{'StudyManagement.Ethics' | translate}}
+                </label>
+                <app-tooltip message="StudyManagement.EthicsTooltip"></app-tooltip>
             </div>
             <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
                 <input type="text"
@@ -54,6 +65,8 @@
                        class="form-control">
             </div>
         </div>
+
+        <!-- Buttons -->
         <div class="flex justify-content-between flex-wrap mt-4">
             <div class="justify-content-start">
                 <button pButton pRipple

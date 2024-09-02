@@ -1,44 +1,80 @@
-.small-preview-dialog .ui-dialog {
-  max-width: 800px;
+.pdf-container {
+  width: 100%;
+  max-width: 1500px; /* Increased width */
+  padding: 2rem 3rem; /* Added padding for better alignment */
 }
 
-.section-title h3 {
-  font-size: 1.25rem;
-  color: #495057;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 0.5rem;
-}
-
-.section-container {
-  margin-bottom: 2rem;
-}
-
-.attribute-container {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #eee;
-}
-
-.attribute-container:last-child {
-  border-bottom: none;
-}
-
-.p-card-content {
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  border: 1px solid #dee2e6;
-  margin-bottom: 0.75rem;
-  background-color: #f8f9fa;
-}
-
-.p-card-content:last-child {
-  margin-bottom: 0;
-}
-
-.ui-dialog-footer {
-  padding-top: 10px;
-  padding-bottom: 10px;
+.pdf-header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e57373;
+
+  .logo-section img {
+    max-height: 50px;
+  }
+
+  .title-section .pdf-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #e57373;
+    margin: 0;
+  }
+}
+
+.top-decoration {
+  background: linear-gradient(to right, #e57373, #ffccbc);
+  height: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.section {
+  margin-bottom: 2.5rem;
+
+  .section-title {
+    font-size: 1.75rem; /* Slightly larger font size for titles */
+    font-weight: bold;
+    color: #e57373;
+    border-bottom: 2px solid #e57373;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-content {
+    .row {
+      margin-bottom: 1rem; /* Increased margin between rows */
+
+      .col-12 {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 0; /* Added padding for better alignment */
+
+        .attribute-title {
+          font-weight: bold;
+          color: #616161;
+        }
+
+        .attribute-value {
+          color: #424242;
+          text-align: right;
+          padding-left: 2rem; /* Added padding for better alignment */
+        }
+      }
+    }
+  }
+}
+
+p-table {
+  width: 100%;
+  margin-top: 1.5rem; /* Increased margin top for better spacing */
+
+  th, td {
+    text-align: left;
+    padding: 1rem; /* Increased padding for table cells */
+  }
+
+  td {
+    color: #424242;
+  }
 }

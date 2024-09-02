@@ -132,7 +132,13 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
     markActiveItem() {
         const currentRoute = this.router.url;
         this.model.forEach(item => {
-            item.expanded = item.routerLink && currentRoute.startsWith(item.routerLink[0]);
+            if (item.routerLink && currentRoute.startsWith(item.routerLink[0])) {
+                item.expanded = true;
+                item['class'] = 'text-primary'; // Apply the PrimeNG main color class
+            } else {
+                item.expanded = false;
+                item['class'] = 'text-500'; // Apply the default color class
+            }
         });
     }
 }
