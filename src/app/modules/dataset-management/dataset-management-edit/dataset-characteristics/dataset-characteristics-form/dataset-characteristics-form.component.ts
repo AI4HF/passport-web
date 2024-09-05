@@ -47,13 +47,13 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
      * Initializes the component.
      */
     ngOnInit() {
+        this.isUpdateMode = !!this.characteristic;
         this.initializeForm();
-        if (this.characteristic) {
-            this.isUpdateMode = true;
-            this.updateForm();
+        if (this.isUpdateMode) {
+            this.loadFeatureById();
         } else {
-            this.loadFeatures();
             this.characteristic = new DatasetCharacteristic({ datasetId: this.datasetId, featureId: null });
+            this.loadFeatures();
         }
         this.display = true;
     }
@@ -70,8 +70,64 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
             .subscribe({
                 next: features => {
                     this.features = features;
+                    this.filterAvailableFeatures();
                 },
                 error: (error) => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
+    }
+
+    /**
+     * Filters the features to remove those that are already associated with the dataset.
+     * If the filtered list is empty, closes the form and shows an error message.
+     */
+    filterAvailableFeatures() {
+        this.datasetCharacteristicService.getCharacteristicsByDatasetId(this.datasetId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: datasetCharacteristics => {
+                    const usedFeatureIds = datasetCharacteristics.map(characteristic => characteristic.featureId);
+                    this.features = this.features.filter(feature => !usedFeatureIds.includes(feature.featureId));
+
+                    if (this.features.length === 0) {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: this.translateService.instant('Error'),
+                            detail: this.translateService.instant('DatasetManagement.NoAvailableFeatures')
+                        });
+                        this.closeDialog();
+                    }
+                },
+                error: (error) => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
+    }
+
+    /**
+     * Loads the feature details using the featureId from the characteristic.
+     */
+    loadFeatureById() {
+        this.featureService.getFeatureById(this.characteristic.featureId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: feature => {
+                    this.features = [feature];
+                    this.characteristicForm.patchValue({
+                        feature: feature
+                    });
+                    this.updateForm();
+                },
+                error: error => {
                     this.messageService.add({
                         severity: 'error',
                         summary: this.translateService.instant('Error'),
@@ -86,10 +142,10 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
      */
     initializeForm() {
         this.characteristicForm = new FormGroup({
-            feature: new FormControl(this.characteristic?.featureId, Validators.required),
-            characteristicName: new FormControl(this.characteristic?.characteristicName, Validators.required),
-            value: new FormControl(this.characteristic?.value, Validators.required),
-            valueDataType: new FormControl(this.characteristic?.valueDataType, Validators.required)
+            feature: new FormControl({ value: '', disabled: false }, this.isUpdateMode ? [] : Validators.required),
+            characteristicName: new FormControl('', Validators.required),
+            value: new FormControl('', Validators.required),
+            valueDataType: new FormControl('', Validators.required)
         });
     }
 
@@ -98,7 +154,6 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
      */
     updateForm() {
         this.characteristicForm.patchValue({
-            feature: this.characteristic.featureId,
             characteristicName: this.characteristic.characteristicName,
             value: this.characteristic.value,
             valueDataType: this.characteristic.valueDataType
@@ -110,16 +165,16 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
      */
     saveCharacteristic() {
         const formValues = this.characteristicForm.value;
-        const characteristicPayload = {
+        const characteristicPayload = new DatasetCharacteristic({
             characteristicName: formValues.characteristicName,
             value: formValues.value.toString(),
             valueDataType: formValues.valueDataType,
-            datasetId: this.datasetId
-        };
+            datasetId: this.datasetId,
+            featureId: this.isUpdateMode ? this.characteristic.featureId : formValues.feature.featureId
+        });
 
         if (this.isUpdateMode) {
-            const newCharacteristic: DatasetCharacteristic = new DatasetCharacteristic({ featureId: this.characteristic.featureId, ...characteristicPayload });
-            this.datasetCharacteristicService.updateCharacteristic(newCharacteristic)
+            this.datasetCharacteristicService.updateCharacteristic(characteristicPayload)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: characteristic => {
@@ -130,6 +185,7 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
                             summary: this.translateService.instant('Success'),
                             detail: this.translateService.instant('DatasetManagement.Updated')
                         });
+                        this.closeDialog();
                     },
                     error: (error: any) => {
                         this.messageService.add({
@@ -137,14 +193,10 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
                             summary: this.translateService.instant('Error'),
                             detail: error.message
                         });
-                    },
-                    complete: () => {
-                        this.closeDialog();
                     }
                 });
         } else {
-            const newCharacteristic: DatasetCharacteristic = new DatasetCharacteristic({ featureId: formValues.feature.featureId, ...characteristicPayload });
-            this.datasetCharacteristicService.createCharacteristic(newCharacteristic)
+            this.datasetCharacteristicService.createCharacteristic(characteristicPayload)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: characteristic => {
@@ -155,6 +207,7 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
                             summary: this.translateService.instant('Success'),
                             detail: this.translateService.instant('DatasetManagement.Created')
                         });
+                        this.closeDialog();
                     },
                     error: (error: any) => {
                         this.messageService.add({
@@ -162,9 +215,6 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
                             summary: this.translateService.instant('Error'),
                             detail: error.message
                         });
-                    },
-                    complete: () => {
-                        this.closeDialog();
                     }
                 });
         }
@@ -178,3 +228,4 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
         this.formClosed.emit();
     }
 }
+

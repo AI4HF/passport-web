@@ -25,6 +25,13 @@ import {ModelDeploymentService} from "../../core/services/model-deployment.servi
 import {DeploymentEnvironmentService} from "../../core/services/deployment-environment.service";
 import {StudyOrganizationService} from "../../core/services/studyOrganization.service";
 import {PassportService} from "../../core/services/passport.service";
+import {AlgorithmService} from "../../core/services/algorithm.service";
+import {ImplementationService} from "../../core/services/implementation.service";
+import {LearningProcessService} from "../../core/services/learning-process.service";
+import {LearningProcessDatasetService} from "../../core/services/learning-process-dataset.service";
+import {LearningProcessParameterService} from "../../core/services/learning-process-parameter.service";
+import {LearningStageService} from "../../core/services/learning-stage.service";
+import {LearningStageParameterService} from "../../core/services/learning-stage-parameter.service";
 
 /**
  * Base component to provide common properties
@@ -69,6 +76,13 @@ export abstract class BaseComponent implements OnDestroy {
   modelDeploymentService: ModelDeploymentService;
   deploymentEnvironmentService: DeploymentEnvironmentService;
   passportService: PassportService;
+  algorithmService: AlgorithmService;
+  implementationService: ImplementationService;
+  learningProcessService: LearningProcessService;
+  learningProcessDatasetService: LearningProcessDatasetService;
+  learningProcessParameterService: LearningProcessParameterService;
+  learningStageService: LearningStageService;
+  learningStageParameterService: LearningStageParameterService;
 
   constructor(injector: Injector){
     this.router = injector.get(Router);
@@ -92,6 +106,13 @@ export abstract class BaseComponent implements OnDestroy {
     this.learningDatasetService = injector.get(LearningDatasetService);
     this.transformationStepService = injector.get(DatasetTransformationStepService);
     this.parameterService = injector.get(ParameterService);
+    this.algorithmService = injector.get(AlgorithmService);
+    this.implementationService = injector.get(ImplementationService);
+    this.learningProcessService = injector.get(LearningProcessService);
+    this.learningProcessDatasetService = injector.get(LearningProcessDatasetService);
+    this.learningStageService = injector.get(LearningStageService);
+    this.learningProcessParameterService = injector.get(LearningProcessParameterService);
+    this.learningStageParameterService = injector.get(LearningStageParameterService);
     this.modelService = injector.get(ModelService);
     this.modelDeploymentService = injector.get(ModelDeploymentService);
     this.deploymentEnvironmentService = injector.get(DeploymentEnvironmentService);
