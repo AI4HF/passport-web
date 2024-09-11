@@ -26,8 +26,11 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
     /** The form group for the learning process and implementation */
     formGroup: FormGroup;
 
-    /** List of algorithms */
-    algorithms: Algorithm[] = [];
+    /** Grouped algorithms by type */
+    groupedAlgorithms: { type: string, algorithms: Algorithm[] }[] = [];
+
+    /** Filtered list of algorithms for autocomplete */
+    filteredAlgorithms: Algorithm[] = [];
 
     /** Flag to indicate if the form is in edit mode */
     isEditMode: boolean = false;
@@ -111,18 +114,19 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         });
 
         // Set the selected algorithm if in edit mode
-        if (this.isEditMode && this.algorithms.length > 0) {
+        if (this.isEditMode && this.groupedAlgorithms.length > 0) {
             this.setDropdownValues();
         }
     }
 
     /**
-     * Loads the dropdown options for algorithms.
+     * Loads the dropdown options for algorithms and groups them by type.
      */
     loadAlgorithms() {
         this.algorithmService.getAllAlgorithms().pipe(takeUntil(this.destroy$)).subscribe({
             next: algorithms => {
-                this.algorithms = algorithms;
+                this.groupAlgorithmsByType(algorithms);
+                this.filteredAlgorithms = algorithms; // Initialize the filtered list
                 if (this.isEditMode) {
                     this.setDropdownValues();
                 }
@@ -138,12 +142,82 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
     }
 
     /**
+     * Groups the algorithms by their type attribute.
+     * @param algorithms List of all algorithms
+     */
+    groupAlgorithmsByType(algorithms: Algorithm[]) {
+        const grouped = algorithms.reduce((acc, algorithm) => {
+            const typeGroup = acc.find(group => group.type === algorithm.type);
+            if (typeGroup) {
+                typeGroup.algorithms.push(algorithm);
+            } else {
+                acc.push({ type: algorithm.type, algorithms: [algorithm] });
+            }
+            return acc;
+        }, []);
+
+        this.groupedAlgorithms = grouped;
+    }
+
+    /**
+     * Filters the list of algorithms based on user input.
+     */
+    filterAlgorithms(event: any) {
+        const query = event.query.toLowerCase();
+        this.filteredAlgorithms = this.groupedAlgorithms
+            .flatMap(group => group.algorithms)
+            .filter(algorithm => algorithm.name.toLowerCase().includes(query));
+    }
+
+    /**
+     * Handles the blur event of the algorithm input to create a new algorithm if it doesn't exist.
+     */
+    handleAlgorithmBlur() {
+        const inputAlgorithmName = this.formGroup.get('algorithm').value;
+        if (typeof inputAlgorithmName === 'string') {
+            const existingAlgorithm = this.filteredAlgorithms.find(alg => alg.name === inputAlgorithmName);
+
+            if (!existingAlgorithm) {
+                // Create new algorithm with the entered name
+                const newAlgorithm = new Algorithm({
+                    name: inputAlgorithmName,
+                    type: 'Custom',
+                    subType: 'Custom',
+                    objectiveFunction: 'Custom' // or set as null/empty based on your needs
+                });
+
+                this.algorithmService.createAlgorithm(newAlgorithm).pipe(takeUntil(this.destroy$)).subscribe({
+                    next: (createdAlgorithm: Algorithm) => {
+                        // Add the newly created algorithm to the groupedAlgorithms list
+                        this.groupAlgorithmsByType([createdAlgorithm, ...this.groupedAlgorithms.flatMap(group => group.algorithms)]);
+
+                        // Set the form control to the newly created algorithm
+                        this.formGroup.patchValue({
+                            algorithm: createdAlgorithm
+                        });
+                    },
+                    error: (error) => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: this.translateService.instant('Error'),
+                            detail: error.message
+                        });
+                    }
+                });
+            }
+        }
+    }
+
+    /**
      * Sets the values for the dropdowns based on the selected implementation.
      */
     setDropdownValues() {
         if (this.selectedImplementation) {
+            const selectedAlgorithm = this.groupedAlgorithms
+                .flatMap(group => group.algorithms)
+                .find(a => a.algorithmId === this.selectedImplementation.algorithmId);
             this.formGroup.patchValue({
-                algorithm: this.algorithms.find(a => a.algorithmId === this.selectedImplementation.algorithmId) || null
+                algorithm: selectedAlgorithm || null
             });
         }
     }

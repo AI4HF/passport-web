@@ -10,6 +10,7 @@ import { CardModule } from "primeng/card";
 import {CheckboxModule} from "primeng/checkbox";
 import {DropdownModule} from "primeng/dropdown";
 import {StudyDetailsModule} from "../../../study-management/study-management-edit/study-details/study-details.module";
+import {AutoCompleteModule} from "primeng/autocomplete";
 
 @NgModule({
     declarations: [LpDetailsComponent],
@@ -23,7 +24,8 @@ import {StudyDetailsModule} from "../../../study-management/study-management-edi
         CardModule,
         CheckboxModule,
         DropdownModule,
-        StudyDetailsModule
+        StudyDetailsModule,
+        AutoCompleteModule
     ]
 })
 export class LpDetailsModule { }
