@@ -3,59 +3,46 @@ import { BaseComponent } from "../../../shared/components/base.component";
 import { forkJoin, of, switchMap, takeUntil } from "rxjs";
 import { ModelWithName } from "../../../shared/models/modelWithName.model";
 import { PassportWithModelName } from "../../../shared/models/passportWithModelName.model";
-import {ModelDeployment} from "../../../shared/models/modelDeployment.model";
-import {DeploymentEnvironment} from "../../../shared/models/deploymentEnvironment.model";
-import {Model} from "../../../shared/models/model.model";
-import {Study} from "../../../shared/models/study.model";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import {Parameter} from "../../../shared/models/parameter.model";
-import {Population} from "../../../shared/models/population.model";
-import {Experiment} from "../../../shared/models/experiment.model";
-import {Survey} from "../../../shared/models/survey.model";
+import { ModelDeployment } from "../../../shared/models/modelDeployment.model";
+import { DeploymentEnvironment } from "../../../shared/models/deploymentEnvironment.model";
+import { Model } from "../../../shared/models/model.model";
+import { Study } from "../../../shared/models/study.model";
+import { Parameter } from "../../../shared/models/parameter.model";
+import { Population } from "../../../shared/models/population.model";
+import { Experiment } from "../../../shared/models/experiment.model";
+import { Survey } from "../../../shared/models/survey.model";
+import {PassportDetailsDTO} from "../../../shared/models/passportDetails.model";
+import {LearningProcessWithStagesDTO} from "../../../shared/models/learningProcessWithStagesDTO.model";
+import {DatasetWithLearningDatasetsDTO} from "../../../shared/models/datasetWithLearningDatasetsDTO.model";
+import {FeatureSetWithFeaturesDTO} from "../../../shared/models/featureSetWithFeaturesDTO.model";
 
-/**
- * Component to display and manage a list of passports.
- */
 @Component({
   selector: 'app-passport-management-table',
   templateUrl: './passport-management-table.component.html',
-  styleUrl: './passport-management-table.component.scss'
+  styleUrls: ['./passport-management-table.component.scss']
 })
 export class PassportManagementTableComponent extends BaseComponent implements OnInit {
-  /** Columns to be displayed in the table */
   columns: any[];
-  /** Loading state of the table */
   loading: boolean = true;
-  /** Determines if the form is displayed */
   displayForm: boolean = false;
-  /** All passports with model names included */
   passportWithModelNameList: PassportWithModelName[] = [];
-  /** All models */
   modelList: ModelWithName[] = [];
 
-  /**
-   * Passport content to be served during export.
-   */
   selectedPassportId: number | null = null;
   deploymentDetails: ModelDeployment | null = null;
   environmentDetails: DeploymentEnvironment | null = null;
   modelDetails: Model | null = null;
   studyDetails: Study | null = null;
-  parameters: Parameter[] | [] = [];
-  populationDetails: Population[] | [] = [];
-  experiments: Experiment[] | [] = [];
-  surveys: Survey[] | [] = [];
+  parameters: Parameter[] = [];
+  populationDetails: Population[] = [];
+  experiments: Experiment[] = [];
+  surveys: Survey[] = [];
+  datasetsWithLearningDatasets: DatasetWithLearningDatasetsDTO[] = [];
+  featureSetsWithFeatures: FeatureSetWithFeaturesDTO[] = [];
+  learningProcessesWithStages: LearningProcessWithStagesDTO[] = [];
 
-  /**
-   * Boolean passport preview visibility trigger.
-    */
   showPdfPreview: boolean = false;
 
-  /**
-   * Constructor to inject dependencies.
-   * @param injector The dependency injector
-   */
   constructor(protected injector: Injector) {
     super(injector);
     this.columns = [
@@ -64,18 +51,12 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     ];
   }
 
-  /**
-   * Initializes the component.
-   */
   ngOnInit() {
     if(this.activeStudyService.getActiveStudy()){
       this.loadPassports(this.activeStudyService.getActiveStudy().id);
     }
   }
 
-  /**
-   * Loads passports and models data.
-   */
   loadPassports(studyId: number) {
     forkJoin([
       this.passportService.getPassportListByStudy(studyId).pipe(takeUntil(this.destroy$)),
@@ -99,9 +80,6 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     });
   }
 
-  /**
-   * Maps models to passports to show the model name for each passport.
-   */
   mapModelsToPassports() {
     this.passportWithModelNameList.forEach(passportWithModelName => {
       this.modelDeploymentService.getModelDeploymentById(passportWithModelName.passport.deploymentId).pipe(
@@ -114,26 +92,14 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     });
   }
 
-  /**
-   * Filters the table based on the input event.
-   * @param table The table to be filtered
-   * @param event The input event
-   */
   filter(table: any, event: Event): void {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
-  /**
-   * Shows the form for creating a new passport.
-   */
   createPassport() {
     this.displayForm = true;
   }
 
-  /**
-   * Deletes the selected passport.
-   * @param passportId The ID of the Passport to be deleted
-   */
   deletePassport(passportId: number) {
     this.passportService.deletePassport(passportId).pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -155,50 +121,52 @@ export class PassportManagementTableComponent extends BaseComponent implements O
         });
   }
 
-  /**
-   * Handles the event when the form is closed.
-   */
   onFormClosed() {
     this.displayForm = false;
     this.loadPassports(this.activeStudyService.getActiveStudy().id);
   }
 
-  /**
-   * Handles the content generation for the Passport.
-   * @param passportId Selected Passport's id.
-   */
   selectPassportForImport(passportId: number) {
     this.openPdfPreview();
     this.selectedPassportId = passportId;
 
-    this.passportService.getPassportById(passportId).pipe(
-        switchMap(passport => this.modelDeploymentService.getModelDeploymentById(passport.deploymentId)),
-        switchMap(deployment => {
-          this.deploymentDetails = deployment;
-          return forkJoin([
-            this.deploymentEnvironmentService.getDeploymentEnvironmentById(deployment.environmentId),
-            this.modelService.getModelById(deployment.modelId),
-          ]);
-        }),
-        switchMap(([environment, model]) => {
-          this.environmentDetails = environment;
-          this.modelDetails = model;
-          return forkJoin([
-            this.studyService.getStudyById(model.studyId),
-            this.parameterService.getAllParametersByStudyId(model.studyId),
-            this.populationService.getPopulationByStudyId(model.studyId),
-            this.surveyService.getSurveysByStudyId(model.studyId),
-            this.experimentService.getExperimentListByStudyId(model.studyId)
-          ]);
-        }),
+    this.passportService.getPassportDetailsById(passportId).pipe(
         takeUntil(this.destroy$)
     ).subscribe({
-      next: ([study, parameters, populations, surveys, experiments]) => {
-        this.studyDetails = study;
-        this.parameters = parameters;
-        this.populationDetails = populations;
-        this.surveys = surveys;
-        this.experiments = experiments;
+      next: (passportDetails: PassportDetailsDTO) => {
+        // Extract details from the JSON object in passportDetails.detailsJson
+        const details = passportDetails.detailsJson;
+
+        // Deployment details
+        this.deploymentDetails = details.deploymentDetails;
+        this.environmentDetails = details.environmentDetails;
+
+        // Model details
+        this.modelDetails = details.modelDetails;
+
+        // Study details
+        this.studyDetails = details.studyDetails;
+
+        // Parameters
+        this.parameters = details.parameters || [];
+
+        // Population details
+        this.populationDetails = details.populationDetails || [];
+
+        // Surveys
+        this.surveys = details.surveys || [];
+
+        // Experiments
+        this.experiments = details.experiments || [];
+
+        // Datasets with Learning Datasets
+        this.datasetsWithLearningDatasets = details.datasetsWithLearningDatasets || [];
+
+        // Feature Sets with Features
+        this.featureSetsWithFeatures = details.featureSetsWithFeatures || [];
+
+        // Learning Processes with Stages
+        this.learningProcessesWithStages = details.learningProcessesWithStages || [];
       },
       error: error => {
         this.messageService.add({
@@ -210,62 +178,10 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     });
   }
 
-  /**
-   * Handles the pdf generation from the existing data.
-   */
-  generatePdf() {
-    const dataElement = document.getElementById('pdfPreviewContainer');
-    if (dataElement) {
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-
-      html2canvas(dataElement, {
-        scrollY: -window.scrollY,
-        scale: 2,
-        windowWidth: dataElement.scrollWidth,
-        windowHeight: dataElement.scrollHeight
-      }).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const imgProps = pdf.getImageProperties(imgData);
-        const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        let heightLeft = imgHeight;
-        let position = 0;
-
-        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-        heightLeft -= pdfHeight;
-
-        while (heightLeft > 0) {
-          position = heightLeft - imgHeight;
-          pdf.addPage();
-          pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-          heightLeft -= pdfHeight;
-        }
-
-        pdf.save('DeploymentDetails.pdf');
-
-        this.closePdfPreview();
-      }).catch(error => {
-        console.error('Error generating PDF:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translateService.instant('Error'),
-          detail: this.translateService.instant('PassportManagement.PDF generation failed')
-        });
-      });
-    }
-  }
-
-  /**
-   * Boolean trigger for opening pdf preview screen.
-   */
   openPdfPreview() {
     this.showPdfPreview = true;
   }
 
-  /**
-   * Boolean trigger for closing pdf previewscreen.
-   */
   closePdfPreview() {
     this.showPdfPreview = false;
   }

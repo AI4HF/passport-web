@@ -14,6 +14,7 @@ import {DialogModule} from "primeng/dialog";
 import {
     SelectedStudyDropdownModule
 } from "../../../shared/components/selected-study-dropdown/selected-study-dropdown.module";
+import {PassportPdfExportModule} from "../passport-pdf-export/passport-pdf-export.module";
 
 
 
@@ -31,7 +32,8 @@ import {
         PassportManagementFormModule,
         CardModule,
         DialogModule,
-        SelectedStudyDropdownModule
+        SelectedStudyDropdownModule,
+        PassportPdfExportModule
     ],
     exports: [PassportManagementTableComponent]
 })

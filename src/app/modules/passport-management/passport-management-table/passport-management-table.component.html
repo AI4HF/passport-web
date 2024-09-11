@@ -15,7 +15,7 @@
                         tooltipPosition="bottom"></button>
             </div>
         </div>
-        <p-table #dt [columns]="columns" [filterDelay]="0" [globalFilterFields]="['passport.passportId', 'modelName']"
+        <p-table #dt [columns]="columns" [filterDelay]="0" [globalFilterFields]="['passport.passportId', 'modelName', 'passport.createdBy', 'passport.createdAt']"
                  [loading]="loading"
                  [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [rows]="10" [showLoader]="true"
                  [sortField]="'passport.passportId'" [value]="passportWithModelNameList">
@@ -29,6 +29,14 @@
                         {{ 'PassportManagement.Model' | translate }}
                         <p-sortIcon [field]="'modelName'"></p-sortIcon>
                     </th>
+                    <th [pSortableColumn]="'passport.createdBy'" class="white-space-nowrap min-width-10rem">
+                        {{ 'PassportManagement.CreatedBy' | translate }}
+                        <p-sortIcon [field]="'passport.createdBy'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'passport.createdAt'" class="white-space-nowrap min-width-10rem">
+                        {{ 'PassportManagement.CreatedAt' | translate }}
+                        <p-sortIcon [field]="'passport.createdAt'"></p-sortIcon>
+                    </th>
                     <th>{{ 'PassportManagement.Actions' | translate }}</th>
                 </tr>
             </ng-template>
@@ -39,6 +47,12 @@
                     </td>
                     <td class="cursor-pointer">
                         <span>{{ passportWithModelName.modelName }}</span>
+                    </td>
+                    <td class="cursor-pointer">
+                        <span>{{ passportWithModelName.passport.createdBy }}</span>
+                    </td>
+                    <td class="cursor-pointer">
+                        <span>{{ passportWithModelName.passport.createdAt | date:'short' }}</span>
                     </td>
                     <td>
                         <button (click)="selectPassportForImport(passportWithModelName.passport.passportId)"
@@ -64,341 +78,18 @@
 
 <app-passport-management-form (formClosed)="onFormClosed()" *ngIf="this.displayForm"></app-passport-management-form>
 
-<p-dialog [(visible)]="showPdfPreview" [closable]="false" [modal]="true"
-          header="{{ 'PassportManagement.PDF Preview' | translate }}" styleClass="small-preview-dialog">
-    <div class="page-preview-container" id="pdfPreviewContainer">
-        <div class="pdf-container">
-            <!-- Header Section -->
-            <div class="pdf-header">
-                <div class="logo-section">
-                    <img src="path/to/logo.png" alt="AI4HF Logo">
-                </div>
-                <div class="title-section">
-                    <h1 class="pdf-title">{{ 'PassportManagement.AI4HF Product Passport' | translate }}</h1>
-                </div>
-            </div>
-
-            <!-- Top of the Page Decoration -->
-            <div class="top-decoration">
-                <!-- Insert your decorative SVG or styled div here -->
-            </div>
-
-            <!-- Model Details Section -->
-            <div class="section">
-                <h2 class="section-title">{{ 'PassportManagement.Model Details' | translate }}</h2>
-                <div class="section-content">
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Model Name' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.name }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Model Version' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.version }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Model Type' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.modelType }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Product Identifier' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.productIdentifier }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Owner' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.owner }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.TRL Level' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.trlLevel }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.License' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.license }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Primary Use' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.primaryUse }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Secondary Use' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.secondaryUse }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Intended Users' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.intendedUsers }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Counter Indications' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.counterIndications }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Ethical Considerations' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.ethicalConsiderations }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Limitations' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.limitations }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Fairness Constraints' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.fairnessConstraints }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Created At' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.createdAt | date: 'medium' }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Created By' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.createdBy }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Last Updated At' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.lastUpdatedAt | date: 'medium' }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Last Updated By' | translate }}:</span>
-                            <span class="attribute-value">{{ modelDetails?.lastUpdatedBy }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Model Deployment Details Section -->
-            <div class="section">
-                <h2 class="section-title">{{ 'PassportManagement.Model Deployment Details' | translate }}</h2>
-                <div class="section-content">
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Deployment Tags' | translate }}:</span>
-                            <span class="attribute-value">{{ deploymentDetails?.tags }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Deployment Status' | translate }}:</span>
-                            <span class="attribute-value">{{ deploymentDetails?.status }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Identified Failures' | translate }}:</span>
-                            <span class="attribute-value">{{ deploymentDetails?.identifiedFailures }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Created At' | translate }}:</span>
-                            <span class="attribute-value">{{ deploymentDetails?.createdAt | date: 'medium' }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Created By' | translate }}:</span>
-                            <span class="attribute-value">{{ deploymentDetails?.createdBy }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Last Updated At' | translate }}:</span>
-                            <span class="attribute-value">{{ deploymentDetails?.lastUpdatedAt | date: 'medium' }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Last Updated By' | translate }}:</span>
-                            <span class="attribute-value">{{ deploymentDetails?.lastUpdatedBy }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Environment Details Section -->
-            <div class="section">
-                <h2 class="section-title">{{ 'PassportManagement.Environment Details' | translate }}</h2>
-                <div class="section-content">
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Environment Title' | translate }}:</span>
-                            <span class="attribute-value">{{ environmentDetails?.title }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Environment Description' | translate }}:</span>
-                            <span class="attribute-value">{{ environmentDetails?.description }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Hardware Properties' | translate }}:</span>
-                            <span class="attribute-value">{{ environmentDetails?.hardwareProperties }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Software Properties' | translate }}:</span>
-                            <span class="attribute-value">{{ environmentDetails?.softwareProperties }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Connectivity Details' | translate }}:</span>
-                            <span class="attribute-value">{{ environmentDetails?.connectivityDetails }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Study Details Section -->
-            <div class="section">
-                <h2 class="section-title">{{ 'PassportManagement.Study Details' | translate }}</h2>
-                <div class="section-content">
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Study Name' | translate }}:</span>
-                            <span class="attribute-value">{{ studyDetails?.name }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Study Description' | translate }}:</span>
-                            <span class="attribute-value">{{ studyDetails?.description }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Study Objectives' | translate }}:</span>
-                            <span class="attribute-value">{{ studyDetails?.objectives }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Study Ethics' | translate }}:</span>
-                            <span class="attribute-value">{{ studyDetails?.ethics }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="attribute-title">{{ 'PassportManagement.Owner' | translate }}:</span>
-                            <span class="attribute-value">{{ studyDetails?.owner }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Experiment Details Section -->
-            <div class="section">
-                <h2 class="section-title">{{ 'PassportManagement.Experiment Details' | translate }}</h2>
-                <div class="section-content">
-                    <p-table [value]="experiments">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>{{ 'PassportManagement.Experiment ID' | translate }}</th>
-                                <th>{{ 'PassportManagement.Research Question' | translate }}</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-experiment>
-                            <tr>
-                                <td>{{ experiment.experimentId }}</td>
-                                <td>{{ experiment.researchQuestion }}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-            </div>
-
-            <!-- Survey Details Section -->
-            <div class="section">
-                <h2 class="section-title">{{ 'PassportManagement.Survey Details' | translate }}</h2>
-                <div class="section-content">
-                    <p-table [value]="surveys">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>{{ 'PassportManagement.Survey ID' | translate }}</th>
-                                <th>{{ 'PassportManagement.Question' | translate }}</th>
-                                <th>{{ 'PassportManagement.Answer' | translate }}</th>
-                                <th>{{ 'PassportManagement.Category' | translate }}</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-survey>
-                            <tr>
-                                <td>{{ survey.surveyId }}</td>
-                                <td>{{ survey.question }}</td>
-                                <td>{{ survey.answer }}</td>
-                                <td>{{ survey.category }}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-            </div>
-
-            <!-- Population Details Section -->
-            <div class="section">
-                <h2 class="section-title">{{ 'PassportManagement.Population Details' | translate }}</h2>
-                <div class="section-content">
-                    <p-table [value]="populationDetails">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>{{ 'PassportManagement.Population ID' | translate }}</th>
-                                <th>{{ 'PassportManagement.Population URL' | translate }}</th>
-                                <th>{{ 'PassportManagement.Description' | translate }}</th>
-                                <th>{{ 'PassportManagement.Characteristics' | translate }}</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-population>
-                            <tr>
-                                <td>{{ population.populationId }}</td>
-                                <td>{{ population.populationUrl }}</td>
-                                <td>{{ population.description }}</td>
-                                <td>{{ population.characteristics }}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-        <div class="ui-dialog-footer" style="padding-top: 10px; padding-bottom: 10px;">
-        <button (click)="closePdfPreview()" icon="pi pi-times" label="{{ 'PassportManagement.CANCEL' | translate }}"
-                pButton
-                style="float: left;" type="button"></button>
-        <button (click)="generatePdf()" icon="pi pi-check" label="{{ 'PassportManagement.EXPORT' | translate }}" pButton
-                style="float: right;" type="button"></button>
-    </div>
-</p-dialog>
+<app-passport-pdf-export
+        *ngIf="showPdfPreview"
+        (pdfPreviewClosed)="closePdfPreview()"
+        [deploymentDetails]="deploymentDetails"
+        [environmentDetails]="environmentDetails"
+        [modelDetails]="modelDetails"
+        [studyDetails]="studyDetails"
+        [parameters]="parameters"
+        [populationDetails]="populationDetails"
+        [experiments]="experiments"
+        [surveys]="surveys"
+        [datasetsWithLearningDatasets]="datasetsWithLearningDatasets"
+        [featureSetsWithFeatures]="featureSetsWithFeatures"
+        [learningProcessesWithStages]="learningProcessesWithStages"
+></app-passport-pdf-export>
