@@ -9,25 +9,28 @@
     <form (ngSubmit)="save()" *ngIf="this.display" [formGroup]="form">
         <div class="form-grid grid">
             <div class="field col">
+                <label for="transformationTitle" class="font-bold">{{ 'DatasetManagement.TransformationTitle' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-tags"></i>
                         <input class="w-full" formControlName="transformationTitle" id="transformationTitle" pInputText
-                               placeholder="{{ 'DatasetManagement.TransformationTitle' | translate }}">
+                               placeholder="{{ 'DatasetManagement.TransformationTitlePlaceholder' | translate }}">
                     </span>
                 </div>
+                <label for="transformationDescription" class="font-bold">{{ 'DatasetManagement.TransformationDescription' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-bookmark"></i>
                         <input class="w-full" formControlName="transformationDescription" id="transformationDescription" pInputText
-                               placeholder="{{ 'DatasetManagement.TransformationDescription' | translate }}">
+                               placeholder="{{ 'DatasetManagement.TransformationDescriptionPlaceholder' | translate }}">
                     </span>
                 </div>
+                <label for="learningDatasetDescription" class="font-bold">{{ 'DatasetManagement.LearningDatasetDescription' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-hashtag"></i>
                         <input class="w-full" formControlName="learningDatasetDescription" id="learningDatasetDescription" pInputText
-                               placeholder="{{ 'DatasetManagement.LearningDatasetDescription' | translate }}">
+                               placeholder="{{ 'DatasetManagement.LearningDatasetDescriptionPlaceholder' | translate }}">
                     </span>
                 </div>
             </div>

@@ -66,6 +66,7 @@
                 <div class="col-10 text-900 flex-grow-1 align-items-center p-fluid mt-4">
                     <div class="flex align-items-center w-full">
                         <app-tooltip class="ml-2" message="DatasetManagement.FeatureSetTooltip"></app-tooltip>
+                        <div class="flex-grow-1">
                         <p-dropdown
                                 [style]="{'width':'100%'}"
                                 [options]="featuresets"
@@ -80,6 +81,7 @@
                                 <span>{{ featureset.title }}</span>
                             </ng-template>
                         </p-dropdown>
+                        </div>
                     </div>
                 </div>
                 <div class="col-2 flex align-items-center mt-4">

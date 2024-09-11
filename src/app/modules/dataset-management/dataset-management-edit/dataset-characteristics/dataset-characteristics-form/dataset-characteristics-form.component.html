@@ -9,6 +9,7 @@
     <form (ngSubmit)="saveCharacteristic()" *ngIf="this.display" [formGroup]="characteristicForm">
         <div class="form-grid grid">
             <div class="field col">
+                <label for="feature" class="font-bold">{{ 'DatasetManagement.Feature' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-tags"></i>
@@ -24,24 +25,27 @@
                         </p-dropdown>
                     </span>
                 </div>
+                <label for="characteristicName" class="font-bold">{{ 'DatasetManagement.CharacteristicName' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-bookmark"></i>
                         <input class="w-full" formControlName="characteristicName" id="characteristicName" pInputText
-                               placeholder="{{ 'DatasetManagement.CharacteristicName' | translate }}">
+                               placeholder="{{ 'DatasetManagement.CharacteristicNamePlaceholder' | translate }}">
                     </span>
                 </div>
+                <label for="value" class="font-bold">{{ 'DatasetManagement.Value' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-hashtag"></i>
-                        <input class="w-full" formControlName="value" id="value" pInputText placeholder="{{ 'DatasetManagement.Value' | translate }}">
+                        <input class="w-full" formControlName="value" id="value" pInputText placeholder="{{ 'DatasetManagement.ValuePlaceholder' | translate }}">
                     </span>
                 </div>
+                <label for="valueDataType" class="font-bold">{{ 'DatasetManagement.ValueDataType' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-database"></i>
                         <input class="w-full" formControlName="valueDataType" id="valueDataType" pInputText
-                               placeholder="{{ 'DatasetManagement.ValueDataType' | translate }}">
+                               placeholder="{{ 'DatasetManagement.ValueDataTypePlaceholder' | translate }}">
                     </span>
                 </div>
             </div>

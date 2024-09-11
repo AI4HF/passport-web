@@ -9,6 +9,7 @@
     <form (ngSubmit)="save()" *ngIf="this.display" [formGroup]="form">
         <div class="form-grid grid">
             <div class="field col">
+                <label for="learningDataset" class="font-bold">{{ 'LearningProcessManagement.LearningDataset' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-tags"></i>
@@ -17,7 +18,7 @@
                                 [options]="learningDatasets"
                                 formControlName="learningDataset"
                                 optionLabel="description"
-                                placeholder="{{'LearningProcessManagement.SelectLearningDataset' | translate}}"
+                                placeholder="{{'LearningProcessManagement.LearningDatasetPlaceholder' | translate}}"
                                 class="form-control"
                                 [readonly]="isUpdateMode">
                             <ng-template let-learningDataset pTemplate="selectedItem">
@@ -29,11 +30,12 @@
                         </p-dropdown>
                     </span>
                 </div>
+                <label for="description" class="font-bold">{{ 'LearningProcessManagement.Description' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-bookmark"></i>
                         <input class="w-full" formControlName="description" id="description" pInputText
-                               placeholder="{{ 'LearningProcessManagement.Description' | translate }}">
+                               placeholder="{{ 'LearningProcessManagement.DescriptionPlaceholder' | translate }}">
                     </span>
                 </div>
             </div>

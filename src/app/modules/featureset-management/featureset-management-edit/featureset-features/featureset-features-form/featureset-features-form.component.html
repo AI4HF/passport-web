@@ -1,76 +1,79 @@
-<p-dialog (onHide)="closeDialog()" [(visible)]="this.display" [modal]="true" [style]="{width: '80rem'}" header="{{ 'FeatureSetManagement.Feature Form' | translate }}">
-  <ng-template pTemplate="header">
-    <div class="flex align-items-center">
-      <h5 class="text-900 font-bold mb-0">{{ 'FeatureSetManagement.Feature Form' | translate }}</h5>
-      <app-tooltip class="ml-2" message="FeatureManagement.FeatureFormTooltip"></app-tooltip>
-    </div>
-  </ng-template>
-  <form *ngIf="this.display" (ngSubmit)="saveFeature()" [formGroup]="featureForm" class="pb-21">
-    <div class="form-grid grid">
-      <div class="field col mb-0">
-        <div class="p-field p-col-12 p-md-6">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-bookmark"></i>
-                        <input formControlName="title" id="title" pInputText class="w-full" placeholder="{{ 'Title' | translate }}">
-                    </span>
+<p-dialog (onHide)="closeDialog()" [(visible)]="this.display" [modal]="true" [style]="{width: '80rem'}" header="{{ 'FeatureSetManagement.FeatureForm' | translate }}">
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center">
+            <h5 class="text-900 font-bold mb-0">{{ 'FeatureSetManagement.FeatureForm' | translate }}</h5>
+            <app-tooltip class="ml-2" message="FeatureManagement.FeatureFormTooltip"></app-tooltip>
         </div>
-        <div class="p-field p-col-12 p-md-6">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-comment"></i>
-                        <input formControlName="description" id="description" pInputText class="w-full" placeholder="{{ 'Description' | translate }}">
-                    </span>
-        </div>
-        <div class="p-field p-col-12 p-md-6">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-database"></i>
-                        <input formControlName="dataType" id="dataType" pInputText class="w-full" placeholder="{{ 'Data Type' | translate }}">
-                    </span>
-        </div>
-        <div class="p-field p-col-12 p-md-6">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-tags"></i>
-                        <input formControlName="featureType" id="featureType" pInputText class="w-full" placeholder="{{ 'Feature Type' | translate }}">
-                    </span>
-        </div>
-      </div>
-      <div class="field col mb-0">
-        <div class="p-field p-col-12 p-md-6">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-percentage"></i>
-                        <input formControlName="units" id="units" pInputText class="w-full" placeholder="{{ 'Units' | translate }}">
-                    </span>
-        </div>
-        <div class="p-field p-col-12 p-md-6">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-cog"></i>
-                        <input formControlName="equipment" id="equipment" pInputText class="w-full" placeholder="{{ 'Equipment' | translate }}">
-                    </span>
-        </div>
-        <div class="p-field p-col-12 p-md-6">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-folder-open"></i>
-                        <input formControlName="dataCollection" id="dataCollection" pInputText class="w-full" placeholder="{{ 'Data Collection' | translate }}">
-                    </span>
-        </div>
+    </ng-template>
+    <form *ngIf="this.display" (ngSubmit)="saveFeature()" [formGroup]="featureForm" class="pb-21">
         <div class="form-grid grid">
-          <div class="field col mb-0">
-            <div class="p-field p-col-12 p-md-6">
-              <p-checkbox formControlName="isUnique" [binary]="true" inputId="isUnique" class="align-checkbox"></p-checkbox>
-              <label for="isUnique">{{ 'FeatureSetManagement.Unique' | translate }}</label>
+            <div class="field col mb-0">
+                <label for="title" class="font-bold">{{ 'FeatureSetManagement.Title' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-bookmark"></i>
+            <input formControlName="title" id="title" pInputText class="w-full" placeholder="{{ 'FeatureSetManagement.TitlePlaceholder' | translate }}">
+          </span>
+                </div>
+                <label for="description" class="font-bold">{{ 'FeatureSetManagement.Description' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-comment"></i>
+            <input formControlName="description" id="description" pInputText class="w-full" placeholder="{{ 'FeatureSetManagement.DescriptionPlaceholder' | translate }}">
+          </span>
+                </div>
+                <label for="dataType" class="font-bold">{{ 'FeatureSetManagement.DataType' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-database"></i>
+            <input formControlName="dataType" id="dataType" pInputText class="w-full" placeholder="{{ 'FeatureSetManagement.DataTypePlaceholder' | translate }}">
+          </span>
+                </div>
+                <label for="featureType" class="font-bold">{{ 'FeatureSetManagement.FeatureType' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-tags"></i>
+            <input formControlName="featureType" id="featureType" pInputText class="w-full" placeholder="{{ 'FeatureSetManagement.FeatureTypePlaceholder' | translate }}">
+          </span>
+                </div>
             </div>
-          </div>
-          <div class="field col mb-0">
-            <div class="p-field p-col-12 p-md-6">
-              <p-checkbox formControlName="mandatory" [binary]="true" inputId="mandatory" class="align-checkbox"></p-checkbox>
-              <label for="mandatory">{{ 'FeatureSetManagement.Mandatory' | translate }}</label>
+            <div class="field col mb-0">
+                <label for="units" class="font-bold">{{ 'FeatureSetManagement.Units' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-percentage"></i>
+            <input formControlName="units" id="units" pInputText class="w-full" placeholder="{{ 'FeatureSetManagement.UnitsPlaceholder' | translate }}">
+          </span>
+                </div>
+                <label for="equipment" class="font-bold">{{ 'FeatureSetManagement.Equipment' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-cog"></i>
+            <input formControlName="equipment" id="equipment" pInputText class="w-full" placeholder="{{ 'FeatureSetManagement.EquipmentPlaceholder' | translate }}">
+          </span>
+                </div>
+                <label for="dataCollection" class="font-bold">{{ 'FeatureSetManagement.DataCollection' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-folder-open"></i>
+            <input formControlName="dataCollection" id="dataCollection" pInputText class="w-full" placeholder="{{ 'FeatureSetManagement.DataCollectionPlaceholder' | translate }}">
+          </span>
+                </div>
+                <div class="form-grid grid mt-3">
+                    <div class="field col mb-0">
+                        <p-checkbox formControlName="isUnique" [binary]="true" inputId="isUnique" class="align-checkbox"></p-checkbox>
+                        <label for="isUnique" class="font-bold">{{ 'FeatureSetManagement.Unique' | translate }}</label>
+                    </div>
+                    <div class="field col mb-0">
+                        <p-checkbox formControlName="mandatory" [binary]="true" inputId="mandatory" class="align-checkbox"></p-checkbox>
+                        <label for="mandatory" class="font-bold">{{ 'FeatureSetManagement.Mandatory' | translate }}</label>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="flex justify-content-between">
-      <button (click)="closeDialog()" class="p-button-primary" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton type="button"></button>
-      <button class="p-button-primary" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton [disabled]="featureForm.invalid" type="submit"></button>
-    </div>
-  </form>
+        <div class="flex justify-content-between">
+            <button (click)="closeDialog()" class="p-button-primary" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton type="button"></button>
+            <button class="p-button-primary" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton [disabled]="featureForm.invalid" type="submit"></button>
+        </div>
+    </form>
 </p-dialog>

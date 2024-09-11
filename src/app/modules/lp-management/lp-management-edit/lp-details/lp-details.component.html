@@ -8,22 +8,31 @@
                 <div class="col-10 text-900 flex-grow-1 align-items-center p-fluid">
                     <div class="flex align-items-center w-full">
                         <app-tooltip class="ml-2" message="LearningProcessManagement.AlgorithmTooltip"></app-tooltip>
-                        <p-dropdown
-                                [style]="{'width':'100%'}"
-                                [options]="algorithms"
-                                formControlName="algorithm"
-                                optionLabel="name"
-                                placeholder="{{'LearningProcessManagement.SelectAlgorithm' | translate}}"
-                                class="form-control">
-                            <ng-template let-algorithm pTemplate="selectedItem">
-                                <span>{{ algorithm ? algorithm.name : '' }}</span>
-                            </ng-template>
-                            <ng-template let-algorithm pTemplate="item">
-                                <span>{{ algorithm.name }}</span>
-                            </ng-template>
-                        </p-dropdown>
+                        <div class="flex-grow-1">
+                            <p-autoComplete
+                                    [suggestions]="filteredAlgorithms"
+                                    (completeMethod)="filterAlgorithms($event)"
+                                    field="name"
+                                    formControlName="algorithm"
+                                    [forceSelection]="false"
+                                    (onBlur)="handleAlgorithmBlur()"
+                                    [style]="{'width':'100%'}"
+                                    [showEmptyMessage]="true"
+                                    [emptyMessage]="'No matching Algorithms. Create new Algorithm with the given name.'"
+                                    placeholder="{{'LearningProcessManagement.SelectAlgorithm' | translate}}">
+
+                                <ng-template let-algorithm pTemplate="item">
+                                    <div class="ui-autocomplete-item">
+                                        {{ algorithm.name }}
+                                    </div>
+                                </ng-template>
+
+                            </p-autoComplete>
+
+                        </div>
                     </div>
                 </div>
+
 
                 <div class="col-2 flex align-items-center mt-4">
                     <label class="text-900 font-medium" for="software">{{'LearningProcessManagement.Software' | translate}}</label>
