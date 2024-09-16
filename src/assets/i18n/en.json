@@ -486,6 +486,7 @@
     "Survey Category": "Question Category"
   },
   "LearningProcessManagement": {
+    "EmptyAlgorithmMessage": "No matching Algorithms. Create new Algorithm with the given name.",
     "LearningProcesses": "Learning Processes",
     "NewLearningProcess": "Create New Learning Process",
     "NumberOfEntries": "Showing {first} to {last} of {totalRecords} entries",
