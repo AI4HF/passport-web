@@ -39,6 +39,7 @@ export class StudyService {
 
     /**
      * Retrieves all studies by owner
+     * @param owner ID of the owner who is the study owner for all the selected studies
      * @return {Observable<Study[]>}
      */
     getStudyListByOwner(owner: string): Observable<Study[]> {
