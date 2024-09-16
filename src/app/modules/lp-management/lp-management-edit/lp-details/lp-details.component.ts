@@ -6,6 +6,7 @@ import { LearningProcess } from "../../../../shared/models/learningProcess.model
 import { Implementation } from "../../../../shared/models/implementation.model";
 import { LpManagementRoutingModule } from "../../lp-management-routing.module";
 import { Algorithm } from "../../../../shared/models/algorithm.model";
+import { AlgorithmsWithType } from "../../../../shared/models/algorithmsWithType.model";
 
 /**
  * Component to display and manage the details of a learning process and its implementation.
@@ -27,7 +28,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
     formGroup: FormGroup;
 
     /** Grouped algorithms by type */
-    groupedAlgorithms: { type: string, algorithms: Algorithm[] }[] = [];
+    groupedAlgorithms: AlgorithmsWithType[] = [];
 
     /** Filtered list of algorithms for autocomplete */
     filteredAlgorithms: Algorithm[] = [];
@@ -170,45 +171,6 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
     }
 
     /**
-     * Handles the blur event of the algorithm input to create a new algorithm if it doesn't exist.
-     */
-    handleAlgorithmBlur() {
-        const inputAlgorithmName = this.formGroup.get('algorithm').value;
-        if (typeof inputAlgorithmName === 'string') {
-            const existingAlgorithm = this.filteredAlgorithms.find(alg => alg.name === inputAlgorithmName);
-
-            if (!existingAlgorithm) {
-                // Create new algorithm with the entered name
-                const newAlgorithm = new Algorithm({
-                    name: inputAlgorithmName,
-                    type: 'Custom',
-                    subType: 'Custom',
-                    objectiveFunction: 'Custom' // or set as null/empty based on your needs
-                });
-
-                this.algorithmService.createAlgorithm(newAlgorithm).pipe(takeUntil(this.destroy$)).subscribe({
-                    next: (createdAlgorithm: Algorithm) => {
-                        // Add the newly created algorithm to the groupedAlgorithms list
-                        this.groupAlgorithmsByType([createdAlgorithm, ...this.groupedAlgorithms.flatMap(group => group.algorithms)]);
-
-                        // Set the form control to the newly created algorithm
-                        this.formGroup.patchValue({
-                            algorithm: createdAlgorithm
-                        });
-                    },
-                    error: (error) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
-                        });
-                    }
-                });
-            }
-        }
-    }
-
-    /**
      * Sets the values for the dropdowns based on the selected implementation.
      */
     setDropdownValues() {
@@ -238,11 +200,43 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         const implementationPayload = {
             software: formValues.software,
             name: formValues.name,
-            algorithmId: formValues.algorithm.algorithmId
+            algorithmId: formValues.algorithm?.algorithmId // Will be updated after custom algorithm creation
         };
 
+        // Check if a custom algorithm needs to be created
+        const inputAlgorithmName = formValues.algorithm;
+        if (typeof inputAlgorithmName === 'string') {
+            // Create a new algorithm with the entered name
+            const newAlgorithm = new Algorithm({
+                name: inputAlgorithmName,
+                type: 'Custom',
+                subType: 'Custom',
+                objectiveFunction: 'Custom' // Adjust as needed
+            });
+
+            // Create the custom algorithm and update the form after it is created
+            this.algorithmService.createAlgorithm(newAlgorithm).pipe(takeUntil(this.destroy$)).subscribe({
+                next: (createdAlgorithm: Algorithm) => {
+                    // Set the form control to the newly created algorithm
+                    formValues.algorithm = createdAlgorithm;
+                    this.saveFormWithCreatedAlgorithm(formValues, implementationPayload);
+                },
+                error: (error) => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
+        } else {
+            this.saveFormWithCreatedAlgorithm(formValues, implementationPayload);
+        }
+    }
+
+    saveFormWithCreatedAlgorithm(formValues: any, implementationPayload: any) {
         if (!this.selectedImplementation.implementationId) {
-            const newImplementation: Implementation = new Implementation({ ...implementationPayload });
+            const newImplementation: Implementation = new Implementation({ ...implementationPayload, algorithmId: formValues.algorithm.algorithmId });
             this.implementationService.createImplementation(newImplementation)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
@@ -259,7 +253,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                     }
                 });
         } else {
-            const updatedImplementation: Implementation = new Implementation({ implementationId: this.selectedImplementation.implementationId, ...implementationPayload });
+            const updatedImplementation: Implementation = new Implementation({ implementationId: this.selectedImplementation.implementationId, ...implementationPayload, algorithmId: formValues.algorithm.algorithmId });
             this.implementationService.updateImplementation(updatedImplementation)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({

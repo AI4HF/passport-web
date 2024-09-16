@@ -15,10 +15,9 @@
                                     field="name"
                                     formControlName="algorithm"
                                     [forceSelection]="false"
-                                    (onBlur)="handleAlgorithmBlur()"
                                     [style]="{'width':'100%'}"
                                     [showEmptyMessage]="true"
-                                    [emptyMessage]="'No matching Algorithms. Create new Algorithm with the given name.'"
+                                    [emptyMessage]="'LearningProcessManagement.EmptyAlgorithmMessage' | translate"
                                     placeholder="{{'LearningProcessManagement.SelectAlgorithm' | translate}}">
 
                                 <ng-template let-algorithm pTemplate="item">
