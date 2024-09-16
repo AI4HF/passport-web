@@ -9,9 +9,22 @@
             optionValue="organizationId"
             [style]="{'minWidth':'100%', 'margin-bottom': '2rem'}"
             placeholder="{{'StudyManagement.Personnel.Select an organization' | translate}}"
-            (onChange)="selectAnOrganization($event.value)"
-    >
+            (onChange)="selectAnOrganization($event.value)">
     </p-dropdown>
+
+    <p class="flex align-items-center">
+        <strong>{{ 'StudyManagement.Personnel.Population' | translate }}</strong>
+        <app-tooltip class="ml-2" message="StudyManagement.PopulationTooltip"></app-tooltip>
+    </p>
+    <p-dropdown
+            [options]="populationList"
+            optionLabel="populationName"
+            optionValue="populationId"
+            [style]="{'minWidth':'100%', 'margin-bottom': '2rem'}"
+            placeholder="{{'StudyManagement.Personnel.Select a Population' | translate}}"
+            [(ngModel)]="selectedPopulationId">
+    </p-dropdown>
+
     <p *ngIf="selectedStudyOrganization" class="flex align-items-center">
         <strong>{{ 'StudyManagement.Personnel.Responsible Personnel' | translate }}</strong>
         <app-tooltip class="ml-2" message="StudyManagement.ResponsiblePersonnelTooltip"></app-tooltip>
@@ -24,8 +37,7 @@
             optionValue="personId"
             [showClear]="true"
             [style]="{'minWidth':'100%'}"
-            placeholder="{{'StudyManagement.Personnel.Select a responsible personnel' | translate}}"
-    >
+            placeholder="{{'StudyManagement.Personnel.Select a responsible personnel' | translate}}">
     </p-dropdown>
 
     <div class="flex justify-content-between flex-wrap" *ngIf="selectedStudyOrganization">
@@ -36,7 +48,8 @@
                         [(ngModel)]="selectedRoles"
                         [label]="role.name"
                         name="group"
-                        [value]="role.value" />
+                        [value]="role.value">
+                </p-checkbox>
             </div>
         </div>
         <div class="justify-content-end align-content-end">
@@ -72,14 +85,10 @@
         <ng-template let-personnel pTemplate="item">
             <div class="flex flex-row align-items-center justify-content-start gap-2">
                 <div class="firstName">
-                    <span class="font-bold">
-                        {{ personnel.firstName }}
-                    </span>
+                    <span class="font-bold">{{ personnel.firstName }}</span>
                 </div>
                 <div class="lastName">
-                    <span>
-                        {{ personnel.lastName }}
-                    </span>
+                    <span>{{ personnel.lastName }}</span>
                 </div>
                 <div class="role flex z-2 justify-content-end">
                     <span>{{ convertPersonnelRoleValueToName(personnel.role) }}</span>

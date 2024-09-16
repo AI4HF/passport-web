@@ -7,6 +7,7 @@ import {PersonnelAssignmentComponent} from "./personnel-assignment/personnel-ass
 import {ExperimentQuestionsComponent} from "./experiment-questions/experiment-questions.component";
 import {SurveyInspectionComponent} from "./survey-inspection/survey-inspection.component";
 import {studyDetailsGuard } from "../../../core/guards/study-details.guard"
+import {PopulationGuard} from "../../../core/guards/population-details.guard";
 
 
 const routes: Routes = [
@@ -30,7 +31,7 @@ const routes: Routes = [
             {
                 path: 'personnel-assignment',
                 component: PersonnelAssignmentComponent,
-                canActivate: [studyDetailsGuard]
+                canActivate: [studyDetailsGuard, PopulationGuard]
             },
             {
                 path: 'experiment-questions',
