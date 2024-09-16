@@ -180,7 +180,6 @@ export class PassportManagementTableComponent extends BaseComponent implements O
    * @param passportId The ID of the passport to select.
    */
   selectPassportForImport(passportId: number) {
-    this.openPdfPreview();
     this.selectedPassportId = passportId;
 
     this.passportService.getPassportDetailsById(passportId).pipe(takeUntil(this.destroy$)).subscribe({
@@ -205,6 +204,9 @@ export class PassportManagementTableComponent extends BaseComponent implements O
           summary: this.translateService.instant('Error'),
           detail: error.message
         });
+      },
+      complete: () => {
+        this.openPdfPreview();
       }
     });
   }
