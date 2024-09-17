@@ -84,6 +84,11 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
    */
   selectedPopulationId: number = null; // New field
 
+  /**
+   * Whether the form elements are disabled or enabled
+   */
+  formDisabled: boolean = true; // Controls if the population, personnel, and roles are disabled
+
   constructor(protected injector: Injector) {
     super(injector);
   }
@@ -136,6 +141,49 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   }
 
   /**
+   * Select an organization from dropdown menu
+   * @param organizationId The ID of the organization
+   */
+  selectAnOrganization(organizationId: number) {
+    this.selectedResponsiblePersonnelId = null;
+    this.selectedStudyOrganization = null;
+    this.selectedRoles = [];
+    this.allowedRoles = [];
+    this.formDisabled = true; // Disable form fields initially
+    this.fetchOrganizationPersonnel(organizationId);
+
+    // Check if a study organization exists
+    this.studyOrganizationService.getStudyOrganizationByStudyIdAndOrganizationId(this.studyId, organizationId).pipe(takeUntil(this.destroy$)).subscribe({
+      next: response => {
+        // Study organization exists, fill form with data and unlock personnel assignment section
+        this.selectedStudyOrganization = new StudyOrganization(response);
+        this.selectedPopulationId = this.selectedStudyOrganization.populationId;
+        this.selectedResponsiblePersonnelId = this.selectedStudyOrganization.personnelId;
+        this.selectedRoles = this.selectedStudyOrganization.roles;
+        this.allowedRoles = this.roles.filter(role => this.selectedRoles.includes(role.value));
+        this.formDisabled = false; // Enable fields
+        this.fetchPersonnelAndAssignmentLists(this.studyId, organizationId);
+      },
+      error: error => {
+        if (error.status === 404) {
+          // No study organization exists, unlock the form fields to create a new one
+          this.formDisabled = false;
+          this.selectedStudyOrganization = new StudyOrganization({
+            studyId: this.studyId,
+            organizationId: organizationId
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translateService.instant('Error'),
+            detail: error.message
+          });
+        }
+      }
+    });
+  }
+
+  /**
    * Fetch Available personnel and assigned personnel lists
    * @param studyId ID of the study
    * @param organizationId ID of the organization
@@ -175,13 +223,6 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   }
 
   /**
-   * Back to population details menu
-   */
-  back() {
-    this.router.navigate(['../population-details'], { relativeTo: this.route });
-  }
-
-  /**
    * Save assigned personnel
    */
   save() {
@@ -210,57 +251,9 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
    */
   onMoveToSource(event: any) {
     event.items.forEach((item: Personnel) => {
+      // Change the role to default role of the personnel
       const targetPersonnel = this.personnelList.find(personnel => personnel.personId === item.personId);
       item.role = targetPersonnel.role;
-    });
-  }
-
-  /**
-   * Select an organization from dropdown menu
-   * @param organizationId The ID of the organization
-   */
-  selectAnOrganization(organizationId: number) {
-    this.selectedResponsiblePersonnelId = null;
-    this.selectedStudyOrganization = null;
-    this.selectedRoles = [];
-    this.allowedRoles = [];
-    this.fetchOrganizationPersonnel(organizationId);
-
-    this.studyOrganizationService.getStudyOrganizationByStudyIdAndOrganizationId(this.studyId, organizationId).pipe(takeUntil(this.destroy$)).subscribe({
-      next: response => {
-        this.selectedStudyOrganization = new StudyOrganization({
-          studyId: this.studyId,
-          organizationId: organizationId,
-          populationId: this.selectedPopulationId // Use selected population ID
-        });
-        this.selectedResponsiblePersonnelId = this.selectedStudyOrganization.personnelId;
-        this.selectedRoles = this.selectedStudyOrganization.roles;
-        this.allowedRoles = this.roles.filter(role => this.selectedRoles.includes(role.value));
-        this.fetchPersonnelAndAssignmentLists(this.studyId, organizationId);
-      },
-      error: error => {
-        if (error.status === 404) {
-          this.createNewStudyOrganization(organizationId);
-        } else {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translateService.instant('Error'),
-            detail: error.message
-          });
-        }
-      }
-    });
-  }
-
-  /**
-   * Create a new study organization object
-   * @param organizationId The ID of the organization
-   */
-  private createNewStudyOrganization(organizationId: number) {
-    this.selectedStudyOrganization = new StudyOrganization({
-      studyId: this.studyId,
-      organizationId: organizationId,
-      populationId: this.selectedPopulationId // Use selected population ID
     });
   }
 
@@ -283,7 +276,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
     });
   }
 
-  /**
+/**
    * Save study organization information
    */
   saveStudyOrganization() {
@@ -352,5 +345,12 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
    */
   public convertPersonnelRoleValueToName(RoleValue: string) {
     return this.roles.find(role => role.value === RoleValue).name;
+  }
+
+  /**
+   * Back to population deatils menu
+   */
+  back(){
+    this.router.navigate(['../population-details'], {relativeTo: this.route});
   }
 }

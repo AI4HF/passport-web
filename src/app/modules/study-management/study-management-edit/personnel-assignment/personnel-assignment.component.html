@@ -12,57 +12,65 @@
             (onChange)="selectAnOrganization($event.value)">
     </p-dropdown>
 
-    <p class="flex align-items-center">
+    <!-- Population Dropdown -->
+    <p *ngIf="!formDisabled" class="flex align-items-center">
         <strong>{{ 'StudyManagement.Personnel.Population' | translate }}</strong>
         <app-tooltip class="ml-2" message="StudyManagement.PopulationTooltip"></app-tooltip>
     </p>
     <p-dropdown
+            *ngIf="!formDisabled"
             [options]="populationList"
-            optionLabel="populationName"
+            optionLabel="populationUrl"
             optionValue="populationId"
+            [(ngModel)]="selectedPopulationId"
+            [disabled]="formDisabled"
             [style]="{'minWidth':'100%', 'margin-bottom': '2rem'}"
-            placeholder="{{'StudyManagement.Personnel.Select a Population' | translate}}"
-            [(ngModel)]="selectedPopulationId">
+            placeholder="{{'StudyManagement.Personnel.Select a Population' | translate}}">
     </p-dropdown>
 
-    <p *ngIf="selectedStudyOrganization" class="flex align-items-center">
+    <!-- Responsible Personnel Dropdown -->
+    <p *ngIf="!formDisabled" class="flex align-items-center">
         <strong>{{ 'StudyManagement.Personnel.Responsible Personnel' | translate }}</strong>
         <app-tooltip class="ml-2" message="StudyManagement.ResponsiblePersonnelTooltip"></app-tooltip>
     </p>
     <p-dropdown
-            *ngIf="selectedStudyOrganization"
+            *ngIf="!formDisabled"
             [options]="personnelListForOrganization"
             [(ngModel)]="selectedResponsiblePersonnelId"
             optionLabel="firstName"
             optionValue="personId"
             [showClear]="true"
+            [disabled]="formDisabled"
             [style]="{'minWidth':'100%'}"
             placeholder="{{'StudyManagement.Personnel.Select a responsible personnel' | translate}}">
     </p-dropdown>
 
-    <div class="flex justify-content-between flex-wrap" *ngIf="selectedStudyOrganization">
-        <div class="checkbox-grid">
-            <div *ngFor="let role of roles" class="field-checkbox">
-                <p-checkbox
-                        class="field-checkbox"
-                        [(ngModel)]="selectedRoles"
-                        [label]="role.name"
-                        name="group"
-                        [value]="role.value">
-                </p-checkbox>
-            </div>
+    <!-- Roles Checkboxes -->
+    <div *ngIf="!formDisabled" class="checkbox-grid">
+        <div *ngFor="let role of roles" class="field-checkbox">
+            <p-checkbox
+                    [(ngModel)]="selectedRoles"
+                    [label]="role.name"
+                    name="group"
+                    [value]="role.value"
+                    [disabled]="formDisabled">
+            </p-checkbox>
         </div>
-        <div class="justify-content-end align-content-end">
-            <button pButton pRipple
-                    type="button"
-                    label="{{'Save' | translate}}"
-                    class="p-button-raised"
-                    [disabled]="!this.selectedResponsiblePersonnelId || !this.selectedRoles.length"
-                    (click)="saveStudyOrganization()"></button>
-        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div *ngIf="!formDisabled" class="justify-content-end align-content-end">
+        <button pButton pRipple
+                type="button"
+                label="{{'Save' | translate}}"
+                class="p-button-raised"
+                [disabled]="!this.selectedResponsiblePersonnelId || !this.selectedRoles.length"
+                (click)="saveStudyOrganization()">
+        </button>
     </div>
 </p-card>
 
+<!-- Personnel PickList -->
 <p-card class="p-0 w-full" *ngIf="selectedStudyOrganization?.personnelId">
     <p-pickList
             [source]="sourcePersonnelList"

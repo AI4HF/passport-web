@@ -61,7 +61,9 @@
       "StudyOrganization is updated successfully": "StudyOrganization is updated successfully",
       "StudyOrganization is created successfully": "StudyOrganization is created successfully",
       "Responsible Organization": "Responsible Organization",
-      "Responsible Personnel": "Responsible Personnel"
+      "Responsible Personnel": "Responsible Personnel",
+      "Population": "Associated Population",
+      "Select a Population": "Select a population"
     },
     "Experiment": {
       "Research Question": "Research Question",
@@ -560,7 +562,8 @@
       "PopulationFormTooltip": "Creation/Update form for the Populations of the selected study.",
       "ResponsibleOrganizationTooltip": "Organization from which the personnel will be assigned to this study.",
       "ResponsiblePersonnelTooltip": "Personnel who will be responsible for the role assignments to the study from the chosen organization.",
-      "ResearchQuestionTooltip": "Research question of the Experiment to be created in connection to this Study."
+      "ResearchQuestionTooltip": "Research question of the Experiment to be created in connection to this Study.",
+      "PopulationTooltip": "Population on which the associated organization will work on."
     },
     "FeatureManagement": {
       "FeatureSetDetailsTooltip": "Base Feature Set details of the set to which the following Features are to be assigned to.",
