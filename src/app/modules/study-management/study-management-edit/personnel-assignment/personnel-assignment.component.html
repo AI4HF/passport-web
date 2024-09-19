@@ -7,7 +7,7 @@
             [options]="organizationList"
             optionLabel="name"
             optionValue="organizationId"
-            [style]="{'minWidth':'100%', 'margin-bottom': '2rem'}"
+            [style]="{'minWidth':'100%', 'margin-bottom': '1rem'}"
             placeholder="{{'StudyManagement.Personnel.Select an organization' | translate}}"
             (onChange)="selectAnOrganization($event.value)">
     </p-dropdown>
@@ -24,7 +24,7 @@
             optionValue="populationId"
             [(ngModel)]="selectedPopulationId"
             [disabled]="formDisabled"
-            [style]="{'minWidth':'100%', 'margin-bottom': '2rem'}"
+            [style]="{'minWidth':'100%', 'margin-bottom': '1rem'}"
             placeholder="{{'StudyManagement.Personnel.Select a Population' | translate}}">
     </p-dropdown>
 
@@ -41,7 +41,7 @@
             optionValue="personId"
             [showClear]="true"
             [disabled]="formDisabled"
-            [style]="{'minWidth':'100%'}"
+            [style]="{'minWidth':'100%', 'margin-bottom': '1rem'}"
             placeholder="{{'StudyManagement.Personnel.Select a responsible personnel' | translate}}">
     </p-dropdown>
 

@@ -77,17 +77,17 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   /**
    * The list of populations for the dropdown
    */
-  populationList: Population[] = []; // New field
+  populationList: Population[] = [];
 
   /**
    * The selected population ID
    */
-  selectedPopulationId: number = null; // New field
+  selectedPopulationId: number = null;
 
   /**
    * Whether the form elements are disabled or enabled
    */
-  formDisabled: boolean = true; // Controls if the population, personnel, and roles are disabled
+  formDisabled: boolean = true;
 
   constructor(protected injector: Injector) {
     super(injector);
