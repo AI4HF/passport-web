@@ -1,51 +1,59 @@
-<p-dialog [(visible)]="display" [modal]="true" header="{{ 'OrganizationManagement.Personnel Form' | translate }}" (onHide)="closeDialog()"
+<p-dialog [(visible)]="display" [modal]="true" header="{{ 'OrganizationManagement.PersonnelForm' | translate }}" (onHide)="closeDialog()"
           [style]="{width: '30rem'}">
     <form *ngIf="display" (ngSubmit)="savePersonnel()" [formGroup]="personnelForm">
         <div *ngIf="!this.personnelId" class="p-field p-col-12 p-md-12">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-user"></i>
-                        <input formControlName="username" id="username" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter username' | translate }}" type="text">
-                    </span>
+            <label for="username" class="font-bold">{{ 'OrganizationManagement.Username' | translate }}</label>
+            <span class="p-input-icon-left w-full mb-4">
+                <i class="pi pi-user"></i>
+                <input formControlName="username" id="username" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter username' | translate }}" type="text">
+            </span>
         </div>
         <div *ngIf="!this.personnelId" class="p-field p-col-12 p-md-12">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-key"></i>
-                        <input formControlName="password" id="password" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter password' | translate }}" type="password">
-                    </span>
+            <label for="password" class="font-bold">{{ 'OrganizationManagement.Password' | translate }}</label>
+            <span class="p-input-icon-left w-full mb-4">
+                <i class="pi pi-key"></i>
+                <input formControlName="password" id="password" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter password' | translate }}" type="password">
+            </span>
         </div>
         <div class="form-grid grid p-p-md-2">
             <div class="field col">
+                <label for="firstName" class="font-bold">{{ 'OrganizationManagement.First Name' | translate }}</label>
                 <div class="p-field p-col-12 p-md-12">
-          <span class="p-input-icon-left w-full mb-4">
-            <i class="pi pi-user"></i>
-            <input formControlName="firstName" id="firstName" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter first name' | translate }}" type="text">
-          </span>
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-user"></i>
+                        <input formControlName="firstName" id="firstName" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter first name' | translate }}" type="text">
+                    </span>
                 </div>
+                <label for="lastName" class="font-bold">{{ 'OrganizationManagement.Last Name' | translate }}</label>
                 <div class="p-field p-col-12 p-md-12">
-          <span class="p-input-icon-left w-full mb-4">
-            <i class="pi pi-user"></i>
-            <input formControlName="lastName" id="lastName" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter last name' | translate }}" type="text">
-          </span>
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-user"></i>
+                        <input formControlName="lastName" id="lastName" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter last name' | translate }}" type="text">
+                    </span>
                 </div>
+                <label for="role" class="font-bold">{{ 'OrganizationManagement.Role' | translate }}</label>
                 <div class="p-field p-col-12 p-md-12">
-          <span class="p-input-icon-left w-full mb-4">
-            <i class="pi pi-briefcase"></i>
-            <p-dropdown
-                    [style]="{'width':'100%'}"
-                    formControlName="role"
-                    [options]="roles"
-                    optionLabel="name"
-                    optionValue="value"
-                    placeholder="{{ 'OrganizationManagement.Select a role' | translate }}"
-                    class="w-full"
-            ></p-dropdown>
-          </span>
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-briefcase"></i>
+                        <p-dropdown
+                                [style]="{'width':'100%'}"
+                                formControlName="role"
+                                [options]="roles"
+                                optionLabel="name"
+                                optionValue="value"
+                                placeholder="{{ 'OrganizationManagement.Enter role' | translate }}"
+                                class="w-full"
+                                [panelStyle]="{'max-height': '100px'}"
+                                [scrollHeight]="'100px'">
+                        </p-dropdown>
+                    </span>
                 </div>
+                <label for="email" class="font-bold">{{ 'OrganizationManagement.Email' | translate }}</label>
                 <div class="p-field p-col-12 p-md-12">
-          <span class="p-input-icon-left w-full mb-4">
-            <i class="pi pi-envelope"></i>
-            <input formControlName="email" id="email" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter email' | translate }}" type="email">
-          </span>
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-envelope"></i>
+                        <input formControlName="email" id="email" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter email' | translate }}" type="email">
+                    </span>
                 </div>
             </div>
         </div>

@@ -8,6 +8,9 @@ import { ButtonModule } from 'primeng/button';
 import { LearningDatasetCreationFormComponent } from './learning-dataset-creation-form.component';
 import {TranslateModule} from "@ngx-translate/core";
 import {DropdownModule} from "primeng/dropdown";
+import {
+    StudyDetailsModule
+} from "../../../../study-management/study-management-edit/study-details/study-details.module";
 
 @NgModule({
     declarations: [LearningDatasetCreationFormComponent],
@@ -19,7 +22,8 @@ import {DropdownModule} from "primeng/dropdown";
         InputTextModule,
         ButtonModule,
         TranslateModule,
-        DropdownModule
+        DropdownModule,
+        StudyDetailsModule
     ],
     exports: [LearningDatasetCreationFormComponent]
 })

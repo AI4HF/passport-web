@@ -10,23 +10,25 @@ import {RippleModule} from "primeng/ripple";
 import {TranslateModule} from "@ngx-translate/core";
 import {PickListModule} from "primeng/picklist";
 import {CheckboxModule} from "primeng/checkbox";
+import {StudyDetailsModule} from "../study-details/study-details.module";
 
 
 
 @NgModule({
   declarations: [PersonnelAssignmentComponent],
-  imports: [
-    CommonModule,
-    ButtonModule,
-    CardModule,
-    InputTextModule,
-    PaginatorModule,
-    ReactiveFormsModule,
-    RippleModule,
-    TranslateModule,
-    PickListModule,
-    CheckboxModule
-  ],
+    imports: [
+        CommonModule,
+        ButtonModule,
+        CardModule,
+        InputTextModule,
+        PaginatorModule,
+        ReactiveFormsModule,
+        RippleModule,
+        TranslateModule,
+        PickListModule,
+        CheckboxModule,
+        StudyDetailsModule
+    ],
   exports: [PersonnelAssignmentComponent]
 })
 export class PersonnelAssignmentModule { }

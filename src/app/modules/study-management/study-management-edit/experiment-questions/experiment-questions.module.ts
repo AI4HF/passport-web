@@ -11,24 +11,26 @@ import {TranslateModule} from "@ngx-translate/core";
 import {InputTextModule} from "primeng/inputtext";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TableModule} from "primeng/table";
+import {StudyDetailsModule} from "../study-details/study-details.module";
 
 
 
 @NgModule({
   declarations: [ExperimentQuestionsComponent],
-  imports: [
-    CommonModule,
-    ButtonModule,
-    CardModule,
-    DropdownModule,
-    PickListModule,
-    RippleModule,
-    SharedModule,
-    TranslateModule,
-    InputTextModule,
-    ReactiveFormsModule,
-    TableModule
-  ],
+    imports: [
+        CommonModule,
+        ButtonModule,
+        CardModule,
+        DropdownModule,
+        PickListModule,
+        RippleModule,
+        SharedModule,
+        TranslateModule,
+        InputTextModule,
+        ReactiveFormsModule,
+        TableModule,
+        StudyDetailsModule
+    ],
   exports: [ExperimentQuestionsComponent]
 })
 export class ExperimentQuestionsModule { }

@@ -9,6 +9,8 @@ import { RippleModule } from "primeng/ripple";
 import { CardModule } from "primeng/card";
 import {CheckboxModule} from "primeng/checkbox";
 import {DropdownModule} from "primeng/dropdown";
+import {StudyDetailsModule} from "../../../study-management/study-management-edit/study-details/study-details.module";
+import {AutoCompleteModule} from "primeng/autocomplete";
 
 @NgModule({
     declarations: [LpDetailsComponent],
@@ -21,7 +23,9 @@ import {DropdownModule} from "primeng/dropdown";
         RippleModule,
         CardModule,
         CheckboxModule,
-        DropdownModule
+        DropdownModule,
+        StudyDetailsModule,
+        AutoCompleteModule
     ]
 })
 export class LpDetailsModule { }

@@ -7,6 +7,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FeatureSetFeaturesFormComponent } from './featureset-features-form.component';
 import {TranslateModule} from "@ngx-translate/core";
+import {
+    StudyDetailsModule
+} from "../../../../study-management/study-management-edit/study-details/study-details.module";
 
 @NgModule({
     declarations: [FeatureSetFeaturesFormComponent],
@@ -17,7 +20,8 @@ import {TranslateModule} from "@ngx-translate/core";
         DialogModule,
         InputTextModule,
         ButtonModule,
-        TranslateModule
+        TranslateModule,
+        StudyDetailsModule
     ],
     exports: [FeatureSetFeaturesFormComponent]
 })

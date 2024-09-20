@@ -9,6 +9,12 @@ import {TooltipModule} from "primeng/tooltip";
 import {TranslateModule} from "@ngx-translate/core";
 import {PassportManagementTableComponent} from "./passport-management-table.component";
 import {PassportManagementFormModule} from "../passport-management-form/passport-management-form.module";
+import {CardModule} from "primeng/card";
+import {DialogModule} from "primeng/dialog";
+import {
+    SelectedStudyDropdownModule
+} from "../../../shared/components/selected-study-dropdown/selected-study-dropdown.module";
+import {PassportPdfExportModule} from "../passport-pdf-export/passport-pdf-export.module";
 
 
 
@@ -23,7 +29,11 @@ import {PassportManagementFormModule} from "../passport-management-form/passport
         TableModule,
         TooltipModule,
         TranslateModule,
-        PassportManagementFormModule
+        PassportManagementFormModule,
+        CardModule,
+        DialogModule,
+        SelectedStudyDropdownModule,
+        PassportPdfExportModule
     ],
     exports: [PassportManagementTableComponent]
 })

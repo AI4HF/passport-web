@@ -13,6 +13,9 @@ import {ChipsModule} from "primeng/chips";
 import {CheckboxModule} from "primeng/checkbox";
 import {FormsModule} from "@angular/forms";
 import {DropdownModule} from "primeng/dropdown";
+import {
+    StudyDetailsModule
+} from "../../../../study-management/study-management-edit/study-details/study-details.module";
 
 @NgModule({
     declarations: [CreationStepAssignmentTableComponent],
@@ -29,7 +32,8 @@ import {DropdownModule} from "primeng/dropdown";
         ChipsModule,
         CheckboxModule,
         FormsModule,
-        DropdownModule
+        DropdownModule,
+        StudyDetailsModule
     ],
     exports: [CreationStepAssignmentTableComponent]
 })

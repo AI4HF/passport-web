@@ -7,6 +7,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {RippleModule} from "primeng/ripple";
 import {TranslateModule} from "@ngx-translate/core";
 import {EnvironmentDetailsComponent} from "./environment-details.component";
+import {StudyDetailsModule} from "../../../study-management/study-management-edit/study-details/study-details.module";
 
 
 
@@ -20,7 +21,8 @@ import {EnvironmentDetailsComponent} from "./environment-details.component";
         RippleModule,
         TranslateModule,
         NgIf,
-        CommonModule
+        CommonModule,
+        StudyDetailsModule
     ],
     exports: [EnvironmentDetailsComponent]
 })

@@ -1,0 +1,7 @@
+<div *ngIf="message" class="tooltip-div">
+  <i class="pi pi-info-circle lg:font-bold"
+     [pTooltip]="('Tooltip.' + message) | translate"
+     [tooltipPosition]="'bottom'"
+     appendTo="body">
+  </i>
+</div>

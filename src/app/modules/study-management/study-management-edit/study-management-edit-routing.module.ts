@@ -2,11 +2,12 @@ import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
 import {StudyDetailsComponent} from "./study-details/study-details.component";
 import {StudyManagementEditComponent} from "./study-management-edit.component";
-import {PopulationDetailsComponent} from "./population-details/population-details.component";
+import {PopulationDetailsTableComponent} from "./population-details/population-details-table/population-details-table.component";
 import {PersonnelAssignmentComponent} from "./personnel-assignment/personnel-assignment.component";
 import {ExperimentQuestionsComponent} from "./experiment-questions/experiment-questions.component";
 import {SurveyInspectionComponent} from "./survey-inspection/survey-inspection.component";
 import {studyDetailsGuard } from "../../../core/guards/study-details.guard"
+import {PopulationGuard} from "../../../core/guards/population-details.guard";
 
 
 const routes: Routes = [
@@ -24,13 +25,13 @@ const routes: Routes = [
             },
             {
                 path: 'population-details',
-                component: PopulationDetailsComponent,
+                component: PopulationDetailsTableComponent,
                 canActivate: [studyDetailsGuard]
             },
             {
                 path: 'personnel-assignment',
                 component: PersonnelAssignmentComponent,
-                canActivate: [studyDetailsGuard]
+                canActivate: [studyDetailsGuard, PopulationGuard]
             },
             {
                 path: 'experiment-questions',

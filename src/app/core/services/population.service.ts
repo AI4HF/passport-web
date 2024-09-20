@@ -19,6 +19,25 @@ export class PopulationService {
         this.httpClient = injector.get(HttpClient);
     }
 
+    /**
+     * Retrieves the population by using populationId
+     * @param id Id of the population
+     * @return {Observable<Population>}
+     */
+    getPopulationById(id: number): Observable<Population> {
+        const url = `${this.endpoint}/${id}`;
+        return this.httpClient.get<Population>(url)
+            .pipe(
+                map((response: any) =>{
+                    return new Population(response);
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    throw error;
+                })
+            );
+    }
+
     getAllPopulations(): Observable<Population[]> {
         const url = `${this.endpoint}`;
         return this.httpClient.get<Population[]>(url)
@@ -34,16 +53,16 @@ export class PopulationService {
     }
 
     /**
-     * Retrieves the population of a study
+     * Retrieves populations of a study
      * @param id Id of the study
-     * @return {Observable<Population>}
+     * @return {Observable<Population[]>}
      */
-    getPopulationByStudyId(id: number): Observable<Population> {
+    getPopulationByStudyId(id: number): Observable<Population[]> {
         const url = `${this.endpoint}?studyId=${id}`;
-        return this.httpClient.get<Population>(url)
+        return this.httpClient.get<Population[]>(url)
             .pipe(
                 map((response: any) =>{
-                    return new Population(response[0]);
+                    return response.map((population: any) => new Population(population));
                 }),
                 catchError((error) => {
                     console.error(error);
@@ -82,6 +101,25 @@ export class PopulationService {
             .pipe(
                 map((response: any) =>{
                     return new Population(response);
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    throw error;
+                })
+            );
+    }
+
+    /**
+     * Delete a population
+     * @param id Id of the population
+     * @return {Observable<any>}
+     */
+    deletePopulation(id: number): Observable<any>{
+        const url = `${this.endpoint}/${id}`;
+        return this.httpClient.delete<any>(url)
+            .pipe(
+                map((response: any) =>{
+                    return response;
                 }),
                 catchError((error) => {
                     console.error(error);

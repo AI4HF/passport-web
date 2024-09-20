@@ -6,7 +6,7 @@ import {catchError} from "rxjs/operators";
 
 
 /**
- * Service to manage the active study of the personnel.
+ * Service to manage the active study of the personnel, with session storage persistence.
  */
 @Injectable({
     providedIn: 'root'
@@ -14,7 +14,7 @@ import {catchError} from "rxjs/operators";
 export class ActiveStudyService {
 
     /**
-     * Studies that related to the personnel
+     * Studies related to the personnel
      */
     studies: Study[] = [];
 
@@ -23,15 +23,24 @@ export class ActiveStudyService {
      */
     activeStudy: BehaviorSubject<Study> = new BehaviorSubject(null);
 
-    constructor(private studyPersonnelService: StudyPersonnelService) { }
+    constructor(private studyPersonnelService: StudyPersonnelService) {
+        // Load active study from sessionStorage, if available
+        const storedStudy = sessionStorage.getItem('activeStudy');
+        if (storedStudy) {
+            this.activeStudy.next(JSON.parse(storedStudy));
+        }
+    }
 
     /**
-     * Set active study
-     * @param studyId Role of the user
+     * Set active study and store it in session storage.
+     * @param studyId Study ID to set as active
      */
     setActiveStudy(studyId: number) {
         const study = this.studies.find((study: Study) => study.id === studyId);
-        this.activeStudy.next(study);
+        if (study) {
+            this.activeStudy.next(study);
+            sessionStorage.setItem('activeStudy', JSON.stringify(study));
+        }
     }
 
     /**
@@ -40,18 +49,19 @@ export class ActiveStudyService {
     fetchStudies(): Observable<Study[]> {
         return this.studyPersonnelService.getStudiesByPersonnelId()
             .pipe(
-                map((response: any) =>{
+                map((response: any) => {
                     this.studies = response.map((study: any) => new Study(study));
                     return this.studies;
                 }),
                 catchError((error) => {
                     console.error(error);
                     return throwError(error);
-                }));
+                })
+            );
     }
 
     /**
-     * Get active Study
+     * Get the current active study from BehaviorSubject or session storage
      * @return {Study}
      */
     getActiveStudy(): Study {
@@ -59,15 +69,7 @@ export class ActiveStudyService {
     }
 
     /**
-     * Get study array
-     * @return {Study}
-     */
-    getStudies(): Study[] {
-        return this.studies;
-    }
-
-    /**
-     * Get active Study as observable
+     * Get active study as an observable
      * @return {Observable<Study>}
      */
     getActiveStudyAsObservable(): Observable<Study> {
@@ -75,17 +77,25 @@ export class ActiveStudyService {
     }
 
     /**
-     * Clear active Study
+     * Clear the active study from memory and session storage
      */
-    clearActiveStudy(){
+    clearActiveStudy() {
         this.activeStudy.next(null);
+        sessionStorage.removeItem('activeStudy');
     }
 
     /**
-     * Clear study array
+     * Get the studies array
+     * @return {Study[]}
      */
-    clearStudies(){
-        this.studies = [];
+    getStudies(): Study[] {
+        return this.studies;
     }
 
+    /**
+     * Clear studies array from memory
+     */
+    clearStudies() {
+        this.studies = [];
+    }
 }

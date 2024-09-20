@@ -1,106 +1,127 @@
-<p-dialog [(visible)]="display" [modal]="true" header="{{ 'ModelManagement.Model Form' | translate }}" (onHide)="closeDialog()"
+<p-dialog [(visible)]="display" [modal]="true" header="{{ 'ModelManagement.ModelForm' | translate }}" (onHide)="closeDialog()"
           [style]="{width: '80rem'}">
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center">
+            <h5 class="text-900 font-bold mb-0">{{ 'ModelManagement.ModelForm' | translate }}</h5>
+            <app-tooltip class="ml-2" message="ModelManagement.ModelFormTooltip"></app-tooltip>
+        </div>
+    </ng-template>
     <form *ngIf="display" (ngSubmit)="saveModel()" [formGroup]="modelForm">
         <div class="p-field p-col-12 p-md-12 mt-2">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-globe"></i>
-                        <p-dropdown
-                                [style]="{'width':'100%'}"
-                                [options]="learningProcess"
-                                formControlName="learningProcessId"
-                                optionValue="learningProcessId"
-                                optionLabel="description"
-                                placeholder="{{'ModelManagement.SelectLearningProcess' | translate}}"
-                                class="form-control">
-                        </p-dropdown>
-                    </span>
+            <label for="learningProcessId" class="font-bold">{{ 'ModelManagement.LearningProcess' | translate }}</label>
+            <span class="p-input-icon-left w-full mb-4">
+                <i class="pi pi-globe"></i>
+                <p-dropdown
+                        [style]="{'width':'100%'}"
+                        [options]="learningProcess"
+                        formControlName="learningProcessId"
+                        optionValue="learningProcessId"
+                        optionLabel="description"
+                        placeholder="{{'ModelManagement.LearningProcessPlaceholder' | translate}}"
+                        class="form-control">
+                </p-dropdown>
+            </span>
         </div>
         <div class="form-grid grid p-p-md-2">
             <div class="field col">
+                <label for="name" class="font-bold">{{ 'ModelManagement.Name' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-file"></i>
-                        <input formControlName="name" id="name" pInputText class="w-full" placeholder="{{ 'ModelManagement.Enter the name' | translate }}" type="text">
+                        <input formControlName="name" id="name" pInputText class="w-full" placeholder="{{ 'ModelManagement.NamePlaceholder' | translate }}" type="text">
                     </span>
                 </div>
+                <label for="version" class="font-bold">{{ 'ModelManagement.Version' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-tag"></i>
-                        <input formControlName="version" id="version" pInputText class="w-full" placeholder="{{ 'ModelManagement.Enter the version' | translate }}" type="text">
+                        <input formControlName="version" id="version" pInputText class="w-full" placeholder="{{ 'ModelManagement.VersionPlaceholder' | translate }}" type="text">
                     </span>
                 </div>
+                <label for="tag" class="font-bold">{{ 'ModelManagement.Tag' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-bookmark"></i>
-                        <input formControlName="tag" id="tag" pInputText class="w-full" placeholder="{{ 'ModelManagement.Enter the tag' | translate }}" type="text">
+                        <input formControlName="tag" id="tag" pInputText class="w-full" placeholder="{{ 'ModelManagement.TagPlaceholder' | translate }}" type="text">
                     </span>
                 </div>
+                <label for="modelType" class="font-bold">{{ 'ModelManagement.ModelType' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-cog"></i>
-                        <input formControlName="modelType" id="modelType" pInputText class="w-full" placeholder="{{ 'ModelManagement.Enter the model type' | translate }}" type="text">
+                        <input formControlName="modelType" id="modelType" pInputText class="w-full" placeholder="{{ 'ModelManagement.ModelTypePlaceholder' | translate }}" type="text">
                     </span>
                 </div>
+                <label for="productIdentifier" class="font-bold">{{ 'ModelManagement.ProductIdentifier' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-id-card"></i>
-                        <input formControlName="productIdentifier" id="productIdentifier" pInputText class="w-full" placeholder="{{ 'ModelManagement.Enter the product identifier' | translate }}" type="text">
+                        <input formControlName="productIdentifier" id="productIdentifier" pInputText class="w-full" placeholder="{{ 'ModelManagement.ProductIdentifierPlaceholder' | translate }}" type="text">
                     </span>
                 </div>
+                <label for="trlLevel" class="font-bold">{{ 'ModelManagement.TrlLevel' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-chevron-up"></i>
-                        <input formControlName="trlLevel" id="trlLevel" pInputText class="w-full" placeholder="{{ 'ModelManagement.Enter the TRL Level' | translate }}" type="text">
+                        <input formControlName="trlLevel" id="trlLevel" pInputText class="w-full" placeholder="{{ 'ModelManagement.TrlLevelPlaceholder' | translate }}" type="text">
                     </span>
                 </div>
+                <label for="license" class="font-bold">{{ 'ModelManagement.License' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-file-edit"></i>
-                        <input formControlName="license" id="license" pInputText class="w-full" placeholder="{{ 'ModelManagement.Enter the license' | translate }}" type="text">
+                        <input formControlName="license" id="license" pInputText class="w-full" placeholder="{{ 'ModelManagement.LicensePlaceholder' | translate }}" type="text">
                     </span>
                 </div>
             </div>
             <div class="field col">
+                <label for="primaryUse" class="font-bold">{{ 'ModelManagement.PrimaryUse' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-user-plus"></i>
-                        <input formControlName="primaryUse" id="primaryUse" pInputText class="w-full" placeholder="{{ 'ModelManagement.Enter the primary use' | translate }}" type="text">
+                        <input formControlName="primaryUse" id="primaryUse" pInputText class="w-full" placeholder="{{ 'ModelManagement.PrimaryUsePlaceholder' | translate }}" type="text">
                     </span>
                 </div>
+                <label for="secondaryUse" class="font-bold">{{ 'ModelManagement.SecondaryUse' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-users"></i>
-                        <input formControlName="secondaryUse" id="secondaryUse" pInputText class="w-full" placeholder="{{ 'ModelManagement.Enter the secondary use' | translate }}" type="text">
+                        <input formControlName="secondaryUse" id="secondaryUse" pInputText class="w-full" placeholder="{{ 'ModelManagement.SecondaryUsePlaceholder' | translate }}" type="text">
                     </span>
                 </div>
+                <label for="intendedUsers" class="font-bold">{{ 'ModelManagement.IntendedUsers' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-user-edit"></i>
-                        <input formControlName="intendedUsers" id="intendedUsers" pInputText class="w-full" placeholder="{{ 'ModelManagement.Enter the intended users' | translate }}" type="text">
+                        <input formControlName="intendedUsers" id="intendedUsers" pInputText class="w-full" placeholder="{{ 'ModelManagement.IntendedUsersPlaceholder' | translate }}" type="text">
                     </span>
                 </div>
+                <label for="counterIndications" class="font-bold">{{ 'ModelManagement.CounterIndications' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-ban"></i>
-                        <input formControlName="counterIndications" id="counterIndications" pInputText class="w-full" placeholder="{{ 'ModelManagement.Enter the counter indications' | translate }}" type="text">
+                        <input formControlName="counterIndications" id="counterIndications" pInputText class="w-full" placeholder="{{ 'ModelManagement.CounterIndicationsPlaceholder' | translate }}" type="text">
                     </span>
                 </div>
+                <label for="ethicalConsiderations" class="font-bold">{{ 'ModelManagement.EthicalConsiderations' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-question-circle"></i>
-                        <input formControlName="ethicalConsiderations" id="ethicalConsiderations" pInputText class="w-full" placeholder="{{ 'ModelManagement.Enter the ethical considerations' | translate }}" type="text">
+                        <input formControlName="ethicalConsiderations" id="ethicalConsiderations" pInputText class="w-full" placeholder="{{ 'ModelManagement.EthicalConsiderationsPlaceholder' | translate }}" type="text">
                     </span>
                 </div>
+                <label for="limitations" class="font-bold">{{ 'ModelManagement.Limitations' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-exclamation-triangle"></i>
-                        <input formControlName="limitations" id="limitations" pInputText class="w-full" placeholder="{{ 'ModelManagement.Enter the limitations' | translate }}" type="text">
+                        <input formControlName="limitations" id="limitations" pInputText class="w-full" placeholder="{{ 'ModelManagement.LimitationsPlaceholder' | translate }}" type="text">
                     </span>
                 </div>
+                <label for="fairnessConstraints" class="font-bold">{{ 'ModelManagement.FairnessConstraints' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-lock"></i>
-                        <input formControlName="fairnessConstraints" id="fairnessConstraints" pInputText class="w-full" placeholder="{{ 'ModelManagement.Enter the fairness constraints' | translate }}" type="text">
+                        <input formControlName="fairnessConstraints" id="fairnessConstraints" pInputText class="w-full" placeholder="{{ 'ModelManagement.FairnessConstraintsPlaceholder' | translate }}" type="text">
                     </span>
                 </div>
             </div>

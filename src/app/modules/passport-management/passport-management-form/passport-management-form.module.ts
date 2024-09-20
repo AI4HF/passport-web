@@ -10,6 +10,7 @@ import {PaginatorModule} from "primeng/paginator";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {PassportManagementFormComponent} from "./passport-management-form.component";
+import {StudyDetailsModule} from "../../study-management/study-management-edit/study-details/study-details.module";
 
 
 
@@ -25,7 +26,8 @@ import {PassportManagementFormComponent} from "./passport-management-form.compon
         InputTextareaModule,
         PaginatorModule,
         ReactiveFormsModule,
-        TranslateModule
+        TranslateModule,
+        StudyDetailsModule
     ],
     exports: [PassportManagementFormComponent]
 })

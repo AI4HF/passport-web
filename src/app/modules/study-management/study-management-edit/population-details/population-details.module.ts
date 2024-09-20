@@ -1,26 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {PopulationDetailsComponent} from "./population-details.component";
-import {ButtonModule} from "primeng/button";
-import {CardModule} from "primeng/card";
-import {InputTextModule} from "primeng/inputtext";
-import {ReactiveFormsModule} from "@angular/forms";
-import {RippleModule} from "primeng/ripple";
-import {TranslateModule} from "@ngx-translate/core";
-
-
+import { PopulationDetailsTableModule } from './population-details-table/population-details-table.module';
+import { PopulationDetailsFormModule } from './population-details-form/population-details-form.module';
+import { PopulationDetailsRoutingModule } from './population-details-routing.module';
 
 @NgModule({
-  declarations: [PopulationDetailsComponent],
+  declarations: [],
   imports: [
     CommonModule,
-    ButtonModule,
-    CardModule,
-    InputTextModule,
-    ReactiveFormsModule,
-    RippleModule,
-    TranslateModule
-  ],
-  exports: [PopulationDetailsComponent],
+    PopulationDetailsRoutingModule,
+    PopulationDetailsTableModule,
+    PopulationDetailsFormModule
+  ]
 })
 export class PopulationDetailsModule { }
