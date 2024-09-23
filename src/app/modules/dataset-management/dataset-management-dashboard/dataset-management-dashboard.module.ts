@@ -7,6 +7,9 @@ import { ButtonModule } from "primeng/button";
 import { RippleModule } from "primeng/ripple";
 import { TooltipModule } from "primeng/tooltip";
 import { TableModule } from "primeng/table";
+import {
+    SelectedStudyDropdownModule
+} from "../../../shared/components/selected-study-dropdown/selected-study-dropdown.module";
 
 @NgModule({
     declarations: [DatasetManagementDashboardComponent],
@@ -17,7 +20,8 @@ import { TableModule } from "primeng/table";
         ButtonModule,
         RippleModule,
         TooltipModule,
-        TableModule
+        TableModule,
+        SelectedStudyDropdownModule
     ]
 })
 export class DatasetManagementDashboardModule { }

@@ -1,6 +1,9 @@
 <div class="content-container">
     <div class="card lg:pt-5">
-        <div class="text-900 text-2xl font-semibold mb-3">{{ 'DatasetManagement.SelectDatasetTransformation' | translate }}</div>
+        <div class="flex align-items-center">
+            <div class="text-900 text-2xl font-semibold mb-3">{{ 'DatasetManagement.SelectDatasetTransformation' | translate }}</div>
+            <app-tooltip class="ml-2 mb-3" message="DatasetManagement.TransformationTooltip"></app-tooltip>
+        </div>
         <p-dropdown
                 [style]="{'width':'50%'}"
                 [options]="transformations"

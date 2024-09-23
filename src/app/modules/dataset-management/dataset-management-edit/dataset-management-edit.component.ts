@@ -25,7 +25,7 @@ export class DatasetManagementEditComponent extends BaseComponent implements OnI
             { name: this.translateService.instant('DatasetManagement.DatasetDetails'), routerLink: 'dataset-details' },
             { name: this.translateService.instant('DatasetManagement.DatasetCharacteristics'), routerLink: 'dataset-characteristics' },
             { name: this.translateService.instant('DatasetManagement.LearningDatasetCreation'), routerLink: 'learning-dataset-creation' },
-            { name: this.translateService.instant('DatasetManagement.CreationStepAssignment'), routerLink: 'creation-step-assignment' }
+            { name: this.translateService.instant('DatasetManagement.TransformationStepAssignment'), routerLink: 'creation-step-assignment' }
         ];
     }
 }

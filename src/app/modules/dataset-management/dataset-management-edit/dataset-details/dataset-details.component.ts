@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from "../../../../shared/components/base.component";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { takeUntil, forkJoin } from "rxjs";
+import { takeUntil } from "rxjs";
 import { Dataset } from "../../../../shared/models/dataset.model";
 import { DatasetManagementRoutingModule } from "../../dataset-management-routing.module";
 
@@ -23,12 +23,6 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
 
     /** List of feature sets */
     featuresets: any[];
-
-    /** List of populations */
-    populations: any[];
-
-    /** List of organizations */
-    organizations: any[];
 
     /** Flag to indicate if the form is in edit mode */
     isEditMode: boolean = false;
@@ -87,8 +81,6 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             version: new FormControl(this.selectedDataset?.version || '', Validators.required),
             referenceEntity: new FormControl(this.selectedDataset?.referenceEntity || '', Validators.required),
             featureset: new FormControl(this.selectedDataset?.featuresetId || null, Validators.required),
-            population: new FormControl(this.selectedDataset?.populationId || null, Validators.required),
-            organization: new FormControl(this.selectedDataset?.organizationId || null, Validators.required),
             numOfRecords: new FormControl(this.selectedDataset?.numOfRecords || 0, Validators.required),
             synthetic: new FormControl(this.selectedDataset?.synthetic || false)
         });
@@ -102,16 +94,9 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
      * Loads the dropdown options for feature sets, populations, and organizations.
      */
     loadDropdowns() {
-        forkJoin({
-            featuresets: this.featureSetService.getAllFeatureSets(),
-            populations: this.populationService.getAllPopulations(),
-            organizations: this.organizationService.getAllOrganizations()
-        }).pipe(takeUntil(this.destroy$)).subscribe({
-            next: ({ featuresets, populations, organizations }) => {
+        this.featureSetService.getAllFeatureSetsByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$)).subscribe({
+            next: (featuresets) => {
                 this.featuresets = featuresets;
-                this.populations = populations;
-                this.organizations = organizations;
-
                 if (this.isEditMode) {
                     this.setDropdownValues();
                 }
@@ -133,8 +118,6 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
         if (this.selectedDataset) {
             this.datasetForm.patchValue({
                 featureset: this.featuresets.find(f => f.featuresetId === this.selectedDataset.featuresetId) || null,
-                population: this.populations.find(p => p.populationId === this.selectedDataset.populationId) || null,
-                organization: this.organizations.find(o => o.organizationId === this.selectedDataset.organizationId) || null
             });
         }
     }
@@ -157,8 +140,6 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             version: formValues.version,
             referenceEntity: formValues.referenceEntity,
             featuresetId: formValues.featureset.featuresetId,
-            populationId: formValues.population.populationId,
-            organizationId: formValues.organization.organizationId,
             numOfRecords: formValues.numOfRecords,
             synthetic: formValues.synthetic
         };

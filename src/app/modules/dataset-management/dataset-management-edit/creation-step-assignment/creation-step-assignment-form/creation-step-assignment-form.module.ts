@@ -8,6 +8,9 @@ import { ButtonModule } from 'primeng/button';
 import { CreationStepAssignmentFormComponent } from './creation-step-assignment-form.component';
 import {TranslateModule} from "@ngx-translate/core";
 import {DropdownModule} from "primeng/dropdown";
+import {
+    StudyDetailsModule
+} from "../../../../study-management/study-management-edit/study-details/study-details.module";
 
 @NgModule({
     declarations: [CreationStepAssignmentFormComponent],
@@ -19,7 +22,8 @@ import {DropdownModule} from "primeng/dropdown";
         InputTextModule,
         ButtonModule,
         TranslateModule,
-        DropdownModule
+        DropdownModule,
+        StudyDetailsModule
     ],
     exports: [CreationStepAssignmentFormComponent]
 })

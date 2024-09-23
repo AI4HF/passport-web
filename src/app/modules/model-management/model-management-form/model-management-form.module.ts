@@ -8,21 +8,23 @@ import {InputTextareaModule} from "primeng/inputtextarea";
 import {PaginatorModule} from "primeng/paginator";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
+import {StudyDetailsModule} from "../../study-management/study-management-edit/study-details/study-details.module";
 
 
 
 @NgModule({
   declarations: [ModelManagementFormComponent],
-  imports: [
-    CommonModule,
-    ButtonModule,
-    DialogModule,
-    InputTextModule,
-    InputTextareaModule,
-    PaginatorModule,
-    ReactiveFormsModule,
-    TranslateModule
-  ],
+    imports: [
+        CommonModule,
+        ButtonModule,
+        DialogModule,
+        InputTextModule,
+        InputTextareaModule,
+        PaginatorModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        StudyDetailsModule
+    ],
   exports: [ModelManagementFormComponent]
 })
 export class ModelManagementFormModule { }

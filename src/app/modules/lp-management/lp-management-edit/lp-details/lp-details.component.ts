@@ -6,6 +6,7 @@ import { LearningProcess } from "../../../../shared/models/learningProcess.model
 import { Implementation } from "../../../../shared/models/implementation.model";
 import { LpManagementRoutingModule } from "../../lp-management-routing.module";
 import { Algorithm } from "../../../../shared/models/algorithm.model";
+import { AlgorithmsWithType } from "../../../../shared/models/algorithmsWithType.model";
 
 /**
  * Component to display and manage the details of a learning process and its implementation.
@@ -26,8 +27,11 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
     /** The form group for the learning process and implementation */
     formGroup: FormGroup;
 
-    /** List of algorithms */
-    algorithms: Algorithm[] = [];
+    /** Grouped algorithms by type */
+    groupedAlgorithms: AlgorithmsWithType[] = [];
+
+    /** Filtered list of algorithms for autocomplete */
+    filteredAlgorithms: Algorithm[] = [];
 
     /** Flag to indicate if the form is in edit mode */
     isEditMode: boolean = false;
@@ -111,18 +115,19 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         });
 
         // Set the selected algorithm if in edit mode
-        if (this.isEditMode && this.algorithms.length > 0) {
+        if (this.isEditMode && this.groupedAlgorithms.length > 0) {
             this.setDropdownValues();
         }
     }
 
     /**
-     * Loads the dropdown options for algorithms.
+     * Loads the dropdown options for algorithms and groups them by type.
      */
     loadAlgorithms() {
         this.algorithmService.getAllAlgorithms().pipe(takeUntil(this.destroy$)).subscribe({
             next: algorithms => {
-                this.algorithms = algorithms;
+                this.groupAlgorithmsByType(algorithms);
+                this.filteredAlgorithms = algorithms; // Initialize the filtered list
                 if (this.isEditMode) {
                     this.setDropdownValues();
                 }
@@ -138,12 +143,43 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
     }
 
     /**
+     * Groups the algorithms by their type attribute.
+     * @param algorithms List of all algorithms
+     */
+    groupAlgorithmsByType(algorithms: Algorithm[]) {
+        const grouped = algorithms.reduce((acc, algorithm) => {
+            const typeGroup = acc.find(group => group.type === algorithm.type);
+            if (typeGroup) {
+                typeGroup.algorithms.push(algorithm);
+            } else {
+                acc.push({ type: algorithm.type, algorithms: [algorithm] });
+            }
+            return acc;
+        }, []);
+
+        this.groupedAlgorithms = grouped;
+    }
+
+    /**
+     * Filters the list of algorithms based on user input.
+     */
+    filterAlgorithms(event: any) {
+        const query = event.query.toLowerCase();
+        this.filteredAlgorithms = this.groupedAlgorithms
+            .flatMap(group => group.algorithms)
+            .filter(algorithm => algorithm.name.toLowerCase().includes(query));
+    }
+
+    /**
      * Sets the values for the dropdowns based on the selected implementation.
      */
     setDropdownValues() {
         if (this.selectedImplementation) {
+            const selectedAlgorithm = this.groupedAlgorithms
+                .flatMap(group => group.algorithms)
+                .find(a => a.algorithmId === this.selectedImplementation.algorithmId);
             this.formGroup.patchValue({
-                algorithm: this.algorithms.find(a => a.algorithmId === this.selectedImplementation.algorithmId) || null
+                algorithm: selectedAlgorithm || null
             });
         }
     }
@@ -161,16 +197,46 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
     save() {
         const formValues = this.formGroup.value;
 
-        // Prepare Implementation payload
         const implementationPayload = {
             software: formValues.software,
             name: formValues.name,
-            algorithmId: formValues.algorithm.algorithmId
+            algorithmId: formValues.algorithm?.algorithmId // Will be updated after custom algorithm creation
         };
 
+        // Check if a custom algorithm needs to be created
+        const inputAlgorithmName = formValues.algorithm;
+        if (typeof inputAlgorithmName === 'string') {
+            // Create a new algorithm with the entered name
+            const newAlgorithm = new Algorithm({
+                name: inputAlgorithmName,
+                type: 'Custom',
+                subType: 'Custom',
+                objectiveFunction: 'Custom' // Adjust as needed
+            });
+
+            // Create the custom algorithm and update the form after it is created
+            this.algorithmService.createAlgorithm(newAlgorithm).pipe(takeUntil(this.destroy$)).subscribe({
+                next: (createdAlgorithm: Algorithm) => {
+                    // Set the form control to the newly created algorithm
+                    formValues.algorithm = createdAlgorithm;
+                    this.saveFormWithCreatedAlgorithm(formValues, implementationPayload);
+                },
+                error: (error) => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
+        } else {
+            this.saveFormWithCreatedAlgorithm(formValues, implementationPayload);
+        }
+    }
+
+    saveFormWithCreatedAlgorithm(formValues: any, implementationPayload: any) {
         if (!this.selectedImplementation.implementationId) {
-            // Create new Implementation
-            const newImplementation: Implementation = new Implementation({ ...implementationPayload });
+            const newImplementation: Implementation = new Implementation({ ...implementationPayload, algorithmId: formValues.algorithm.algorithmId });
             this.implementationService.createImplementation(newImplementation)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
@@ -187,8 +253,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                     }
                 });
         } else {
-            // Update existing Implementation
-            const updatedImplementation: Implementation = new Implementation({ implementationId: this.selectedImplementation.implementationId, ...implementationPayload });
+            const updatedImplementation: Implementation = new Implementation({ implementationId: this.selectedImplementation.implementationId, ...implementationPayload, algorithmId: formValues.algorithm.algorithmId });
             this.implementationService.updateImplementation(updatedImplementation)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
@@ -220,7 +285,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         };
 
         if (!this.selectedLearningProcess.learningProcessId) {
-            const newLearningProcess: LearningProcess = new LearningProcess({ ...learningProcessPayload });
+            const newLearningProcess: LearningProcess = new LearningProcess({ studyId: this.activeStudyService.getActiveStudy().id, ...learningProcessPayload });
             this.learningProcessService.createLearningProcess(newLearningProcess)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
@@ -231,7 +296,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                             summary: this.translateService.instant('Success'),
                             detail: this.translateService.instant('LearningProcessManagement.LearningProcessCreated')
                         });
-                        this.router.navigate([`${LpManagementRoutingModule.route}/${learningProcess.learningProcessId}`]);
+                        this.router.navigate([`${LpManagementRoutingModule.route}/${learningProcess.learningProcessId}/learning-process-dataset-assignment`]);
                     },
                     error: (error: any) => {
                         this.messageService.add({
@@ -242,7 +307,6 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                     }
                 });
         } else {
-            // Update existing Learning Process
             const updatedLearningProcess: LearningProcess = new LearningProcess({ learningProcessId: this.selectedLearningProcess.learningProcessId, ...learningProcessPayload });
             this.learningProcessService.updateLearningProcess(updatedLearningProcess)
                 .pipe(takeUntil(this.destroy$))
@@ -254,6 +318,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                             summary: this.translateService.instant('Success'),
                             detail: this.translateService.instant('LearningProcessManagement.LearningProcessUpdated')
                         });
+                        this.router.navigate([`${LpManagementRoutingModule.route}/${learningProcess.learningProcessId}/learning-process-dataset-assignment`]);
                     },
                     error: (error: any) => {
                         this.messageService.add({

@@ -1,36 +1,26 @@
-<p-dialog (onHide)="closeDialog()" [(visible)]="display" [modal]="true" [style]="{width: '30rem'}" header="{{ 'SurveyManagement.Question Form' | translate }}">
+<p-dialog (onHide)="closeDialog()" [(visible)]="display" [modal]="true" [style]="{width: '30rem'}" header="{{ 'SurveyManagement.QuestionForm' | translate }}">
     <form *ngIf="display" (ngSubmit)="saveQuestion()" [formGroup]="surveyForm">
         <div class="form-grid grid p-p-md-2">
             <div class="field col">
+                <label for="question" class="font-bold">{{ 'SurveyManagement.Question' | translate }}</label>
                 <div class="p-field p-col-12 p-md-12">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-question-circle"></i>
-                        <input formControlName="question" id="question" pInputText class="w-full" placeholder="{{ 'SurveyManagement.Enter the question' | translate }}" type="text">
+                        <input formControlName="question" id="question" pInputText class="w-full" placeholder="{{ 'SurveyManagement.QuestionPlaceholder' | translate }}" type="text">
                     </span>
                 </div>
+                <label for="answer" class="font-bold">{{ 'SurveyManagement.Answer' | translate }}</label>
                 <div class="p-field p-col-12 p-md-12">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-pencil"></i>
-                        <textarea formControlName="answer" id="answer" pInputTextarea class="w-full" placeholder="{{ 'SurveyManagement.Enter the answer' | translate }}" rows="4"></textarea>
+                        <textarea formControlName="answer" id="answer" pInputTextarea class="w-full" placeholder="{{ 'SurveyManagement.AnswerPlaceholder' | translate }}" rows="4"></textarea>
                     </span>
                 </div>
+                <label for="category" class="font-bold">{{ 'SurveyManagement.Category' | translate }}</label>
                 <div class="p-field p-col-12 p-md-12">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-tag"></i>
-                        <p-autoComplete styleClass="w-full" [inputStyle]="{'width':'100%'}" (completeMethod)="filterCategory($event)" [forceSelection]="false" [suggestions]="filteredCategories" formControlName="category" placeholder="{{ 'SurveyManagement.Select or enter a category' | translate }}"></p-autoComplete>
-                    </span>
-                </div>
-                <div *ngIf="!isUpdateMode" class="p-field p-col-12 p-md-12">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-briefcase"></i>
-                        <p-dropdown
-                                [style]="{'width':'100%'}"
-                                [options]="studies"
-                                formControlName="study"
-                                optionLabel="name"
-                                class="w-full"
-                                placeholder="{{ 'SurveyManagement.Select a study' | translate }}">
-                        </p-dropdown>
+                        <p-autoComplete styleClass="w-full" [inputStyle]="{'width':'100%'}" (completeMethod)="filterCategory($event)" [forceSelection]="false" [suggestions]="filteredCategories" formControlName="category" placeholder="{{ 'SurveyManagement.CategoryPlaceholder' | translate }}"></p-autoComplete>
                     </span>
                 </div>
             </div>

@@ -3,27 +3,66 @@ import { BaseComponent } from "../../../shared/components/base.component";
 import { forkJoin, of, switchMap, takeUntil } from "rxjs";
 import { ModelWithName } from "../../../shared/models/modelWithName.model";
 import { PassportWithModelName } from "../../../shared/models/passportWithModelName.model";
-import {ModelDeployment} from "../../../shared/models/modelDeployment.model";
+import { ModelDeployment } from "../../../shared/models/modelDeployment.model";
+import { DeploymentEnvironment } from "../../../shared/models/deploymentEnvironment.model";
+import { Model } from "../../../shared/models/model.model";
+import { Study } from "../../../shared/models/study.model";
+import { Parameter } from "../../../shared/models/parameter.model";
+import { Population } from "../../../shared/models/population.model";
+import { Experiment } from "../../../shared/models/experiment.model";
+import { Survey } from "../../../shared/models/survey.model";
+import { PassportDetailsDTO } from "../../../shared/models/passportDetails.model";
+import { LearningProcessWithStagesDTO } from "../../../shared/models/learningProcessWithStagesDTO.model";
+import { DatasetWithLearningDatasetsDTO } from "../../../shared/models/datasetWithLearningDatasetsDTO.model";
+import { FeatureSetWithFeaturesDTO } from "../../../shared/models/featureSetWithFeaturesDTO.model";
 
 /**
- * Component to display and manage a list of passports.
+ * Component for managing and displaying the list of passports.
  */
 @Component({
   selector: 'app-passport-management-table',
   templateUrl: './passport-management-table.component.html',
-  styleUrl: './passport-management-table.component.scss'
+  styleUrls: ['./passport-management-table.component.scss']
 })
 export class PassportManagementTableComponent extends BaseComponent implements OnInit {
-  /** Columns to be displayed in the table */
+  /** Columns to be displayed in the passport table */
   columns: any[];
-  /** Loading state of the table */
+  /** Flag indicating whether data is loading */
   loading: boolean = true;
-  /** Determines if the form is displayed */
+  /** Flag for displaying the passport creation form */
   displayForm: boolean = false;
-  /** All passports with model names included */
+  /** List of passports with associated model names */
   passportWithModelNameList: PassportWithModelName[] = [];
-  /** All models */
+  /** List of models */
   modelList: ModelWithName[] = [];
+
+  /** Currently selected passport ID */
+  selectedPassportId: number | null = null;
+  /** Deployment details for the selected passport */
+  deploymentDetails: ModelDeployment | null = null;
+  /** Environment details for the selected passport */
+  environmentDetails: DeploymentEnvironment | null = null;
+  /** Model details for the selected passport */
+  modelDetails: Model | null = null;
+  /** Study details for the selected passport */
+  studyDetails: Study | null = null;
+  /** Parameters related to the selected passport */
+  parameters: Parameter[] = [];
+  /** Population details related to the selected passport */
+  populationDetails: Population[] = [];
+  /** Experiment details related to the selected passport */
+  experiments: Experiment[] = [];
+  /** Survey details related to the selected passport */
+  surveys: Survey[] = [];
+  /** Datasets with associated learning datasets for the selected passport */
+  datasetsWithLearningDatasets: DatasetWithLearningDatasetsDTO[] = [];
+  /** Feature sets with associated features for the selected passport */
+  featureSetsWithFeatures: FeatureSetWithFeaturesDTO[] = [];
+  /** Learning processes with stages for the selected passport */
+  learningProcessesWithStages: LearningProcessWithStagesDTO[] = [];
+
+  /** Flag for showing the PDF preview dialog */
+  showPdfPreview: boolean = false;
 
   /**
    * Constructor to inject dependencies.
@@ -38,18 +77,21 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   }
 
   /**
-   * Initializes the component.
+   * Initializes the component by loading passports for the active study.
    */
   ngOnInit() {
-    this.loadPassports();
+    if (this.activeStudyService.getActiveStudy()) {
+      this.loadPassports(this.activeStudyService.getActiveStudy().id);
+    }
   }
 
   /**
-   * Loads passports and models data.
+   * Loads the list of passports and associated models for the specified study.
+   * @param studyId The ID of the study to load passports for.
    */
-  loadPassports() {
+  loadPassports(studyId: number) {
     forkJoin([
-      this.passportService.getPassportList().pipe(takeUntil(this.destroy$)),
+      this.passportService.getPassportListByStudy(studyId).pipe(takeUntil(this.destroy$)),
       this.modelService.getModelList().pipe(takeUntil(this.destroy$))
     ]).subscribe({
       next: ([passports, models]) => {
@@ -71,13 +113,13 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   }
 
   /**
-   * Maps models to passports to show the model name for each passport.
+   * Maps model names to passports by linking the model ID to each passport's model.
    */
   mapModelsToPassports() {
     this.passportWithModelNameList.forEach(passportWithModelName => {
       this.modelDeploymentService.getModelDeploymentById(passportWithModelName.passport.deploymentId).pipe(
           switchMap((deployment: ModelDeployment) => {
-            passportWithModelName.modelName = (this.modelList.find(m => m.id === deployment.modelId)).name;
+            passportWithModelName.modelName = (this.modelList.find(m => m.id === deployment.modelId))?.name ?? '';
             return of(passportWithModelName);
           }),
           takeUntil(this.destroy$)
@@ -86,51 +128,100 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   }
 
   /**
-   * Filters the table based on the input event.
-   * @param table The table to be filtered
-   * @param event The input event
+   * Filters the table globally based on the input event.
+   * @param table The table to be filtered.
+   * @param event The input event containing the filter value.
    */
   filter(table: any, event: Event): void {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
   /**
-   * Shows the form for creating a new passport.
+   * Opens the passport creation form.
    */
   createPassport() {
     this.displayForm = true;
   }
 
   /**
-   * Deletes the selected passport.
-   * @param passportId The ID of the Passport to be deleted
+   * Deletes the selected passport by its ID.
+   * @param passportId The ID of the passport to delete.
    */
   deletePassport(passportId: number) {
-    this.passportService.deletePassport(passportId).pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: () => {
-            this.passportWithModelNameList = this.passportWithModelNameList.filter(passport => passport.passport.passportId !== passportId);
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant('Success'),
-              detail: this.translateService.instant('PassportManagement.Passport is deleted successfully')
-            });
-          },
-          error: (error: any) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
-            });
-          }
+    this.passportService.deletePassport(passportId).pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        this.passportWithModelNameList = this.passportWithModelNameList.filter(passport => passport.passport.passportId !== passportId);
+        this.messageService.add({
+          severity: 'success',
+          summary: this.translateService.instant('Success'),
+          detail: this.translateService.instant('PassportManagement.Deleted')
         });
+      },
+      error: (error: any) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translateService.instant('Error'),
+          detail: error.message
+        });
+      }
+    });
   }
 
   /**
-   * Handles the event when the form is closed.
+   * Handles the form closed event by hiding the form and reloading the passports.
    */
   onFormClosed() {
     this.displayForm = false;
-    this.loadPassports();
+    this.loadPassports(this.activeStudyService.getActiveStudy().id);
+  }
+
+  /**
+   * Selects a passport for PDF export and loads its details.
+   * @param passportId The ID of the passport to select.
+   */
+  selectPassportForImport(passportId: number) {
+    this.selectedPassportId = passportId;
+
+    this.passportService.getPassportDetailsById(passportId).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (passportDetails: PassportDetailsDTO) => {
+        const details = passportDetails.detailsJson;
+
+        this.deploymentDetails = details.deploymentDetails;
+        this.environmentDetails = details.environmentDetails;
+        this.modelDetails = details.modelDetails;
+        this.studyDetails = details.studyDetails;
+        this.parameters = details.parameters || [];
+        this.populationDetails = details.populationDetails || [];
+        this.surveys = details.surveys || [];
+        this.experiments = details.experiments || [];
+        this.datasetsWithLearningDatasets = details.datasetsWithLearningDatasets || [];
+        this.featureSetsWithFeatures = details.featureSetsWithFeatures || [];
+        this.learningProcessesWithStages = details.learningProcessesWithStages || [];
+      },
+      error: error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translateService.instant('Error'),
+          detail: error.message
+        });
+      },
+      complete: () => {
+        this.openPdfPreview();
+      }
+    });
+  }
+
+  /**
+   * Opens the PDF preview dialog.
+   */
+  openPdfPreview() {
+    this.showPdfPreview = true;
+  }
+
+  /**
+   * Closes the PDF preview dialog.
+   */
+  closePdfPreview() {
+    this.showPdfPreview = false;
   }
 }

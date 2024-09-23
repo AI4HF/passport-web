@@ -8,6 +8,11 @@ export class Parameter{
     parameterId: number;
 
     /**
+     * The ID of the study
+     */
+    studyId: number;
+
+    /**
      * The name of the Parameter
      */
     name: string;
@@ -29,6 +34,7 @@ export class Parameter{
         }
 
         this.parameterId = data.parameterId;
+        this.studyId = data.studyId;
         this.name = data.name;
         this.dataType = data.dataType;
         this.description = data.description;

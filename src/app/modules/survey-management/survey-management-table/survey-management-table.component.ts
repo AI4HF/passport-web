@@ -2,7 +2,6 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from "../../../shared/components/base.component";
 import { Survey } from "../../../shared/models/survey.model";
 import { takeUntil } from "rxjs/operators";
-import { forkJoin } from 'rxjs';
 
 /**
  * Component for managing the survey table.
@@ -14,7 +13,7 @@ import { forkJoin } from 'rxjs';
 })
 export class SurveyManagementTableComponent extends BaseComponent implements OnInit {
     /** List of surveys */
-    surveyList: any[] = [];
+    surveyList: Survey[] = [];
     /** Columns to be displayed in the table */
     columns: any[];
     /** Loading state of the table */
@@ -23,8 +22,6 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
     displayForm: boolean = false;
     /** The ID of the selected survey for editing */
     selectedSurveyId: number = null;
-    /** List of studies */
-    studies: any[] = [];
 
     /**
      * Constructor to inject dependencies.
@@ -38,8 +35,7 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
             { header: 'ID', field: 'surveyId' },
             { header: 'Question', field: 'question' },
             { header: 'Answer', field: 'answer' },
-            { header: 'Category', field: 'category' },
-            { header: 'Study', field: 'studyName' }
+            { header: 'Category', field: 'category' }
         ];
     }
 
@@ -47,21 +43,19 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
      * Initializes the component.
      */
     ngOnInit() {
-        this.loadData();
+        if(this.activeStudyService.getActiveStudy()){
+            this.loadSurveys(this.activeStudyService.getActiveStudy().id);
+        }
     }
 
     /**
-     * Loads surveys and studies data.
+     * Loads surveys by studyId.
+     * @param studyId
      */
-    loadData() {
-        forkJoin([
-            this.surveyService.getAllSurveys().pipe(takeUntil(this.destroy$)),
-            this.studyService.getStudyList().pipe(takeUntil(this.destroy$))
-        ]).subscribe({
-            next: ([surveys, studies]) => {
-                this.surveyList = surveys.map(survey => ({ ...survey, studyName: '' }));
-                this.studies = studies.map(study => ({ id: study.id, name: study.name }));
-                this.mapStudiesToSurveys();
+    loadSurveys(studyId: number) {
+        this.surveyService.getSurveysByStudyId(studyId).pipe(takeUntil(this.destroy$)).subscribe({
+            next: (surveys) => {
+                this.surveyList = surveys.map(survey => new Survey(survey));
             },
             error: error => {
                 this.messageService.add({
@@ -73,16 +67,6 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
             complete: () => {
                 this.loading = false;
             }
-        });
-    }
-
-    /**
-     * Maps studies to surveys to populate the study name for each survey.
-     */
-    mapStudiesToSurveys() {
-        this.surveyList.forEach(survey => {
-            const study = this.studies.find(s => s.id === survey.studyId);
-            survey.studyName = study ? study.name : '';
         });
     }
 
@@ -142,6 +126,6 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
     onFormClosed() {
         this.selectedSurveyId = null;
         this.displayForm = false;
-        this.loadData();
+        this.loadSurveys(this.activeStudyService.getActiveStudy().id);
     }
 }

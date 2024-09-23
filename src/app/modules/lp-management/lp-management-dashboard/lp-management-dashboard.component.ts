@@ -41,15 +41,18 @@ export class LpManagementDashboardComponent extends BaseComponent implements OnI
      * Initializes the component.
      */
     ngOnInit() {
-        this.getLearningProcessList();
+        if(this.activeStudyService.getActiveStudy()){
+            this.loadLearningProcess(this.activeStudyService.getActiveStudy().id);
+        }
     }
 
     /**
      * Retrieves all learningProcesss from the server.
+     * @param studyId The ID of the study
      */
-    getLearningProcessList() {
+    loadLearningProcess(studyId: number) {
         this.loading = true;
-        this.learningProcessService.getAllLearningProcesses()
+        this.learningProcessService.getAllLearningProcessesByStudyId(studyId)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (learningProcessList: LearningProcess[]) => this.learningProcessList = learningProcessList,

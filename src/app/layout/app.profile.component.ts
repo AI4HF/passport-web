@@ -1,13 +1,15 @@
-import {Component, DoCheck} from '@angular/core';
+import {Component, DoCheck, Injector, OnInit} from '@angular/core';
 import {StorageUtil} from "../core/services/storageUtil.service";
-import {Router} from "@angular/router";
+import {takeUntil} from "rxjs/operators";
+import {BaseComponent} from "../shared/components/base.component";
+import {ROLES} from "../shared/models/roles.constant";
 
 @Component({
     selector: 'app-profile',
     templateUrl: './app.profile.component.html',
     styleUrls: ['./app.profile.component.scss']
 })
-export class AppProfileComponent implements DoCheck{
+export class AppProfileComponent extends BaseComponent implements DoCheck, OnInit{
     /**
      * Menu items displayed under user name
      */
@@ -24,15 +26,25 @@ export class AppProfileComponent implements DoCheck{
     /** The organization name of logged personnel */
     organizationName: string;
 
-    constructor(private router: Router) {
+    /** The role of logged personnel */
+    personnelRole: string;
+
+    constructor(protected injector: Injector) {
+        super(injector);
     }
 
     ngDoCheck() {
         if(StorageUtil.retrievePersonnelName()){
             this.personnelName = StorageUtil.retrievePersonnelName();
+            if(this.personnelName === 'undefined'){
+                this.personnelName = 'Organization';
+            }
         }
         if(StorageUtil.retrievePersonnelSurname()){
             this.personnelSurname = StorageUtil.retrievePersonnelSurname();
+            if(this.personnelSurname === 'undefined'){
+                this.personnelSurname = 'Admin';
+            }
         }
         if(StorageUtil.retrieveOrganizationName()){
             this.organizationName = StorageUtil.retrieveOrganizationName();
@@ -71,5 +83,15 @@ export class AppProfileComponent implements DoCheck{
         StorageUtil.removeOrganizationId();
         StorageUtil.removePersonnelSurname();
         this.router.navigate(['../login'])
+    }
+
+    ngOnInit(): void {
+        this.roleService.getRoleAsObservable().pipe(takeUntil(this.destroy$))
+            .subscribe({next: role => {
+                if(role){
+                    const roleString = ROLES.find((roles) => role.toString() === roles.value);
+                    this.personnelRole = roleString.name;
+                }
+                }});
     }
 }

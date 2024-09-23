@@ -13,6 +13,11 @@ export class LearningDataset {
     datasetId: number;
 
     /**
+     * The ID of the associated study
+     */
+    studyId: number;
+
+    /**
      * The ID of the associated DataTransformation
      */
     dataTransformationId: number;
@@ -28,6 +33,7 @@ export class LearningDataset {
         }
         this.learningDatasetId = data.learningDatasetId;
         this.datasetId = data.datasetId;
+        this.studyId = data.studyId;
         this.dataTransformationId = data.dataTransformationId;
         this.description = data.description;
     }

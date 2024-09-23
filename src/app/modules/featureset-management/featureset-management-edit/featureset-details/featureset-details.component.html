@@ -1,7 +1,10 @@
 <div class="content-container">
     <form [formGroup]="featureSetForm">
         <p-card class="p-0 w-full">
-            <h2>{{ 'FeatureSetManagement.FeatureSetDetails' | translate }}</h2>
+            <div class="flex align-items-center">
+                <h2>{{ 'FeatureSetManagement.FeatureSetDetails' | translate }}</h2>
+                <app-tooltip class="ml-2 mb-3" message="FeatureManagement.FeatureSetDetailsTooltip"></app-tooltip>
+            </div>
             <div class="form-grid grid">
                 <div class="col-6">
                     <div class="field">
@@ -72,4 +75,3 @@
         </p-card>
     </form>
 </div>
-

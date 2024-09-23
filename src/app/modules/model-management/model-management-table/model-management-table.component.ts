@@ -1,7 +1,6 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {BaseComponent} from "../../../shared/components/base.component";
 import {Model} from "../../../shared/models/model.model";
-import {Study} from "../../../shared/models/study.model";
 import {takeUntil} from "rxjs/operators";
 
 /**
@@ -19,12 +18,8 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
   columns: any[];
   /** Loading state of the table */
   loading: boolean = true;
-  /** List of studies */
-  studies: Study[] = [];
   /** Determines if the form is displayed */
   displayForm: boolean = false;
-  /** The ID of the selected study */
-  selectedStudyId: number = null;
   /** The ID of the selected model for editing */
   selectedModelId: number = null;
   /**
@@ -46,20 +41,9 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
    * Initializes the component.
    */
   ngOnInit() {
-    this.studyService.getStudyList().pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: studies => {
-            this.studies = studies.map(study => new Study(study));
-          },
-          error: (error: any) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
-            });
-            this.loading = false;
-          }
-        });
+    if(this.activeStudyService.getActiveStudy()){
+      this.loading = false;
+    }
   }
 
   /**
@@ -67,7 +51,6 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
    * @param studyId ID of the study
    */
   loadModelsByStudyId(studyId: number) {
-    this.selectedStudyId = studyId;
     this.modelService.getModelsByStudyId(studyId).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: models => {
@@ -144,7 +127,7 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
   onFormClosed() {
     this.selectedModelId = null;
     this.displayForm = false;
-    this.loadModelsByStudyId(this.selectedStudyId);
+    this.loadModelsByStudyId(this.activeStudyService.getActiveStudy().id);
   }
 
 }

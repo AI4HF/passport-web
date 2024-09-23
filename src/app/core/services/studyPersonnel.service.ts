@@ -3,6 +3,7 @@ import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {catchError, map, Observable} from "rxjs";
 import {Personnel} from "../../shared/models/personnel.model";
+import {Study} from "../../shared/models/study.model";
 
 /**
  * Service to manage the studyPersonnel.
@@ -31,6 +32,24 @@ export class StudyPersonnelService {
             .pipe(
                 map((response: any) =>{
                     return response.map((personnel: any) => new Personnel(personnel));
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    throw error;
+                })
+            );
+    }
+
+    /**
+     * Retrieves the studies that assigned to the personnel
+     * @return {Observable<Study[]>}
+     */
+    getStudiesByPersonnelId(): Observable<Study[]> {
+        const url = `${this.endpoint}/studies`;
+        return this.httpClient.get<Personnel[]>(url)
+            .pipe(
+                map((response: any) =>{
+                    return response.map((study: any) => new Study(study));
                 }),
                 catchError((error) => {
                     console.error(error);

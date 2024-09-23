@@ -8,6 +8,7 @@ import {CardModule} from "primeng/card";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {DropdownModule} from "primeng/dropdown";
+import {StudyDetailsModule} from "../../../study-management/study-management-edit/study-details/study-details.module";
 
 @NgModule({
     declarations: [FeatureSetDetailsComponent],
@@ -22,7 +23,8 @@ import {DropdownModule} from "primeng/dropdown";
         CardModule,
         ButtonModule,
         RippleModule,
-        DropdownModule
+        DropdownModule,
+        StudyDetailsModule
     ]
 })
 export class FeatureSetDetailsModule { }

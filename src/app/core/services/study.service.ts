@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {catchError, map, Observable} from "rxjs";
 import {Study} from "../../shared/models/study.model";
 import {environment} from "../../../environments/environment";
+import {StorageUtil} from "./storageUtil.service";
 
 /**
  * Service to manage the study.
@@ -34,6 +35,25 @@ export class StudyService {
             throw error;
           })
       );
+    }
+
+    /**
+     * Retrieves all studies by owner
+     * @param owner ID of the owner who is the study owner for all the selected studies
+     * @return {Observable<Study[]>}
+     */
+    getStudyListByOwner(owner: string): Observable<Study[]> {
+        const url = `${this.endpoint}?owner=${owner}`;
+        return this.httpClient.get<Study[]>(url)
+            .pipe(
+                map((response: any) =>{
+                    return response.map((study: any) => new Study(study));
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    throw error;
+                })
+            );
     }
 
     /**
@@ -99,7 +119,8 @@ export class StudyService {
      * @return {Observable<Study>}
      */
   createStudy(study: Study): Observable<Study>{
-    const url = `${this.endpoint}/`;
+    const url = `${this.endpoint}`;
+    study.owner = StorageUtil.retrieveUserId();
     return this.httpClient.post<Study>(url, study)
         .pipe(
             map((response: any) =>{

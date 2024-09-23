@@ -4,6 +4,7 @@ import {takeUntil} from "rxjs";
 import {Study} from "../../../shared/models/study.model";
 import {Table} from "primeng/table";
 import {StudyManagementRoutingModule} from "../study-management-routing.module";
+import {StorageUtil} from "../../../core/services/storageUtil.service";
 
 /**
  * Dashboard component for study management.
@@ -45,7 +46,7 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
    */
   getStudyList(){
     this.loading = true;
-    this.studyService.getStudyList()
+    this.studyService.getStudyListByOwner(StorageUtil.retrieveUserId())
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (studyList: Study[]) => this.studyList = studyList,

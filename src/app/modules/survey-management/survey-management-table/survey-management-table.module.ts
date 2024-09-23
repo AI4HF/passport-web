@@ -10,6 +10,9 @@ import {ChipsModule} from "primeng/chips";
 import {DockModule} from "primeng/dock";
 import {TranslateModule} from "@ngx-translate/core";
 import {SurveyManagementFormModule} from "../survey-management-form/survey-management-form.module";
+import {
+    SelectedStudyDropdownModule
+} from "../../../shared/components/selected-study-dropdown/selected-study-dropdown.module";
 
 @NgModule({
     declarations: [SurveyManagementTableComponent],
@@ -23,7 +26,8 @@ import {SurveyManagementFormModule} from "../survey-management-form/survey-manag
         ChipsModule,
         DockModule,
         TranslateModule,
-        SurveyManagementFormModule
+        SurveyManagementFormModule,
+        SelectedStudyDropdownModule
     ],
     exports: [SurveyManagementTableComponent]
 })

@@ -49,16 +49,18 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
      * Initializes the component.
      */
     ngOnInit() {
-        this.loadExperiments();
-        this.getFeatureSetList();
+        if(this.activeStudyService.getActiveStudy()){
+            this.loadExperimentsAndFeatureSets(this.activeStudyService.getActiveStudy().id);
+        }
     }
 
     /**
      * Retrieves all feature sets from the server.
+     * @param studyId ID of the study
      */
-    getFeatureSetList() {
+    getFeatureSetList(studyId: number) {
         this.loading = true;
-        this.featureSetService.getAllFeatureSets()
+        this.featureSetService.getAllFeatureSetsByStudyId(studyId)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (featureSetList: FeatureSet[]) => this.featureSetList = featureSetList,
@@ -74,10 +76,11 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
     }
 
     /**
-     * Loads the list of experiments.
+     * Loads the list of experiments by studyId.
+     * @param studyId ID of the study
      */
-    loadExperiments() {
-        this.experimentService.getAllExperiments().pipe(takeUntil(this.destroy$))
+    loadExperimentsByStudyId(studyId: number) {
+        this.experimentService.getExperimentListByStudyId(studyId).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: experiments => this.experiments = experiments,
                 error: (error: any) => {
@@ -140,7 +143,7 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
         this.loading = true;
         this.featureSetService.deleteFeatureSet(id).pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: (response: any) => this.getFeatureSetList(),
+                next: (response: any) => this.getFeatureSetList(this.activeStudyService.getActiveStudy().id),
                 error: (error: any) => {
                     this.messageService.add({
                         severity: 'error',
@@ -150,6 +153,15 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
                 },
                 complete: () => this.loading = false
             });
+    }
+
+    /**
+     * Loads the list of experiments and feature sets by studyId.
+     * @param studyId ID of the study
+     */
+    loadExperimentsAndFeatureSets(studyId: number) {
+        this.loadExperimentsByStudyId(studyId);
+        this.getFeatureSetList(studyId);
     }
 }
 

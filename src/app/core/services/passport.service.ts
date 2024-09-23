@@ -4,6 +4,7 @@ import {catchError, map, Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {Passport} from "../../shared/models/passport.model";
 import {StorageUtil} from "./storageUtil.service";
+import {PassportDetailsDTO} from "../../shared/models/passportDetails.model";
 
 /**
  * Service to manage the passport.
@@ -20,16 +21,15 @@ export class PassportService {
         this.httpClient = injector.get(HttpClient);
     }
 
-
     /**
-     * Retrieves all passports
+     * Retrieves all passports by studyId
      * @return {Observable<Passport[]>}
      */
-    getPassportList(): Observable<Passport[]> {
-        const url = `${this.endpoint}`;
+    getPassportListByStudy(studyId: number): Observable<Passport[]> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.get<Passport[]>(url)
             .pipe(
-                map((response: any) =>{
+                map((response: any) => {
                     return response.map((passport: any) => new Passport(passport));
                 }),
                 catchError((error) => {
@@ -39,9 +39,8 @@ export class PassportService {
             );
     }
 
-
     /**
-     * Retrieves the passport by using passportId
+     * Retrieves a single passport by ID
      * @param id Id of the passport
      * @return {Observable<Passport>}
      */
@@ -49,7 +48,7 @@ export class PassportService {
         const url = `${this.endpoint}/${id}`;
         return this.httpClient.get<Passport>(url)
             .pipe(
-                map((response: any) =>{
+                map((response: any) => {
                     return new Passport(response);
                 }),
                 catchError((error) => {
@@ -58,7 +57,6 @@ export class PassportService {
                 })
             );
     }
-
 
     /**
      * Delete a passport
@@ -93,6 +91,25 @@ export class PassportService {
             .pipe(
                 map((response: any) =>{
                     return new Passport(response);
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    throw error;
+                })
+            );
+    }
+
+    /**
+     * Retrieves detailed information about a passport by ID
+     * @param id Id of the passport
+     * @return {Observable<PassportDetailsDTO>}
+     */
+    getPassportDetailsById(id: number): Observable<PassportDetailsDTO> {
+        const url = `${this.endpoint}/${id}`;
+        return this.httpClient.get<PassportDetailsDTO>(url)
+            .pipe(
+                map((response: any) => {
+                    return new PassportDetailsDTO(response);
                 }),
                 catchError((error) => {
                     console.error(error);

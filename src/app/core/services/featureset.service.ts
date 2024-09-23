@@ -21,11 +21,12 @@ export class FeatureSetService {
     }
 
     /**
-     * Retrieves all feature sets
+     * Retrieves all feature sets by studyId
+     * @param studyId Id of the study
      * @return {Observable<FeatureSet[]>}
      */
-    getAllFeatureSets(): Observable<FeatureSet[]> {
-        const url = `${this.endpoint}`;
+    getAllFeatureSetsByStudyId(studyId: number): Observable<FeatureSet[]> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.get<FeatureSet[]>(url)
             .pipe(
                 map((response: any) =>{

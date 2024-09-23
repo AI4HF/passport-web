@@ -2,11 +2,42 @@
     <form *ngIf="formGroup" [formGroup]="formGroup">
         <p-card class="p-0 w-full">
             <div class="grid grid-nogutter">
-                <!-- Implementation Fields -->
                 <div class="col-2 flex align-items-center">
+                    <label class="text-900 font-medium" for="algorithm">{{'LearningProcessManagement.Algorithm' | translate}}</label>
+                </div>
+                <div class="col-10 text-900 flex-grow-1 align-items-center p-fluid">
+                    <div class="flex align-items-center w-full">
+                        <app-tooltip class="ml-2" message="LearningProcessManagement.AlgorithmTooltip"></app-tooltip>
+                        <div class="flex-grow-1">
+                            <p-autoComplete
+                                    [suggestions]="filteredAlgorithms"
+                                    (completeMethod)="filterAlgorithms($event)"
+                                    field="name"
+                                    formControlName="algorithm"
+                                    [forceSelection]="false"
+                                    [style]="{'width':'100%'}"
+                                    [showEmptyMessage]="true"
+                                    [emptyMessage]="'LearningProcessManagement.EmptyAlgorithmMessage' | translate"
+                                    placeholder="{{'LearningProcessManagement.SelectAlgorithm' | translate}}">
+
+                                <ng-template let-algorithm pTemplate="item">
+                                    <div class="ui-autocomplete-item">
+                                        {{ algorithm.name }}
+                                    </div>
+                                </ng-template>
+
+                            </p-autoComplete>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-2 flex align-items-center mt-4">
                     <label class="text-900 font-medium" for="software">{{'LearningProcessManagement.Software' | translate}}</label>
                 </div>
-                <div class="col-10 text-900 flex align-items-center p-fluid">
+                <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                    <app-tooltip class="ml-2" message="LearningProcessManagement.SoftwareTooltip"></app-tooltip>
                     <input type="text"
                            id="software"
                            pInputText
@@ -14,42 +45,25 @@
                            formControlName="software"
                            class="form-control">
                 </div>
+
                 <div class="col-2 flex align-items-center mt-4">
-                    <label class="text-900 font-medium" for="name">{{'LearningProcessManagement.ImplementationName' | translate}}</label>
+                    <label class="text-900 font-medium" for="name">{{'LearningProcessManagement.Implementation' | translate}}</label>
                 </div>
                 <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                    <app-tooltip class="ml-2" message="LearningProcessManagement.ImplementationTooltip"></app-tooltip>
                     <input type="text"
                            id="name"
                            pInputText
-                           placeholder="{{'LearningProcessManagement.ImplementationName' | translate}}"
+                           placeholder="{{'LearningProcessManagement.Implementation' | translate}}"
                            formControlName="name"
                            class="form-control">
                 </div>
-                <div class="col-2 flex align-items-center mt-4">
-                    <label class="text-900 font-medium" for="algorithm">{{'LearningProcessManagement.Algorithm' | translate}}</label>
-                </div>
-                <div class="col-10 text-900 flex-grow-1 align-items-center p-fluid mt-4">
-                    <p-dropdown
-                            [style]="{'width':'100%'}"
-                            [options]="algorithms"
-                            formControlName="algorithm"
-                            optionLabel="name"
-                            placeholder="{{'LearningProcessManagement.SelectAlgorithm' | translate}}"
-                            class="form-control">
-                        <ng-template let-algorithm pTemplate="selectedItem">
-                            <span>{{ algorithm ? algorithm.name : '' }}</span>
-                        </ng-template>
-                        <ng-template let-algorithm pTemplate="item">
-                            <span>{{ algorithm.name }}</span>
-                        </ng-template>
-                    </p-dropdown>
-                </div>
 
-                <!-- Learning Process Field -->
                 <div class="col-2 flex align-items-center mt-4">
                     <label class="text-900 font-medium" for="description">{{'LearningProcessManagement.Description' | translate}}</label>
                 </div>
                 <div class="col-10 text-900 flex align-items-center p-fluid mt-4">
+                    <app-tooltip class="ml-2" message="LearningProcessManagement.DescriptionTooltip"></app-tooltip>
                     <input type="text"
                            id="description"
                            pInputText

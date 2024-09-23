@@ -1,0 +1,352 @@
+<p-dialog [(visible)]="display" [closable]="false" [modal]="true"
+          header="{{ 'PassportManagement.PDF Preview' | translate }}" styleClass="small-preview-dialog">
+    <div class="page-preview-container" id="pdfPreviewContainer">
+        <div class="pdf-container">
+            <div class="pdf-header">
+                <div class="logo-section">
+                    <img src="favicon.ico" alt="Logo">
+                </div>
+                <div class="title-section">
+                    <h2 class="pdf-title">{{ 'PassportManagement.AI4HF Product Passport' | translate }}</h2>
+                </div>
+            </div>
+            <div class="top-decoration"></div>
+
+            <!-- Model Details Section -->
+            <div class="section">
+                <div class="section-title">{{ 'PassportManagement.Model Details' | translate }}</div>
+                <div class="section-content">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Model Name' | translate }}</div>
+                            <div class="attribute-value">{{ modelDetails?.name }}</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Model Version' | translate }}</div>
+                            <div class="attribute-value">{{ modelDetails?.version }}</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Model Type' | translate }}</div>
+                            <div class="attribute-value">{{ modelDetails?.modelType }}</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Product Identifier' | translate }}</div>
+                            <div class="attribute-value">{{ modelDetails?.productIdentifier }}</div>
+                        </div>
+                        <!-- Add more fields as needed -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deployment Details Section -->
+            <div class="section">
+                <div class="section-title">{{ 'PassportManagement.Model Deployment Details' | translate }}</div>
+                <div class="section-content">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Deployment Tags' | translate }}</div>
+                            <div class="attribute-value">{{ deploymentDetails?.tags }}</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Deployment Status' | translate }}</div>
+                            <div class="attribute-value">{{ deploymentDetails?.status }}</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Identified Failures' | translate }}</div>
+                            <div class="attribute-value">{{ deploymentDetails?.identifiedFailures }}</div>
+                        </div>
+                        <!-- Add more fields as needed -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Environment Details Section -->
+            <div class="section">
+                <div class="section-title">{{ 'PassportManagement.Environment Details' | translate }}</div>
+                <div class="section-content">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Environment Title' | translate }}</div>
+                            <div class="attribute-value">{{ environmentDetails?.title }}</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Environment Description' | translate }}</div>
+                            <div class="attribute-value">{{ environmentDetails?.description }}</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Hardware Properties' | translate }}</div>
+                            <div class="attribute-value">{{ environmentDetails?.hardwareProperties }}</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Software Properties' | translate }}</div>
+                            <div class="attribute-value">{{ environmentDetails?.softwareProperties }}</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Connectivity Details' | translate }}</div>
+                            <div class="attribute-value">{{ environmentDetails?.connectivityDetails }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Datasets Section -->
+            <div class="section">
+                <div class="section-title">{{ 'PassportManagement.Datasets' | translate }}</div>
+                <p-table [value]="datasetsWithLearningDatasets" class="datasets-table">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{ 'PassportManagement.Dataset Title' | translate }}</th>
+                            <th>{{ 'PassportManagement.Dataset Description' | translate }}</th>
+                            <th>{{ 'PassportManagement.Dataset Version' | translate }}</th>
+                            <th>{{ 'PassportManagement.Dataset Reference Entity' | translate }}</th>
+                            <th>{{ 'PassportManagement.Dataset Number of Records' | translate }}</th>
+                            <th>{{ 'PassportManagement.Dataset Synthetic' | translate }}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-datasetWithLearningDatasets>
+                        <tr>
+                            <td>{{ datasetWithLearningDatasets.dataset.title }}</td>
+                            <td>{{ datasetWithLearningDatasets.dataset.description }}</td>
+                            <td>{{ datasetWithLearningDatasets.dataset.version }}</td>
+                            <td>{{ datasetWithLearningDatasets.dataset.referenceEntity }}</td>
+                            <td>{{ datasetWithLearningDatasets.dataset.numOfRecords }}</td>
+                            <td>{{ datasetWithLearningDatasets.dataset.synthetic ? 'Yes' : 'No' }}</td>
+                        </tr>
+                        <!-- Nested Learning Datasets Table -->
+                        <tr>
+                            <td colspan="6">
+                                <p-table [value]="datasetWithLearningDatasets.learningDatasets" class="learning-datasets-table">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>{{ 'PassportManagement.LearningDataset Description' | translate }}</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-learningDataset>
+                                        <tr>
+                                            <td>{{ learningDataset.description }}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+
+            <!-- Feature Sets Section -->
+            <div class="section">
+                <div class="section-title">{{ 'PassportManagement.Feature Sets' | translate }}</div>
+                <p-table [value]="featureSetsWithFeatures" class="feature-sets-table">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{ 'PassportManagement.FeatureSet Title' | translate }}</th>
+                            <th>{{ 'PassportManagement.FeatureSet Description' | translate }}</th>
+                            <th>{{ 'PassportManagement.FeatureSet URL' | translate }}</th>
+                            <th>{{ 'PassportManagement.FeatureSet Created At' | translate }}</th>
+                            <th>{{ 'PassportManagement.FeatureSet Created By' | translate }}</th>
+                            <th>{{ 'PassportManagement.FeatureSet Last Updated At' | translate }}</th>
+                            <th>{{ 'PassportManagement.FeatureSet Last Updated By' | translate }}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-featureSetWithFeatures>
+                        <tr>
+                            <td>{{ featureSetWithFeatures.featureSet.title }}</td>
+                            <td>{{ featureSetWithFeatures.featureSet.description }}</td>
+                            <td>{{ featureSetWithFeatures.featureSet.featuresetURL }}</td>
+                            <td>{{ featureSetWithFeatures.featureSet.createdAt | date: 'medium' }}</td>
+                            <td>{{ featureSetWithFeatures.featureSet.createdBy }}</td>
+                            <td>{{ featureSetWithFeatures.featureSet.lastUpdatedAt | date: 'medium' }}</td>
+                            <td>{{ featureSetWithFeatures.featureSet.lastUpdatedBy }}</td>
+                        </tr>
+                        <!-- Nested Features Table -->
+                        <tr>
+                            <td colspan="7">
+                                <p-table [value]="featureSetWithFeatures.features" class="features-table">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>{{ 'PassportManagement.Feature Title' | translate }}</th>
+                                            <th>{{ 'PassportManagement.Feature Description' | translate }}</th>
+                                            <th>{{ 'PassportManagement.Feature DataType' | translate }}</th>
+                                            <th>{{ 'PassportManagement.Feature Type' | translate }}</th>
+                                            <th>{{ 'PassportManagement.Feature Mandatory' | translate }}</th>
+                                            <th>{{ 'PassportManagement.Feature Unique' | translate }}</th>
+                                            <th>{{ 'PassportManagement.Feature Units' | translate }}</th>
+                                            <th>{{ 'PassportManagement.Feature Equipment' | translate }}</th>
+                                            <th>{{ 'PassportManagement.Feature DataCollection' | translate }}</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-feature>
+                                        <tr>
+                                            <td>{{ feature.title }}</td>
+                                            <td>{{ feature.description }}</td>
+                                            <td>{{ feature.dataType }}</td>
+                                            <td>{{ feature.featureType }}</td>
+                                            <td>{{ feature.mandatory ? 'Yes' : 'No' }}</td>
+                                            <td>{{ feature.isUnique ? 'Yes' : 'No' }}</td>
+                                            <td>{{ feature.units }}</td>
+                                            <td>{{ feature.equipment }}</td>
+                                            <td>{{ feature.dataCollection }}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+
+            <!-- Learning Processes Section -->
+            <div class="section">
+                <div class="section-title">{{ 'PassportManagement.Learning Processes' | translate }}</div>
+                <p-table [value]="learningProcessesWithStages" class="learning-processes-table">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{ 'PassportManagement.LearningProcess Description' | translate }}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-learningProcessWithStages>
+                        <tr>
+                            <td>{{ learningProcessWithStages.learningProcess.description }}</td>
+                        </tr>
+                        <!-- Nested Learning Stages Table -->
+                        <tr>
+                            <td>
+                                <p-table [value]="learningProcessWithStages.learningStages" class="learning-stages-table">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>{{ 'PassportManagement.LearningStage Name' | translate }}</th>
+                                            <th>{{ 'PassportManagement.LearningStage Description' | translate }}</th>
+                                            <th>{{ 'PassportManagement.LearningStage Dataset Percentage' | translate }}</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-learningStage>
+                                        <tr>
+                                            <td>{{ learningStage.learningStageName }}</td>
+                                            <td>{{ learningStage.description }}</td>
+                                            <td>{{ learningStage.datasetPercentage }}%</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+
+            <!-- Parameters Section -->
+            <div class="section">
+                <div class="section-title">{{ 'PassportManagement.Parameters' | translate }}</div>
+                <p-table [value]="parameters" class="parameters-table">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{ 'PassportManagement.Parameter Name' | translate }}</th>
+                            <th>{{ 'PassportManagement.Parameter DataType' | translate }}</th>
+                            <th>{{ 'PassportManagement.Parameter Description' | translate }}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-parameter>
+                        <tr>
+                            <td>{{ parameter.name }}</td>
+                            <td>{{ parameter.dataType }}</td>
+                            <td>{{ parameter.description }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+            <!-- Population Details Section -->
+            <div class="section">
+                <div class="section-title">{{ 'PassportManagement.Population Details' | translate }}</div>
+                <p-table [value]="populationDetails" class="population-table">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{ 'PassportManagement.Population URL' | translate }}</th>
+                            <th>{{ 'PassportManagement.Population Description' | translate }}</th>
+                            <th>{{ 'PassportManagement.Population Characteristics' | translate }}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-population>
+                        <tr>
+                            <td>{{ population.populationUrl }}</td>
+                            <td>{{ population.description }}</td>
+                            <td>{{ population.characteristics }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+            <!-- Experiment Details Section -->
+            <div class="section">
+                <div class="section-title">{{ 'PassportManagement.Experiment Details' | translate }}</div>
+                <p-table [value]="experiments" class="experiment-table">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{ 'PassportManagement.Research Question' | translate }}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-experiment>
+                        <tr>
+                            <td>{{ experiment.researchQuestion }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+            <!-- Survey Details Section -->
+            <div class="section">
+                <div class="section-title">{{ 'PassportManagement.Survey Details' | translate }}</div>
+                <p-table [value]="surveys" class="survey-table">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{ 'PassportManagement.Survey Question' | translate }}</th>
+                            <th>{{ 'PassportManagement.Survey Answer' | translate }}</th>
+                            <th>{{ 'PassportManagement.Survey Category' | translate }}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-survey>
+                        <tr>
+                            <td>{{ survey.question }}</td>
+                            <td>{{ survey.answer }}</td>
+                            <td>{{ survey.category }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+            <!-- Study Details Section -->
+            <div class="section">
+                <div class="section-title">{{ 'PassportManagement.Study Details' | translate }}</div>
+                <div class="section-content">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Study Name' | translate }}</div>
+                            <div class="attribute-value">{{ studyDetails?.name }}</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Study Description' | translate }}</div>
+                            <div class="attribute-value">{{ studyDetails?.description }}</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Study Ethics' | translate }}</div>
+                            <div class="attribute-value">{{ studyDetails?.ethics }}</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="attribute-title">{{ 'PassportManagement.Study Objectives' | translate }}</div>
+                            <div class="attribute-value">{{ studyDetails?.objectives }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="ui-dialog-footer flex justify-content-between">
+        <button (click)="closeDialog()" icon="pi pi-times" label="{{ 'PassportManagement.CANCEL' | translate }}"
+                pButton type="button"></button>
+        <button (click)="generatePdf()" icon="pi pi-check" label="{{ 'PassportManagement.EXPORT' | translate }}" pButton type="button"></button>
+    </div>
+</p-dialog>
