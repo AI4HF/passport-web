@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Temperature",
+    "dataType": "float",
+    "description": "Records the temperature."
+  },
+  {
+    "name": "Humidity",
+    "dataType": "float",
+    "description": "Records the humidity level."
+  },
+  {
+    "name": "Pressure",
+    "dataType": "int",
+    "description": "Records the pressure level."
+  },
+  {
+    "name": "Altitude",
+    "dataType": "float",
+    "description": "Records the altitude."
+  }
+]

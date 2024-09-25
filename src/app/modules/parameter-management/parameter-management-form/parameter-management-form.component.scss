@@ -1,3 +1,15 @@
 .field {
   margin-bottom: 0;
 }
+
+i {
+  z-index: 1;
+}
+::ng-deep .p-autocomplete .p-inputtext {
+  padding-left: 2.5rem;
+  width: 100%;
+}
+
+::ng-deep .p-dropdown .p-inputtext {
+  padding-left: 2.5rem;
+}
