@@ -11,6 +11,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {PassportManagementFormComponent} from "./passport-management-form.component";
 import {StudyDetailsModule} from "../../study-management/study-management-edit/study-details/study-details.module";
+import {CheckboxModule} from "primeng/checkbox";
 
 
 
@@ -27,7 +28,8 @@ import {StudyDetailsModule} from "../../study-management/study-management-edit/s
         PaginatorModule,
         ReactiveFormsModule,
         TranslateModule,
-        StudyDetailsModule
+        StudyDetailsModule,
+        CheckboxModule
     ],
     exports: [PassportManagementFormComponent]
 })

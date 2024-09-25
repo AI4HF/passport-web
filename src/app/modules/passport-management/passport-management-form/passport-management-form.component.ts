@@ -5,6 +5,8 @@ import { BaseComponent } from "../../../shared/components/base.component";
 import { forkJoin, takeUntil } from "rxjs";
 import { ModelWithName } from "../../../shared/models/modelWithName.model";
 import { ModelDeploymentWithModelName } from "../../../shared/models/modelDeploymentWithModelName.model";
+import {PassportDetailsSelection} from "../../../shared/models/passportDetailsSelection.model";
+import {PassportWithDetailSelection} from "../../../shared/models/passportWithDetailSelection.model";
 
 /**
  * Component for creating passport.
@@ -48,7 +50,18 @@ export class PassportManagementFormComponent extends BaseComponent implements On
      */
     initializeForm() {
         this.passportForm = new FormGroup({
-            deploymentId: new FormControl(null, Validators.required)
+            deploymentId: new FormControl(null, Validators.required),
+            modelDetails: new FormControl(true, Validators.required),
+            modelDeploymentDetails: new FormControl(true, Validators.required),
+            environmentDetails: new FormControl(true, Validators.required),
+            datasets: new FormControl(true, Validators.required),
+            featureSets: new FormControl(true, Validators.required),
+            learningProcessDetails: new FormControl(true, Validators.required),
+            parameterDetails: new FormControl(true, Validators.required),
+            populationDetails: new FormControl(true, Validators.required),
+            experimentDetails: new FormControl(true, Validators.required),
+            surveyDetails: new FormControl(true, Validators.required),
+            studyDetails: new FormControl(true, Validators.required),
         });
         this.display = true;
     }
@@ -91,7 +104,9 @@ export class PassportManagementFormComponent extends BaseComponent implements On
     savePassport() {
         // @ts-ignore
         const newPassport: Passport = new Passport({...this.passportForm.value, studyId: this.activeStudyService.getActiveStudy().id});
-        this.passportService.createPassport(newPassport)
+        const passportDetails: PassportDetailsSelection = new PassportDetailsSelection({...this.passportForm.value});
+        const passportWithDetailSelection: PassportWithDetailSelection = new PassportWithDetailSelection({passport: newPassport, passportDetailsSelection: passportDetails});
+        this.passportService.createPassport(passportWithDetailSelection)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: passport => {
