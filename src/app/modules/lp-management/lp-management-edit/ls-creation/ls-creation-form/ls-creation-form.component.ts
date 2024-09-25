@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { BaseComponent } from '../../../../../shared/components/base.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -35,11 +36,18 @@ export class LsCreationFormComponent extends BaseComponent implements OnInit {
     /** The learning stage to be edited or created */
     learningStage: LearningStage;
 
+    /** List of hardcoded learning stages loaded from JSON */
+    hardcodedLearningStages: LearningStage[] = [];
+
+    /** Filtered list for auto-fill suggestions */
+    filteredLearningStages: LearningStage[] = [];
+
     /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
+     * @param http The HTTP client for loading JSON
      */
-    constructor(protected injector: Injector) {
+    constructor(protected injector: Injector, private http: HttpClient) {
         super(injector);
     }
 
@@ -48,6 +56,7 @@ export class LsCreationFormComponent extends BaseComponent implements OnInit {
      */
     ngOnInit() {
         this.initializeForm();
+        this.loadHardcodedLearningStages();
         this.display = true;
         if (this.learningStageId) {
             this.isUpdateMode = true;
@@ -102,6 +111,28 @@ export class LsCreationFormComponent extends BaseComponent implements OnInit {
             learningStageName: this.learningStage.learningStageName,
             description: this.learningStage.description,
             datasetPercentage: this.learningStage.datasetPercentage
+        });
+    }
+
+    /**
+     * Filters the hardcoded learning stages based on user input.
+     */
+    filterLearningStages(event: any) {
+        const query = event.query.toLowerCase();
+        this.filteredLearningStages = this.hardcodedLearningStages.filter(stage =>
+            stage.learningStageName.toLowerCase().includes(query)
+        );
+    }
+
+    /**
+     * Auto-fills the form with the selected hardcoded learning stage.
+     */
+    selectAutoFill(event: any) {
+        const selectedStage = event.value;
+        this.form.setValue({
+            learningStageName: selectedStage.learningStageName,
+            description: selectedStage.description,
+            datasetPercentage: selectedStage.datasetPercentage
         });
     }
 
@@ -192,5 +223,16 @@ export class LsCreationFormComponent extends BaseComponent implements OnInit {
     closeDialog() {
         this.display = false;
         this.formClosed.emit();
+    }
+
+    /**
+     * Loads the hardcoded learning stages from a JSON file.
+     */
+    loadHardcodedLearningStages() {
+        this.http.get<LearningStage[]>('assets/data/hardcoded-learning-stages.json').pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: data => this.hardcodedLearningStages = data,
+                error: err => console.error('Failed to load hardcoded learning stages', err)
+            });
     }
 }
