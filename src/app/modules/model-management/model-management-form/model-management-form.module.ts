@@ -9,6 +9,7 @@ import {PaginatorModule} from "primeng/paginator";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {StudyDetailsModule} from "../../study-management/study-management-edit/study-details/study-details.module";
+import {AutoCompleteModule} from "primeng/autocomplete";
 
 
 
@@ -23,7 +24,8 @@ import {StudyDetailsModule} from "../../study-management/study-management-edit/s
         PaginatorModule,
         ReactiveFormsModule,
         TranslateModule,
-        StudyDetailsModule
+        StudyDetailsModule,
+        AutoCompleteModule
     ],
   exports: [ModelManagementFormComponent]
 })

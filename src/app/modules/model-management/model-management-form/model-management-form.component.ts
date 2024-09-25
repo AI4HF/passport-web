@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Injector, Input, OnInit, Output} from '@angular/core';
-import {BaseComponent} from "../../../shared/components/base.component";
-import {Model} from "../../../shared/models/model.model";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {takeUntil} from "rxjs/operators";
-import {LearningProcess} from "../../../shared/models/learningProcess.model";
+import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+import { BaseComponent } from "../../../shared/components/base.component";
+import { Model } from "../../../shared/models/model.model";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { takeUntil } from "rxjs/operators";
+import { LearningProcess } from "../../../shared/models/learningProcess.model";
+import {HttpClient} from "@angular/common/http";
 
 /**
  * Component for creating or updating model.
@@ -11,7 +12,7 @@ import {LearningProcess} from "../../../shared/models/learningProcess.model";
 @Component({
   selector: 'app-model-management-form',
   templateUrl: './model-management-form.component.html',
-  styleUrl: './model-management-form.component.scss'
+  styleUrls: ['./model-management-form.component.scss']
 })
 export class ModelManagementFormComponent extends BaseComponent implements OnInit {
 
@@ -23,16 +24,23 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
   selectedModel: Model;
   /** Form group for model form controls */
   modelForm: FormGroup;
-  /** List of learning process */
+  /** List of learning processes */
   learningProcess: LearningProcess[] = [];
-  /** flag indicating that dialog is visible */
+  /** Flag indicating that dialog is visible */
   display = false;
+
+  /** Hardcoded list of models for auto-fill */
+  hardcodedModels: Model[] = [];
+
+  /** Filtered list for auto-fill suggestions */
+  filteredModels: Model[] = [];
 
   /**
    * Constructor to inject dependencies.
    * @param injector The dependency injector
+   * @param http The HTTP client for loading JSON
    */
-  constructor(protected injector: Injector) {
+  constructor(protected injector: Injector, private http: HttpClient) {
     super(injector);
   }
 
@@ -41,6 +49,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
    */
   ngOnInit() {
     this.loadModel();
+    this.loadHardcodedModels();
   }
 
   /**
@@ -113,11 +122,44 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
   }
 
   /**
+   * Filters the hardcoded models based on user input.
+   */
+  filterModels(event: any) {
+    const query = event.query.toLowerCase();
+    this.filteredModels = this.hardcodedModels.filter(m =>
+        m.name.toLowerCase().includes(query)
+    );
+  }
+
+  /**
+   * Auto-fills the form with the selected hardcoded model.
+   */
+  selectAutoFill(event: any) {
+    const selectedModel = event.value;
+    this.modelForm.patchValue({
+      name: selectedModel.name,
+      version: selectedModel.version,
+      tag: selectedModel.tag,
+      modelType: selectedModel.modelType,
+      productIdentifier: selectedModel.productIdentifier,
+      trlLevel: selectedModel.trlLevel,
+      license: selectedModel.license,
+      primaryUse: selectedModel.primaryUse,
+      secondaryUse: selectedModel.secondaryUse,
+      intendedUsers: selectedModel.intendedUsers,
+      counterIndications: selectedModel.counterIndications,
+      ethicalConsiderations: selectedModel.ethicalConsiderations,
+      limitations: selectedModel.limitations,
+      fairnessConstraints: selectedModel.fairnessConstraints
+    });
+  }
+
+  /**
    * Saves the model.
    */
   saveModel() {
-    if(!this.selectedModel.modelId){
-      const newModel: Model = new Model({studyId: this.activeStudyService.getActiveStudy().id, ...this.modelForm.value});
+    if (!this.selectedModel.modelId) {
+      const newModel: Model = new Model({ studyId: this.activeStudyService.getActiveStudy().id, ...this.modelForm.value });
       this.modelService.createModel(newModel)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
@@ -141,8 +183,8 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
               this.closeDialog();
             }
           });
-    }else{
-      const updatedModel: Model = new Model({studyId: this.activeStudyService.getActiveStudy().id, modelId: this.selectedModel.modelId, ...this.modelForm.value});
+    } else {
+      const updatedModel: Model = new Model({ studyId: this.activeStudyService.getActiveStudy().id, modelId: this.selectedModel.modelId, ...this.modelForm.value });
       this.modelService.updateModel(updatedModel)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
@@ -175,5 +217,16 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
   closeDialog() {
     this.display = false;
     this.formClosed.emit();
+  }
+
+  /**
+   * Loads the hardcoded model list from a JSON file.
+   */
+  loadHardcodedModels() {
+    this.http.get<Model[]>('assets/data/hardcoded-models.json').pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: data => this.hardcodedModels = data,
+          error: err => console.error('Failed to load hardcoded models', err)
+        });
   }
 }

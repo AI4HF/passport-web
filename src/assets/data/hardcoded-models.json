@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Model Alpha",
+    "version": "1.0",
+    "tag": "v1",
+    "modelType": "Classification",
+    "productIdentifier": "PID001",
+    "trlLevel": "TRL 6",
+    "license": "MIT",
+    "primaryUse": "Research",
+    "secondaryUse": "Product Development",
+    "intendedUsers": "Data Scientists",
+    "counterIndications": "None",
+    "ethicalConsiderations": "Privacy concerns",
+    "limitations": "Limited dataset",
+    "fairnessConstraints": "No bias check"
+  },
+  {
+    "name": "Model Beta",
+    "version": "2.0",
+    "tag": "v2",
+    "modelType": "Regression",
+    "productIdentifier": "PID002",
+    "trlLevel": "TRL 7",
+    "license": "Apache 2.0",
+    "primaryUse": "Industry",
+    "secondaryUse": "Academic",
+    "intendedUsers": "Developers",
+    "counterIndications": "Requires large resources",
+    "ethicalConsiderations": "Transparency",
+    "limitations": "Limited generalization",
+    "fairnessConstraints": "Dataset imbalance"
+  }
+]

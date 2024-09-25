@@ -25,12 +25,20 @@
         <div class="form-grid grid p-p-md-2">
             <div class="field col">
                 <label for="name" class="font-bold">{{ 'ModelManagement.Name' | translate }}</label>
-                <div class="p-field p-col-12 p-md-6">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-file"></i>
-                        <input formControlName="name" id="name" pInputText class="w-full" placeholder="{{ 'ModelManagement.NamePlaceholder' | translate }}" type="text">
-                    </span>
-                </div>
+                <span class="p-input-icon-left w-full mb-4">
+                    <i class="pi pi-file"></i>
+                    <p-autoComplete
+                            [style]="{'width':'100%'}"
+                            formControlName="name"
+                            [suggestions]="filteredModels"
+                            (completeMethod)="filterModels($event)"
+                            (onSelect)="selectAutoFill($event)"
+                            field="name"
+                            class="w-full"
+                            [forceSelection]="false"
+                            placeholder="{{ 'ModelManagement.NamePlaceholder' | translate }}">
+                    </p-autoComplete>
+                </span>
                 <label for="version" class="font-bold">{{ 'ModelManagement.Version' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
