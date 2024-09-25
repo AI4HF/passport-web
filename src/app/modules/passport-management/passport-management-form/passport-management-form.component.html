@@ -22,7 +22,140 @@
                 </p-dropdown>
             </span>
         </div>
-
+        <div class="grid grid-nogutter mb-2">
+            <div class="col-10 flex align-items-center">
+                <label class="text-900 font-medium" for="modelDetails">
+                    {{'PassportManagement.Model Details' | translate}}
+                </label>
+            </div>
+            <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid">
+                <p-checkbox
+                        formControlName="modelDetails"
+                        [binary]="true"
+                        inputId="modelDetails">
+                </p-checkbox>
+            </div>
+            <div class="col-10 flex align-items-center mt-1">
+                <label class="text-900 font-medium" for="modelDeploymentDetails">
+                    {{'PassportManagement.Model Deployment Details' | translate}}
+                </label>
+            </div>
+            <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">
+                <p-checkbox
+                        formControlName="modelDeploymentDetails"
+                        [binary]="true"
+                        inputId="modelDeploymentDetails">
+                </p-checkbox>
+            </div>
+            <div class="col-10 flex align-items-center mt-1">
+                <label class="text-900 font-medium" for="environmentDetails">
+                    {{'PassportManagement.Environment Details' | translate}}
+                </label>
+            </div>
+            <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">
+                <p-checkbox
+                        formControlName="environmentDetails"
+                        [binary]="true"
+                        inputId="environmentDetails">
+                </p-checkbox>
+            </div>
+            <div class="col-10 flex align-items-center mt-1">
+                <label class="text-900 font-medium" for="datasets">
+                    {{'PassportManagement.Datasets' | translate}}
+                </label>
+            </div>
+            <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">
+                <p-checkbox
+                        formControlName="datasets"
+                        [binary]="true"
+                        inputId="datasets">
+                </p-checkbox>
+            </div>
+            <div class="col-10 flex align-items-center mt-1">
+                <label class="text-900 font-medium" for="featureSets">
+                    {{'PassportManagement.Feature Sets' | translate}}
+                </label>
+            </div>
+            <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">
+                <p-checkbox
+                        formControlName="featureSets"
+                        [binary]="true"
+                        inputId="featureSets">
+                </p-checkbox>
+            </div>
+            <div class="col-10 flex align-items-center mt-1">
+                <label class="text-900 font-medium" for="learningProcessDetails">
+                    {{'PassportManagement.Learning Process Details' | translate}}
+                </label>
+            </div>
+            <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">
+                <p-checkbox
+                        formControlName="learningProcessDetails"
+                        [binary]="true"
+                        inputId="learningProcessDetails">
+                </p-checkbox>
+            </div>
+            <div class="col-10 flex align-items-center mt-1">
+                <label class="text-900 font-medium" for="parameterDetails">
+                    {{'PassportManagement.Parameter Details' | translate}}
+                </label>
+            </div>
+            <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">
+                <p-checkbox
+                        formControlName="parameterDetails"
+                        [binary]="true"
+                        inputId="parameterDetails">
+                </p-checkbox>
+            </div>
+            <div class="col-10 flex align-items-center mt-1">
+                <label class="text-900 font-medium" for="populationDetails">
+                    {{'PassportManagement.Population Details' | translate}}
+                </label>
+            </div>
+            <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">
+                <p-checkbox
+                        formControlName="populationDetails"
+                        [binary]="true"
+                        inputId="populationDetails">
+                </p-checkbox>
+            </div>
+            <div class="col-10 flex align-items-center mt-1">
+                <label class="text-900 font-medium" for="experimentDetails">
+                    {{'PassportManagement.Experiment Details' | translate}}
+                </label>
+            </div>
+            <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">
+                <p-checkbox
+                        formControlName="experimentDetails"
+                        [binary]="true"
+                        inputId="experimentDetails">
+                </p-checkbox>
+            </div>
+            <div class="col-10 flex align-items-center mt-1">
+                <label class="text-900 font-medium" for="surveyDetails">
+                    {{'PassportManagement.Survey Details' | translate}}
+                </label>
+            </div>
+            <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">
+                <p-checkbox
+                        formControlName="surveyDetails"
+                        [binary]="true"
+                        inputId="surveyDetails">
+                </p-checkbox>
+            </div>
+            <div class="col-10 flex align-items-center mt-1">
+                <label class="text-900 font-medium" for="studyDetails">
+                    {{'PassportManagement.Study Details' | translate}}
+                </label>
+            </div>
+            <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">
+                <p-checkbox
+                        formControlName="studyDetails"
+                        [binary]="true"
+                        inputId="studyDetails">
+                </p-checkbox>
+            </div>
+        </div>
         <div class="flex justify-content-between">
             <button type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton class="p-button-primary"></button>
             <button type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton class="p-button-primary" [disabled]="passportForm.invalid"></button>

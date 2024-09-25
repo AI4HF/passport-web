@@ -13,7 +13,7 @@
             <div class="top-decoration"></div>
 
             <!-- Model Details Section -->
-            <div class="section">
+            <div *ngIf="modelDetails" class="section">
                 <div class="section-title">{{ 'PassportManagement.Model Details' | translate }}</div>
                 <div class="section-content">
                     <div class="row">
@@ -39,7 +39,7 @@
             </div>
 
             <!-- Deployment Details Section -->
-            <div class="section">
+            <div *ngIf="deploymentDetails" class="section">
                 <div class="section-title">{{ 'PassportManagement.Model Deployment Details' | translate }}</div>
                 <div class="section-content">
                     <div class="row">
@@ -61,7 +61,7 @@
             </div>
 
             <!-- Environment Details Section -->
-            <div class="section">
+            <div *ngIf="environmentDetails" class="section">
                 <div class="section-title">{{ 'PassportManagement.Environment Details' | translate }}</div>
                 <div class="section-content">
                     <div class="row">
@@ -90,7 +90,7 @@
             </div>
 
             <!-- Datasets Section -->
-            <div class="section">
+            <div *ngIf="datasetsWithLearningDatasets.length" class="section">
                 <div class="section-title">{{ 'PassportManagement.Datasets' | translate }}</div>
                 <p-table [value]="datasetsWithLearningDatasets" class="datasets-table">
                     <ng-template pTemplate="header">
@@ -135,7 +135,7 @@
 
 
             <!-- Feature Sets Section -->
-            <div class="section">
+            <div *ngIf="featureSetsWithFeatures.length" class="section">
                 <div class="section-title">{{ 'PassportManagement.Feature Sets' | translate }}</div>
                 <p-table [value]="featureSetsWithFeatures" class="feature-sets-table">
                     <ng-template pTemplate="header">
@@ -198,7 +198,7 @@
 
 
             <!-- Learning Processes Section -->
-            <div class="section">
+            <div *ngIf="learningProcessesWithStages.length" class="section">
                 <div class="section-title">{{ 'PassportManagement.Learning Processes' | translate }}</div>
                 <p-table [value]="learningProcessesWithStages" class="learning-processes-table">
                     <ng-template pTemplate="header">
@@ -237,7 +237,7 @@
 
 
             <!-- Parameters Section -->
-            <div class="section">
+            <div *ngIf="parameters.length" class="section">
                 <div class="section-title">{{ 'PassportManagement.Parameters' | translate }}</div>
                 <p-table [value]="parameters" class="parameters-table">
                     <ng-template pTemplate="header">
@@ -258,7 +258,7 @@
             </div>
 
             <!-- Population Details Section -->
-            <div class="section">
+            <div *ngIf="populationDetails.length" class="section">
                 <div class="section-title">{{ 'PassportManagement.Population Details' | translate }}</div>
                 <p-table [value]="populationDetails" class="population-table">
                     <ng-template pTemplate="header">
@@ -279,7 +279,7 @@
             </div>
 
             <!-- Experiment Details Section -->
-            <div class="section">
+            <div *ngIf="experiments.length" class="section">
                 <div class="section-title">{{ 'PassportManagement.Experiment Details' | translate }}</div>
                 <p-table [value]="experiments" class="experiment-table">
                     <ng-template pTemplate="header">
@@ -296,7 +296,7 @@
             </div>
 
             <!-- Survey Details Section -->
-            <div class="section">
+            <div *ngIf="surveys.length" class="section">
                 <div class="section-title">{{ 'PassportManagement.Survey Details' | translate }}</div>
                 <p-table [value]="surveys" class="survey-table">
                     <ng-template pTemplate="header">
@@ -317,7 +317,7 @@
             </div>
 
             <!-- Study Details Section -->
-            <div class="section">
+            <div *ngIf="studyDetails" class="section">
                 <div class="section-title">{{ 'PassportManagement.Study Details' | translate }}</div>
                 <div class="section-content">
                     <div class="row">

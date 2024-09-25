@@ -5,6 +5,7 @@ import {environment} from "../../../environments/environment";
 import {Passport} from "../../shared/models/passport.model";
 import {StorageUtil} from "./storageUtil.service";
 import {PassportDetailsDTO} from "../../shared/models/passportDetails.model";
+import {PassportWithDetailSelection} from "../../shared/models/passportWithDetailSelection.model";
 
 /**
  * Service to manage the passport.
@@ -79,15 +80,15 @@ export class PassportService {
 
     /**
      * Create a passport
-     * @param passport passport to be created
+     * @param passportWithDetailSelection passport to be created with selected details
      * @return {Observable<Passport>}
      */
-    createPassport(passport: Passport): Observable<Passport>{
+    createPassport(passportWithDetailSelection: PassportWithDetailSelection): Observable<Passport>{
         const url = `${this.endpoint}`;
-        passport.createdBy = StorageUtil.retrieveUserId();
-        passport.approvedBy = StorageUtil.retrieveUserId();
+        passportWithDetailSelection.passport.createdBy = StorageUtil.retrieveUserId();
+        passportWithDetailSelection.passport.approvedBy = StorageUtil.retrieveUserId();
 
-        return this.httpClient.post<Passport>(url, passport)
+        return this.httpClient.post<Passport>(url, passportWithDetailSelection)
             .pipe(
                 map((response: any) =>{
                     return new Passport(response);
