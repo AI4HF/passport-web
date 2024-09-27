@@ -30,5 +30,21 @@
     "ethicalConsiderations": "Transparency",
     "limitations": "Limited generalization",
     "fairnessConstraints": "Dataset imbalance"
+  },
+  {
+    "name": "HF Risk Score",
+    "version": "1.0",
+    "tag": "v1",
+    "modelType": "Classification",
+    "productIdentifier": "PID001",
+    "trlLevel": "TRL 7",
+    "license": "Apache 2.0",
+    "primaryUse": "Heart Failure",
+    "secondaryUse": "Risk Prediction",
+    "intendedUsers": "Developers",
+    "counterIndications": " ",
+    "ethicalConsiderations": "Transparency",
+    "limitations": "Limited generalization",
+    "fairnessConstraints": "Dataset imbalance"
   }
 ]

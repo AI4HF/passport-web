@@ -18,5 +18,15 @@
     "name": "Altitude",
     "dataType": "float",
     "description": "Records the altitude."
+  },
+  {
+    "name": "Number of Estimators",
+    "dataType": "int",
+    "description": "Number of Trees in Random Forest."
+  },
+  {
+    "name": "Criterion",
+    "dataType": "text",
+    "description": "The function to measure the quality of a split."
   }
 ]

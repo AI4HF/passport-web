@@ -11,6 +11,7 @@ import {DropdownModule} from "primeng/dropdown";
 import {
     StudyDetailsModule
 } from "../../../../study-management/study-management-edit/study-details/study-details.module";
+import {AutoCompleteModule} from "primeng/autocomplete";
 
 @NgModule({
     declarations: [DatasetCharacteristicsFormComponent],
@@ -23,7 +24,8 @@ import {
         ButtonModule,
         TranslateModule,
         DropdownModule,
-        StudyDetailsModule
+        StudyDetailsModule,
+        AutoCompleteModule
     ],
     exports: [DatasetCharacteristicsFormComponent]
 })

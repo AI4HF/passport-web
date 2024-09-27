@@ -1,0 +1,35 @@
+[
+  {
+    "title": "Temperature",
+    "description": "Measure the ambient temperature.",
+    "dataType": "float",
+    "featureType": "Sensor",
+    "mandatory": true,
+    "isUnique": false,
+    "units": "Celsius",
+    "equipment": "Thermometer",
+    "dataCollection": "Sensor readings"
+  },
+  {
+    "title": "Pressure",
+    "description": "Measure atmospheric pressure.",
+    "dataType": "int",
+    "featureType": "Sensor",
+    "mandatory": true,
+    "isUnique": true,
+    "units": "Pascal",
+    "equipment": "Barometer",
+    "dataCollection": "Manual entry"
+  },
+  {
+    "title": "Humidity",
+    "description": "Measure the humidity in the air.",
+    "dataType": "float",
+    "featureType": "Sensor",
+    "mandatory": false,
+    "isUnique": false,
+    "units": "%",
+    "equipment": "Hygrometer",
+    "dataCollection": "Sensor readings"
+  }
+]

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { BaseComponent } from "../../../../../shared/components/base.component";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
@@ -14,40 +15,34 @@ import { takeUntil } from "rxjs";
 })
 export class FeatureSetFeaturesFormComponent extends BaseComponent implements OnInit {
 
-    /** The ID of the selected feature set */
     @Input() selectedFeatureSetId: number;
-
-    /** The ID of the feature to be edited or created */
     @Input() featureId: number;
-
-    /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();
 
-    /** The form group for the feature */
     featureForm: FormGroup;
-
-    /** Whether the form dialog is displayed */
     display: boolean = false;
-
-    /** The feature being edited or created */
     selectedFeature: Feature;
-
-    /** Flag indicating if the form is in update mode */
     isUpdateMode: boolean = false;
+
+    /** List of features loaded from JSON */
+    hardcodedFeatures: Feature[] = [];
+
+    /** Filtered list for auto-fill suggestions */
+    filteredFeatures: Feature[] = [];
 
     /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
+     * @param http The HTTP client for loading JSON
      */
-    constructor(protected injector: Injector) {
+    constructor(protected injector: Injector, private http: HttpClient) {
         super(injector);
     }
 
-    /**
-     * Initializes the component.
-     */
     ngOnInit() {
         this.initializeForm();
+        this.loadHardcodedFeatures();
+
         if (this.featureId) {
             this.isUpdateMode = true;
             this.loadFeature(this.featureId);
@@ -55,6 +50,17 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
             this.selectedFeature = new Feature({});
             this.display = true;
         }
+    }
+
+    /**
+     * Loads the predefined features from a JSON file for auto-fill functionality.
+     */
+    loadHardcodedFeatures() {
+        this.http.get<Feature[]>('assets/data/hardcoded-features.json').pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: data => this.hardcodedFeatures = data,
+                error: err => console.error('Failed to load hardcoded features', err)
+            });
     }
 
     /**
@@ -109,6 +115,36 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
             units: this.selectedFeature.units,
             equipment: this.selectedFeature.equipment,
             dataCollection: this.selectedFeature.dataCollection
+        });
+    }
+
+    /**
+     * Filters the features based on the title input for auto-fill.
+     * @param event The auto-complete event
+     */
+    filterFeatures(event: any) {
+        const query = event.query.toLowerCase();
+        this.filteredFeatures = this.hardcodedFeatures.filter(feature =>
+            feature.title.toLowerCase().includes(query)
+        );
+    }
+
+    /**
+     * Auto-fills the form with the selected predefined feature.
+     * @param event The auto-complete select event
+     */
+    selectAutoFill(event: any) {
+        const selectedFeature = event.value;
+        this.featureForm.patchValue({
+            title: selectedFeature.title,
+            description: selectedFeature.description,
+            dataType: selectedFeature.dataType,
+            featureType: selectedFeature.featureType,
+            mandatory: selectedFeature.mandatory,
+            isUnique: selectedFeature.isUnique,
+            units: selectedFeature.units,
+            equipment: selectedFeature.equipment,
+            dataCollection: selectedFeature.dataCollection
         });
     }
 

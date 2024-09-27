@@ -9,6 +9,8 @@
     <form (ngSubmit)="saveCharacteristic()" *ngIf="this.display" [formGroup]="characteristicForm">
         <div class="form-grid grid">
             <div class="field col">
+
+                <!-- Feature Dropdown with Icon -->
                 <label for="feature" class="font-bold">{{ 'DatasetManagement.Feature' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
@@ -25,14 +27,26 @@
                         </p-dropdown>
                     </span>
                 </div>
+
+                <!-- Characteristic Name AutoComplete with Icon -->
                 <label for="characteristicName" class="font-bold">{{ 'DatasetManagement.CharacteristicName' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-bookmark"></i>
-                        <input class="w-full" formControlName="characteristicName" id="characteristicName" pInputText
-                               placeholder="{{ 'DatasetManagement.CharacteristicNamePlaceholder' | translate }}">
+                        <p-autoComplete
+                                [style]="{'width':'100%'}"
+                                [suggestions]="filteredCharacteristics"
+                                (completeMethod)="filterCharacteristics($event)"
+                                (onSelect)="selectAutoFillCharacteristic($event)"
+                                field="characteristicName"
+                                formControlName="characteristicName"
+                                placeholder="{{ 'DatasetManagement.CharacteristicNamePlaceholder' | translate }}"
+                                class="w-full">
+                        </p-autoComplete>
                     </span>
                 </div>
+
+                <!-- Value Input with Icon -->
                 <label for="value" class="font-bold">{{ 'DatasetManagement.Value' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
@@ -40,6 +54,8 @@
                         <input class="w-full" formControlName="value" id="value" pInputText placeholder="{{ 'DatasetManagement.ValuePlaceholder' | translate }}">
                     </span>
                 </div>
+
+                <!-- Value Data Type Input with Icon -->
                 <label for="valueDataType" class="font-bold">{{ 'DatasetManagement.ValueDataType' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">
@@ -50,6 +66,7 @@
                 </div>
             </div>
         </div>
+
         <div class="flex justify-content-between">
             <button (click)="closeDialog()" class="p-button-primary" icon="pi pi-times"
                     label="{{ 'Cancel' | translate }}" pButton type="button"></button>

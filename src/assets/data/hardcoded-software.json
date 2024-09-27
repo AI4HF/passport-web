@@ -1,0 +1,27 @@
+[
+  {
+    "software": "TensorFlow",
+    "name": "TensorFlow Model Trainer",
+    "description": "Training models using TensorFlow for deep learning."
+  },
+  {
+    "software": "PyTorch",
+    "name": "PyTorch Model Deployment",
+    "description": "Deploying PyTorch models for inference tasks."
+  },
+  {
+    "software": "Scikit-learn",
+    "name": "Scikit-learn Classifier",
+    "description": "Training and evaluating machine learning models using Scikit-learn."
+  },
+  {
+    "software": "Keras",
+    "name": "Keras Neural Network",
+    "description": "Implementing neural network models using Keras for efficient computation."
+  },
+  {
+    "software": "MXNet",
+    "name": "MXNet Optimizer",
+    "description": "Optimizing deep learning models using MXNet for scalable applications."
+  }
+]

@@ -125,7 +125,7 @@ export class ParameterManagementFormComponent extends BaseComponent implements O
    */
   saveParameter() {
     if (!this.selectedParameter.parameterId) {
-      const newParameter: Parameter = new Parameter({ ...this.parameterForm.value });
+      const newParameter: Parameter = new Parameter({ ...this.parameterForm.value, studyId: this.activeStudyService.getActiveStudy().id });
       this.parameterService.createParameter(newParameter).pipe(takeUntil(this.destroy$))
           .subscribe(() => {
             this.closeDialog();

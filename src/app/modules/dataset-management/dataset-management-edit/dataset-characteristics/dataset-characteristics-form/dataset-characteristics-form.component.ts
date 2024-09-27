@@ -3,6 +3,8 @@ import { BaseComponent } from "../../../../../shared/components/base.component";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { DatasetCharacteristic } from "../../../../../shared/models/datasetCharacteristic.model";
 import { takeUntil, switchMap } from "rxjs";
+import {AutoCompleteCompleteEvent} from "primeng/autocomplete";
+import {HttpClient} from "@angular/common/http";
 
 /**
  * Component for managing and displaying the form for dataset characteristics.
@@ -35,11 +37,18 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
     /** Flag indicating if the form is in update mode */
     isUpdateMode: boolean = false;
 
+    /** List of characteristics loaded from JSON */
+    hardcodedCharacteristics: DatasetCharacteristic[] = [];
+
+    /** Filtered list for auto-fill suggestions */
+    filteredCharacteristics: DatasetCharacteristic[] = [];
+
     /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
+     * @param http The HTTP client for loading JSON
      */
-    constructor(protected injector: Injector) {
+    constructor(protected injector: Injector, private http: HttpClient) {
         super(injector);
     }
 
@@ -47,6 +56,7 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
      * Initializes the component.
      */
     ngOnInit() {
+        this.loadHardcodedCharacteristics();
         this.isUpdateMode = !!this.characteristic;
         this.initializeForm();
         if (this.isUpdateMode) {
@@ -226,6 +236,42 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
     closeDialog() {
         this.display = false;
         this.formClosed.emit();
+    }
+
+    /**
+     * Filters the characteristics based on the input query for auto-fill.
+     * @param event The auto-complete complete event
+     */
+    filterCharacteristics(event: AutoCompleteCompleteEvent) {
+        const query = event.query.toLowerCase();
+        this.filteredCharacteristics = this.hardcodedCharacteristics.filter(characteristic =>
+            characteristic.characteristicName.toLowerCase().includes(query)
+        );
+    }
+
+    /**
+     * Auto-fills the form with the selected characteristic from the JSON data.
+     * Only fills non-dropdown fields.
+     * @param event The auto-complete select event
+     */
+    selectAutoFillCharacteristic(event: any) {
+        const selectedCharacteristic = event.value;
+        this.characteristicForm.patchValue({
+            characteristicName: selectedCharacteristic.characteristicName,
+            value: selectedCharacteristic.value,
+            valueDataType: selectedCharacteristic.valueDataType
+        });
+    }
+
+    /**
+     * Loads the characteristics from a JSON file for auto-fill functionality.
+     */
+    loadHardcodedCharacteristics() {
+        this.http.get<DatasetCharacteristic[]>('assets/data/hardcoded-characteristics.json').pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: data => this.hardcodedCharacteristics = data,
+                error: err => console.error('Failed to load dataset characteristics', err)
+            });
     }
 }
 
