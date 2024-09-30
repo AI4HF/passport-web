@@ -19,19 +19,43 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LpDetailsComponent extends BaseComponent implements OnInit {
 
+    /** The currently selected learning process being edited or created */
     selectedLearningProcess: LearningProcess;
+
+    /** The currently selected implementation associated with the learning process */
     selectedImplementation: Implementation;
+
+    /** The reactive form group used for managing the learning process and implementation details */
     formGroup: FormGroup;
+
+    /** A grouped list of algorithms categorized by their type */
     groupedAlgorithms: AlgorithmsWithType[] = [];
+
+    /** A filtered list of algorithms based on user input */
     filteredAlgorithms: Algorithm[] = [];
+
+    /** A filtered list of predefined software items based on user input, used for auto-complete suggestions */
     filteredSoftware: { software: string, name: string, description: string }[] = [];
+
+    /** A list of predefined software items loaded from a JSON file for auto-fill functionality */
     hardcodedSoftwareList: { software: string, name: string, description: string }[] = [];
+
+    /** A flag indicating whether the form is in edit mode */
     isEditMode: boolean = false;
 
+
+    /**
+     * Constructor to inject dependencies.
+     * @param injector The dependency injector
+     * @param http The HTTP client for loading JSON
+     */
     constructor(protected injector: Injector, private http: HttpClient) {
         super(injector);
     }
 
+    /**
+     * Initializes the component by setting up the form and loading the learning process and algorithms if necessary.
+     */
     ngOnInit() {
         this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
             const id = params.get('id');
@@ -52,13 +76,18 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
      * Loads the predefined software list from a JSON file.
      */
     loadHardcodedSoftware() {
-        this.http.get<{ software: string, name: string, description: string }[]>('assets/data/example-software.json').pipe(takeUntil(this.destroy$))
+        this.http.get<{ software: string, name: string, description: string }[]>('assets/data/example-software.json')
+            .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: data => this.hardcodedSoftwareList = data,
                 error: err => console.error('Failed to load hardcoded software', err)
             });
     }
 
+    /**
+     * Loads the learning process by ID and fetches its associated implementation details.
+     * @param id The ID of the learning process
+     */
     loadLearningProcess(id: number) {
         this.learningProcessService.getLearningProcessById(id).pipe(takeUntil(this.destroy$)).subscribe({
             next: learningProcess => {
@@ -75,6 +104,10 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         });
     }
 
+    /**
+     * Loads the implementation by ID and updates the form with its details.
+     * @param implementationId The ID of the implementation
+     */
     loadImplementation(implementationId: number) {
         this.implementationService.getImplementationById(implementationId).pipe(takeUntil(this.destroy$)).subscribe({
             next: implementation => {
@@ -91,6 +124,9 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         });
     }
 
+    /**
+     * Initializes the form group with fields for software, name, algorithm, and description.
+     */
     initializeForm() {
         this.formGroup = new FormGroup({
             software: new FormControl(this.selectedImplementation?.software || '', Validators.required),
@@ -104,6 +140,10 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         }
     }
 
+    /**
+     * Filters the software list based on the user's input for auto-complete suggestions.
+     * @param event The event containing the input query
+     */
     filterSoftware(event: any) {
         const query = event.query.toLowerCase();
         this.filteredSoftware = this.hardcodedSoftwareList.filter(software =>
@@ -112,8 +152,8 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
     }
 
     /**
-     * Auto-fills only the software, name, and description fields from the selected software.
-     * @param event The auto-complete select event
+     * Auto-fills the form's software, name, and description fields based on the selected software.
+     * @param event The event containing the selected software
      */
     selectAutoFill(event: any) {
         const selectedSoftware = event.value;
@@ -124,6 +164,9 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         });
     }
 
+    /**
+     * Loads the algorithms and groups them by their type.
+     */
     loadAlgorithms() {
         this.algorithmService.getAllAlgorithms().pipe(takeUntil(this.destroy$)).subscribe({
             next: algorithms => {
@@ -143,6 +186,10 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         });
     }
 
+    /**
+     * Groups the algorithms by their type attribute.
+     * @param algorithms List of all algorithms
+     */
     groupAlgorithmsByType(algorithms: Algorithm[]) {
         const grouped = algorithms.reduce((acc, algorithm) => {
             const typeGroup = acc.find(group => group.type === algorithm.type);
@@ -157,6 +204,10 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         this.groupedAlgorithms = grouped;
     }
 
+    /**
+     * Filters the list of algorithms based on user input.
+     * @param event The event containing the user's input query
+     */
     filterAlgorithms(event: any) {
         const query = event.query.toLowerCase();
         this.filteredAlgorithms = this.groupedAlgorithms
@@ -164,6 +215,9 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
             .filter(algorithm => algorithm.name.toLowerCase().includes(query));
     }
 
+    /**
+     * Sets the selected algorithm in the form based on the current implementation.
+     */
     setDropdownValues() {
         if (this.selectedImplementation) {
             const selectedAlgorithm = this.groupedAlgorithms
@@ -175,6 +229,9 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         }
     }
 
+    /**
+     * Saves the learning process and its associated implementation.
+     */
     save() {
         const formValues = this.formGroup.value;
 
@@ -211,6 +268,11 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         }
     }
 
+    /**
+     * Saves the implementation and then proceeds to save the learning process.
+     * @param formValues The form values submitted by the user
+     * @param implementationPayload The payload for the implementation object
+     */
     saveFormWithCreatedAlgorithm(formValues: any, implementationPayload: any) {
         if (!this.selectedImplementation.implementationId) {
             const newImplementation: Implementation = new Implementation({ ...implementationPayload, algorithmId: formValues.algorithm.algorithmId });
@@ -230,7 +292,11 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                     }
                 });
         } else {
-            const updatedImplementation: Implementation = new Implementation({ implementationId: this.selectedImplementation.implementationId, ...implementationPayload, algorithmId: formValues.algorithm.algorithmId });
+            const updatedImplementation: Implementation = new Implementation({
+                implementationId: this.selectedImplementation.implementationId,
+                ...implementationPayload,
+                algorithmId: formValues.algorithm.algorithmId
+            });
             this.implementationService.updateImplementation(updatedImplementation)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
@@ -249,6 +315,10 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         }
     }
 
+    /**
+     * Saves the learning process after the implementation has been saved or updated.
+     * @param implementationId The ID of the related implementation
+     */
     saveLearningProcess(implementationId: number) {
         const formValues = this.formGroup.value;
 
@@ -258,7 +328,10 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         };
 
         if (!this.selectedLearningProcess.learningProcessId) {
-            const newLearningProcess: LearningProcess = new LearningProcess({ studyId: this.activeStudyService.getActiveStudy().id, ...learningProcessPayload });
+            const newLearningProcess: LearningProcess = new LearningProcess({
+                studyId: this.activeStudyService.getActiveStudy().id,
+                ...learningProcessPayload
+            });
             this.learningProcessService.createLearningProcess(newLearningProcess)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
@@ -280,7 +353,10 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                     }
                 });
         } else {
-            const updatedLearningProcess: LearningProcess = new LearningProcess({ learningProcessId: this.selectedLearningProcess.learningProcessId, ...learningProcessPayload });
+            const updatedLearningProcess: LearningProcess = new LearningProcess({
+                learningProcessId: this.selectedLearningProcess.learningProcessId,
+                ...learningProcessPayload
+            });
             this.learningProcessService.updateLearningProcess(updatedLearningProcess)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
@@ -304,6 +380,9 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
         }
     }
 
+    /**
+     * Navigates back to the learning process management page.
+     */
     back() {
         this.router.navigate([`${LpManagementRoutingModule.route}`]);
     }
