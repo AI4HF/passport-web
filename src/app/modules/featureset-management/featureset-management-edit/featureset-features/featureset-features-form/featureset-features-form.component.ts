@@ -56,7 +56,7 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
      * Loads the predefined features from a JSON file for auto-fill functionality.
      */
     loadHardcodedFeatures() {
-        this.http.get<Feature[]>('assets/data/hardcoded-features.json').pipe(takeUntil(this.destroy$))
+        this.http.get<Feature[]>('assets/data/example-features.json').pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: data => this.hardcodedFeatures = data,
                 error: err => console.error('Failed to load hardcoded features', err)

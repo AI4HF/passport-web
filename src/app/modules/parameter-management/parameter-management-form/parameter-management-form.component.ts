@@ -81,7 +81,7 @@ export class ParameterManagementFormComponent extends BaseComponent implements O
    * Loads the hardcoded parameter list from a JSON file.
    */
   loadHardcodedParameters() {
-    this.http.get<Parameter[]>('assets/data/hardcoded-parameters.json').pipe(takeUntil(this.destroy$))
+    this.http.get<Parameter[]>('assets/data/example-parameters.json').pipe(takeUntil(this.destroy$))
         .subscribe({
           next: data => this.hardcodedParameters = data,
           error: err => console.error('Failed to load hardcoded parameters', err)

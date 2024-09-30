@@ -267,7 +267,7 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
      * Loads the characteristics from a JSON file for auto-fill functionality.
      */
     loadHardcodedCharacteristics() {
-        this.http.get<DatasetCharacteristic[]>('assets/data/hardcoded-characteristics.json').pipe(takeUntil(this.destroy$))
+        this.http.get<DatasetCharacteristic[]>('assets/data/example-characteristics.json').pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: data => this.hardcodedCharacteristics = data,
                 error: err => console.error('Failed to load dataset characteristics', err)

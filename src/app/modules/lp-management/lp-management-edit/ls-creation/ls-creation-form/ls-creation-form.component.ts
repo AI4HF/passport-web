@@ -229,7 +229,7 @@ export class LsCreationFormComponent extends BaseComponent implements OnInit {
      * Loads the hardcoded learning stages from a JSON file.
      */
     loadHardcodedLearningStages() {
-        this.http.get<LearningStage[]>('assets/data/hardcoded-learning-stages.json').pipe(takeUntil(this.destroy$))
+        this.http.get<LearningStage[]>('assets/data/example-learning-stages.json').pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: data => this.hardcodedLearningStages = data,
                 error: err => console.error('Failed to load hardcoded learning stages', err)

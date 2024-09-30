@@ -50,7 +50,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
      * Loads the predefined datasets from a JSON file for auto-fill functionality.
      */
     loadHardcodedDatasets() {
-        this.http.get<Dataset[]>('assets/data/hardcoded-datasets.json').pipe(takeUntil(this.destroy$))
+        this.http.get<Dataset[]>('assets/data/example-datasets.json').pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: data => this.hardcodedDatasets = data,
                 error: err => console.error('Failed to load hardcoded datasets', err)

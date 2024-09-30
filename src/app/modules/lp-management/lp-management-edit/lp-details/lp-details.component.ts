@@ -52,7 +52,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
      * Loads the predefined software list from a JSON file.
      */
     loadHardcodedSoftware() {
-        this.http.get<{ software: string, name: string, description: string }[]>('assets/data/hardcoded-software.json').pipe(takeUntil(this.destroy$))
+        this.http.get<{ software: string, name: string, description: string }[]>('assets/data/example-software.json').pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: data => this.hardcodedSoftwareList = data,
                 error: err => console.error('Failed to load hardcoded software', err)

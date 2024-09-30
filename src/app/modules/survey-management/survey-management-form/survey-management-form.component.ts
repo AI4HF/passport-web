@@ -88,7 +88,7 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
      * Loads the predefined surveys from a JSON file for auto-fill functionality.
      */
     loadHardcodedSurveys() {
-        this.http.get<Survey[]>('assets/data/hardcoded-surveys.json').pipe(takeUntil(this.destroy$))
+        this.http.get<Survey[]>('assets/data/example-surveys.json').pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: data => this.hardcodedSurveys = data,
                 error: err => console.error('Failed to load hardcoded surveys', err)

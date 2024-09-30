@@ -223,7 +223,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
    * Loads the hardcoded model list from a JSON file.
    */
   loadHardcodedModels() {
-    this.http.get<Model[]>('assets/data/hardcoded-models.json').pipe(takeUntil(this.destroy$))
+    this.http.get<Model[]>('assets/data/example-models.json').pipe(takeUntil(this.destroy$))
         .subscribe({
           next: data => this.hardcodedModels = data,
           error: err => console.error('Failed to load hardcoded models', err)
