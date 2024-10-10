@@ -10,6 +10,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {
     StudyDetailsModule
 } from "../../../../study-management/study-management-edit/study-details/study-details.module";
+import {AutoCompleteModule} from "primeng/autocomplete";
 
 @NgModule({
     declarations: [FeatureSetFeaturesFormComponent],
@@ -21,7 +22,8 @@ import {
         InputTextModule,
         ButtonModule,
         TranslateModule,
-        StudyDetailsModule
+        StudyDetailsModule,
+        AutoCompleteModule
     ],
     exports: [FeatureSetFeaturesFormComponent]
 })

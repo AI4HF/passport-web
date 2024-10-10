@@ -1,0 +1,17 @@
+[
+  {
+    "question": "What is the purpose of the survey?",
+    "answer": "To gather user feedback.",
+    "category": "Testing"
+  },
+  {
+    "question": "How is the model's robustness tested?",
+    "answer": "Through various stress tests.",
+    "category": "Robustness"
+  },
+  {
+    "question": "How explainable are the results?",
+    "answer": "The model provides clear insights.",
+    "category": "Explainability"
+  }
+]

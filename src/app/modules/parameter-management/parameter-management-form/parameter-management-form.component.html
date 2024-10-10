@@ -9,31 +9,44 @@
         <div class="form-grid grid p-p-md-2">
             <div class="field col">
                 <label for="name" class="font-bold">{{ 'ParameterManagement.Name' | translate }}</label>
-                <div class="p-field p-col-12 p-md-12">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-bookmark"></i>
-                        <input formControlName="name" id="name" pInputText class="w-full" placeholder="{{ 'ParameterManagement.NamePlaceholder' | translate }}" type="text">
-                    </span>
-                </div>
-                <label for="dataType" class="font-bold">{{ 'ParameterManagement.DataType' | translate }}</label>
+                <span class="p-input-icon-left w-full mb-4">
+                    <i class="pi pi-briefcase"></i>
+                <p-autoComplete
+                        [style]="{'width':'100%'}"
+                        formControlName="name"
+                        [suggestions]="filteredParameters"
+                        (completeMethod)="filterParameters($event)"
+                        (onSelect)="selectAutoFill($event)"
+                        field="name"
+                        class="w-full"
+                        [forceSelection]="false"
+                        placeholder="{{ 'ParameterManagement.NamePlaceholder' | translate }}">
+                </p-autoComplete>
+                </span>
+
+                <label for="dataType" class="font-bold mt-0">{{ 'ParameterManagement.DataType' | translate }}</label>
                 <div class="p-field p-col-12 p-md-12">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-database"></i>
-                        <input formControlName="dataType" id="dataType" pInputText class="w-full" placeholder="{{ 'ParameterManagement.DataTypePlaceholder' | translate }}" type="text">
+                        <input formControlName="dataType" id="dataType" pInputText class="w-full"
+                               placeholder="{{ 'ParameterManagement.DataTypePlaceholder' | translate }}" type="text">
                     </span>
                 </div>
-                <label for="description" class="font-bold">{{ 'ParameterManagement.Description' | translate }}</label>
+                <label for="description" class="font-bold mt-0">{{ 'ParameterManagement.Description' | translate }}</label>
                 <div class="p-field p-col-12 p-md-12">
                     <span class="p-input-icon-left w-full mb-2">
                         <i class="pi pi-comment"></i>
-                        <textarea formControlName="description" id="description" pInputTextarea class="w-full" placeholder="{{ 'ParameterManagement.DescriptionPlaceholder' | translate }}" rows="5"></textarea>
+                        <textarea formControlName="description" id="description" pInputTextarea class="w-full"
+                                  placeholder="{{ 'ParameterManagement.DescriptionPlaceholder' | translate }}" rows="5"></textarea>
                     </span>
                 </div>
             </div>
         </div>
         <div class="flex justify-content-between mt-2">
-            <button (click)="closeDialog()" class="p-button-primary" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton type="button"></button>
-            <button class="p-button-primary" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton [disabled]="parameterForm.invalid" type="submit"></button>
+            <button (click)="closeDialog()" class="p-button-primary" icon="pi pi-times"
+                    label="{{ 'Cancel' | translate }}" pButton type="button"></button>
+            <button class="p-button-primary" icon="pi pi-check"
+                    label="{{ 'Save' | translate }}" pButton [disabled]="parameterForm.invalid" type="submit"></button>
         </div>
     </form>
 </p-dialog>

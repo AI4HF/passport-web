@@ -1,0 +1,22 @@
+[
+  {
+    "characteristicName": "variance",
+    "value": "10",
+    "valueDataType": "float"
+  },
+  {
+    "characteristicName": "mean",
+    "value": "65.5",
+    "valueDataType": "float"
+  },
+  {
+    "characteristicName": "max",
+    "value": "80",
+    "valueDataType": "float"
+  },
+  {
+    "characteristicName": "min",
+    "value": "60",
+    "valueDataType": "float"
+  }
+]
