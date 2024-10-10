@@ -8,6 +8,7 @@ import { LpManagementRoutingModule } from "../../lp-management-routing.module";
 import { Algorithm } from "../../../../shared/models/algorithm.model";
 import { AlgorithmsWithType } from "../../../../shared/models/algorithmsWithType.model";
 import { HttpClient } from '@angular/common/http';
+import {ImplementationWithSoftware} from "../../../../shared/models/implementationWithSoftware.model";
 
 /**
  * Component to display and manage the details of a learning process and its implementation.
@@ -35,10 +36,10 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
     filteredAlgorithms: Algorithm[] = [];
 
     /** A filtered list of predefined software items based on user input, used for auto-complete suggestions */
-    filteredSoftware: { software: string, name: string, description: string }[] = [];
+    filteredSoftware: ImplementationWithSoftware[] = [];
 
     /** A list of predefined software items loaded from a JSON file for auto-fill functionality */
-    hardcodedSoftwareList: { software: string, name: string, description: string }[] = [];
+    hardcodedSoftwareList: ImplementationWithSoftware[] = [];
 
     /** A flag indicating whether the form is in edit mode */
     isEditMode: boolean = false;
