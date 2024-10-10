@@ -28,96 +28,30 @@
             placeholder="{{'StudyManagement.Personnel.Select a Population' | translate}}">
     </p-dropdown>
 
-    <!-- Responsible Personnel Dropdown -->
-    <p *ngIf="!formDisabled" class="flex align-items-center">
-        <strong>{{ 'StudyManagement.Personnel.Responsible Personnel' | translate }}</strong>
-        <app-tooltip class="ml-2" message="StudyManagement.ResponsiblePersonnelTooltip"></app-tooltip>
-    </p>
-    <p-dropdown
-            *ngIf="!formDisabled"
-            [options]="personnelListForOrganization"
-            [(ngModel)]="selectedResponsiblePersonnelId"
-            optionLabel="firstName"
-            optionValue="personId"
-            [showClear]="true"
-            [disabled]="formDisabled"
-            [style]="{'minWidth':'100%', 'margin-bottom': '1rem'}"
-            placeholder="{{'StudyManagement.Personnel.Select a responsible personnel' | translate}}">
-    </p-dropdown>
-
-    <!-- Roles Checkboxes -->
-    <div *ngIf="!formDisabled" class="checkbox-grid">
-        <div *ngFor="let role of roles" class="field-checkbox">
-            <p-checkbox
-                    [(ngModel)]="selectedRoles"
-                    [label]="role.name"
-                    name="group"
-                    [value]="role.value"
-                    [disabled]="formDisabled">
-            </p-checkbox>
-        </div>
-    </div>
-
-    <!-- Buttons -->
-    <div *ngIf="!formDisabled" class="justify-content-end align-content-end">
-        <button pButton pRipple
-                type="button"
-                label="{{'Save' | translate}}"
-                class="p-button-raised"
-                [disabled]="!this.selectedResponsiblePersonnelId || !this.selectedRoles.length"
-                (click)="saveStudyOrganization()">
-        </button>
-    </div>
-</p-card>
-
-<!-- Personnel PickList -->
-<p-card class="p-0 w-full" *ngIf="selectedStudyOrganization?.personnelId">
-    <p-pickList
-            [source]="sourcePersonnelList"
-            [target]="targetPersonnelList"
-            sourceHeader="{{'StudyManagement.Personnel.Available Personnel' | translate}}"
-            targetHeader="{{'StudyManagement.Personnel.Assigned Personnel' | translate}}"
-            [dragdrop]="true"
-            [responsive]="true"
-            class="z-1"
-            [sourceStyle]="{ height: '20rem' }"
-            [targetStyle]="{ height: '20rem' }"
-            filterBy="firstName,lastName,role"
-            sourceFilterPlaceholder="{{'Search' | translate}}"
-            targetFilterPlaceholder="{{'Search' | translate}}"
-            breakpoint="1400px"
-            [showTargetControls]="false"
-            [showSourceControls]="false"
-            (onMoveAllToSource)="onMoveToSource($event)"
-            (onMoveToSource)="onMoveToSource($event)">
-        <ng-template let-personnel pTemplate="item">
-            <div class="flex flex-row align-items-center justify-content-start gap-2">
-                <div class="firstName">
-                    <span class="font-bold">{{ personnel.firstName }}</span>
-                </div>
-                <div class="lastName">
-                    <span>{{ personnel.lastName }}</span>
-                </div>
-                <div class="role flex z-2 justify-content-end">
-                    <span>{{ convertPersonnelRoleValueToName(personnel.role) }}</span>
-                </div>
-            </div>
+    <!-- Personnel Table -->
+    <p-table [value]="mappedPersonnelList" *ngIf="!formDisabled">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>{{ 'StudyManagement.Personnel.Name' | translate }}</th>
+                <th>{{ 'StudyManagement.Personnel.Surname' | translate }}</th>
+                <th>{{ 'StudyManagement.Personnel.Roles' | translate }}</th>
+            </tr>
         </ng-template>
-    </p-pickList>
-    <div class="flex justify-content-between flex-wrap mt-4">
-        <div class="justify-content-start">
-            <button pButton pRipple
-                    type="button"
-                    label="{{'Back' | translate}}"
-                    class="p-button-raised"
-                    (click)="back()"></button>
-        </div>
-        <div class="justify-content-end">
-            <button pButton pRipple
-                    type="button"
-                    label="{{'Save' | translate}}"
-                    class="p-button-raised"
-                    (click)="save()"></button>
-        </div>
+        <ng-template pTemplate="body" let-entry>
+            <tr>
+                <td>{{ entry.personnel.firstName }}</td>
+                <td>{{ entry.personnel.lastName }}</td>
+                <td>
+                    <div *ngFor="let role of roles">
+                        <p-checkbox [(ngModel)]="entry.roles" [value]="role.value" [label]="role.name"></p-checkbox>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <!-- Save Button -->
+    <div class="flex justify-content-end mt-4">
+        <button pButton pRipple label="{{ 'Save' | translate }}" (click)="save()" [disabled]="formDisabled"></button>
     </div>
 </p-card>

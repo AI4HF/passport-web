@@ -31,23 +31,6 @@
                         <input formControlName="lastName" id="lastName" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter last name' | translate }}" type="text">
                     </span>
                 </div>
-                <label for="role" class="font-bold">{{ 'OrganizationManagement.Role' | translate }}</label>
-                <div class="p-field p-col-12 p-md-12">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-briefcase"></i>
-                        <p-dropdown
-                                [style]="{'width':'100%'}"
-                                formControlName="role"
-                                [options]="roles"
-                                optionLabel="name"
-                                optionValue="value"
-                                placeholder="{{ 'OrganizationManagement.Enter role' | translate }}"
-                                class="w-full"
-                                [panelStyle]="{'max-height': '100px'}"
-                                [scrollHeight]="'100px'">
-                        </p-dropdown>
-                    </span>
-                </div>
                 <label for="email" class="font-bold">{{ 'OrganizationManagement.Email' | translate }}</label>
                 <div class="p-field p-col-12 p-md-12">
                     <span class="p-input-icon-left w-full mb-4">

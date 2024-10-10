@@ -1,12 +1,9 @@
-import {BehaviorSubject, Observable} from "rxjs";
-import {Role} from "../../shared/models/role.enum";
-import {Injectable, Injector} from "@angular/core";
-import {StorageUtil} from "./storageUtil.service";
-import {JwtHelperService} from "@auth0/angular-jwt";
-
+import { BehaviorSubject, Observable } from "rxjs";
+import { Role } from "../../shared/models/role.enum";
+import { Injectable } from "@angular/core";
 
 /**
- * Service to manage the role of the logged user.
+ * Service to manage the roles of the logged user.
  */
 @Injectable({
     providedIn: 'root'
@@ -14,49 +11,43 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 export class RoleService {
 
     /**
-     * Role of the personnel
+     * List of roles for the user
      */
-    role: BehaviorSubject<Role> = new BehaviorSubject(null);
+    roles: BehaviorSubject<Role[]> = new BehaviorSubject<Role[]>([]);
 
-    constructor(private injector: Injector) {
-        const token = StorageUtil.retrieveToken();
-        if(token){
-            const helper = new JwtHelperService();
-            const decodedToken = helper.decodeToken(token);
-            const role: Role = decodedToken.realm_access.roles?.find((role: string) => Role[role as keyof typeof Role] !== undefined);
-            this.role.next(role);
-        }
+    constructor() {
+        // Initially, no roles are set
+        this.roles.next([]);
     }
 
     /**
-     * Set role of the user
-     * @param role Role of the user
+     * Set roles of the user
+     * @param roles List of roles for the user
      */
-    setRole(role: Role) {
-        this.role.next(role);
+    setRoles(roles: Role[]) {
+        this.roles.next(roles);
     }
 
     /**
-     * Get role of the user as observable
-     * @return {Observable<Role>}
+     * Get roles of the user as observable
+     * @return {Observable<Role[]>}
      */
-    getRoleAsObservable(): Observable<Role> {
-        return this.role.asObservable();
+    getRolesAsObservable(): Observable<Role[]> {
+        return this.roles.asObservable();
     }
 
     /**
-     * Get role of the user
-     * @return {Role}
+     * Get current roles of the user
+     * @return {Role[]}
      */
-    getRole(): Role {
-        return this.role.getValue();
+    getRoles(): Role[] {
+        return this.roles.getValue();
     }
 
     /**
-     * Clear role of the user
+     * Clear roles of the user
      */
-    clearRole(){
-        this.role.next(null);
+    clearRoles() {
+        this.roles.next([]);
     }
-
 }

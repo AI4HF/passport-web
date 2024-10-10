@@ -7,10 +7,11 @@ import { NameAndValueInterface } from "../../../../shared/models/nameAndValue.in
 import { Organization } from "../../../../shared/models/organization.model";
 import { StudyOrganization } from "../../../../shared/models/studyOrganization.model";
 import { Role } from "../../../../shared/models/role.enum";
-import { Population } from "../../../../shared/models/population.model"; // New import
+import { Population } from "../../../../shared/models/population.model";
+import { StudyPersonnel } from "../../../../shared/models/studyPersonnel.model";
 
 /**
- * Shows list of assigned personnel for the study
+ * Component responsible for assigning personnel to studies.
  */
 @Component({
   selector: 'app-personnel-assignment',
@@ -20,72 +21,67 @@ import { Population } from "../../../../shared/models/population.model"; // New 
 export class PersonnelAssignmentComponent extends BaseComponent implements OnInit {
 
   /**
-   * The original personnel list provided from personnel service
-   */
-  personnelList: Personnel[] = [];
-
-  /**
-   * The left side list for picklist
-   */
-  sourcePersonnelList: Personnel[] = [];
-
-  /**
-   * The right side list for picklist
-   */
-  targetPersonnelList: Personnel[] = [];
-
-  /**
-   * The studyId for selected study
-   */
-  studyId: number;
-
-  /**
-   * The role enumeration
-   */
-  roles: NameAndValueInterface[] = ROLES.filter(role => role.value !== Role.STUDY_OWNER);
-
-  /**
-   * The allowed roles
-   */
-  allowedRoles: NameAndValueInterface[] = [];
-
-  /**
-   * The organization list provided from organization service
-   */
-  organizationList: Organization[] = [];
-
-  /**
-   * The selected StudyOrganization for dropdown
-   */
-  selectedStudyOrganization: StudyOrganization = null;
-
-  /**
-   * The personnel list for organization
+   * List of all personnel from the selected organization.
    */
   personnelListForOrganization: Personnel[] = [];
 
   /**
-   * The selected responsible personnel ID for dropdown
+   * Mapped list of personnel along with their assigned roles for the study.
+   */
+  mappedPersonnelList: { personnel: Personnel, studyId: number, roles: Role[] }[] = [];
+
+  /**
+   * The studyId for the selected study.
+   */
+  studyId: number;
+
+  /**
+   * The role enumeration used for checkboxes.
+   */
+  roles: NameAndValueInterface[] = ROLES.filter(role => role.value !== Role.STUDY_OWNER);
+
+  /**
+   * The allowed roles for the selected study organization.
+   */
+  allowedRoles: NameAndValueInterface[] = [];
+
+  /**
+   * The list of organizations provided from organization service.
+   */
+  organizationList: Organization[] = [];
+
+  /**
+   * The selected StudyOrganization for dropdown.
+   */
+  selectedStudyOrganization: StudyOrganization = null;
+
+  /**
+   * The personnel list for the organization.
+   */
+  personnelList: Personnel[] = [];
+
+  /**
+   * The selected responsible personnel ID for dropdown.
    */
   selectedResponsiblePersonnelId: string = null;
 
   /**
-   * The selected roles for study organization
+   * The selected roles for the study organization.
    */
-  selectedRoles: string[] = [];
+  selectedRoles: { [personId: string]: Role[] } = {};
 
   /**
-   * The list of populations for the dropdown
+   * The list of populations for the dropdown.
    */
   populationList: Population[] = [];
 
   /**
-   * The selected population ID
+   * The selected population ID.
    */
   selectedPopulationId: number = null;
 
   /**
-   * Whether the form elements are disabled or enabled
+   * Whether the form elements are disabled or enabled.
    */
   formDisabled: boolean = true;
 
@@ -94,6 +90,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   }
 
   ngOnInit() {
+    // Load organizations and populations on initialization
     this.organizationService.getAllOrganizations().pipe(takeUntil(this.destroy$)).subscribe({
       next: data => {
         this.organizationList = data.map(organization => new Organization(organization));
@@ -123,7 +120,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   }
 
   /**
-   * Load the population list for the selected study
+   * Load the population list for the selected study.
    */
   private loadPopulations() {
     this.populationService.getPopulationByStudyId(this.studyId).pipe(takeUntil(this.destroy$)).subscribe({
@@ -141,15 +138,16 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   }
 
   /**
-   * Select an organization from dropdown menu
-   * @param organizationId The ID of the organization
+   * Select an organization from dropdown menu and fetch the associated personnel and roles.
+   * @param organizationId The ID of the selected organization.
    */
   selectAnOrganization(organizationId: number) {
     this.selectedResponsiblePersonnelId = null;
     this.selectedStudyOrganization = null;
-    this.selectedRoles = [];
-    this.allowedRoles = [];
+    this.selectedRoles = {};
     this.formDisabled = true; // Disable form fields initially
+
+    // Fetch organization personnel
     this.fetchOrganizationPersonnel(organizationId);
 
     // Check if a study organization exists
@@ -159,10 +157,9 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
         this.selectedStudyOrganization = new StudyOrganization(response);
         this.selectedPopulationId = this.selectedStudyOrganization.populationId;
         this.selectedResponsiblePersonnelId = this.selectedStudyOrganization.personnelId;
-        this.selectedRoles = this.selectedStudyOrganization.roles;
-        this.allowedRoles = this.roles.filter(role => this.selectedRoles.includes(role.value));
+        this.allowedRoles = this.roles;
         this.formDisabled = false; // Enable fields
-        this.fetchPersonnelAndAssignmentLists(this.studyId, organizationId);
+        this.fetchPersonnelAndAssignedRoles(this.studyId, organizationId);
       },
       error: error => {
         if (error.status === 404) {
@@ -184,21 +181,27 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   }
 
   /**
-   * Fetch Available personnel and assigned personnel lists
-   * @param studyId ID of the study
-   * @param organizationId ID of the organization
+   * Fetch personnel and their assigned roles for the selected study and organization.
+   * @param studyId ID of the study.
+   * @param organizationId ID of the organization.
    */
-  private fetchPersonnelAndAssignmentLists(studyId: number, organizationId: number) {
-    combineLatest([this.personnelService.getPersonnelByOrganizationId(organizationId), this.studyPersonnelService.getPersonnelListByStudyIdAndOrganizationId(studyId, organizationId)],
-        (allPersonnel, assignedPersonnel) => ({ allPersonnel, assignedPersonnel }))
-        .pipe(takeUntil(this.destroy$))
+  private fetchPersonnelAndAssignedRoles(studyId: number, organizationId: number) {
+    combineLatest([
+      this.personnelService.getPersonnelByOrganizationId(organizationId),
+      this.studyPersonnelService.getStudyPersonnelByStudyId(studyId)
+    ]).pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: personnelList => {
-            this.personnelList = personnelList.allPersonnel;
-            this.sourcePersonnelList = this.removeAssignedPersonnelFromPersonnelList(personnelList.allPersonnel, personnelList.assignedPersonnel);
-            this.targetPersonnelList = personnelList.assignedPersonnel.map(personnel => new Personnel(personnel));
+          next: ([allPersonnel, studyPersonnelRelations]) => {
+            this.mappedPersonnelList = allPersonnel.map(personnel => {
+              const matchedRelation = studyPersonnelRelations.find(relation => relation.personnelId === personnel.personId);
+              return {
+                personnel: new Personnel(personnel),
+                studyId: this.studyId,
+                roles: matchedRelation ? matchedRelation.roles : []
+              };
+            });
           },
-          error: (error: any) => {
+          error: error => {
             this.messageService.add({
               severity: 'error',
               summary: this.translateService.instant('Error'),
@@ -209,24 +212,28 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   }
 
   /**
-   * Remove Assigned personnel from all personnel list
-   * @param personnelList Personnel list includes all personnel
-   * @param assignedPersonnelList Personnel list includes only assigned personnel
+   * Save assigned personnel and their roles.
    */
-  private removeAssignedPersonnelFromPersonnelList(personnelList: Personnel[],
-                                                   assignedPersonnelList: Personnel[]): Personnel[] {
-    return personnelList.filter(allPersonnelElement =>
-        !assignedPersonnelList.some(assignedPersonnelElement =>
-            assignedPersonnelElement.personId === allPersonnelElement.personId))
-        .filter(personnelElement => this.allowedRoles.some(allowedRole => allowedRole.value === personnelElement.role))
-        .map(personnel => new Personnel(personnel));
-  }
-
   /**
-   * Save assigned personnel
+   * Save assigned personnel and their roles.
    */
   save() {
-    this.studyPersonnelService.createStudyPersonnelAssignment(this.studyId, this.selectedStudyOrganization.organizationId, this.targetPersonnelList)
+    // Create a Map where personId is used as a key
+    const personnelRoleMap = new Map<string, string[]>();
+
+    // Populate the Map with personId as key and array of roles as value
+    this.mappedPersonnelList.forEach(entry => {
+      personnelRoleMap.set(entry.personnel.personId, entry.roles.map(role => role.toString()));
+    });
+
+    // Convert the Map to an object to send to the backend (optional, if needed for backend)
+    const serializedPersonnelRoleMap = Array.from(personnelRoleMap.entries()).reduce((acc, [personId, roles]) => {
+      acc.set(personId, roles); // Map personId directly to roles
+      return acc;
+    }, new Map<string, string[]>()); // Use a Map here
+
+    // Now send the serialized data to the backend
+    this.studyPersonnelService.createStudyPersonnelEntries(this.studyId, this.selectedStudyOrganization.organizationId, serializedPersonnelRoleMap)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: response => {
@@ -246,20 +253,11 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
         });
   }
 
-  /**
-   * Handle the event when items are moved to source list
-   */
-  onMoveToSource(event: any) {
-    event.items.forEach((item: Personnel) => {
-      // Change the role to default role of the personnel
-      const targetPersonnel = this.personnelList.find(personnel => personnel.personId === item.personId);
-      item.role = targetPersonnel.role;
-    });
-  }
+
 
   /**
-   * Fetch personnel of the selected organization
-   * @param organizationId The ID of the organization
+   * Fetch personnel of the selected organization.
+   * @param organizationId The ID of the organization.
    */
   private fetchOrganizationPersonnel(organizationId: number) {
     this.personnelService.getPersonnelByOrganizationId(organizationId).pipe(takeUntil(this.destroy$)).subscribe({
@@ -276,81 +274,10 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
     });
   }
 
-/**
-   * Save study organization information
-   */
-  saveStudyOrganization() {
-    if (this.selectedStudyOrganization.personnelId) {
-      this.setRolesAndResponsiblePerson();
-      this.studyOrganizationService.updateStudyOrganization(this.studyId,
-          this.selectedStudyOrganization.organizationId,
-          this.selectedStudyOrganization).pipe(takeUntil(this.destroy$)).subscribe({
-        next: response => {
-          this.selectedStudyOrganization = new StudyOrganization(response);
-          this.selectedResponsiblePersonnelId = this.selectedStudyOrganization.personnelId;
-          this.selectedRoles = this.selectedStudyOrganization.roles;
-          this.allowedRoles = this.roles.filter(role => this.selectedRoles.includes(role.value));
-          this.fetchPersonnelAndAssignmentLists(this.studyId, this.selectedStudyOrganization.organizationId);
-          this.messageService.add({
-            severity: 'success',
-            summary: this.translateService.instant('Success'),
-            detail: this.translateService.instant('StudyManagement.Personnel.StudyOrganization is updated successfully')
-          });
-        },
-        error: error => {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translateService.instant('Error'),
-            detail: error.message
-          });
-        }});
-    } else {
-      this.setRolesAndResponsiblePerson();
-      this.studyOrganizationService.createStudyOrganization(this.selectedStudyOrganization)
-          .pipe(takeUntil(this.destroy$)).subscribe({
-        next: response => {
-          this.selectedStudyOrganization = new StudyOrganization(response);
-          this.selectedResponsiblePersonnelId = this.selectedStudyOrganization.personnelId;
-          this.selectedRoles = this.selectedStudyOrganization.roles;
-          this.allowedRoles = this.roles.filter(role => this.selectedRoles.includes(role.value));
-          this.fetchPersonnelAndAssignmentLists(this.studyId, this.selectedStudyOrganization.organizationId);
-          this.messageService.add({
-            severity: 'success',
-            summary: this.translateService.instant('Success'),
-            detail: this.translateService.instant('StudyManagement.Personnel.StudyOrganization is created successfully')
-          });
-        },
-        error: error => {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translateService.instant('Error'),
-            detail: error.message
-          });
-        }
-      });
-    }
-  }
-
   /**
-   * Save roles and responsible person information into selectedStudyOrganization object.
+   * Back to population details menu.
    */
-  private setRolesAndResponsiblePerson() {
-    this.selectedStudyOrganization.personnelId = this.selectedResponsiblePersonnelId;
-    this.selectedStudyOrganization.roles = this.selectedRoles.map((role: string) => Role[role as keyof typeof Role]);
-  }
-
-  /**
-   * Convert personnel role into readable form
-   * @param RoleValue The value of the role
-   */
-  public convertPersonnelRoleValueToName(RoleValue: string) {
-    return this.roles.find(role => role.value === RoleValue).name;
-  }
-
-  /**
-   * Back to population deatils menu
-   */
-  back(){
-    this.router.navigate(['../population-details'], {relativeTo: this.route});
+  back() {
+    this.router.navigate(['../population-details'], { relativeTo: this.route });
   }
 }

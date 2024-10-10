@@ -4,6 +4,8 @@ import {takeUntil} from "rxjs";
 import {Study} from "../../../shared/models/study.model";
 import {Table} from "primeng/table";
 import {StudyManagementRoutingModule} from "../study-management-routing.module";
+import {StudyPersonnel} from "../../../shared/models/studyPersonnel.model";
+import {Role} from "../../../shared/models/role.enum";
 import {StorageUtil} from "../../../core/services/storageUtil.service";
 
 /**
@@ -14,20 +16,21 @@ import {StorageUtil} from "../../../core/services/storageUtil.service";
   templateUrl: './study-management-dashboard.component.html',
   styleUrl: './study-management-dashboard.component.scss'
 })
-export class StudyManagementDashboardComponent extends BaseComponent implements OnInit{
+export class StudyManagementDashboardComponent extends BaseComponent implements OnInit {
 
-  studyList: Study[] = [];
-
-  // columns of Study to be displayed on a table
+  ownedStudies: Study[] = [];
+  assignedStudies: Study[] = [];
+  allStudies: Study[] = [];
   columns: any[];
+  loadingOwnedStudies: boolean = true;
+  loadingAssignedStudies: boolean = true;
 
-  // flag indicating the care management objects are being retrieved from the server
-  loading: boolean = true;
-
-  constructor(protected injector: Injector) {
+  constructor(
+      protected injector: Injector,
+  ) {
     super(injector);
 
-    // initialize variables
+    // Initialize columns for both tables
     this.columns = [
       {header: 'ID', field: 'id'},
       {header: 'Name', field: 'name'},
@@ -38,18 +41,56 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
   }
 
   ngOnInit() {
-    this.getStudyList();
+    this.loadStudyPersonnelAndStudies();
   }
 
   /**
-   * Retrieves all studies from the server
+   * Load all StudyPersonnel entries and fetch all studies.
+   * Filter the studies based on the personnel entries (owned vs assigned).
    */
-  getStudyList(){
-    this.loading = true;
-    this.studyService.getStudyListByOwner(StorageUtil.retrieveUserId())
+  loadStudyPersonnelAndStudies() {
+    this.loadingOwnedStudies = true;
+    this.loadingAssignedStudies = true;
+
+    // Fetch all studies first
+    this.studyService.getStudyList()
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (studyList: Study[]) => this.studyList = studyList,
+          next: (allStudies: Study[]) => {
+            this.allStudies = allStudies;
+            this.filterStudiesBasedOnPersonnel();
+          },
+          error: (error: any) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translateService.instant('Error'),
+              detail: error.message
+            });
+          }
+        });
+  }
+
+  /**
+   * After fetching all studies, filter them based on StudyPersonnel entries.
+   */
+  filterStudiesBasedOnPersonnel() {
+    // Fetch study personnel entries
+    this.studyPersonnelService.getStudyPersonnelEntries(StorageUtil.retrieveUserId())
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (entries: StudyPersonnel[]) => {
+            // Separate studies based on the roles in StudyPersonnel
+            const ownedStudyIds = entries
+                .filter(entry => entry.roles.includes(Role.STUDY_OWNER))
+                .map(entry => entry.studyId);
+            const assignedStudyIds = entries
+                .filter(entry => !entry.roles.includes(Role.STUDY_OWNER))
+                .map(entry => entry.studyId);
+
+            // Filter the studies based on the IDs
+            this.ownedStudies = this.allStudies.filter(study => ownedStudyIds.includes(study.id));
+            this.assignedStudies = this.allStudies.filter(study => assignedStudyIds.includes(study.id));
+          },
           error: (error: any) => {
             this.messageService.add({
               severity: 'error',
@@ -57,50 +98,53 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
               detail: error.message
             });
           },
-          complete: () => this.loading = false
+          complete: () => {
+            this.loadingOwnedStudies = false;
+            this.loadingAssignedStudies = false;
+          }
+        });
+  }
+
+  // Ownership study management (create, update, delete)
+  createStudy() {
+    this.router.navigate([`/${StudyManagementRoutingModule.route}/new`]);
+  }
+
+  editStudy(id: number) {
+    this.router.navigate([`/${StudyManagementRoutingModule.route}/${id}`]);
+  }
+
+  deleteStudy(id: number) {
+    this.loadingOwnedStudies = true;
+    this.studyService.deleteStudy(id).pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => this.loadStudyPersonnelAndStudies(),
+          error: (error: any) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translateService.instant('Error'),
+              detail: error.message
+            });
+          },
+          complete: () => this.loadingOwnedStudies = false
         });
   }
 
   /**
-   * Filters a table of information based on a given search criteria
-   * @param table Table to be filtered
-   * @param event Keyboard type event where search text is captured
+   * Access a study by setting it as active and updating roles.
+   */
+  accessStudy(studyId: number, roles: Role[]) {
+    this.roleService.setRoles(roles);  // Set the roles in RoleService
+    this.activeStudyService.setActiveStudy(studyId);  // Set the active study
+    this.router.navigate([`/study/${studyId}/overview`]);  // Navigate to study overview page
+  }
+
+  /**
+   * Filters a table of information based on a given search criteria.
+   * @param table Table to be filtered.
+   * @param event Keyboard type event where search text is captured.
    */
   filter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
-
-  /**
-   * Navigate the user to Study create page
-   */
-  createStudy(){
-    this.router.navigate([`/${StudyManagementRoutingModule.route}/new`]);
-  }
-
-  /**
-   * Navigate the user to Study edit page
-   */
-  editStudy(id: number){
-    this.router.navigate([`/${StudyManagementRoutingModule.route}/${id}`]);
-  }
-
-  /**
-   * Delete a study
-   */
-  deleteStudy(id: number){
-    this.loading = true;
-    this.studyService.deleteStudy(id).pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (response: any) => this.getStudyList(),
-          error: (error: any) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
-            });
-          },
-          complete: () => this.loading = false
-        });
-  }
-
 }

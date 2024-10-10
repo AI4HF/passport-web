@@ -25,11 +25,6 @@ export class Personnel{
     lastName: string;
 
     /**
-     * The role of the Personnel
-     */
-    role: Role;
-
-    /**
      * The e-mail of the Personnel
      */
     email: string;
@@ -44,7 +39,6 @@ export class Personnel{
         this.organizationId = data.organizationId;
         this.firstName = data.firstName;
         this.lastName = data.lastName;
-        this.role = data.role;
         this.email = data.email;
     }
 

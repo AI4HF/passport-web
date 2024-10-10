@@ -61,7 +61,6 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
         this.personnelForm = new FormGroup({
             firstName: new FormControl(this.selectedPersonnel.firstName, Validators.required),
             lastName: new FormControl(this.selectedPersonnel.lastName, Validators.required),
-            role: new FormControl(this.selectedPersonnel.role, Validators.required),
             email: new FormControl(this.selectedPersonnel.email, [Validators.required, Validators.email])
         });
 
@@ -97,7 +96,6 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
         this.personnelForm.patchValue({
             firstName: this.selectedPersonnel.firstName,
             lastName: this.selectedPersonnel.lastName,
-            role: this.selectedPersonnel.role,
             email: this.selectedPersonnel.email
         });
     }
