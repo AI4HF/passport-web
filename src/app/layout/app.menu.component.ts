@@ -30,7 +30,6 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
-        // Fetch the roles as a list and configure the menu based on them
         this.roleService.getRolesAsObservable().pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: roles => {
@@ -46,7 +45,6 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
                 }
             });
 
-        // Ensure the active menu item is highlighted based on the current route
         this.router.events.pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.markActiveItem();
         });
@@ -58,14 +56,15 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
     configureNavigationMenu() {
         this.model = [];
 
-        // Study Management should be available to all users
+
+
         this.model.push({
             label: this.translateService.instant('Study Management'),
             icon: 'pi pi-book',
             routerLink: ['/study-management']
         });
 
-        // Add dropdowns for other roles if present
+
         if (this.userRoles.includes(Role.DATA_SCIENTIST)) {
             this.model.push({
                 label: this.translateService.instant('Data Scientist'),
@@ -93,6 +92,20 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
                     }
                 ]
             });
+        }
+
+        if(this.userRoles.includes(Role.ML_ENGINEER)) {
+            this.model.push({
+                label: this.translateService.instant('ML ENGINEER'),
+                icon: 'pi pi-android',
+                items: [
+                    {
+                        label: this.translateService.instant('Deployment Management'),
+                        icon: 'pi pi-cloud-upload',
+                        routerLink: ['/deployment-management']
+                    }
+                ]
+            })
         }
 
         if (this.userRoles.includes(Role.SURVEY_MANAGER)) {
@@ -124,16 +137,6 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
                         icon: 'pi pi-folder-open',
                         routerLink: ['/dataset-management']
                     }
-                ]
-            });
-        }
-
-        if (this.userRoles.includes(Role.ML_ENGINEER)) {
-            this.model.push({
-                label: this.translateService.instant('ML Engineer'),
-                icon: 'pi pi-robot',
-                items: [
-                    // Add relevant ML Engineer options here
                 ]
             });
         }

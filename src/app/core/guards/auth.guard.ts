@@ -2,8 +2,6 @@ import {ActivatedRoute, CanActivateFn, Route} from "@angular/router";
 import { inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { StorageUtil } from '../services/storageUtil.service';
-import {RoleService} from "../services/role.service";
-import {Role} from "../../shared/models/role.enum";
 
 /**
  * A guard that prevents access to routes if the user is not authenticated.

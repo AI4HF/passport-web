@@ -67,6 +67,7 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
         if (!this.personnelId) {
             this.personnelForm.addControl('username', new FormControl('', [Validators.required]));
             this.personnelForm.addControl('password', new FormControl('', [Validators.required]));
+            this.personnelForm.addControl('role', new FormControl(false, [Validators.required]))
         }
     }
 
@@ -108,7 +109,7 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
         if (!this.selectedPersonnel.personId) {
             const credentials = new Credentials(this.personnelForm.value);
             const newPersonnel = new Personnel({ ...formValue, organizationId: this.organizationId });
-            const personnelDTO = new PersonnelDTO({ personnel: newPersonnel, credentials: credentials });
+            const personnelDTO = new PersonnelDTO({ personnel: newPersonnel, credentials: credentials, role: this.personnelForm.value });
             this.personnelService.createPersonnelByPersonId(personnelDTO).pipe(takeUntil(this.destroy$)).subscribe({
                 next: personnel => {
                     this.selectedPersonnel = personnel;

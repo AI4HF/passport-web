@@ -24,13 +24,15 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
   columns: any[];
   loadingOwnedStudies: boolean = true;
   loadingAssignedStudies: boolean = true;
+  studyPersonnelEntries: StudyPersonnel[] = [];
+  userRoles: Role[] = [];
+
 
   constructor(
       protected injector: Injector,
   ) {
     super(injector);
 
-    // Initialize columns for both tables
     this.columns = [
       {header: 'ID', field: 'id'},
       {header: 'Name', field: 'name'},
@@ -52,7 +54,6 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
     this.loadingOwnedStudies = true;
     this.loadingAssignedStudies = true;
 
-    // Fetch all studies first
     this.studyService.getStudyList()
         .pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -70,26 +71,42 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
         });
   }
 
-  /**
-   * After fetching all studies, filter them based on StudyPersonnel entries.
-   */
   filterStudiesBasedOnPersonnel() {
-    // Fetch study personnel entries
     this.studyPersonnelService.getStudyPersonnelEntries(StorageUtil.retrieveUserId())
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (entries: StudyPersonnel[]) => {
-            // Separate studies based on the roles in StudyPersonnel
-            const ownedStudyIds = entries
-                .filter(entry => entry.roles.includes(Role.STUDY_OWNER))
-                .map(entry => entry.studyId);
-            const assignedStudyIds = entries
-                .filter(entry => !entry.roles.includes(Role.STUDY_OWNER))
-                .map(entry => entry.studyId);
+            this.studyPersonnelEntries = entries;
+            const userId = StorageUtil.retrieveUserId();
 
-            // Filter the studies based on the IDs
-            this.ownedStudies = this.allStudies.filter(study => ownedStudyIds.includes(study.id));
-            this.assignedStudies = this.allStudies.filter(study => assignedStudyIds.includes(study.id));
+            const ownedStudyIds = this.allStudies
+                .filter(study => study.owner === userId)
+                .map(study => study.id);
+
+            const assignedStudyIds = entries
+                .filter(entry => entry.rolesAsList && entry.rolesAsList.length > 0)
+                .map(entry => entry.id.studyId);
+
+            this.roleService.getRolesAsObservable().pipe(takeUntil(this.destroy$))
+                .subscribe({
+                  next: roles => {
+                    this.userRoles = roles;
+                  },
+                  error: (error: any) => {
+                    this.messageService.add({
+                      severity: 'error',
+                      summary: this.translateService.instant('Error'),
+                      detail: error.message
+                    });
+                  }
+                });
+
+            if(this.userRoles.includes(Role.STUDY_OWNER)){
+              this.ownedStudies = this.allStudies.filter(study => ownedStudyIds.includes(study.id));
+            }
+            this.assignedStudies = this.allStudies.filter(
+                study => assignedStudyIds.includes(study.id)
+            );
           },
           error: (error: any) => {
             this.messageService.add({
@@ -104,6 +121,7 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
           }
         });
   }
+
 
   // Ownership study management (create, update, delete)
   createStudy() {
@@ -130,14 +148,32 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
         });
   }
 
-  /**
-   * Access a study by setting it as active and updating roles.
-   */
-  accessStudy(studyId: number, roles: Role[]) {
-    this.roleService.setRoles(roles);  // Set the roles in RoleService
-    this.activeStudyService.setActiveStudy(studyId);  // Set the active study
-    this.router.navigate([`/study/${studyId}/overview`]);  // Navigate to study overview page
+  accessStudy(studyId: number) {
+    const studyPersonnelEntry = this.studyPersonnelEntries.find(entry => entry.id.studyId === studyId);
+
+    if (studyPersonnelEntry) {
+
+      const roles = studyPersonnelEntry.rolesAsList;
+      if(this.roleService.getRoles().includes(Role.STUDY_OWNER))
+      {
+        roles.push(Role.STUDY_OWNER);
+      }
+      if(this.roleService.getRoles().includes(Role.ORGANIZATION_ADMIN))
+      {
+        roles.push(Role.ORGANIZATION_ADMIN);
+      }
+      this.roleService.setRoles(roles);
+      this.activeStudyService.setActiveStudy(studyId);
+    } else {
+      this.messageService.add({
+        severity: 'warn',
+        summary: this.translateService.instant('Warning'),
+        detail: this.translateService.instant('StudyManagement.NoRolesFound')
+      });
+      console.warn(`No roles found for study ID: ${studyId}`);
+    }
   }
+
 
   /**
    * Filters a table of information based on a given search criteria.
@@ -147,4 +183,6 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
   filter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
+
+  protected readonly Role = Role;
 }

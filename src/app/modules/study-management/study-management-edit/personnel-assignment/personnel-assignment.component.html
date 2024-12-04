@@ -7,51 +7,64 @@
             [options]="organizationList"
             optionLabel="name"
             optionValue="organizationId"
-            [style]="{'minWidth':'100%', 'margin-bottom': '1rem'}"
-            placeholder="{{'StudyManagement.Personnel.Select an organization' | translate}}"
+            [style]="{ 'minWidth': '100%', 'margin-bottom': '1rem' }"
+            placeholder="{{ 'StudyManagement.Personnel.Select an organization' | translate }}"
             (onChange)="selectAnOrganization($event.value)">
     </p-dropdown>
 
-    <!-- Population Dropdown -->
     <p *ngIf="!formDisabled" class="flex align-items-center">
         <strong>{{ 'StudyManagement.Personnel.Population' | translate }}</strong>
         <app-tooltip class="ml-2" message="StudyManagement.PopulationTooltip"></app-tooltip>
     </p>
     <p-dropdown
-            *ngIf="!formDisabled"
             [options]="populationList"
             optionLabel="populationUrl"
             optionValue="populationId"
             [(ngModel)]="selectedPopulationId"
-            [disabled]="formDisabled"
-            [style]="{'minWidth':'100%', 'margin-bottom': '1rem'}"
-            placeholder="{{'StudyManagement.Personnel.Select a Population' | translate}}">
+            [style]="{ 'minWidth': '100%', 'margin-bottom': '1rem' }"
+            placeholder="{{ 'StudyManagement.Personnel.Select a Population' | translate }}">
     </p-dropdown>
 
-    <!-- Personnel Table -->
-    <p-table [value]="mappedPersonnelList" *ngIf="!formDisabled">
-        <ng-template pTemplate="header">
+    <p *ngIf="!formDisabled" class="flex align-items-center">
+        <strong>{{ 'StudyManagement.Personnel.Personnel' | translate }}</strong>
+    </p>
+    <div *ngIf="!formDisabled" class="personnel-table">
+        <table class="w-full">
+            <thead>
             <tr>
-                <th>{{ 'StudyManagement.Personnel.Name' | translate }}</th>
-                <th>{{ 'StudyManagement.Personnel.Surname' | translate }}</th>
-                <th>{{ 'StudyManagement.Personnel.Roles' | translate }}</th>
+                <th>{{ 'Name' | translate }}</th>
+                <th>{{ 'Surname' | translate }}</th>
+                <th>{{ 'Roles' | translate }}</th>
             </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-entry>
-            <tr>
-                <td>{{ entry.personnel.firstName }}</td>
-                <td>{{ entry.personnel.lastName }}</td>
+            </thead>
+            <tbody>
+            <tr *ngFor="let personnel of personnelList">
+                <td>{{ personnel.firstName }}</td>
+                <td>{{ personnel.lastName }}</td>
                 <td>
-                    <div *ngFor="let role of roles">
-                        <p-checkbox [(ngModel)]="entry.roles" [value]="role.value" [label]="role.name"></p-checkbox>
+                    <div class="roles-checkboxes">
+                        <p-checkbox
+                                *ngFor="let role of roles"
+                                [label]="role.name"
+                                [value]="role.value"
+                                [binary]="true"
+                                [ngModel]="personnelRoleMap.get(personnel.personId)?.includes(role.value)"
+                                (ngModelChange)="onRoleChange(personnel, role.value, $event)">
+                        </p-checkbox>
                     </div>
                 </td>
             </tr>
-        </ng-template>
-    </p-table>
+            </tbody>
+        </table>
+    </div>
 
-    <!-- Save Button -->
-    <div class="flex justify-content-end mt-4">
-        <button pButton pRipple label="{{ 'Save' | translate }}" (click)="save()" [disabled]="formDisabled"></button>
+    <div class="flex justify-content-end mt-3">
+        <button pButton pRipple
+                type="button"
+                label="{{ 'Save' | translate }}"
+                class="p-button-raised"
+                (click)="save()"
+                [disabled]="personnelRoleMap.size === 0">
+        </button>
     </div>
 </p-card>

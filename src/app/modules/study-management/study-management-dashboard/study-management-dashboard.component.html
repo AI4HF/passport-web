@@ -1,8 +1,7 @@
 <div class="col-12">
-    <!-- Owned Studies Card -->
-    <div class="card p-3 mb-4">
+    <div *ngIf="userRoles.includes(Role.STUDY_OWNER)" class="card p-3 mb-4">
         <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
-            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'StudyManagement.OwnedStudies' | translate }}</div>
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'StudyManagement.Owned Studies' | translate }}</div>
             <div class="inline-flex align-items-center">
               <span class="p-input-icon-left flex-auto mx-2">
                   <i class="pi pi-search"></i>
@@ -14,7 +13,7 @@
             </div>
         </div>
         <p-table #ownedTable [value]="ownedStudies" [columns]="columns" [rows]="10" [rowHover]="true" [paginator]="true"
-                 [showCurrentPageReport]="true" [currentPageReportTemplate]="'StudyManagement.NumberOfEntries' | translate"
+                 [showCurrentPageReport]="true" [currentPageReportTemplate]="'StudyManagement.Number of entries' | translate"
                  [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loadingOwnedStudies"
                  [filterDelay]="0" [globalFilterFields]="['id', 'name', 'description', 'objectives', 'ethics']"
                  [sortField]="'name'">
@@ -73,10 +72,9 @@
         </p-table>
     </div>
 
-    <!-- Assigned Studies Card -->
     <div class="card p-3">
         <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
-            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'StudyManagement.AssignedStudies' | translate }}</div>
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'StudyManagement.Assigned Studies' | translate }}</div>
             <div class="inline-flex align-items-center">
               <span class="p-input-icon-left flex-auto mx-2">
                   <i class="pi pi-search"></i>
@@ -86,7 +84,7 @@
             </div>
         </div>
         <p-table #assignedTable [value]="assignedStudies" [columns]="columns" [rows]="10" [rowHover]="true" [paginator]="true"
-                 [showCurrentPageReport]="true" [currentPageReportTemplate]="'StudyManagement.NumberOfEntries' | translate"
+                 [showCurrentPageReport]="true" [currentPageReportTemplate]="'StudyManagement.Number of entries' | translate"
                  [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loadingAssignedStudies"
                  [filterDelay]="0" [globalFilterFields]="['id', 'name', 'description', 'objectives', 'ethics']"
                  [sortField]="'name'">
@@ -134,7 +132,7 @@
                     </td>
                     <td>
                         <button pButton pRipple type="button" icon="pi pi-arrow-right" class="p-button-text p-button-rounded p-ripple"
-                                (click)="accessStudy(study.id, study.roles)" pTooltip="{{ 'StudyManagement.AccessStudy' | translate }}"
+                                (click)="accessStudy(study.id)" pTooltip="{{ 'StudyManagement.AccessStudy' | translate }}"
                                 tooltipPosition="bottom"></button>
                     </td>
                 </tr>

@@ -5,22 +5,23 @@ import { Role } from './role.enum';
  * including the roles that a personnel has within the study.
  */
 export class StudyPersonnel {
+    /**
+     * The composite ID of the study and personnel associated with this entry.
+     */
+    id: {
+        studyId: number;
+        personnelId: string;
+    };
 
     /**
-     * The ID of the study associated with this entry.
+     * The roles as a single string (comma-separated).
      */
-    studyId: number;
+    role: string;
 
     /**
-     * The ID of the personnel associated with this entry.
+     * The roles parsed into a list.
      */
-    personnelId: string;
-
-    /**
-     * The list of roles assigned to the personnel for this study.
-     * This is represented as a list of Role enumerables.
-     */
-    roles: Role[];
+    rolesAsList: Role[] = [];
 
     /**
      * Constructs a new StudyPersonnel object.
@@ -28,9 +29,20 @@ export class StudyPersonnel {
      */
     constructor(data: any) {
         if (data) {
-            this.studyId = data.studyId;
-            this.personnelId = data.personnelId;
-            this.roles = data.roles;
+            this.id = data.id || { studyId: 0, personnelId: '' };
+            this.role = data.role || '';
+            this.setRolesAsList();
+        }
+    }
+
+    /**
+     * Parses the roles string into a list and sets it to rolesAsList.
+     */
+    setRolesAsList(): void {
+        if (this.role) {
+            this.rolesAsList = this.role.split(',')
+                .map(role => role.trim() as Role)
+                .filter(role => !!role); // Remove any empty strings
         }
     }
 
@@ -39,7 +51,7 @@ export class StudyPersonnel {
      * @return A string of comma-separated roles.
      */
     getRolesAsString(): string {
-        return this.roles.map(role => Role[role]).join(',');
+        return this.rolesAsList.join(',');
     }
 
     /**
@@ -47,6 +59,23 @@ export class StudyPersonnel {
      * @param rolesString A string of comma-separated roles.
      */
     setRolesFromString(rolesString: string): void {
-        this.roles = rolesString.split(',').map(role => Role[role as keyof typeof Role]);
+        this.role = rolesString;
+        this.setRolesAsList();
+    }
+
+    /**
+     * Gets the study ID from the nested id object.
+     * @return The study ID.
+     */
+    getStudyId(): number {
+        return this.id.studyId;
+    }
+
+    /**
+     * Gets the personnel ID from the nested id object.
+     * @return The personnel ID.
+     */
+    getPersonnelId(): string {
+        return this.id.personnelId;
     }
 }

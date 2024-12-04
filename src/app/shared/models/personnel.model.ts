@@ -25,6 +25,11 @@ export class Personnel{
     lastName: string;
 
     /**
+     * Indicator of whether the Personnel is a study owner
+     */
+    isStudyOwner: boolean;
+
+    /**
      * The e-mail of the Personnel
      */
     email: string;
@@ -39,6 +44,7 @@ export class Personnel{
         this.organizationId = data.organizationId;
         this.firstName = data.firstName;
         this.lastName = data.lastName;
+        this.isStudyOwner = data.isStudyOwner;
         this.email = data.email;
     }
 

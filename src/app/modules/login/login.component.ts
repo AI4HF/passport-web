@@ -5,6 +5,7 @@ import { Credentials } from "../../shared/models/credentials.model";
 import {takeUntil} from "rxjs/operators";
 import {StorageUtil} from "../../core/services/storageUtil.service";
 import { JwtHelperService } from '@auth0/angular-jwt';
+import {Role} from "../../shared/models/role.enum";
 
 /**
  * Login component which handles the main authorization prospects of the system.
@@ -70,9 +71,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
                 const helper = new JwtHelperService();
                 const decodedToken = helper.decodeToken(response.access_token);
                 StorageUtil.storeUserId(decodedToken.user_id, rememberMe);
-                StorageUtil.storePersonnelName(decodedToken.given_name, rememberMe);
-                StorageUtil.storePersonnelSurname(decodedToken.family_name, rememberMe);
-                //this.fetchLoggedPersonnel(rememberMe);
+                StorageUtil.storePersonnelName(decodedToken.preferred_username, rememberMe);
+                const roles: Role[] = decodedToken.realm_access.roles?.find((role: string) => Role[role as keyof typeof Role] !== undefined);
+                this.roleService.setRoles(roles);
                 this.navigateAccordingToRole();
             },
             error => {
@@ -138,10 +139,27 @@ export class LoginComponent extends BaseComponent implements OnInit {
     }
 
     /**
-     * Navigate the user according to the user role
+     * Navigate the user according to the roles list
      */
-    navigateAccordingToRole(){
-        this.router.navigate(['/study-management']);
+    navigateAccordingToRole() {
+        this.roleService.getRolesAsObservable().pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: roles => {
+                    if (roles.includes(Role.ORGANIZATION_ADMIN)) {
+                        this.router.navigate(['/organization-management/organization']);
+                    } else {
+                        this.router.navigate(['/study-management']);
+                    }
+                },
+                error: (error: any) => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: this.translateService.instant('Error'),
+                        detail: error.message
+                    });
+                }
+            });
     }
+
 }
 

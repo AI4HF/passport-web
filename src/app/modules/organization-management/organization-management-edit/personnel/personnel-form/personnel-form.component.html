@@ -15,6 +15,12 @@
                 <input formControlName="password" id="password" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter password' | translate }}" type="password">
             </span>
         </div>
+        <div *ngIf="!this.personnelId" class="p-field p-col-12 p-md-12">
+            <div class="p-field p-col-12 p-md-12">
+                <p-checkbox formControlName="role" [binary]="true" inputId="role" class="align-checkbox"></p-checkbox>
+                <label for="role" class="font-bold">{{ 'OrganizationManagement.Study Owner' | translate }}</label>
+            </div>
+        </div>
         <div class="form-grid grid p-p-md-2">
             <div class="field col">
                 <label for="firstName" class="font-bold">{{ 'OrganizationManagement.First Name' | translate }}</label>

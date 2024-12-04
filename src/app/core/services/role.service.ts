@@ -25,7 +25,9 @@ export class RoleService {
      * @param roles List of roles for the user
      */
     setRoles(roles: Role[]) {
-        this.roles.next(roles);
+        var roleString = JSON.stringify(roles);
+        sessionStorage.setItem("roles", roleString);
+        this.roles.next(JSON.parse(roleString));
     }
 
     /**
@@ -33,6 +35,7 @@ export class RoleService {
      * @return {Observable<Role[]>}
      */
     getRolesAsObservable(): Observable<Role[]> {
+        this.setRoles(JSON.parse(sessionStorage.getItem("roles")));
         return this.roles.asObservable();
     }
 
