@@ -73,7 +73,7 @@ export class PopulationDetailsFormComponent extends BaseComponent implements OnI
      * @param populationId The ID of the population to be loaded
      */
     loadPopulation(populationId: number) {
-        this.populationService.getPopulationById(populationId).pipe(takeUntil(this.destroy$)).subscribe({
+        this.populationService.getPopulationById(populationId, this.currentStudyId).pipe(takeUntil(this.destroy$)).subscribe({
             next: population => {
                 this.selectedPopulation = population;
                 this.updateForm();
@@ -107,7 +107,7 @@ export class PopulationDetailsFormComponent extends BaseComponent implements OnI
         const formValues = this.populationForm.value;
         if (!this.selectedPopulation.populationId) {
             const newPopulation: Population = new Population({ ...formValues, populationId: this.populationId, studyId: this.currentStudyId  });
-            this.populationService.createPopulation(newPopulation)
+            this.populationService.createPopulation(newPopulation, this.currentStudyId)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: population => {
@@ -132,7 +132,7 @@ export class PopulationDetailsFormComponent extends BaseComponent implements OnI
                 });
         } else {
             const updatedPopulation: Population = new Population({ populationId: this.selectedPopulation.populationId, studyId: this.currentStudyId, ...formValues });
-            this.populationService.updatePopulation(updatedPopulation)
+            this.populationService.updatePopulation(updatedPopulation, this.currentStudyId)
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: (population: Population) => {

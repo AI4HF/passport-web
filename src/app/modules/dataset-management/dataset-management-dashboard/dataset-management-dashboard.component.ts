@@ -45,7 +45,7 @@ export class DatasetManagementDashboardComponent extends BaseComponent implement
      */
     ngOnInit() {
         if(this.activeStudyService.getActiveStudy()){
-            this.loadDatasetByStudyId(this.activeStudyService.getActiveStudy().id);
+            this.loadDatasetByStudyId(+this.activeStudyService.getActiveStudy());
         }
     }
 
@@ -99,9 +99,9 @@ export class DatasetManagementDashboardComponent extends BaseComponent implement
      */
     deleteDataset(id: number) {
         this.loading = true;
-        this.datasetService.deleteDataset(id).pipe(takeUntil(this.destroy$))
+        this.datasetService.deleteDataset(id, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: (response: any) => this.loadDatasetByStudyId(this.activeStudyService.getActiveStudy().id),
+                next: (response: any) => this.loadDatasetByStudyId(+this.activeStudyService.getActiveStudy()),
                 error: (error: any) => {
                     this.messageService.add({
                         severity: 'error',

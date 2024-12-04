@@ -71,8 +71,8 @@ export class PassportManagementFormComponent extends BaseComponent implements On
      */
     loadData() {
         forkJoin([
-            this.modelDeploymentService.getModelDeploymentListByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$)),
-            this.modelService.getModelList().pipe(takeUntil(this.destroy$))
+            this.modelDeploymentService.getModelDeploymentListByStudyId(+this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)),
+            this.modelService.getModelList(+this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
         ]).subscribe({
             next: ([modelDeployments, models]) => {
                 this.modelDeploymentList = modelDeployments.map(modelDeployment => new ModelDeploymentWithModelName(modelDeployment, ''));
@@ -103,10 +103,10 @@ export class PassportManagementFormComponent extends BaseComponent implements On
      */
     savePassport() {
         // @ts-ignore
-        const newPassport: Passport = new Passport({...this.passportForm.value, studyId: this.activeStudyService.getActiveStudy().id});
+        const newPassport: Passport = new Passport({...this.passportForm.value, studyId: +this.activeStudyService.getActiveStudy()});
         const passportDetails: PassportDetailsSelection = new PassportDetailsSelection({...this.passportForm.value});
         const passportWithDetailSelection: PassportWithDetailSelection = new PassportWithDetailSelection({passport: newPassport, passportDetailsSelection: passportDetails});
-        this.passportService.createPassport(passportWithDetailSelection)
+        this.passportService.createPassport(passportWithDetailSelection, +this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: passport => {

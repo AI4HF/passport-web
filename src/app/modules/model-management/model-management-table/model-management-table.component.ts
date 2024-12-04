@@ -101,7 +101,7 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
    * @param modelId The ID of the model to be deleted
    */
   deleteModel(modelId: number) {
-    this.modelService.deleteModel(modelId).pipe(takeUntil(this.destroy$))
+    this.modelService.deleteModel(modelId, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
             this.modelList = this.modelList.filter(model => model.modelId !== modelId);
@@ -127,7 +127,7 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
   onFormClosed() {
     this.selectedModelId = null;
     this.displayForm = false;
-    this.loadModelsByStudyId(this.activeStudyService.getActiveStudy().id);
+    this.loadModelsByStudyId(+this.activeStudyService.getActiveStudy());
   }
 
 }

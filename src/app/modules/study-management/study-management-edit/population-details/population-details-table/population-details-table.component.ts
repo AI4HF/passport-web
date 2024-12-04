@@ -80,7 +80,7 @@ export class PopulationDetailsTableComponent extends BaseComponent implements On
      * @param populationId The ID of the population to be deleted
      */
     deletePopulation(populationId: number) {
-        this.populationService.deletePopulation(populationId).pipe(takeUntil(this.destroy$))
+        this.populationService.deletePopulation(populationId, this.studyId).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.populations = this.populations.filter(f => f.populationId !== populationId);

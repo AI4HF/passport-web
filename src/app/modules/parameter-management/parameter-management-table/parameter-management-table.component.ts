@@ -41,10 +41,19 @@ export class ParameterManagementTableComponent extends BaseComponent implements 
    * Initializes the component.
    */
   ngOnInit() {
-    if(this.activeStudyService.getActiveStudy()){
-      this.loadParameters(this.activeStudyService.getActiveStudy().id);
+    const activeStudyId = this.activeStudyService.getActiveStudy();
+    if (activeStudyId) {
+      this.loadParameters(+activeStudyId);
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: this.translateService.instant('Error'),
+        detail: this.translateService.instant('ParameterManagement.NoActiveStudy')
+      });
+      this.loading = false;
     }
   }
+
 
   /**
    * Loads the list of parameter by studyId.
@@ -100,7 +109,7 @@ export class ParameterManagementTableComponent extends BaseComponent implements 
    * @param parameterId The ID of the Parameter to be deleted
    */
   deleteParameter(parameterId: number) {
-    this.parameterService.deleteParameter(parameterId).pipe(takeUntil(this.destroy$))
+    this.parameterService.deleteParameter(parameterId, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
             this.parameterList = this.parameterList.filter(parameter => parameter.parameterId !== parameterId);
@@ -126,6 +135,6 @@ export class ParameterManagementTableComponent extends BaseComponent implements 
   onFormClosed() {
     this.selectedParameterId = null;
     this.displayForm = false;
-    this.loadParameters(this.activeStudyService.getActiveStudy().id);
+    this.loadParameters(+this.activeStudyService.getActiveStudy());
   }
 }

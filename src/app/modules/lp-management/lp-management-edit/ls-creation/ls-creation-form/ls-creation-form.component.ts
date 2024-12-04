@@ -86,7 +86,7 @@ export class LsCreationFormComponent extends BaseComponent implements OnInit {
      * Loads the learning stage data if in update mode.
      */
     loadLearningStage() {
-        this.learningStageService.getLearningStageById(+this.learningStageId)
+        this.learningStageService.getLearningStageById(+this.learningStageId, +this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningStage => {
@@ -166,7 +166,7 @@ export class LsCreationFormComponent extends BaseComponent implements OnInit {
             ...learningStagePayload
         });
 
-        this.learningStageService.updateLearningStage(updatedLearningStage)
+        this.learningStageService.updateLearningStage(updatedLearningStage, +this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
@@ -196,7 +196,7 @@ export class LsCreationFormComponent extends BaseComponent implements OnInit {
             ...learningStagePayload
         });
 
-        this.learningStageService.createLearningStage(newLearningStage)
+        this.learningStageService.createLearningStage(newLearningStage, +this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {

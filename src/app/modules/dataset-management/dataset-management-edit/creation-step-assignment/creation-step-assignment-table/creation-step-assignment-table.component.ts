@@ -71,7 +71,7 @@ export class CreationStepAssignmentTableComponent extends BaseComponent implemen
      * Loads the learning datasets associated with the selected dataset.
      */
     loadLearningDatasets() {
-        this.learningDatasetService.getLearningDatasetsByDatasetId(this.selectedDatasetId).pipe(takeUntil(this.destroy$))
+        this.learningDatasetService.getLearningDatasetsByDatasetId(this.selectedDatasetId, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningDatasets => {
                     this.learningDatasets = learningDatasets;
@@ -92,7 +92,7 @@ export class CreationStepAssignmentTableComponent extends BaseComponent implemen
      */
     loadDatasetTransformations() {
         this.learningDatasets.forEach(learningDataset => {
-            this.datasetTransformationService.getDatasetTransformationById(learningDataset.dataTransformationId)
+            this.datasetTransformationService.getDatasetTransformationById(learningDataset.dataTransformationId, +this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe(transformation => {
                     this.transformations.push(transformation);
@@ -115,7 +115,7 @@ export class CreationStepAssignmentTableComponent extends BaseComponent implemen
      * Loads the transformation steps associated with the selected transformation.
      */
     loadTransformationSteps() {
-        this.transformationStepService.getDatasetTransformationStepsByTransformationId(this.selectedTransformation.dataTransformationId).pipe(takeUntil(this.destroy$))
+        this.transformationStepService.getDatasetTransformationStepsByTransformationId(this.selectedTransformation.dataTransformationId, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: steps => {
                     this.transformationSteps = steps;
@@ -137,7 +137,7 @@ export class CreationStepAssignmentTableComponent extends BaseComponent implemen
      * @param step The transformation step to be deleted
      */
     deleteTransformationStep(step: DatasetTransformationStep) {
-        this.transformationStepService.deleteDatasetTransformationStep(step.stepId).pipe(takeUntil(this.destroy$))
+        this.transformationStepService.deleteDatasetTransformationStep(step.stepId, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.transformationSteps = this.transformationSteps.filter(s => s.stepId !== step.stepId);

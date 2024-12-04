@@ -66,7 +66,7 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
      * Loads the learning datasets associated with the selected dataset.
      */
     loadLearningDatasets() {
-        this.learningDatasetService.getLearningDatasetsByDatasetId(this.selectedDatasetId).pipe(takeUntil(this.destroy$))
+        this.learningDatasetService.getLearningDatasetsByDatasetId(this.selectedDatasetId, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningDatasets => {
                     this.learningDatasets = learningDatasets;
@@ -89,7 +89,7 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
      */
     loadDatasetTransformations() {
         this.learningDatasets.forEach(learningDataset => {
-            this.datasetTransformationService.getDatasetTransformationById(learningDataset.dataTransformationId)
+            this.datasetTransformationService.getDatasetTransformationById(learningDataset.dataTransformationId, +this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: transformation => {
@@ -112,7 +112,7 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
      * @param learningDataset The learning dataset to be deleted
      */
     deleteLearningDataset(learningDataset: LearningDataset) {
-        this.datasetTransformationService.deleteDatasetTransformation(learningDataset.dataTransformationId).pipe(takeUntil(this.destroy$))
+        this.datasetTransformationService.deleteDatasetTransformation(learningDataset.dataTransformationId, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.learningDatasets = this.learningDatasets.filter(ld => ld.learningDatasetId !== learningDataset.learningDatasetId);

@@ -50,7 +50,7 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
      */
     ngOnInit() {
         if(this.activeStudyService.getActiveStudy()){
-            this.loadExperimentsAndFeatureSets(this.activeStudyService.getActiveStudy().id);
+            this.loadExperimentsAndFeatureSets(+this.activeStudyService.getActiveStudy());
         }
     }
 
@@ -141,9 +141,9 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
      */
     deleteFeatureSet(id: number) {
         this.loading = true;
-        this.featureSetService.deleteFeatureSet(id).pipe(takeUntil(this.destroy$))
+        this.featureSetService.deleteFeatureSet(id, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: (response: any) => this.getFeatureSetList(this.activeStudyService.getActiveStudy().id),
+                next: (response: any) => this.getFeatureSetList(+this.activeStudyService.getActiveStudy()),
                 error: (error: any) => {
                     this.messageService.add({
                         severity: 'error',

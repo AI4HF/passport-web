@@ -2,7 +2,7 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {ModelDeployment} from "../../../shared/models/modelDeployment.model";
 import {takeUntil} from "rxjs";
 import {Table} from "primeng/table";
-import {DeploymentManagementRoutingModule} from "../../deployment-management/deployment-management-routing.module";
+import {DeploymentManagementRoutingModule} from "../deployment-management-routing.module";
 import {BaseComponent} from "../../../shared/components/base.component";
 
 
@@ -39,7 +39,7 @@ export class DeploymentManagementDashboardComponent extends BaseComponent implem
 
   ngOnInit() {
     if(this.activeStudyService.getActiveStudy()){
-      this.loadModelDeploymentsByStudyId(this.activeStudyService.getActiveStudy().id);
+      this.loadModelDeploymentsByStudyId(+this.activeStudyService.getActiveStudy());
     }
   }
 
@@ -93,10 +93,10 @@ export class DeploymentManagementDashboardComponent extends BaseComponent implem
    */
   deleteModelDeployment(id: number){
     this.loading = true;
-    this.modelDeploymentService.deleteModelDeployment(id).pipe(takeUntil(this.destroy$))
+    this.modelDeploymentService.deleteModelDeployment(id, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response: any) => {
-            this.loadModelDeploymentsByStudyId(this.activeStudyService.getActiveStudy().id);
+            this.loadModelDeploymentsByStudyId(+this.activeStudyService.getActiveStudy());
             this.messageService.add({
               severity: 'success',
               summary: this.translateService.instant('Success'),
