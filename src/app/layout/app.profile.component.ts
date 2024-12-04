@@ -40,12 +40,6 @@ export class AppProfileComponent extends BaseComponent implements DoCheck, OnIni
                 this.personnelName = 'Organization';
             }
         }
-        if(StorageUtil.retrievePersonnelSurname()){
-            this.personnelSurname = StorageUtil.retrievePersonnelSurname();
-            if(this.personnelSurname === 'undefined'){
-                this.personnelSurname = 'Admin';
-            }
-        }
         if(StorageUtil.retrieveOrganizationName()){
             this.organizationName = StorageUtil.retrieveOrganizationName();
         }
@@ -87,4 +81,6 @@ export class AppProfileComponent extends BaseComponent implements DoCheck, OnIni
 
     ngOnInit(): void {
     }
+
+    protected readonly JSON = JSON;
 }
