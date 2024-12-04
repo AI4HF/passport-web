@@ -40,10 +40,11 @@ export class ImplementationService {
     /**
      * Retrieves an implementation by id
      * @param id Id of the implementation
+     * @param studyId
      * @return {Observable<Implementation>}
      */
-    getImplementationById(id: number): Observable<Implementation> {
-        const url = `${this.endpoint}/${id}`;
+    getImplementationById(id: number, studyId: number): Observable<Implementation> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.get<Implementation>(url)
             .pipe(
                 map((response: any) => {
@@ -59,10 +60,11 @@ export class ImplementationService {
     /**
      * Create an implementation
      * @param implementation Implementation to be created
+     * @param studyId
      * @return {Observable<Implementation>}
      */
-    createImplementation(implementation: Implementation): Observable<Implementation> {
-        const url = `${this.endpoint}`;
+    createImplementation(implementation: Implementation, studyId: number): Observable<Implementation> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.post<Implementation>(url, implementation)
             .pipe(
                 map((response: any) => {
@@ -78,10 +80,11 @@ export class ImplementationService {
     /**
      * Update an implementation
      * @param implementation Updated version of the implementation
+     * @param studyId
      * @return {Observable<Implementation>}
      */
-    updateImplementation(implementation: Implementation): Observable<Implementation> {
-        const url = `${this.endpoint}/${implementation.implementationId}`;
+    updateImplementation(implementation: Implementation, studyId: number): Observable<Implementation> {
+        const url = `${this.endpoint}/${implementation.implementationId}?studyId=${studyId}`;
         return this.httpClient.put<Implementation>(url, implementation)
             .pipe(
                 map((response: any) => {
@@ -97,10 +100,11 @@ export class ImplementationService {
     /**
      * Delete an implementation
      * @param id Id of the implementation
+     * @param studyId
      * @return {Observable<any>}
      */
-    deleteImplementation(id: number): Observable<any> {
-        const url = `${this.endpoint}/${id}`;
+    deleteImplementation(id: number, studyId: number): Observable<any> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) => {

@@ -42,10 +42,11 @@ export class FeatureSetService {
     /**
      * Retrieves a feature set by id
      * @param id Id of the feature set
+     * @param studyId
      * @return {Observable<FeatureSet>}
      */
-    getFeatureSetById(id: number): Observable<FeatureSet> {
-        const url = `${this.endpoint}/${id}`;
+    getFeatureSetById(id: number, studyId: number): Observable<FeatureSet> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.get<FeatureSet>(url)
             .pipe(
                 map((response: any) =>{
@@ -61,10 +62,11 @@ export class FeatureSetService {
     /**
      * Create a feature set
      * @param featureSet feature set to be created
+     * @param studyId
      * @return {Observable<FeatureSet>}
      */
-    createFeatureSet(featureSet: FeatureSet): Observable<FeatureSet> {
-        const url = `${this.endpoint}`;
+    createFeatureSet(featureSet: FeatureSet, studyId: number): Observable<FeatureSet> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         featureSet.createdBy = StorageUtil.retrieveUserId();
         featureSet.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.post<FeatureSet>(url, featureSet)
@@ -82,10 +84,11 @@ export class FeatureSetService {
     /**
      * Update a feature set
      * @param featureSet updated version of the feature set
+     * @param studyId
      * @return {Observable<FeatureSet>}
      */
-    updateFeatureSet(featureSet: FeatureSet): Observable<FeatureSet> {
-        const url = `${this.endpoint}/${featureSet.featuresetId}`;
+    updateFeatureSet(featureSet: FeatureSet, studyId: number): Observable<FeatureSet> {
+        const url = `${this.endpoint}/${featureSet.featuresetId}?studyId=${studyId}`;
         featureSet.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.put<FeatureSet>(url, featureSet)
             .pipe(
@@ -102,10 +105,11 @@ export class FeatureSetService {
     /**
      * Delete a feature set
      * @param id Id of the feature set
+     * @param studyId
      * @return {Observable<any>}
      */
-    deleteFeatureSet(id: number): Observable<any>{
-        const url = `${this.endpoint}/${id}`;
+    deleteFeatureSet(id: number, studyId: number): Observable<any>{
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) =>{

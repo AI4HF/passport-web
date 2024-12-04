@@ -23,8 +23,8 @@ export class AlgorithmService {
      * Retrieves all algorithms
      * @return {Observable<Algorithm[]>}
      */
-    getAllAlgorithms(): Observable<Algorithm[]> {
-        const url = `${this.endpoint}`;
+    getAllAlgorithms(studyId: number): Observable<Algorithm[]> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.get<Algorithm[]>(url)
             .pipe(
                 map((response: any) => {
@@ -59,10 +59,11 @@ export class AlgorithmService {
     /**
      * Create an algorithm
      * @param algorithm Algorithm to be created
+     * @param studyId
      * @return {Observable<Algorithm>}
      */
-    createAlgorithm(algorithm: Algorithm): Observable<Algorithm> {
-        const url = `${this.endpoint}`;
+    createAlgorithm(algorithm: Algorithm, studyId: number): Observable<Algorithm> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.post<Algorithm>(url, algorithm)
             .pipe(
                 map((response: any) => {

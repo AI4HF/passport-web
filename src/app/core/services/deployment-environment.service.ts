@@ -23,10 +23,11 @@ export class DeploymentEnvironmentService {
     /**
      * Retrieves the deploymentEnvironment by using deploymentEnvironmentId
      * @param id Id of the deploymentEnvironment
+     * @param studyId
      * @return {Observable<DeploymentEnvironment>}
      */
-    getDeploymentEnvironmentById(id: number): Observable<DeploymentEnvironment> {
-        const url = `${this.endpoint}/${id}`;
+    getDeploymentEnvironmentById(id: number, studyId: number): Observable<DeploymentEnvironment> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.get<DeploymentEnvironment>(url)
             .pipe(
                 map((response: any) =>{
@@ -42,10 +43,11 @@ export class DeploymentEnvironmentService {
     /**
      * Update the deploymentEnvironment
      * @param deploymentEnvironment updated version of the deploymentEnvironment
+     * @param studyId
      * @return {Observable<DeploymentEnvironment>}
      */
-    updateDeploymentEnvironment(deploymentEnvironment: DeploymentEnvironment): Observable<DeploymentEnvironment>{
-        const url = `${this.endpoint}/${deploymentEnvironment.environmentId}`;
+    updateDeploymentEnvironment(deploymentEnvironment: DeploymentEnvironment, studyId: number): Observable<DeploymentEnvironment>{
+        const url = `${this.endpoint}/${deploymentEnvironment.environmentId}?studyId=${studyId}`;
         return this.httpClient.put<DeploymentEnvironment>(url, deploymentEnvironment)
             .pipe(
                 map((response: any) =>{
@@ -80,10 +82,11 @@ export class DeploymentEnvironmentService {
     /**
      * Create a deploymentEnvironment
      * @param deploymentEnvironment deploymentEnvironment to be created
+     * @param studyId
      * @return {Observable<DeploymentEnvironment>}
      */
-    createDeploymentEnvironment(deploymentEnvironment: DeploymentEnvironment): Observable<DeploymentEnvironment>{
-        const url = `${this.endpoint}`;
+    createDeploymentEnvironment(deploymentEnvironment: DeploymentEnvironment, studyId: number): Observable<DeploymentEnvironment>{
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.post<DeploymentEnvironment>(url, deploymentEnvironment)
             .pipe(
                 map((response: any) =>{

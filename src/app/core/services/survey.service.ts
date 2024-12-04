@@ -40,10 +40,11 @@ export class SurveyService {
     /**
      * Retrieves a survey by id
      * @param id Id of the survey
+     * @param studyId
      * @return {Observable<Survey>}
      */
-    getSurveyById(id: number): Observable<Survey> {
-        const url = `${this.endpoint}/${id}`;
+    getSurveyById(id: number, studyId: number): Observable<Survey> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.get<Survey>(url)
             .pipe(
                 map((response: any) =>{
@@ -78,10 +79,11 @@ export class SurveyService {
     /**
      * Create a survey
      * @param survey survey to be created
+     * @param studyId
      * @return {Observable<Survey>}
      */
-    createSurvey(survey: Survey): Observable<Survey> {
-        const url = `${this.endpoint}`;
+    createSurvey(survey: Survey, studyId: number): Observable<Survey> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.post<Survey>(url, survey)
             .pipe(
                 map((response: any) =>{
@@ -97,10 +99,11 @@ export class SurveyService {
     /**
      * Update survey
      * @param survey updated version of the survey
+     * @param studyId
      * @return {Observable<Survey>}
      */
-    updateSurvey(survey: Survey): Observable<Survey> {
-        const url = `${this.endpoint}/${survey.surveyId}`;
+    updateSurvey(survey: Survey, studyId: number): Observable<Survey> {
+        const url = `${this.endpoint}/${survey.surveyId}?studyId=${studyId}`;
         return this.httpClient.put<Survey>(url, survey)
             .pipe(
                 map((response: any) =>{
@@ -116,10 +119,11 @@ export class SurveyService {
     /**
      * Delete a survey
      * @param id Id of the survey
+     * @param studyId
      * @return {Observable<any>}
      */
-    deleteSurvey(id: number): Observable<any>{
-        const url = `${this.endpoint}/${id}`;
+    deleteSurvey(id: number, studyId:number): Observable<any>{
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) =>{

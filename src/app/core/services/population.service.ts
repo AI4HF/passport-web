@@ -22,10 +22,11 @@ export class PopulationService {
     /**
      * Retrieves the population by using populationId
      * @param id Id of the population
+     * @param studyId Id of the study
      * @return {Observable<Population>}
      */
-    getPopulationById(id: number): Observable<Population> {
-        const url = `${this.endpoint}/${id}`;
+    getPopulationById(id: number, studyId: number): Observable<Population> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.get<Population>(url)
             .pipe(
                 map((response: any) =>{
@@ -74,10 +75,11 @@ export class PopulationService {
     /**
      * Update the population of a study
      * @param population updated version of the population
+     * @param id Id of the study
      * @return {Observable<Population>}
      */
-    updatePopulation(population: Population): Observable<Population> {
-        const url = `${this.endpoint}/${population.populationId}`;
+    updatePopulation(population: Population, id:number): Observable<Population> {
+        const url = `${this.endpoint}/${population.populationId}?studyId=${id}`;
         return this.httpClient.put<Population>(url, population)
             .pipe(
                 map((response: any) =>{
@@ -93,10 +95,11 @@ export class PopulationService {
     /**
      * Create a population for the study
      * @param population population to be created
+     * @param id Id of the study
      * @return {Observable<Population>}
      */
-    createPopulation(population: Population): Observable<Population> {
-        const url = `${this.endpoint}`;
+    createPopulation(population: Population, id: number): Observable<Population> {
+        const url = `${this.endpoint}?studyId=${id}`;
         return this.httpClient.post<Population>(url, population)
             .pipe(
                 map((response: any) =>{
@@ -112,10 +115,11 @@ export class PopulationService {
     /**
      * Delete a population
      * @param id Id of the population
+     * @param studyId
      * @return {Observable<any>}
      */
-    deletePopulation(id: number): Observable<any>{
-        const url = `${this.endpoint}/${id}`;
+    deletePopulation(id: number, studyId: number): Observable<any>{
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) =>{

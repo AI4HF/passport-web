@@ -43,10 +43,11 @@ export class ModelDeploymentService {
     /**
      * Retrieves the modelDeployment by using environmentId
      * @param id Id of the deployment environment
+     * @param studyId
      * @return {Observable<ModelDeployment>}
      */
-    getModelDeploymentByEnvironmentId(id: number): Observable<ModelDeployment> {
-        const url = `${this.endpoint}?environmentId=${id}`;
+    getModelDeploymentByEnvironmentId(id: number, studyId: number): Observable<ModelDeployment> {
+        const url = `${this.endpoint}?environmentId=${id}?studyId=${studyId}`;
         return this.httpClient.get<ModelDeployment>(url)
             .pipe(
                 map((response: any) =>{
@@ -71,10 +72,11 @@ export class ModelDeploymentService {
   /**
    * Retrieves the modelDeployment by using modelDeploymentId
    * @param id Id of the modelDeployment
+   * @param studyId
    * @return {Observable<ModelDeployment>}
    */
-  getModelDeploymentById(id: number): Observable<ModelDeployment> {
-    const url = `${this.endpoint}/${id}`;
+  getModelDeploymentById(id: number, studyId: number): Observable<ModelDeployment> {
+    const url = `${this.endpoint}/${id}?studyId=${studyId}`;
     return this.httpClient.get<ModelDeployment>(url)
         .pipe(
             map((response: any) =>{
@@ -90,10 +92,11 @@ export class ModelDeploymentService {
   /**
    * Update the modelDeployment
    * @param modelDeployment updated version of the modelDeployment
+   * @param studyId
    * @return {Observable<ModelDeployment>}
    */
-  updateModelDeployment(modelDeployment: ModelDeployment): Observable<ModelDeployment>{
-    const url = `${this.endpoint}/${modelDeployment.deploymentId}`;
+  updateModelDeployment(modelDeployment: ModelDeployment, studyId: number): Observable<ModelDeployment>{
+    const url = `${this.endpoint}/${modelDeployment.deploymentId}?studyId=${studyId}`;
       modelDeployment.lastUpdatedBy = StorageUtil.retrieveUserId();
     return this.httpClient.put<ModelDeployment>(url, modelDeployment)
         .pipe(
@@ -110,10 +113,11 @@ export class ModelDeploymentService {
   /**
    * Delete a modelDeployment
    * @param id Id of the modelDeployment
+   * @param studyId
    * @return {Observable<any>}
    */
-  deleteModelDeployment(id: number): Observable<any>{
-    const url = `${this.endpoint}/${id}`;
+  deleteModelDeployment(id: number, studyId: number): Observable<any>{
+    const url = `${this.endpoint}/${id}?studyId=${studyId}`;
     return this.httpClient.delete<any>(url)
         .pipe(
             map((response: any) =>{
@@ -129,10 +133,11 @@ export class ModelDeploymentService {
   /**
    * Create a modelDeployment
    * @param modelDeployment modelDeployment to be created
+   * @param studyId
    * @return {Observable<ModelDeployment>}
    */
-  createModelDeployment(modelDeployment: ModelDeployment): Observable<ModelDeployment>{
-    const url = `${this.endpoint}`;
+  createModelDeployment(modelDeployment: ModelDeployment, studyId: number): Observable<ModelDeployment>{
+    const url = `${this.endpoint}?studyId=${studyId}`;
       modelDeployment.createdBy = StorageUtil.retrieveUserId();
       modelDeployment.lastUpdatedBy = StorageUtil.retrieveUserId();
     return this.httpClient.post<ModelDeployment>(url, modelDeployment)

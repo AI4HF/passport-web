@@ -72,7 +72,7 @@ export class StudyPersonnelService {
             roles
         }));
 
-        return this.httpClient.post(`${this.endpoint}/personnel`, serializedPersonnelRoleMap);
+        return this.httpClient.post(`${this.endpoint}/personnel?studyId=${studyId}&organizationId=${organizationId}`, serializedPersonnelRoleMap);
     }
 
 
@@ -87,8 +87,8 @@ export class StudyPersonnelService {
                 map((response: any) => response.map((entry: any) => {
                     const studyPersonnel = new StudyPersonnel({});
                     studyPersonnel.setRolesFromString(entry.role);
-                    studyPersonnel.personnelId = entry.personnelId;
-                    studyPersonnel.studyId = entry.studyId;
+                    studyPersonnel.id.personnelId = entry.id.personnelId;
+                    studyPersonnel.id.studyId = entry.id.studyId;
                     return studyPersonnel;
                 })),
                 catchError((error) => {

@@ -62,10 +62,11 @@ export class PassportService {
     /**
      * Delete a passport
      * @param id Id of the passport
+     * @param studyId
      * @return {Observable<any>}
      */
-    deletePassport(id: number): Observable<any>{
-        const url = `${this.endpoint}/${id}`;
+    deletePassport(id: number, studyId: number): Observable<any>{
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) =>{
@@ -81,10 +82,11 @@ export class PassportService {
     /**
      * Create a passport
      * @param passportWithDetailSelection passport to be created with selected details
+     * @param studyId
      * @return {Observable<Passport>}
      */
-    createPassport(passportWithDetailSelection: PassportWithDetailSelection): Observable<Passport>{
-        const url = `${this.endpoint}`;
+    createPassport(passportWithDetailSelection: PassportWithDetailSelection, studyId: number): Observable<Passport>{
+        const url = `${this.endpoint}?studyId=${studyId}`;
         passportWithDetailSelection.passport.createdBy = StorageUtil.retrieveUserId();
         passportWithDetailSelection.passport.approvedBy = StorageUtil.retrieveUserId();
 
@@ -103,10 +105,11 @@ export class PassportService {
     /**
      * Retrieves detailed information about a passport by ID
      * @param id Id of the passport
+     * @param studyId
      * @return {Observable<PassportDetailsDTO>}
      */
-    getPassportDetailsById(id: number): Observable<PassportDetailsDTO> {
-        const url = `${this.endpoint}/${id}`;
+    getPassportDetailsById(id: number, studyId: number): Observable<PassportDetailsDTO> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.get<PassportDetailsDTO>(url)
             .pipe(
                 map((response: any) => {

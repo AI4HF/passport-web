@@ -41,10 +41,11 @@ export class LearningProcessDatasetService {
      * Retrieves a learning process dataset by composite id
      * @param learningProcessId Id of the learning process
      * @param learningDatasetId Id of the learning dataset
+     * @param studyId
      * @return {Observable<LearningProcessDataset>}
      */
-    getLearningProcessDatasetById(learningProcessId: number, learningDatasetId: number): Observable<LearningProcessDataset> {
-        const url = `${this.endpoint}?learningProcessId=${learningProcessId}&learningDatasetId=${learningDatasetId}`;
+    getLearningProcessDatasetById(learningProcessId: number, learningDatasetId: number, studyId: number): Observable<LearningProcessDataset> {
+        const url = `${this.endpoint}?learningProcessId=${learningProcessId}&learningDatasetId=${learningDatasetId}&studyId=${studyId}`;
         return this.httpClient.get<LearningProcessDataset>(url)
             .pipe(
                 map((response: any) => {
@@ -60,10 +61,11 @@ export class LearningProcessDatasetService {
     /**
      * Retrieves learning process datasets by learning process id
      * @param learningProcessId Id of the learning process
+     * @param studyId
      * @return {Observable<LearningProcessDataset>}
      */
-    getLearningProcessDatasetsByLearningProcessId(learningProcessId: number): Observable<LearningProcessDataset[]> {
-        const url = `${this.endpoint}?learningProcessId=${learningProcessId}`;
+    getLearningProcessDatasetsByLearningProcessId(learningProcessId: number, studyId: number): Observable<LearningProcessDataset[]> {
+        const url = `${this.endpoint}?learningProcessId=${learningProcessId}&studyId=${studyId}`;
         return this.httpClient.get<LearningProcessDataset[]>(url)
             .pipe(
                 map((response: any) => {
@@ -79,10 +81,11 @@ export class LearningProcessDatasetService {
     /**
      * Create a learning process dataset
      * @param learningProcessDataset LearningProcessDataset to be created
+     * @param studyId
      * @return {Observable<LearningProcessDataset>}
      */
-    createLearningProcessDataset(learningProcessDataset: LearningProcessDataset): Observable<LearningProcessDataset> {
-        const url = `${this.endpoint}`;
+    createLearningProcessDataset(learningProcessDataset: LearningProcessDataset, studyId: number): Observable<LearningProcessDataset> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.post<LearningProcessDataset>(url, learningProcessDataset)
             .pipe(
                 map((response: any) => {
@@ -98,10 +101,11 @@ export class LearningProcessDatasetService {
     /**
      * Update a learning process dataset
      * @param learningProcessDataset Updated version of the learning process dataset
+     * @param studyId
      * @return {Observable<LearningProcessDataset>}
      */
-    updateLearningProcessDataset(learningProcessDataset: LearningProcessDataset): Observable<LearningProcessDataset> {
-        const url = `${this.endpoint}?learningProcessId=${learningProcessDataset.learningProcessId}&learningDatasetId=${learningProcessDataset.learningDatasetId}`;
+    updateLearningProcessDataset(learningProcessDataset: LearningProcessDataset, studyId: number): Observable<LearningProcessDataset> {
+        const url = `${this.endpoint}?learningProcessId=${learningProcessDataset.learningProcessId}&learningDatasetId=${learningProcessDataset.learningDatasetId}&studyId=${studyId}`;
         return this.httpClient.put<LearningProcessDataset>(url, learningProcessDataset)
             .pipe(
                 map((response: any) => {
@@ -118,10 +122,11 @@ export class LearningProcessDatasetService {
      * Delete a learning process dataset by composite id
      * @param learningProcessId Id of the learning process
      * @param learningDatasetId Id of the learning dataset
+     * @param studyId
      * @return {Observable<any>}
      */
-    deleteLearningProcessDataset(learningProcessId: number, learningDatasetId: number): Observable<any> {
-        const url = `${this.endpoint}?learningProcessId=${learningProcessId}&learningDatasetId=${learningDatasetId}`;
+    deleteLearningProcessDataset(learningProcessId: number, learningDatasetId: number, studyId: number): Observable<any> {
+        const url = `${this.endpoint}?learningProcessId=${learningProcessId}&learningDatasetId=${learningDatasetId}&studyId=${studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) => {

@@ -41,10 +41,11 @@ export class LearningProcessService {
     /**
      * Retrieves a learning process by id
      * @param id Id of the learning process
+     * @param studyId
      * @return {Observable<LearningProcess>}
      */
-    getLearningProcessById(id: number): Observable<LearningProcess> {
-        const url = `${this.endpoint}/${id}`;
+    getLearningProcessById(id: number, studyId: number): Observable<LearningProcess> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.get<LearningProcess>(url)
             .pipe(
                 map((response: any) => {
@@ -60,10 +61,11 @@ export class LearningProcessService {
     /**
      * Create a learning process
      * @param learningProcess LearningProcess to be created
+     * @param studyId
      * @return {Observable<LearningProcess>}
      */
-    createLearningProcess(learningProcess: LearningProcess): Observable<LearningProcess> {
-        const url = `${this.endpoint}`;
+    createLearningProcess(learningProcess: LearningProcess, studyId: number): Observable<LearningProcess> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.post<LearningProcess>(url, learningProcess)
             .pipe(
                 map((response: any) => {
@@ -79,9 +81,10 @@ export class LearningProcessService {
     /**
      * Update a learning process
      * @param learningProcess Updated version of the learning process
+     * @param studyId
      * @return {Observable<LearningProcess>}
      */
-    updateLearningProcess(learningProcess: LearningProcess): Observable<LearningProcess> {
+    updateLearningProcess(learningProcess: LearningProcess, studyId: number): Observable<LearningProcess> {
         const url = `${this.endpoint}/${learningProcess.learningProcessId}`;
         return this.httpClient.put<LearningProcess>(url, learningProcess)
             .pipe(

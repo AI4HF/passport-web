@@ -41,10 +41,11 @@ export class DatasetTransformationStepService {
     /**
      * Retrieves dataset transformation steps by data transformation ID
      * @param dataTransformationId Id of the data transformation
+     * @param studyId
      * @return {Observable<DatasetTransformationStep[]>}
      */
-    getDatasetTransformationStepsByTransformationId(dataTransformationId: number): Observable<DatasetTransformationStep[]> {
-        const url = `${this.endpoint}?dataTransformationId=${dataTransformationId}`;
+    getDatasetTransformationStepsByTransformationId(dataTransformationId: number, studyId: number): Observable<DatasetTransformationStep[]> {
+        const url = `${this.endpoint}?dataTransformationId=${dataTransformationId}&studyId=${studyId}`;
         return this.httpClient.get<DatasetTransformationStep[]>(url)
             .pipe(
                 map((response: any) => {
@@ -79,10 +80,11 @@ export class DatasetTransformationStepService {
     /**
      * Create a dataset transformation step
      * @param datasetTransformationStep dataset transformation step to be created
+     * @param studyId
      * @return {Observable<DatasetTransformationStep>}
      */
-    createDatasetTransformationStep(datasetTransformationStep: DatasetTransformationStep): Observable<DatasetTransformationStep> {
-        const url = `${this.endpoint}`;
+    createDatasetTransformationStep(datasetTransformationStep: DatasetTransformationStep, studyId: number): Observable<DatasetTransformationStep> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         datasetTransformationStep.createdBy = StorageUtil.retrieveUserId();
         datasetTransformationStep.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.post<DatasetTransformationStep>(url, datasetTransformationStep)
@@ -100,10 +102,11 @@ export class DatasetTransformationStepService {
     /**
      * Update a dataset transformation step
      * @param datasetTransformationStep updated version of the dataset transformation step
+     * @param studyId
      * @return {Observable<DatasetTransformationStep>}
      */
-    updateDatasetTransformationStep(datasetTransformationStep: DatasetTransformationStep): Observable<DatasetTransformationStep> {
-        const url = `${this.endpoint}/${datasetTransformationStep.stepId}`;
+    updateDatasetTransformationStep(datasetTransformationStep: DatasetTransformationStep, studyId: number): Observable<DatasetTransformationStep> {
+        const url = `${this.endpoint}/${datasetTransformationStep.stepId}?studyId=${studyId}`;
         datasetTransformationStep.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.put<DatasetTransformationStep>(url, datasetTransformationStep)
             .pipe(
@@ -120,10 +123,11 @@ export class DatasetTransformationStepService {
     /**
      * Delete a dataset transformation step
      * @param id Id of the dataset transformation step
+     * @param studyId
      * @return {Observable<any>}
      */
-    deleteDatasetTransformationStep(id: number): Observable<any> {
-        const url = `${this.endpoint}/${id}`;
+    deleteDatasetTransformationStep(id: number, studyId: number): Observable<any> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) => {

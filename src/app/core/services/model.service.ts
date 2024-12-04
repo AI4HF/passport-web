@@ -26,8 +26,8 @@ export class ModelService {
      * Retrieves all models
      * @return {Observable<Model[]>}
      */
-    getModelList(): Observable<Model[]> {
-        const url = `${this.endpoint}`;
+    getModelList(studyId: number): Observable<Model[]> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.get<Model[]>(url)
             .pipe(
                 map((response: any) =>{
@@ -64,10 +64,11 @@ export class ModelService {
     /**
      * Retrieves a model by id
      * @param id Id of the model
+     * @param studyId
      * @return {Observable<Model>}
      */
-    getModelById(id: number): Observable<Model> {
-        const url = `${this.endpoint}/${id}`;
+    getModelById(id: number, studyId: number): Observable<Model> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.get<Model>(url)
             .pipe(
                 map((response: any) =>{
@@ -83,10 +84,11 @@ export class ModelService {
     /**
      * Create a model
      * @param model model to be created
+     * @param studyId
      * @return {Observable<Model>}
      */
-    createModel(model: Model): Observable<Model> {
-        const url = `${this.endpoint}`;
+    createModel(model: Model, studyId: number): Observable<Model> {
+        const url = `${this.endpoint}?studyId=${studyId}`;
         model.createdBy = StorageUtil.retrieveUserId();
         model.lastUpdatedBy = StorageUtil.retrieveUserId();
         model.owner = +StorageUtil.retrieveOrganizationId();
@@ -105,10 +107,11 @@ export class ModelService {
     /**
      * Update model
      * @param model updated version of the model
+     * @param studyId
      * @return {Observable<Model>}
      */
-    updateModel(model: Model): Observable<Model> {
-        const url = `${this.endpoint}/${model.modelId}`;
+    updateModel(model: Model, studyId: number): Observable<Model> {
+        const url = `${this.endpoint}/${model.modelId}?studyId=${studyId}`;
         model.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.put<Model>(url, model)
             .pipe(
@@ -125,10 +128,11 @@ export class ModelService {
     /**
      * Delete a model
      * @param id Id of the model
+     * @param studyId
      * @return {Observable<any>}
      */
-    deleteModel(id: number): Observable<any>{
-        const url = `${this.endpoint}/${id}`;
+    deleteModel(id: number, studyId: number): Observable<any>{
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) =>{
