@@ -116,5 +116,34 @@ export class StudyPersonnelService {
             );
     }
 
+    /**
+     * Retrieves the personnel-role relations assigned to a study for a specific organization.
+     * @param studyId Id of the study
+     * @param organizationId Id of the organization
+     * @return {Observable<Map<string, string[]>>} A map of personnel IDs to their roles
+     */
+    getPersonnelRolesByStudyAndOrganization(studyId: number, organizationId: number): Observable<Map<string, string[]>> {
+        const url = `${this.endpoint}/roles?studyId=${studyId}&organizationId=${organizationId}`;
+        return this.httpClient.get<{ [key: string]: string[] }>(url).pipe(
+            map((response: { [key: string]: string[] }) => {
+                const personnelRoleMap = new Map<string, string[]>();
+
+                // Iterate over the response object keys
+                Object.keys(response).forEach(personId => {
+                    personnelRoleMap.set(personId, response[personId] || []);
+                });
+
+                return personnelRoleMap;
+            }),
+            catchError((error) => {
+                console.error(error);
+                throw error;
+            })
+        );
+    }
+
+
+
+
 
 }

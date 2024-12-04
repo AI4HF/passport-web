@@ -31,9 +31,6 @@
                     <th pSortableColumn="lastName">{{ 'OrganizationManagement.Last Name' | translate }}
                         <p-sortIcon field="lastName"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="role">{{ 'OrganizationManagement.Role' | translate }}
-                        <p-sortIcon field="role"></p-sortIcon>
-                    </th>
                     <th pSortableColumn="email">{{ 'OrganizationManagement.Email' | translate }}
                         <p-sortIcon field="email"></p-sortIcon>
                     </th>
@@ -44,7 +41,6 @@
                 <tr>
                     <td>{{ personnel.firstName }}</td>
                     <td>{{ personnel.lastName }}</td>
-                    <td>{{ toReadableRole(personnel.role) }}</td>
                     <td>{{ personnel.email }}</td>
                     <td>
                         <button (click)="editPersonnel(personnel)" class="p-button-text p-button-rounded p-ripple" icon="pi pi-pencil" pButton

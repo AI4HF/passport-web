@@ -17,6 +17,7 @@
         <app-tooltip class="ml-2" message="StudyManagement.PopulationTooltip"></app-tooltip>
     </p>
     <p-dropdown
+            *ngIf="!formDisabled"
             [options]="populationList"
             optionLabel="populationUrl"
             optionValue="populationId"
@@ -26,36 +27,76 @@
     </p-dropdown>
 
     <p *ngIf="!formDisabled" class="flex align-items-center">
-        <strong>{{ 'StudyManagement.Personnel.Personnel' | translate }}</strong>
+        <strong>{{ 'StudyManagement.Personnel.Responsible Personnel' | translate }}</strong>
+        <app-tooltip class="ml-2" message="StudyManagement.ResponsiblePersonnelTooltip"></app-tooltip>
+    </p>
+    <p-dropdown
+            *ngIf="!formDisabled"
+            [options]="personnelList"
+            [(ngModel)]="selectedResponsiblePersonnelId"
+            optionLabel="firstName"
+            optionValue="personId"
+            [showClear]="true"
+            [disabled]="formDisabled"
+            [style]="{'minWidth':'100%', 'margin-bottom': '1rem'}"
+            placeholder="{{'StudyManagement.Personnel.Select a responsible personnel' | translate}}">
+    </p-dropdown>
+
+    <!-- Roles Checkboxes -->
+    <div *ngIf="!formDisabled" class="checkbox-grid">
+        <div *ngFor="let role of roles" class="field-checkbox">
+            <p-checkbox
+                    [(ngModel)]="selectedRoles"
+                    [label]="role.name"
+                    name="group"
+                    [value]="role.value"
+                    [disabled]="formDisabled">
+            </p-checkbox>
+        </div>
+    </div>
+
+    <div *ngIf="!formDisabled" class="justify-content-end align-content-end">
+        <button pButton pRipple
+                type="button"
+                label="{{'Save' | translate}}"
+                class="p-button-raised"
+                [disabled]="!this.selectedResponsiblePersonnelId || !this.selectedRoles.length"
+                (click)="saveStudyOrganization()">
+        </button>
+    </div>
+</p-card>
+<p-card *ngIf="selectedStudyOrganization" class="w-full">
+    <p *ngIf="!formDisabled" class="flex align-items-center">
+        <strong>{{ 'StudyManagement.Personnel Assignment' | translate }}</strong>
     </p>
     <div *ngIf="!formDisabled" class="personnel-table">
-        <table class="w-full">
-            <thead>
-            <tr>
-                <th>{{ 'Name' | translate }}</th>
-                <th>{{ 'Surname' | translate }}</th>
-                <th>{{ 'Roles' | translate }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let personnel of personnelList">
-                <td>{{ personnel.firstName }}</td>
-                <td>{{ personnel.lastName }}</td>
-                <td>
-                    <div class="roles-checkboxes">
-                        <p-checkbox
-                                *ngFor="let role of roles"
-                                [label]="role.name"
-                                [value]="role.value"
-                                [binary]="true"
-                                [ngModel]="personnelRoleMap.get(personnel.personId)?.includes(role.value)"
-                                (ngModelChange)="onRoleChange(personnel, role.value, $event)">
-                        </p-checkbox>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <p-table [value]="personnelList" class="w-full">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>{{ 'Name' | translate }}</th>
+                    <th>{{ 'Surname' | translate }}</th>
+                    <th>{{ 'Roles' | translate }}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-personnel>
+                <tr>
+                    <td>{{ personnel.firstName }}</td>
+                    <td>{{ personnel.lastName }}</td>
+                    <td>
+                        <div class="roles-checkboxes spaced-checkboxes">
+                            <p-checkbox
+                                    *ngFor="let role of allowedRoles"
+                                    [label]="role.name"
+                                    [value]="role.value"
+                                    [binary]="true"
+                                    [ngModel]="personnelRoleMap.get(personnel.personId)?.includes(role.value)"
+                                    (ngModelChange)="onRoleChange(personnel, role.value, $event)">
+                            </p-checkbox>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
     </div>
 
     <div class="flex justify-content-end mt-3">
