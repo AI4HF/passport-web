@@ -158,10 +158,6 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
       {
         roles.push(Role.STUDY_OWNER);
       }
-      if(this.roleService.getRoles().includes(Role.ORGANIZATION_ADMIN))
-      {
-        roles.push(Role.ORGANIZATION_ADMIN);
-      }
       this.roleService.setRoles(roles);
       this.activeStudyService.setActiveStudy(studyId);
     } else {

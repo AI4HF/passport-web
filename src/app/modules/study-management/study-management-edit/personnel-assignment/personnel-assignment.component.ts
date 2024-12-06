@@ -127,11 +127,13 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
       },
       error: error => {
         if (error.status === 404) {
+          this.fetchPersonnelForOrganization(organizationId);
           this.formDisabled = false;
           this.selectedStudyOrganization = new StudyOrganization({
             studyId: this.studyId,
             organizationId: organizationId
           });
+
         } else {
           this.messageService.add({
             severity: 'error',

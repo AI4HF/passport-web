@@ -25,9 +25,11 @@ export class RoleService {
      * @param roles List of roles for the user
      */
     setRoles(roles: Role[]) {
-        var roleString = JSON.stringify(roles);
-        sessionStorage.setItem("roles", roleString);
-        this.roles.next(JSON.parse(roleString));
+        if(roles != null){
+            var roleString = JSON.stringify(roles);
+            sessionStorage.setItem("roles", roleString);
+            this.roles.next(JSON.parse(roleString));
+        }
     }
 
     /**
@@ -51,6 +53,7 @@ export class RoleService {
      * Clear roles of the user
      */
     clearRoles() {
+        sessionStorage.removeItem('roles');
         this.roles.next([]);
     }
 }
