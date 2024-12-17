@@ -154,10 +154,6 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
     if (studyPersonnelEntry) {
 
       const roles = studyPersonnelEntry.rolesAsList;
-      if(this.roleService.getRoles().includes(Role.STUDY_OWNER))
-      {
-        roles.push(Role.STUDY_OWNER);
-      }
       this.roleService.setRoles(roles);
       this.activeStudyService.setActiveStudy(studyId);
     } else {

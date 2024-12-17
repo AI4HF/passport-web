@@ -1,6 +1,7 @@
-import { BehaviorSubject, Observable } from "rxjs";
-import { Role } from "../../shared/models/role.enum";
-import { Injectable } from "@angular/core";
+import {BehaviorSubject, Observable} from "rxjs";
+import {Role} from "../../shared/models/role.enum";
+import {Injectable} from "@angular/core";
+import {ROLES} from "../../shared/models/roles.constant";
 
 /**
  * Service to manage the roles of the logged user.
@@ -16,7 +17,6 @@ export class RoleService {
     roles: BehaviorSubject<Role[]> = new BehaviorSubject<Role[]>([]);
 
     constructor() {
-        // Initially, no roles are set
         this.roles.next([]);
     }
 
@@ -26,7 +26,7 @@ export class RoleService {
      */
     setRoles(roles: Role[]) {
         if(roles != null){
-            var roleString = JSON.stringify(roles);
+            let roleString = JSON.stringify(roles);
             sessionStorage.setItem("roles", roleString);
             this.roles.next(JSON.parse(roleString));
         }
@@ -46,7 +46,12 @@ export class RoleService {
      * @return {Role[]}
      */
     getRoles(): Role[] {
-        return this.roles.getValue();
+        let roles = this.roles.getValue();
+        if(roles == null)
+        {
+            return [];
+        }
+        return roles;
     }
 
     /**
@@ -55,5 +60,17 @@ export class RoleService {
     clearRoles() {
         sessionStorage.removeItem('roles');
         this.roles.next([]);
+    }
+
+    /**
+     * Returns a set of readable role names for the current user roles.
+     * @return {Set<string>} A set of role names.
+     */
+    getRolesBeautiful(): string[] {
+        const currentRoles = this.getRoles();
+        return currentRoles.map(role => {
+            const matchingRole = ROLES.find(r => r.value === role);
+            return matchingRole ? matchingRole.name : role;
+        });
     }
 }

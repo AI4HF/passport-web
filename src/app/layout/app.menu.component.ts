@@ -64,104 +64,105 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
             routerLink: ['/study-management']
         });
 
+        if (this.userRoles != null) {
+            if (this.userRoles.includes(Role.DATA_SCIENTIST)) {
+                this.model.push({
+                    label: this.translateService.instant('Data Scientist'),
+                    icon: 'pi pi-globe',
+                    items: [
+                        {
+                            label: this.translateService.instant('Parameter Management'),
+                            icon: 'pi pi-cog',
+                            routerLink: ['/parameter-management']
+                        },
+                        {
+                            label: this.translateService.instant('Learning Process Management'),
+                            icon: 'pi pi-globe',
+                            routerLink: ['/learning-process-management']
+                        },
+                        {
+                            label: this.translateService.instant('Model Management'),
+                            icon: 'pi pi-code',
+                            routerLink: ['/model-management']
+                        }
+                    ]
+                });
+            }
 
-        if (this.userRoles.includes(Role.DATA_SCIENTIST)) {
-            this.model.push({
-                label: this.translateService.instant('Data Scientist'),
-                icon: 'pi pi-globe',
-                items: [
-                    {
-                        label: this.translateService.instant('Parameter Management'),
-                        icon: 'pi pi-cog',
-                        routerLink: ['/parameter-management']
-                    },
-                    {
-                        label: this.translateService.instant('Learning Process Management'),
-                        icon: 'pi pi-globe',
-                        routerLink: ['/learning-process-management']
-                    },
-                    {
-                        label: this.translateService.instant('Model Management'),
-                        icon: 'pi pi-code',
-                        routerLink: ['/model-management']
-                    }
-                ]
-            });
-        }
+            if (this.userRoles.includes(Role.ML_ENGINEER)) {
+                this.model.push({
+                    label: this.translateService.instant('ML ENGINEER'),
+                    icon: 'pi pi-android',
+                    items: [
+                        {
+                            label: this.translateService.instant('Deployment Management'),
+                            icon: 'pi pi-cloud-upload',
+                            routerLink: ['/deployment-management']
+                        }
+                    ]
+                })
+            }
 
-        if(this.userRoles.includes(Role.ML_ENGINEER)) {
-            this.model.push({
-                label: this.translateService.instant('ML ENGINEER'),
-                icon: 'pi pi-android',
-                items: [
-                    {
-                        label: this.translateService.instant('Deployment Management'),
-                        icon: 'pi pi-cloud-upload',
-                        routerLink: ['/deployment-management']
-                    }
-                ]
-            })
-        }
+            if (this.userRoles.includes(Role.SURVEY_MANAGER)) {
+                this.model.push({
+                    label: this.translateService.instant('Survey Manager'),
+                    icon: 'pi pi-chart-line',
+                    items: [
+                        {
+                            label: this.translateService.instant('Survey Management'),
+                            icon: 'pi pi-chart-line',
+                            routerLink: ['/survey-management']
+                        }
+                    ]
+                });
+            }
 
-        if (this.userRoles.includes(Role.SURVEY_MANAGER)) {
-            this.model.push({
-                label: this.translateService.instant('Survey Manager'),
-                icon: 'pi pi-chart-line',
-                items: [
-                    {
-                        label: this.translateService.instant('Survey Management'),
-                        icon: 'pi pi-chart-line',
-                        routerLink: ['/survey-management']
-                    }
-                ]
-            });
-        }
+            if (this.userRoles.includes(Role.DATA_ENGINEER)) {
+                this.model.push({
+                    label: this.translateService.instant('Data Engineer'),
+                    icon: 'pi pi-sliders-h',
+                    items: [
+                        {
+                            label: this.translateService.instant('Feature Management'),
+                            icon: 'pi pi-sliders-h',
+                            routerLink: ['/featureset-management']
+                        },
+                        {
+                            label: this.translateService.instant('Dataset Management'),
+                            icon: 'pi pi-folder-open',
+                            routerLink: ['/dataset-management']
+                        }
+                    ]
+                });
+            }
 
-        if (this.userRoles.includes(Role.DATA_ENGINEER)) {
-            this.model.push({
-                label: this.translateService.instant('Data Engineer'),
-                icon: 'pi pi-sliders-h',
-                items: [
-                    {
-                        label: this.translateService.instant('Feature Management'),
-                        icon: 'pi pi-sliders-h',
-                        routerLink: ['/featureset-management']
-                    },
-                    {
-                        label: this.translateService.instant('Dataset Management'),
-                        icon: 'pi pi-folder-open',
-                        routerLink: ['/dataset-management']
-                    }
-                ]
-            });
-        }
+            if (this.userRoles.includes(Role.QUALITY_ASSURANCE_SPECIALIST)) {
+                this.model.push({
+                    label: this.translateService.instant('Quality Assurance'),
+                    icon: 'pi pi-map',
+                    items: [
+                        {
+                            label: this.translateService.instant('Passport Management'),
+                            icon: 'pi pi-map',
+                            routerLink: ['/passport-management']
+                        }
+                    ]
+                });
+            }
 
-        if (this.userRoles.includes(Role.QUALITY_ASSURANCE_SPECIALIST)) {
-            this.model.push({
-                label: this.translateService.instant('Quality Assurance'),
-                icon: 'pi pi-map',
-                items: [
-                    {
-                        label: this.translateService.instant('Passport Management'),
-                        icon: 'pi pi-map',
-                        routerLink: ['/passport-management']
-                    }
-                ]
-            });
-        }
-
-        if (this.userRoles.includes(Role.ORGANIZATION_ADMIN)) {
-            this.model.push({
-                label: this.translateService.instant('Organization Admin'),
-                icon: 'pi pi-building',
-                items: [
-                    {
-                        label: this.translateService.instant('Organization Management'),
-                        icon: 'pi pi-building',
-                        routerLink: ['/organization-management/organization']
-                    }
-                ]
-            });
+            if (this.userRoles.includes(Role.ORGANIZATION_ADMIN)) {
+                this.model.push({
+                    label: this.translateService.instant('Organization Admin'),
+                    icon: 'pi pi-building',
+                    items: [
+                        {
+                            label: this.translateService.instant('Organization Management'),
+                            icon: 'pi pi-building',
+                            routerLink: ['/organization-management/organization']
+                        }
+                    ]
+                });
+            }
         }
 
         this.markActiveItem();

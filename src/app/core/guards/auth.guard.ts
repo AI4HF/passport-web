@@ -14,8 +14,6 @@ export const authGuard: CanActivateFn = () => {
         return false;
     }
 
-    const path: string = router.getCurrentNavigation().finalUrl.toString();
-
     return true;
 };
 

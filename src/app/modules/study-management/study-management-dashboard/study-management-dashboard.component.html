@@ -9,7 +9,7 @@
                          class="w-full rounded-border"/>
               </span>
                 <button pButton pRipple icon="pi pi-plus" class="p-button-rounded button-secondary mx-2" (click)="createStudy()"
-                        pTooltip="{{ 'StudyManagement.NewStudy' | translate }}" tooltipPosition="bottom"></button>
+                        pTooltip="{{ 'StudyManagement.New Study' | translate }}" tooltipPosition="bottom"></button>
             </div>
         </div>
         <p-table #ownedTable [value]="ownedStudies" [columns]="columns" [rows]="10" [rowHover]="true" [paginator]="true"
@@ -61,10 +61,10 @@
                     </td>
                     <td>
                         <button pButton pRipple type="button" [icon]="'pi pi-pencil'" class="p-button-text p-button-rounded p-ripple"
-                                (click)="editStudy(study.id)" pTooltip="{{ 'StudyManagement.EditStudy' | translate }}"
+                                (click)="editStudy(study.id)" pTooltip="{{ 'StudyManagement.Edit Study' | translate }}"
                                 tooltipPosition="bottom"></button>
                         <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple"
-                                (click)="deleteStudy(study.id)" pTooltip="{{ 'StudyManagement.DeleteStudy' | translate }}"
+                                (click)="deleteStudy(study.id)" pTooltip="{{ 'StudyManagement.Delete Study' | translate }}"
                                 tooltipPosition="bottom"></button>
                     </td>
                 </tr>
@@ -132,7 +132,7 @@
                     </td>
                     <td>
                         <button pButton pRipple type="button" icon="pi pi-arrow-right" class="p-button-text p-button-rounded p-ripple"
-                                (click)="accessStudy(study.id)" pTooltip="{{ 'StudyManagement.AccessStudy' | translate }}"
+                                (click)="accessStudy(study.id)" pTooltip="{{ 'StudyManagement.Access Study' | translate }}"
                                 tooltipPosition="bottom"></button>
                     </td>
                 </tr>

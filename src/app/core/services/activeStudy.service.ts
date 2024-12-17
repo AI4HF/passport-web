@@ -23,9 +23,7 @@ export class ActiveStudyService {
      */
     activeStudy: BehaviorSubject<Study> = new BehaviorSubject(null);
 
-    constructor(private studyPersonnelService: StudyPersonnelService) {
-        const storedStudy = sessionStorage.getItem('activeStudy');
-    }
+    constructor(private studyPersonnelService: StudyPersonnelService) {}
 
     /**
      * Set active study and store it in session storage.
