@@ -9,7 +9,7 @@
         <div class="flex flex-column">
             <span class="title font-semibold" [ngClass]="'text-primary'">{{personnelName}}</span>
             <span *ngIf="organizationName" class="title font-light" [ngClass]="'text-primary'">{{organizationName}}</span>
-            <span class="title font-light font-italic" [ngClass]="'text-primary'">{{JSON.stringify(this.roleService.getRoles())}}</span>
+            <span class="title font-light font-italic" [ngClass]="'text-primary'">{{JSON.stringify(this.roleService.getRolesBeautiful())}}</span>
         </div>
     </div>
 

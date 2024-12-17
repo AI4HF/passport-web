@@ -72,8 +72,11 @@ export class LoginComponent extends BaseComponent implements OnInit {
                 const decodedToken = helper.decodeToken(response.access_token);
                 StorageUtil.storeUserId(decodedToken.user_id, rememberMe);
                 StorageUtil.storePersonnelName(decodedToken.preferred_username, rememberMe);
-                const roles: Role[] = decodedToken.realm_access.roles?.find((role: string) => Role[role as keyof typeof Role] !== undefined);
-                this.roleService.setRoles(roles);
+                const roles: Role[] = decodedToken.realm_access?.roles?.find((role: string) => Role[role as keyof typeof Role] !== undefined);
+                if(roles != null)
+                {
+                    this.roleService.setRoles(roles);
+                }
                 this.navigateAccordingToRole();
             },
             error => {

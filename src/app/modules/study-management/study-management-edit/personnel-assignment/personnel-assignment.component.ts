@@ -8,6 +8,7 @@ import { Organization } from "../../../../shared/models/organization.model";
 import { StudyOrganization } from "../../../../shared/models/studyOrganization.model";
 import { Role } from "../../../../shared/models/role.enum";
 import { Population } from "../../../../shared/models/population.model";
+import {PersonnelRoleMap} from "../../../../shared/models/personnelRoleMap";
 
 @Component({
   selector: 'app-personnel-assignment',
@@ -243,7 +244,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
       personnelRoleMap.set(personId, roles);
     });
 
-    this.studyPersonnelService.createStudyPersonnelEntries(this.studyId, this.selectedStudyOrganization.organizationId, personnelRoleMap)
+    this.studyPersonnelService.createStudyPersonnelEntries(this.studyId, this.selectedStudyOrganization.organizationId, new PersonnelRoleMap(personnelRoleMap))
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {

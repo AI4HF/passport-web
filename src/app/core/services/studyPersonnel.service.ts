@@ -5,6 +5,7 @@ import {catchError, map, Observable} from "rxjs";
 import {Personnel} from "../../shared/models/personnel.model";
 import {Study} from "../../shared/models/study.model";
 import {StudyPersonnel} from "../../shared/models/studyPersonnel.model";
+import {PersonnelRoleMap} from "../../shared/models/personnelRoleMap";
 
 /**
  * Service to manage the studyPersonnel.
@@ -66,13 +67,8 @@ export class StudyPersonnelService {
      * @param personnelRoleMap Map of personnel to roles
      * @return {Observable<any>}
      */
-    createStudyPersonnelEntries(studyId: number, organizationId: number, personnelRoleMap: Map<string, string[]>): Observable<any> {
-        const serializedPersonnelRoleMap = Array.from(personnelRoleMap.entries()).map(([personId, roles]) => ({
-            personId,
-            roles
-        }));
-
-        return this.httpClient.post(`${this.endpoint}/personnel?studyId=${studyId}&organizationId=${organizationId}`, serializedPersonnelRoleMap);
+    createStudyPersonnelEntries(studyId: number, organizationId: number, personnelRoleMap: PersonnelRoleMap): Observable<any> {
+        return this.httpClient.post(`${this.endpoint}/personnel?studyId=${studyId}&organizationId=${organizationId}`, personnelRoleMap.personnelRoles);
     }
 
 
