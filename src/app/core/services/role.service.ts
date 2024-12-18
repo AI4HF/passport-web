@@ -67,10 +67,15 @@ export class RoleService {
      * @return {Set<string>} A set of role names.
      */
     getRolesBeautiful(): string[] {
-        const currentRoles = this.getRoles();
+        const currentRoles = this.getRoles() || [];
+        if (!Array.isArray(currentRoles)) {
+            return [];
+        }
+
         return currentRoles.map(role => {
             const matchingRole = ROLES.find(r => r.value === role);
             return matchingRole ? matchingRole.name : role;
         });
     }
+
 }
