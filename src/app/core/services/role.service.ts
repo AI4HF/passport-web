@@ -64,18 +64,21 @@ export class RoleService {
 
     /**
      * Returns a set of readable role names for the current user roles.
-     * @return {Set<string>} A set of role names.
+     * @return {string} A set of role names.
      */
-    getRolesBeautiful(): string[] {
+    getRolesBeautiful(): string {
         const currentRoles = this.getRoles() || [];
-        if (!Array.isArray(currentRoles)) {
-            return [];
+        if (!Array.isArray(currentRoles) || currentRoles.length === 0) {
+            return "No Active Roles";
         }
 
-        return currentRoles.map(role => {
+        const roleNames = currentRoles.map(role => {
             const matchingRole = ROLES.find(r => r.value === role);
             return matchingRole ? matchingRole.name : role;
         });
+
+        return roleNames.join(", ");
     }
+
 
 }
