@@ -71,12 +71,13 @@ export class LoginComponent extends BaseComponent implements OnInit {
                 const helper = new JwtHelperService();
                 const decodedToken = helper.decodeToken(response.access_token);
                 StorageUtil.storeUserId(decodedToken.user_id, rememberMe);
-                StorageUtil.storePersonnelName(decodedToken.preferred_username, rememberMe);
-                const roles: Role[] = decodedToken.realm_access?.roles?.find((role: string) => Role[role as keyof typeof Role] !== undefined);
+                StorageUtil.storePersonnelName(decodedToken.preferred_username, rememberMe)
+                const roles: Role[] = decodedToken.realm_access?.roles?.find((role: string) => (Role[role as keyof typeof Role] !== undefined) && (role == "STUDY_OWNER" || role == "ORGANIZATION_ADMIN"));
                 if(roles != null)
                 {
                     this.roleService.setRoles(roles);
                 }
+                this.fetchLoggedPersonnel(rememberMe);
                 this.navigateAccordingToRole();
             },
             error => {
@@ -98,9 +99,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
             this.personnelService.getPersonnelByPersonId(StorageUtil.retrieveUserId())
                 .pipe(takeUntil(this.destroy$)).subscribe({
                 next: personnel => {
-                    StorageUtil.storePersonnelName(personnel.firstName, rememberMe);
                     StorageUtil.storePersonnelSurname(personnel.lastName, rememberMe);
-                    this.fetchLoggedOrganization(personnel.organizationId, rememberMe);
+                    StorageUtil.storeOrganizationId(personnel.organizationId, rememberMe);
                 },
                 error: (error: any) => {
                     if(error.status === 404) {
@@ -129,7 +129,6 @@ export class LoginComponent extends BaseComponent implements OnInit {
             next: organization => {
                 StorageUtil.storeOrganizationName(organization.name, rememberMe);
                 StorageUtil.storeOrganizationId(organization.organizationId, rememberMe);
-                this.navigateAccordingToRole();
             },
             error: (error: any) => {
                 this.messageService.add({
