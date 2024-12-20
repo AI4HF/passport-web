@@ -109,7 +109,7 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
         if (!this.selectedPersonnel.personId) {
             const credentials = new Credentials(this.personnelForm.value);
             const newPersonnel = new Personnel({ ...formValue, organizationId: this.organizationId });
-            const personnelDTO = new PersonnelDTO({ personnel: newPersonnel, credentials: credentials, isStudyOwner: this.personnelForm.value });
+            const personnelDTO = new PersonnelDTO({ personnel: newPersonnel, credentials: credentials, isStudyOwner: formValue.role });
             this.personnelService.createPersonnelByPersonId(personnelDTO).pipe(takeUntil(this.destroy$)).subscribe({
                 next: personnel => {
                     this.selectedPersonnel = personnel;

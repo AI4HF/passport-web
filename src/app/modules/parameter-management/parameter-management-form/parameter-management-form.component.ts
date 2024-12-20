@@ -128,12 +128,22 @@ export class ParameterManagementFormComponent extends BaseComponent implements O
       const newParameter: Parameter = new Parameter({ ...this.parameterForm.value, studyId: +this.activeStudyService.getActiveStudy() });
       this.parameterService.createParameter(newParameter, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
           .subscribe(() => {
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translateService.instant('Success'),
+              detail: this.translateService.instant('ParameterManagement.Parameter is created successfully')
+            });
             this.closeDialog();
           });
     } else {
       const updatedParameter: Parameter = new Parameter({ parameterId: this.selectedParameter.parameterId, ...this.parameterForm.value });
       this.parameterService.updateParameter(updatedParameter, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
           .subscribe(() => {
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translateService.instant('Success'),
+              detail: this.translateService.instant('ParameterManagement.Parameter is updated successfully')
+            });
             this.closeDialog();
           });
     }

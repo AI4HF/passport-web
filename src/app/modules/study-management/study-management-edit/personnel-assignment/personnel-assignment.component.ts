@@ -240,18 +240,25 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   save() {
     const personnelRoleMap = new Map<string, string[]>();
 
+    const allowedRoleValues = this.allowedRoles.map(role => role.value);
+
     this.personnelRoleMap.forEach((roles, personId) => {
-      personnelRoleMap.set(personId, roles);
+      // Filter roles to include only those allowed in the current study organization
+      const filteredRoles = roles.filter(role => allowedRoleValues.includes(role));
+      personnelRoleMap.set(personId, filteredRoles);
     });
 
-    this.studyPersonnelService.createStudyPersonnelEntries(this.studyId, this.selectedStudyOrganization.organizationId, new PersonnelRoleMap(personnelRoleMap))
-        .pipe(takeUntil(this.destroy$))
+    this.studyPersonnelService.createStudyPersonnelEntries(
+        this.studyId,
+        this.selectedStudyOrganization.organizationId,
+        new PersonnelRoleMap(personnelRoleMap)
+    ).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
             this.messageService.add({
               severity: 'success',
               summary: this.translateService.instant('Success'),
-              detail: this.translateService.instant('StudyManagement.Personnel.RolesAssignedSuccess')
+              detail: this.translateService.instant('StudyManagement.Personnel.Roles are assigned successfully')
             });
           },
           error: () => {
@@ -267,15 +274,15 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
 
   onRoleChange(personnel: Personnel, role: string, isChecked: boolean) {
     const currentRoles = this.personnelRoleMap.get(personnel.personId) || [];
-    const allowedRolesForPersonnel = this.allowedRoles.map(r => r.value);
+    const updatedRoles = isChecked
+        ? [...currentRoles, role]
+        : currentRoles.filter(r => r !== role);
 
-    if (isChecked) {
-      currentRoles.push(role);
-    } else {
-      this.personnelRoleMap.set(personnel.personId, currentRoles.filter(r => r !== role));
-    }
-
-    this.personnelRoleMap.set(personnel.personId, [...new Set(currentRoles)].filter(r => allowedRolesForPersonnel.includes(r)));
+    this.personnelRoleMap.set(
+        personnel.personId,
+        [...new Set(updatedRoles)]
+    );
   }
+
 
 }

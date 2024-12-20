@@ -42,6 +42,7 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
    */
   ngOnInit() {
     if(this.activeStudyService.getActiveStudy()){
+      this.loadModelsByStudyId(+this.activeStudyService.getActiveStudy());
       this.loading = false;
     }
   }

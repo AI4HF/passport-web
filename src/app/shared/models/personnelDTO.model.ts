@@ -30,6 +30,6 @@ export class PersonnelDTO {
 
         this.personnel = new Personnel(data.personnel);
         this.credentials = new Credentials(data.credentials);
-        this.isStudyOwner = data.isStudyOwner.isStudyOwner;
+        this.isStudyOwner = data.isStudyOwner;
     }
 }

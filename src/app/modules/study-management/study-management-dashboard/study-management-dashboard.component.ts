@@ -84,7 +84,7 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
                 .map(study => study.id);
 
             const assignedStudyIds = entries
-                .filter(entry => entry.rolesAsList && entry.rolesAsList.length > 0)
+                .filter(entry => (entry.rolesAsList && entry.rolesAsList.length > 0) && !(entry.rolesAsList.includes(Role.STUDY_OWNER) && entry.rolesAsList.length == 1))
                 .map(entry => entry.id.studyId);
 
             this.roleService.getRolesAsObservable().pipe(takeUntil(this.destroy$))
@@ -136,7 +136,13 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
     this.loadingOwnedStudies = true;
     this.studyService.deleteStudy(id).pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: () => this.loadStudyPersonnelAndStudies(),
+          next: () => {
+            this.loadStudyPersonnelAndStudies();
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translateService.instant('Success'),
+              detail: this.translateService.instant('StudyManagement.Study is deleted successfully')
+            });},
           error: (error: any) => {
             this.messageService.add({
               severity: 'error',
@@ -150,12 +156,21 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
 
   accessStudy(studyId: number) {
     const studyPersonnelEntry = this.studyPersonnelEntries.find(entry => entry.id.studyId === studyId);
-
     if (studyPersonnelEntry) {
 
       const roles = studyPersonnelEntry.rolesAsList;
+      const thisStudy = this.assignedStudies.filter(study => study.id == studyId)
+      if(thisStudy.at(0).owner == StorageUtil.retrieveUserId() && !roles.includes(Role.STUDY_OWNER))
+      {
+        roles.push(Role.STUDY_OWNER);
+      }
       this.roleService.setRoles(roles);
       this.activeStudyService.setActiveStudy(studyId);
+      this.messageService.add({
+        severity: 'success',
+        summary: this.translateService.instant('Success'),
+        detail: this.translateService.instant('StudyManagement.A new study is set as the active study')
+      });
     } else {
       this.messageService.add({
         severity: 'warn',
