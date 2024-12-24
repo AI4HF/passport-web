@@ -78,7 +78,6 @@ export class LoginComponent extends BaseComponent implements OnInit {
                     this.roleService.setRoles(roles);
                 }
                 this.fetchLoggedPersonnel(rememberMe);
-                this.navigateAccordingToRole();
             },
             error => {
                 this.messageService.add({
@@ -96,10 +95,12 @@ export class LoginComponent extends BaseComponent implements OnInit {
      */
     fetchLoggedPersonnel(rememberMe: boolean): void {
         if(StorageUtil.retrieveUserId()){
-            this.personnelService.getPersonnelByPersonId(StorageUtil.retrieveUserId()).subscribe({
+            this.personnelService.getPersonnelByPersonId(StorageUtil.retrieveUserId())
+                .pipe(takeUntil(this.destroy$)).subscribe({
                 next: personnel => {
                     StorageUtil.storePersonnelSurname(personnel.lastName, rememberMe);
                     StorageUtil.storeOrganizationId(personnel.organizationId, rememberMe);
+                    this.navigateAccordingToRole();
                 },
                 error: (error: any) => {
                     if(error.status === 404) {
