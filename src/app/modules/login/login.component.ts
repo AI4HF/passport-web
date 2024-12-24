@@ -96,8 +96,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
      */
     fetchLoggedPersonnel(rememberMe: boolean): void {
         if(StorageUtil.retrieveUserId()){
-            this.personnelService.getPersonnelByPersonId(StorageUtil.retrieveUserId())
-                .pipe(takeUntil(this.destroy$)).subscribe({
+            this.personnelService.getPersonnelByPersonId(StorageUtil.retrieveUserId()).subscribe({
                 next: personnel => {
                     StorageUtil.storePersonnelSurname(personnel.lastName, rememberMe);
                     StorageUtil.storeOrganizationId(personnel.organizationId, rememberMe);
