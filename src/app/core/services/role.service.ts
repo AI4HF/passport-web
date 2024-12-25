@@ -61,24 +61,4 @@ export class RoleService {
         sessionStorage.removeItem('roles');
         this.roles.next([]);
     }
-
-    /**
-     * Returns a set of readable role names for the current user roles.
-     * @return {string} A set of role names.
-     */
-    getRolesBeautiful(): string {
-        const currentRoles = this.getRoles() || [];
-        if (!Array.isArray(currentRoles) || currentRoles.length === 0) {
-            return "No Active Roles";
-        }
-
-        const roleNames = currentRoles.map(role => {
-            const matchingRole = ROLES.find(r => r.value === role);
-            return matchingRole ? matchingRole.name : role;
-        });
-
-        return roleNames.join(", ");
-    }
-
-
 }

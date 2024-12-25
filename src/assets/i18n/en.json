@@ -83,7 +83,7 @@
     }
   },
   "OrganizationManagement": {
-    "Study Owner": "Is Study Owner",
+    "Study Owner": "Set As Study Owner",
     "Organization Form": "Organization Details",
     "Organization Name": "Organization Name",
     "Enter organization name": "Enter organization name",
