@@ -10,6 +10,9 @@ import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthInterceptor} from "./core/guards/auth.interceptor";
+import {NotFoundComponent} from "./modules/not-found-page/not-found-page.component";
+import {CardModule} from "primeng/card";
+import {ButtonModule} from "primeng/button";
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/');
@@ -17,7 +20,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        NotFoundComponent
     ],
     imports: [
         AppRoutingModule,
@@ -31,7 +35,9 @@ export function HttpLoaderFactory(http: HttpClient) {
                 deps: [HttpClient]
             }
         }),
-        ToastModule
+        ToastModule,
+        CardModule,
+        ButtonModule
     ],
     bootstrap: [AppComponent],
     providers: [

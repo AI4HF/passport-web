@@ -1,0 +1,34 @@
+<div class="not-found-container">
+  <p-card header="{{ 'NotFound.Title' | translate }}" class="not-found-card">
+    <div class="not-found-content">
+      <p>{{ 'NotFound.Message' | translate }}</p>
+      <button pButton type="button" label="{{ 'NotFound.HomeButton' | translate }}" icon="pi pi-home" routerLink="/" class="p-button-primary"></button>
+    </div>
+  </p-card>
+</div>
+
+<style>
+  .not-found-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--surface-b);
+  }
+
+  .not-found-card {
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: var(--shadow-2);
+    border-radius: var(--border-radius);
+  }
+
+  .not-found-content p {
+    margin: 1rem 0;
+  }
+
+  .p-button-primary {
+    margin-top: 1rem;
+  }
+</style>

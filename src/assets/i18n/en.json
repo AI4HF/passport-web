@@ -14,6 +14,12 @@
   "Error": "Error",
   "Add": "Add",
   "Finish": "Finish",
+  "NotFound": {
+    "Title": "404 - Page Not Found",
+    "Message": "Sorry, the page you are looking for does not exist.",
+    "HomeButton": "Go Back to Home Page"
+
+  },
   "StudyManagement": {
     "Studies": "Studies",
     "New Study": "New Study",

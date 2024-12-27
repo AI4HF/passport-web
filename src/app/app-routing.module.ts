@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layout/app.layout.component';
 import { authGuard } from './core/guards/auth.guard';
+import {NotFoundComponent} from "./modules/not-found-page/not-found-page.component";
 
 const routerOptions: ExtraOptions = {
     anchorScrolling: 'enabled'
@@ -57,17 +58,17 @@ const routes: Routes = [
                 loadChildren: () => import('./modules/model-management/model-management.module').then(m => m.ModelManagementModule),
                 canActivate: [authGuard]
             },
-
             {
                 path: 'passport-management',
                 loadChildren: () => import('./modules/passport-management/passport-management.module').then(m => m.PassportManagementModule),
                 canActivate: [authGuard]
             },
-            { path: '', redirectTo: '/login', pathMatch: 'full' },
-            { path: '**', redirectTo: '/login'}
+            { path: '', redirectTo: '/login', pathMatch: 'full' }
         ]
-    }
+    },
+    { path: '**', component: NotFoundComponent }
 ];
+
 
 @NgModule({
     imports: [RouterModule.forRoot(routes, routerOptions)],
