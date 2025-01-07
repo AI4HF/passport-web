@@ -61,7 +61,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
      * Loads the Dataset details by id if entity is being edited.
      */
     loadDataset(id: number) {
-        this.datasetService.getDatasetById(id, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
+        this.datasetService.getDatasetById(id, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: dataset => {
                 this.selectedDataset = dataset;
                 this.initializeForm();
@@ -126,7 +126,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
      * Loads the dropdown options for feature sets, populations, and organizations.
      */
     loadDropdowns() {
-        this.featureSetService.getAllFeatureSetsByStudyId(+this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
+        this.featureSetService.getAllFeatureSetsByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: (featuresets) => {
                 this.featuresets = featuresets;
                 if (this.isEditMode) {
@@ -171,7 +171,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
 
         if (!this.selectedDataset.datasetId) {
             const newDataset: Dataset = new Dataset({ ...datasetPayload });
-            this.datasetService.createDataset(newDataset, +this.activeStudyService.getActiveStudy())
+            this.datasetService.createDataset(newDataset, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: dataset => {
@@ -195,7 +195,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
                 });
         } else {
             const updatedDataset: Dataset = new Dataset({ datasetId: this.selectedDataset.datasetId, ...datasetPayload });
-            this.datasetService.updateDataset(updatedDataset, +this.activeStudyService.getActiveStudy())
+            this.datasetService.updateDataset(updatedDataset, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: (dataset: Dataset) => {

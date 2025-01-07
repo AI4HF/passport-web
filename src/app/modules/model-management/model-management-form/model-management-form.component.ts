@@ -57,7 +57,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
    */
   loadModel() {
     if (this.modelId) {
-      this.modelService.getModelById(this.modelId, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+      this.modelService.getModelById(this.modelId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
           .subscribe({
             next: model => {
               this.selectedModel = new Model(model);
@@ -81,7 +81,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
    * Loads the learning process to populate the dropdown.
    */
   loadLearningProcess() {
-    this.learningProcessService.getAllLearningProcessesByStudyId(+this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+    this.learningProcessService.getAllLearningProcessesByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: learningProcess => {
             this.learningProcess = learningProcess;
@@ -159,8 +159,8 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
    */
   saveModel() {
     if (!this.selectedModel.modelId) {
-      const newModel: Model = new Model({ studyId: +this.activeStudyService.getActiveStudy(), ...this.modelForm.value });
-      this.modelService.createModel(newModel, +this.activeStudyService.getActiveStudy())
+      const newModel: Model = new Model({ studyId: this.activeStudyService.getActiveStudy(), ...this.modelForm.value });
+      this.modelService.createModel(newModel, this.activeStudyService.getActiveStudy())
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: model => {
@@ -184,8 +184,8 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
             }
           });
     } else {
-      const updatedModel: Model = new Model({ studyId: +this.activeStudyService.getActiveStudy(), modelId: this.selectedModel.modelId, ...this.modelForm.value });
-      this.modelService.updateModel(updatedModel, +this.activeStudyService.getActiveStudy())
+      const updatedModel: Model = new Model({ studyId: this.activeStudyService.getActiveStudy(), modelId: this.selectedModel.modelId, ...this.modelForm.value });
+      this.modelService.updateModel(updatedModel, this.activeStudyService.getActiveStudy())
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: (model: Model) => {

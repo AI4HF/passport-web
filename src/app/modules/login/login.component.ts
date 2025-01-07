@@ -36,6 +36,21 @@ export class LoginComponent extends BaseComponent implements OnInit {
      * Initial check to skip the login process if the user is already logged in.
      */
     ngOnInit() {
+        const navigationState = this.router.getCurrentNavigation()?.extras.state;
+        console.log(navigationState);
+        if (navigationState) {
+            let message = navigationState['message'];
+            let severity = navigationState['severity'];
+            let detail = navigationState['detail'];
+
+            if (message) {
+                this.messageService.add({
+                    severity: severity,
+                    summary: message,
+                    detail: detail
+                });
+            }
+        }
         this.checkRememberedUser();
     }
 

@@ -20,8 +20,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
     declarations: [
-        AppComponent,
-        NotFoundComponent
+        AppComponent
     ],
     imports: [
         AppRoutingModule,

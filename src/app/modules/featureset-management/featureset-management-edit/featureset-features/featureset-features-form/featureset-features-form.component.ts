@@ -85,7 +85,7 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
      * @param featureId The ID of the feature to be loaded
      */
     loadFeature(featureId: number) {
-        this.featureService.getFeatureById(featureId, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
+        this.featureService.getFeatureById(featureId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: feature => {
                 this.selectedFeature = feature;
                 this.updateForm();
@@ -155,7 +155,7 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
         const formValues = this.featureForm.value;
         if (!this.selectedFeature.featureId) {
             const newFeature: Feature = new Feature({ ...formValues, featuresetId: this.selectedFeatureSetId });
-            this.featureService.createFeature(newFeature, +this.activeStudyService.getActiveStudy())
+            this.featureService.createFeature(newFeature, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: feature => {
@@ -180,7 +180,7 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
                 });
         } else {
             const updatedFeature: Feature = new Feature({ featureId: this.selectedFeature.featureId, featuresetId: this.selectedFeatureSetId, ...formValues });
-            this.featureService.updateFeature(updatedFeature, +this.activeStudyService.getActiveStudy())
+            this.featureService.updateFeature(updatedFeature, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: (feature: Feature) => {

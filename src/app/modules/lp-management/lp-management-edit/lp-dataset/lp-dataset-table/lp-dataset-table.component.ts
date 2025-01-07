@@ -65,7 +65,7 @@ export class LpDatasetTableComponent extends BaseComponent implements OnInit {
      * Loads the learning datasets and then loads the learning process datasets.
      */
     loadLearningDatasets() {
-        this.learningDatasetService.getAllLearningDatasetsByStudyId(+this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+        this.learningDatasetService.getAllLearningDatasetsByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: datasets => {
                     this.learningDatasets = datasets;
@@ -86,7 +86,7 @@ export class LpDatasetTableComponent extends BaseComponent implements OnInit {
      * Loads the learning process datasets and maps them with the learning dataset descriptions.
      */
     loadLearningProcessDatasets() {
-        this.learningProcessDatasetService.getLearningProcessDatasetsByLearningProcessId(this.learningProcessId, +this.activeStudyService.getActiveStudy())
+        this.learningProcessDatasetService.getLearningProcessDatasetsByLearningProcessId(this.learningProcessId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningProcessDatasets => {
@@ -122,7 +122,7 @@ export class LpDatasetTableComponent extends BaseComponent implements OnInit {
         this.learningProcessDatasetService.deleteLearningProcessDataset(
             learningProcessDataset.learningProcessDataset.learningProcessId,
             learningProcessDataset.learningProcessDataset.learningDatasetId,
-            +this.activeStudyService.getActiveStudy()
+            this.activeStudyService.getActiveStudy()
         ).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {

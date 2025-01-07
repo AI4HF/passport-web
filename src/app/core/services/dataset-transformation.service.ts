@@ -43,8 +43,8 @@ export class DatasetTransformationService {
      * @param studyId
      * @return {Observable<DatasetTransformation>}
      */
-    getDatasetTransformationById(id: number, studyId: number): Observable<DatasetTransformation> {
-        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
+    getDatasetTransformationById(id: number, studyId: String): Observable<DatasetTransformation> {
+        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
         return this.httpClient.get<DatasetTransformation>(url)
             .pipe(
                 map((response: any) => {
@@ -63,8 +63,8 @@ export class DatasetTransformationService {
      * @param studyId
      * @return {Observable<any>}
      */
-    deleteDatasetTransformation(id: number, studyId: number): Observable<any> {
-        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
+    deleteDatasetTransformation(id: number, studyId: String): Observable<any> {
+        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) => {

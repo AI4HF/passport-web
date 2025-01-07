@@ -25,8 +25,8 @@ export class ParameterService {
      * @param studyId The ID of the study
      * @return {Observable<Parameter[]>}
      */
-    getAllParametersByStudyId(studyId: number): Observable<Parameter[]> {
-        const url = `${this.endpoint}?studyId=${studyId}`;
+    getAllParametersByStudyId(studyId: String): Observable<Parameter[]> {
+        const url = `${this.endpoint}?studyId=${+studyId}`;
         return this.httpClient.get<Parameter[]>(url)
             .pipe(
                 map((response: any) =>{
@@ -45,8 +45,8 @@ export class ParameterService {
      * @param studyId
      * @return {Observable<Parameter>}
      */
-    getParameterById(id: number, studyId: number): Observable<Parameter> {
-        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
+    getParameterById(id: number, studyId: String): Observable<Parameter> {
+        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
         return this.httpClient.get<Parameter>(url)
             .pipe(
                 map((response: any) =>{
@@ -65,8 +65,8 @@ export class ParameterService {
      * @param studyId
      * @return {Observable<Parameter>}
      */
-    createParameter(parameter: Parameter, studyId: number): Observable<Parameter> {
-        const url = `${this.endpoint}?studyId=${studyId}`;
+    createParameter(parameter: Parameter, studyId: String): Observable<Parameter> {
+        const url = `${this.endpoint}?studyId=${+studyId}`;
         return this.httpClient.post<Parameter>(url, parameter)
             .pipe(
                 map((response: any) =>{
@@ -85,8 +85,8 @@ export class ParameterService {
      * @param studyId
      * @return {Observable<Parameter>}
      */
-    updateParameter(parameter: Parameter, studyId: number): Observable<Parameter> {
-        const url = `${this.endpoint}/${parameter.parameterId}?studyId=${studyId}`;
+    updateParameter(parameter: Parameter, studyId: String): Observable<Parameter> {
+        const url = `${this.endpoint}/${parameter.parameterId}?studyId=${+studyId}`;
         return this.httpClient.put<Parameter>(url, parameter)
             .pipe(
                 map((response: any) =>{
@@ -105,8 +105,8 @@ export class ParameterService {
      * @param studyId
      * @return {Observable<any>}
      */
-    deleteParameter(id: number, studyId: number): Observable<any>{
-        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
+    deleteParameter(id: number, studyId: String): Observable<any>{
+        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) =>{

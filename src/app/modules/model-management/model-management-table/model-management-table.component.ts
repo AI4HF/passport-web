@@ -42,7 +42,7 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
    */
   ngOnInit() {
     if(this.activeStudyService.getActiveStudy()){
-      this.loadModelsByStudyId(+this.activeStudyService.getActiveStudy());
+      this.loadModelsByStudyId(this.activeStudyService.getActiveStudy());
       this.loading = false;
     }
   }
@@ -51,7 +51,7 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
    * Loads the list of models by studyId.
    * @param studyId ID of the study
    */
-  loadModelsByStudyId(studyId: number) {
+  loadModelsByStudyId(studyId: String) {
     this.modelService.getModelsByStudyId(studyId).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: models => {
@@ -102,7 +102,7 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
    * @param modelId The ID of the model to be deleted
    */
   deleteModel(modelId: number) {
-    this.modelService.deleteModel(modelId, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+    this.modelService.deleteModel(modelId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
             this.modelList = this.modelList.filter(model => model.modelId !== modelId);
@@ -128,7 +128,7 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
   onFormClosed() {
     this.selectedModelId = null;
     this.displayForm = false;
-    this.loadModelsByStudyId(+this.activeStudyService.getActiveStudy());
+    this.loadModelsByStudyId(this.activeStudyService.getActiveStudy());
   }
 
 }

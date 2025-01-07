@@ -15,7 +15,7 @@ export const FeatureSetResolver: ResolveFn<FeatureSet> = (route: ActivatedRouteS
     // if an id is given, then an existing page will be resolved
     if (route.paramMap.get('id') !== 'new') {
         const id = Number(route.paramMap.get('id'));
-        return featureSetService.getFeatureSetById(id, +activeStudyService.getActiveStudy());
+        return featureSetService.getFeatureSetById(id, activeStudyService.getActiveStudy());
     }
     // otherwise, we can assume that a new page can be created
     else {

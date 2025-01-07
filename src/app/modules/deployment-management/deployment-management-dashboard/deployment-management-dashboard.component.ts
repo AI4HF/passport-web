@@ -39,7 +39,7 @@ export class DeploymentManagementDashboardComponent extends BaseComponent implem
 
   ngOnInit() {
     if(this.activeStudyService.getActiveStudy()){
-      this.loadModelDeploymentsByStudyId(+this.activeStudyService.getActiveStudy());
+      this.loadModelDeploymentsByStudyId(this.activeStudyService.getActiveStudy());
     }
   }
 
@@ -47,7 +47,7 @@ export class DeploymentManagementDashboardComponent extends BaseComponent implem
    * Retrieves all model deployments from the server by studyId
    * @param studyId ID of the study
    */
-  loadModelDeploymentsByStudyId(studyId: number){
+  loadModelDeploymentsByStudyId(studyId: String){
     this.loading = true;
     this.modelDeploymentService.getModelDeploymentListByStudyId(studyId)
         .pipe(takeUntil(this.destroy$))
@@ -93,10 +93,10 @@ export class DeploymentManagementDashboardComponent extends BaseComponent implem
    */
   deleteModelDeployment(id: number){
     this.loading = true;
-    this.modelDeploymentService.deleteModelDeployment(id, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+    this.modelDeploymentService.deleteModelDeployment(id, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response: any) => {
-            this.loadModelDeploymentsByStudyId(+this.activeStudyService.getActiveStudy());
+            this.loadModelDeploymentsByStudyId(this.activeStudyService.getActiveStudy());
             this.messageService.add({
               severity: 'success',
               summary: this.translateService.instant('Success'),

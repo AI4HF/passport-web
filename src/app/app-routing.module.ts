@@ -63,10 +63,14 @@ const routes: Routes = [
                 loadChildren: () => import('./modules/passport-management/passport-management.module').then(m => m.PassportManagementModule),
                 canActivate: [authGuard]
             },
+            {
+                path: 'not-found',
+                loadChildren: () => import('./modules/not-found-page/not-found-page.module').then(m => m.NotFoundModule)
+            },
             { path: '', redirectTo: '/login', pathMatch: 'full' }
         ]
     },
-    { path: '**', component: NotFoundComponent }
+    { path: '**', redirectTo: 'not-found' }
 ];
 
 

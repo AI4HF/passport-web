@@ -41,8 +41,8 @@ export class LearningProcessParameterService {
      * Retrieves learning process parameters by learning process id
      * @return {Observable<LearningProcessParameter[]>}
      */
-    getLearningProcessParametersByProcessId(learningProcessId: number, studyId: number): Observable<LearningProcessParameter[]> {
-        const url = `${this.endpoint}?learningProcessId=${learningProcessId}&studyId=${studyId}`;
+    getLearningProcessParametersByProcessId(learningProcessId: number, studyId: String): Observable<LearningProcessParameter[]> {
+        const url = `${this.endpoint}?learningProcessId=${learningProcessId}&studyId=${+studyId}`;
         return this.httpClient.get<LearningProcessParameter[]>(url)
             .pipe(
                 map((response: any) => {
@@ -62,8 +62,8 @@ export class LearningProcessParameterService {
      * @param studyId
      * @return {Observable<LearningProcessParameter>}
      */
-    getLearningProcessParameterById(learningProcessId: number, parameterId: number, studyId: number): Observable<LearningProcessParameter> {
-        const url = `${this.endpoint}?learningProcessId=${learningProcessId}&parameterId=${parameterId}&studyId=${studyId}`;
+    getLearningProcessParameterById(learningProcessId: number, parameterId: number, studyId: String): Observable<LearningProcessParameter> {
+        const url = `${this.endpoint}?learningProcessId=${learningProcessId}&parameterId=${parameterId}&studyId=${+studyId}`;
         return this.httpClient.get<LearningProcessParameter>(url)
             .pipe(
                 map((response: any) => {
@@ -82,8 +82,8 @@ export class LearningProcessParameterService {
      * @param studyId
      * @return {Observable<LearningProcessParameter>}
      */
-    createLearningProcessParameter(learningProcessParameter: LearningProcessParameter, studyId: number): Observable<LearningProcessParameter> {
-        const url = `${this.endpoint}?studyId=${studyId}`;
+    createLearningProcessParameter(learningProcessParameter: LearningProcessParameter, studyId: String): Observable<LearningProcessParameter> {
+        const url = `${this.endpoint}?studyId=${+studyId}`;
         return this.httpClient.post<LearningProcessParameter>(url, learningProcessParameter)
             .pipe(
                 map((response: any) => {
@@ -102,8 +102,8 @@ export class LearningProcessParameterService {
      * @param studyId
      * @return {Observable<LearningProcessParameter>}
      */
-    updateLearningProcessParameter(learningProcessParameter: LearningProcessParameter, studyId: number): Observable<LearningProcessParameter> {
-        const url = `${this.endpoint}?learningProcessId=${learningProcessParameter.learningProcessId}&parameterId=${learningProcessParameter.parameterId}&studyId=${studyId}`;
+    updateLearningProcessParameter(learningProcessParameter: LearningProcessParameter, studyId: String): Observable<LearningProcessParameter> {
+        const url = `${this.endpoint}?learningProcessId=${learningProcessParameter.learningProcessId}&parameterId=${learningProcessParameter.parameterId}&studyId=${+studyId}`;
         return this.httpClient.put<LearningProcessParameter>(url, learningProcessParameter)
             .pipe(
                 map((response: any) => {
@@ -123,8 +123,8 @@ export class LearningProcessParameterService {
      * @param studyId
      * @return {Observable<any>}
      */
-    deleteLearningProcessParameter(learningProcessId: number, parameterId: number, studyId: number): Observable<any> {
-        const url = `${this.endpoint}?learningProcessId=${learningProcessId}&parameterId=${parameterId}&studyId=${studyId}`;
+    deleteLearningProcessParameter(learningProcessId: number, parameterId: number, studyId: String): Observable<any> {
+        const url = `${this.endpoint}?learningProcessId=${learningProcessId}&parameterId=${parameterId}&studyId=${+studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) => {

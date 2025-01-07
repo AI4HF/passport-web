@@ -43,8 +43,8 @@ export class SurveyService {
      * @param studyId
      * @return {Observable<Survey>}
      */
-    getSurveyById(id: number, studyId: number): Observable<Survey> {
-        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
+    getSurveyById(id: number, studyId: String): Observable<Survey> {
+        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
         return this.httpClient.get<Survey>(url)
             .pipe(
                 map((response: any) =>{
@@ -82,8 +82,8 @@ export class SurveyService {
      * @param studyId
      * @return {Observable<Survey>}
      */
-    createSurvey(survey: Survey, studyId: number): Observable<Survey> {
-        const url = `${this.endpoint}?studyId=${studyId}`;
+    createSurvey(survey: Survey, studyId: String): Observable<Survey> {
+        const url = `${this.endpoint}?studyId=${+studyId}`;
         return this.httpClient.post<Survey>(url, survey)
             .pipe(
                 map((response: any) =>{
@@ -102,8 +102,8 @@ export class SurveyService {
      * @param studyId
      * @return {Observable<Survey>}
      */
-    updateSurvey(survey: Survey, studyId: number): Observable<Survey> {
-        const url = `${this.endpoint}/${survey.surveyId}?studyId=${studyId}`;
+    updateSurvey(survey: Survey, studyId: String): Observable<Survey> {
+        const url = `${this.endpoint}/${survey.surveyId}?studyId=${+studyId}`;
         return this.httpClient.put<Survey>(url, survey)
             .pipe(
                 map((response: any) =>{
@@ -123,7 +123,7 @@ export class SurveyService {
      * @return {Observable<any>}
      */
     deleteSurvey(id: number, studyId:number): Observable<any>{
-        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
+        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) =>{

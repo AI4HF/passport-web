@@ -15,7 +15,7 @@ export const DatasetResolver: ResolveFn<Dataset> = (route: ActivatedRouteSnapsho
     // if an id is given, then an existing page will be resolved
     if (route.paramMap.get('id') !== 'new') {
         const id = Number(route.paramMap.get('id'));
-        return datasetService.getDatasetById(id, +activeStudyService.getActiveStudy());
+        return datasetService.getDatasetById(id, activeStudyService.getActiveStudy());
     }
     // otherwise, we can assume that a new page can be created
     else {

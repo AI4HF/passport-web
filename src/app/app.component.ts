@@ -9,7 +9,7 @@ import {TranslateService} from "@ngx-translate/core";
     providers: [MessageService]
 })
 export class AppComponent implements OnInit {
-    constructor(private primengConfig: PrimeNGConfig, private layoutService: LayoutService, private translate: TranslateService) {
+    constructor(private primengConfig: PrimeNGConfig, private layoutService: LayoutService) {
         // Inject data service at the beginning for initialization
     }
 

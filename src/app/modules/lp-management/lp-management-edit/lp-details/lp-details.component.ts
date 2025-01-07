@@ -90,7 +90,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
      * @param id The ID of the learning process
      */
     loadLearningProcess(id: number) {
-        this.learningProcessService.getLearningProcessById(id, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
+        this.learningProcessService.getLearningProcessById(id, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: learningProcess => {
                 this.selectedLearningProcess = learningProcess;
                 this.loadImplementation(learningProcess.implementationId);
@@ -110,7 +110,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
      * @param implementationId The ID of the implementation
      */
     loadImplementation(implementationId: number) {
-        this.implementationService.getImplementationById(implementationId, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
+        this.implementationService.getImplementationById(implementationId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: implementation => {
                 this.selectedImplementation = implementation;
                 this.initializeForm();
@@ -169,7 +169,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
      * Loads the algorithms and groups them by their type.
      */
     loadAlgorithms() {
-        this.algorithmService.getAllAlgorithms(+this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
+        this.algorithmService.getAllAlgorithms(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: algorithms => {
                 this.groupAlgorithmsByType(algorithms);
                 this.filteredAlgorithms = algorithms;
@@ -251,7 +251,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                 objectiveFunction: 'Custom'
             });
 
-            this.algorithmService.createAlgorithm(newAlgorithm, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
+            this.algorithmService.createAlgorithm(newAlgorithm, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
                 next: (createdAlgorithm: Algorithm) => {
                     formValues.algorithm = createdAlgorithm;
                     this.saveFormWithCreatedAlgorithm(formValues, implementationPayload);
@@ -277,7 +277,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
     saveFormWithCreatedAlgorithm(formValues: any, implementationPayload: any) {
         if (!this.selectedImplementation.implementationId) {
             const newImplementation: Implementation = new Implementation({ ...implementationPayload, algorithmId: formValues.algorithm.algorithmId });
-            this.implementationService.createImplementation(newImplementation, +this.activeStudyService.getActiveStudy())
+            this.implementationService.createImplementation(newImplementation, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: implementation => {
@@ -298,7 +298,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                 ...implementationPayload,
                 algorithmId: formValues.algorithm.algorithmId
             });
-            this.implementationService.updateImplementation(updatedImplementation, +this.activeStudyService.getActiveStudy())
+            this.implementationService.updateImplementation(updatedImplementation, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: implementation => {
@@ -330,10 +330,10 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
 
         if (!this.selectedLearningProcess.learningProcessId) {
             const newLearningProcess: LearningProcess = new LearningProcess({
-                studyId: +this.activeStudyService.getActiveStudy(),
+                studyId: this.activeStudyService.getActiveStudy(),
                 ...learningProcessPayload
             });
-            this.learningProcessService.createLearningProcess(newLearningProcess, +this.activeStudyService.getActiveStudy())
+            this.learningProcessService.createLearningProcess(newLearningProcess, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: learningProcess => {
@@ -358,7 +358,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                 learningProcessId: this.selectedLearningProcess.learningProcessId,
                 ...learningProcessPayload
             });
-            this.learningProcessService.updateLearningProcess(updatedLearningProcess, +this.activeStudyService.getActiveStudy())
+            this.learningProcessService.updateLearningProcess(updatedLearningProcess, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: learningProcess => {

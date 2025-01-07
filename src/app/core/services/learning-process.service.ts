@@ -24,8 +24,8 @@ export class LearningProcessService {
      * @param studyId Id of the study
      * @return {Observable<LearningProcess[]>}
      */
-    getAllLearningProcessesByStudyId(studyId: number): Observable<LearningProcess[]> {
-        const url = `${this.endpoint}?studyId=${studyId}`;
+    getAllLearningProcessesByStudyId(studyId: String): Observable<LearningProcess[]> {
+        const url = `${this.endpoint}?studyId=${+studyId}`;
         return this.httpClient.get<LearningProcess[]>(url)
             .pipe(
                 map((response: any) => {
@@ -44,8 +44,8 @@ export class LearningProcessService {
      * @param studyId
      * @return {Observable<LearningProcess>}
      */
-    getLearningProcessById(id: number, studyId: number): Observable<LearningProcess> {
-        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
+    getLearningProcessById(id: number, studyId: String): Observable<LearningProcess> {
+        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
         return this.httpClient.get<LearningProcess>(url)
             .pipe(
                 map((response: any) => {
@@ -64,8 +64,8 @@ export class LearningProcessService {
      * @param studyId
      * @return {Observable<LearningProcess>}
      */
-    createLearningProcess(learningProcess: LearningProcess, studyId: number): Observable<LearningProcess> {
-        const url = `${this.endpoint}?studyId=${studyId}`;
+    createLearningProcess(learningProcess: LearningProcess, studyId: String): Observable<LearningProcess> {
+        const url = `${this.endpoint}?studyId=${+studyId}`;
         return this.httpClient.post<LearningProcess>(url, learningProcess)
             .pipe(
                 map((response: any) => {
@@ -84,8 +84,8 @@ export class LearningProcessService {
      * @param studyId
      * @return {Observable<LearningProcess>}
      */
-    updateLearningProcess(learningProcess: LearningProcess, studyId: number): Observable<LearningProcess> {
-        const url = `${this.endpoint}/${learningProcess.learningProcessId}?studyId=${studyId}`;
+    updateLearningProcess(learningProcess: LearningProcess, studyId: String): Observable<LearningProcess> {
+        const url = `${this.endpoint}/${learningProcess.learningProcessId}?studyId=${+studyId}`;
         return this.httpClient.put<LearningProcess>(url, learningProcess)
             .pipe(
                 map((response: any) => {

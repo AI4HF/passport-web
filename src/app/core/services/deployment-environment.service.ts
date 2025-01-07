@@ -26,8 +26,8 @@ export class DeploymentEnvironmentService {
      * @param studyId
      * @return {Observable<DeploymentEnvironment>}
      */
-    getDeploymentEnvironmentById(id: number, studyId: number): Observable<DeploymentEnvironment> {
-        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
+    getDeploymentEnvironmentById(id: number, studyId: String): Observable<DeploymentEnvironment> {
+        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
         return this.httpClient.get<DeploymentEnvironment>(url)
             .pipe(
                 map((response: any) =>{
@@ -46,8 +46,8 @@ export class DeploymentEnvironmentService {
      * @param studyId
      * @return {Observable<DeploymentEnvironment>}
      */
-    updateDeploymentEnvironment(deploymentEnvironment: DeploymentEnvironment, studyId: number): Observable<DeploymentEnvironment>{
-        const url = `${this.endpoint}/${deploymentEnvironment.environmentId}?studyId=${studyId}`;
+    updateDeploymentEnvironment(deploymentEnvironment: DeploymentEnvironment, studyId: String): Observable<DeploymentEnvironment>{
+        const url = `${this.endpoint}/${deploymentEnvironment.environmentId}?studyId=${+studyId}`;
         return this.httpClient.put<DeploymentEnvironment>(url, deploymentEnvironment)
             .pipe(
                 map((response: any) =>{
@@ -85,8 +85,8 @@ export class DeploymentEnvironmentService {
      * @param studyId
      * @return {Observable<DeploymentEnvironment>}
      */
-    createDeploymentEnvironment(deploymentEnvironment: DeploymentEnvironment, studyId: number): Observable<DeploymentEnvironment>{
-        const url = `${this.endpoint}?studyId=${studyId}`;
+    createDeploymentEnvironment(deploymentEnvironment: DeploymentEnvironment, studyId: String): Observable<DeploymentEnvironment>{
+        const url = `${this.endpoint}?studyId=${+studyId}`;
         return this.httpClient.post<DeploymentEnvironment>(url, deploymentEnvironment)
             .pipe(
                 map((response: any) =>{

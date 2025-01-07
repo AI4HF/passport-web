@@ -46,7 +46,7 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
                     this.selectedDeploymentEnvironment = new DeploymentEnvironment({});
                     this.initializeForm();
                 } else {
-                    this.deploymentEnvironmentService.getDeploymentEnvironmentById(+this.environmentIdParam, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+                    this.deploymentEnvironmentService.getDeploymentEnvironmentById(+this.environmentIdParam, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
                         .subscribe({
                             next: deploymentEnvironment => {
                                 this.selectedDeploymentEnvironment = deploymentEnvironment;
@@ -99,7 +99,7 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
         // creating new deployment environment using form inputs
         if(this.environmentIdParam === 'new'){
             const newDeploymentEnvironment: DeploymentEnvironment = new DeploymentEnvironment({ ...this.deploymentEnvironmentForm.value});
-            this.deploymentEnvironmentService.createDeploymentEnvironment(newDeploymentEnvironment, +this.activeStudyService.getActiveStudy())
+            this.deploymentEnvironmentService.createDeploymentEnvironment(newDeploymentEnvironment, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: deploymentEnvironment => {
@@ -121,7 +121,7 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
                 });
         }else{
             const updatedDeploymentEnvironment: DeploymentEnvironment = {environmentId: this.selectedDeploymentEnvironment.environmentId, ...this.deploymentEnvironmentForm.value};
-            this.deploymentEnvironmentService.updateDeploymentEnvironment(updatedDeploymentEnvironment, +this.activeStudyService.getActiveStudy())
+            this.deploymentEnvironmentService.updateDeploymentEnvironment(updatedDeploymentEnvironment, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: (deploymentEnvironment: DeploymentEnvironment) => {

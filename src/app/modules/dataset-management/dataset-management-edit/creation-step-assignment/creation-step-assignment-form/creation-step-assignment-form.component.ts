@@ -111,7 +111,7 @@ export class CreationStepAssignmentFormComponent extends BaseComponent implement
         this.transformationStepService.updateDatasetTransformationStep({
             ...this.transformationStep,
             ...transformationStepPayload
-        }, +this.activeStudyService.getActiveStudy()).pipe(
+        }, this.activeStudyService.getActiveStudy()).pipe(
             takeUntil(this.destroy$)
         ).subscribe({
             next: step => {
@@ -137,7 +137,7 @@ export class CreationStepAssignmentFormComponent extends BaseComponent implement
      * @param transformationStepPayload The payload with the transformation step data
      */
     createTransformationStep(transformationStepPayload: any) {
-        this.transformationStepService.createDatasetTransformationStep(transformationStepPayload, +this.activeStudyService.getActiveStudy())
+        this.transformationStepService.createDatasetTransformationStep(transformationStepPayload, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: step => {

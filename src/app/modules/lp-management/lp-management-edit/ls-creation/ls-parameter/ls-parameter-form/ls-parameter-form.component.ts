@@ -79,7 +79,7 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
      * Only executed when creating a new entry, not during updates.
      */
     loadParameters() {
-        this.parameterService.getAllParametersByStudyId(+this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+        this.parameterService.getAllParametersByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: parameters => {
                     this.parameters = parameters;
@@ -100,7 +100,7 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
      * If the filtered list is empty, closes the form and shows an error message.
      */
     filterAvailableParameters() {
-        this.learningStageParameterService.getLearningStageParametersByStageId(this.learningStageId, +this.activeStudyService.getActiveStudy())
+        this.learningStageParameterService.getLearningStageParametersByStageId(this.learningStageId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningStageParameters => {
@@ -130,7 +130,7 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
      * Loads the parameter assignment data if editing.
      */
     loadParameterById() {
-        this.parameterService.getParameterById(this.parameterId, +this.activeStudyService.getActiveStudy())
+        this.parameterService.getParameterById(this.parameterId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: parameter => {
@@ -154,7 +154,7 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
      * Updates the form with the loaded parameter assignment details.
      */
     updateForm() {
-        this.learningStageParameterService.getLearningStageParameterById(this.learningStageId, this.parameterId, +this.activeStudyService.getActiveStudy())
+        this.learningStageParameterService.getLearningStageParameterById(this.learningStageId, this.parameterId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningStageParameter => {
@@ -187,7 +187,7 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
         });
 
         if (this.isUpdateMode) {
-            this.learningStageParameterService.updateLearningStageParameter(payload, +this.activeStudyService.getActiveStudy())
+            this.learningStageParameterService.updateLearningStageParameter(payload, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: () => {
@@ -207,7 +207,7 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
                     }
                 });
         } else {
-            this.learningStageParameterService.createLearningStageParameter(payload, +this.activeStudyService.getActiveStudy())
+            this.learningStageParameterService.createLearningStageParameter(payload, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: () => {

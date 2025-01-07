@@ -61,7 +61,7 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
      */
     loadSurvey() {
         if (this.surveyId) {
-            this.surveyService.getSurveyById(this.surveyId, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+            this.surveyService.getSurveyById(this.surveyId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: survey => {
                         this.selectedSurvey = survey;
@@ -140,12 +140,12 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
         const surveyData = {
             ...formValue,
             category: categoryValue,
-            studyId: +this.activeStudyService.getActiveStudy()
+            studyId: this.activeStudyService.getActiveStudy()
         };
 
         if (!this.selectedSurvey.surveyId) {
             const newSurvey: Survey = new Survey(surveyData);
-            this.surveyService.createSurvey(newSurvey, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
+            this.surveyService.createSurvey(newSurvey, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
                 next: survey => {
                     this.selectedSurvey = survey;
                     this.initializeForm();
@@ -172,7 +172,7 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
                 ...surveyData,
                 studyId: this.selectedSurvey.studyId
             });
-            this.surveyService.updateSurvey(updatedSurvey, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
+            this.surveyService.updateSurvey(updatedSurvey, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
                 next: survey => {
                     this.selectedSurvey = survey;
                     this.initializeForm();

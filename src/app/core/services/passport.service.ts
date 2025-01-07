@@ -26,8 +26,8 @@ export class PassportService {
      * Retrieves all passports by studyId
      * @return {Observable<Passport[]>}
      */
-    getPassportListByStudy(studyId: number): Observable<Passport[]> {
-        const url = `${this.endpoint}?studyId=${studyId}`;
+    getPassportListByStudy(studyId: String): Observable<Passport[]> {
+        const url = `${this.endpoint}?studyId=${+studyId}`;
         return this.httpClient.get<Passport[]>(url)
             .pipe(
                 map((response: any) => {
@@ -65,8 +65,8 @@ export class PassportService {
      * @param studyId
      * @return {Observable<any>}
      */
-    deletePassport(id: number, studyId: number): Observable<any>{
-        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
+    deletePassport(id: number, studyId: String): Observable<any>{
+        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) =>{
@@ -85,8 +85,8 @@ export class PassportService {
      * @param studyId
      * @return {Observable<Passport>}
      */
-    createPassport(passportWithDetailSelection: PassportWithDetailSelection, studyId: number): Observable<Passport>{
-        const url = `${this.endpoint}?studyId=${studyId}`;
+    createPassport(passportWithDetailSelection: PassportWithDetailSelection, studyId: String): Observable<Passport>{
+        const url = `${this.endpoint}?studyId=${+studyId}`;
         passportWithDetailSelection.passport.createdBy = StorageUtil.retrieveUserId();
         passportWithDetailSelection.passport.approvedBy = StorageUtil.retrieveUserId();
 
@@ -108,8 +108,8 @@ export class PassportService {
      * @param studyId
      * @return {Observable<PassportDetailsDTO>}
      */
-    getPassportDetailsById(id: number, studyId: number): Observable<PassportDetailsDTO> {
-        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
+    getPassportDetailsById(id: number, studyId: String): Observable<PassportDetailsDTO> {
+        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
         return this.httpClient.get<PassportDetailsDTO>(url)
             .pipe(
                 map((response: any) => {

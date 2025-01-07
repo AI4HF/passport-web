@@ -117,7 +117,7 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
 
         if (!this.selectedFeatureSet.featuresetId) {
             const newFeatureSet: FeatureSet = new FeatureSet({ ...featureSetPayload });
-            this.featureSetService.createFeatureSet(newFeatureSet, +this.activeStudyService.getActiveStudy())
+            this.featureSetService.createFeatureSet(newFeatureSet, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: featureSet => {
@@ -141,7 +141,7 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
                 });
         } else {
             const updatedFeatureSet: FeatureSet = new FeatureSet({ featuresetId: this.selectedFeatureSet.featuresetId, ...featureSetPayload });
-            this.featureSetService.updateFeatureSet(updatedFeatureSet, +this.activeStudyService.getActiveStudy())
+            this.featureSetService.updateFeatureSet(updatedFeatureSet, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: (featureSet: FeatureSet) => {
