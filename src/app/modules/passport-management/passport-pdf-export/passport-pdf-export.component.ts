@@ -12,6 +12,7 @@ import { Survey } from '../../../shared/models/survey.model';
 import { DatasetWithLearningDatasetsDTO } from '../../../shared/models/datasetWithLearningDatasetsDTO.model';
 import { FeatureSetWithFeaturesDTO } from '../../../shared/models/featureSetWithFeaturesDTO.model';
 import { LearningProcessWithStagesDTO } from '../../../shared/models/learningProcessWithStagesDTO.model';
+import {PassportService} from "../../../core/services/passport.service";
 
 /**
  * Component responsible for generating and exporting the passport PDF.
@@ -44,6 +45,7 @@ export class PdfExportComponent {
     @Input() featureSetsWithFeatures: FeatureSetWithFeaturesDTO[] = [];
     /** Learning processes with stages to be included in the PDF */
     @Input() learningProcessesWithStages: LearningProcessWithStagesDTO[] = [];
+    @Input() signature: Uint8Array = null;
 
     /** Flag to control the visibility of the PDF preview */
     display: boolean = true;
@@ -51,44 +53,69 @@ export class PdfExportComponent {
     /** Event emitted when the PDF preview is closed */
     @Output() pdfPreviewClosed = new EventEmitter<void>();
 
+    constructor(private passportService: PassportService) {}
+
     /**
      * Generates the PDF for the passport using the provided details.
      */
     generatePdf() {
         const dataElement = document.getElementById('pdfPreviewContainer');
-        if (dataElement) {
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = pdf.internal.pageSize.getHeight();
+        if (!dataElement) {
+            return;
+        }
 
-            html2canvas(dataElement, {
-                scrollY: -window.scrollY,
-                scale: 2,
-                windowWidth: dataElement.scrollWidth,
-                windowHeight: dataElement.scrollHeight
-            }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const imgProps = pdf.getImageProperties(imgData);
-                const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                let heightLeft = imgHeight;
-                let position = 0;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
 
+        html2canvas(dataElement, {
+            scrollY: -window.scrollY,
+            scale: 2,
+            windowWidth: dataElement.scrollWidth,
+            windowHeight: dataElement.scrollHeight
+        }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const imgProps = pdf.getImageProperties(imgData);
+            const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            let heightLeft = imgHeight;
+            let position = 0;
+
+            pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+            heightLeft -= pdfHeight;
+
+            while (heightLeft > 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
                 pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
                 heightLeft -= pdfHeight;
+            }
 
-                while (heightLeft > 0) {
-                    position = heightLeft - imgHeight;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-                    heightLeft -= pdfHeight;
+            // Instead of .then(), directly store as Blob
+            const pdfBlob: Blob = pdf.output('blob') as Blob;
+
+            // Example studyId usage if you have it:
+            const studyId = this.studyDetails?.id || 0;
+
+            // Now call your signing service
+            this.passportService.signPdf(pdfBlob, studyId).subscribe({
+                next: (signedPdfBlob: Blob) => {
+                    // Download the signed PDF
+                    const downloadUrl = URL.createObjectURL(signedPdfBlob);
+                    const link = document.createElement('a');
+                    link.href = downloadUrl;
+                    link.download = 'DeploymentDetails_signed.pdf';
+                    link.click();
+
+                    URL.revokeObjectURL(downloadUrl);
+                    this.closeDialog();
+                },
+                error: (err) => {
+                    console.error('Error signing PDF:', err);
                 }
-
-                pdf.save('DeploymentDetails.pdf');
-                this.closeDialog();
-            }).catch(error => {
-                console.error('Error generating PDF:', error);
             });
-        }
+        }).catch(error => {
+            console.error('Error generating PDF:', error);
+        });
     }
 
     /**
