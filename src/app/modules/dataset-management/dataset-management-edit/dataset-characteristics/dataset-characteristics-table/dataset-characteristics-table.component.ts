@@ -63,7 +63,7 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
      * Loads the list of features.
      */
     loadFeatures() {
-        this.featureService.getAllFeatures().pipe(takeUntil(this.destroy$)).subscribe({
+        this.featureService.getAllFeatures(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: features => {
                 this.featureMap = new Map(features.map(feature => [feature.featureId, feature.title]));
                 this.loadCharacteristics();
@@ -83,7 +83,7 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
      * Loads the characteristics of the selected dataset.
      */
     loadCharacteristics() {
-        this.datasetCharacteristicService.getCharacteristicsByDatasetId(this.selectedDatasetId).pipe(takeUntil(this.destroy$))
+        this.datasetCharacteristicService.getCharacteristicsByDatasetId(this.selectedDatasetId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: characteristics => {
                     this.characteristics = characteristics.map(characteristic => ({
@@ -108,7 +108,7 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
      * @param characteristic The characteristic to be deleted
      */
     deleteCharacteristic(characteristic: DatasetCharacteristic) {
-        this.datasetCharacteristicService.deleteCharacteristic(characteristic.datasetId, characteristic.featureId).pipe(takeUntil(this.destroy$))
+        this.datasetCharacteristicService.deleteCharacteristic(characteristic.datasetId, characteristic.featureId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.characteristics = this.characteristics.filter(c => c.featureId !== characteristic.featureId);

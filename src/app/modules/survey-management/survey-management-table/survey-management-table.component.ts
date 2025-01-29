@@ -44,7 +44,7 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
      */
     ngOnInit() {
         if(this.activeStudyService.getActiveStudy()){
-            this.loadSurveys(this.activeStudyService.getActiveStudy().id);
+            this.loadSurveys(+this.activeStudyService.getActiveStudy());
         }
     }
 
@@ -101,7 +101,7 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
      * @param surveyId The ID of the survey to be deleted
      */
     deleteQuestion(surveyId: number) {
-        this.surveyService.deleteSurvey(surveyId).pipe(takeUntil(this.destroy$)).subscribe({
+        this.surveyService.deleteSurvey(surveyId, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: () => {
                 this.surveyList = this.surveyList.filter(survey => survey.surveyId !== surveyId);
                 this.messageService.add({
@@ -126,6 +126,6 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
     onFormClosed() {
         this.selectedSurveyId = null;
         this.displayForm = false;
-        this.loadSurveys(this.activeStudyService.getActiveStudy().id);
+        this.loadSurveys(+this.activeStudyService.getActiveStudy());
     }
 }

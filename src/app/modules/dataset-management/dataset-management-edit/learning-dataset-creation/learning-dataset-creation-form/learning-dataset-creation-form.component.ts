@@ -82,8 +82,8 @@ export class LearningDatasetCreationFormComponent extends BaseComponent implemen
      */
     loadData() {
         forkJoin({
-            learningDataset: this.learningDatasetService.getLearningDatasetById(this.learningDatasetId),
-            transformation: this.datasetTransformationService.getDatasetTransformationById(this.dataTransformationId)
+            learningDataset: this.learningDatasetService.getLearningDatasetById(this.learningDatasetId, this.activeStudyService.getActiveStudy()),
+            transformation: this.datasetTransformationService.getDatasetTransformationById(this.dataTransformationId, this.activeStudyService.getActiveStudy())
         }).pipe(takeUntil(this.destroy$)).subscribe({
             next: ({ learningDataset, transformation }) => {
                 this.learningDataset = learningDataset;
@@ -145,7 +145,7 @@ export class LearningDatasetCreationFormComponent extends BaseComponent implemen
             learningDataset: new LearningDataset({ ...this.learningDataset, ...learningDatasetPayload })
         };
 
-        this.learningDatasetService.updateLearningDatasetWithTransformation(this.learningDataset.learningDatasetId, request)
+        this.learningDatasetService.updateLearningDatasetWithTransformation(this.learningDataset.learningDatasetId, request, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: response => {
@@ -179,7 +179,7 @@ export class LearningDatasetCreationFormComponent extends BaseComponent implemen
             learningDataset: new LearningDataset({ ...learningDatasetPayload })
         };
 
-        this.learningDatasetService.createLearningDatasetWithTransformation(request)
+        this.learningDatasetService.createLearningDatasetWithTransformation(request, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: response => {

@@ -21,23 +21,6 @@ export class SelectedStudyDropdownComponent extends BaseComponent implements OnI
   selectedStudyId: number = null;
 
   ngOnInit() {
-    this.activeStudyService.fetchStudies().pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: studies => {
-            this.studies = studies.map(study => new Study(study));
-            if(this.activeStudyService.getActiveStudy()){
-              this.selectedStudyId = this.activeStudyService.getActiveStudy().id;
-              this.changeStudy(this.selectedStudyId);
-            }
-          },
-          error: (error: any) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
-            });
-          }
-        });
   }
 
   /**
@@ -46,6 +29,6 @@ export class SelectedStudyDropdownComponent extends BaseComponent implements OnI
    */
   changeStudy(studyId: number) {
     this.activeStudyService.setActiveStudy(studyId);
-    this.onChangeStudy.emit(this.activeStudyService.getActiveStudy().id);
+    this.onChangeStudy.emit(+this.activeStudyService.getActiveStudy());
   }
 }

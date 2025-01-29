@@ -40,12 +40,6 @@ export class AppProfileComponent extends BaseComponent implements DoCheck, OnIni
                 this.personnelName = 'Organization';
             }
         }
-        if(StorageUtil.retrievePersonnelSurname()){
-            this.personnelSurname = StorageUtil.retrievePersonnelSurname();
-            if(this.personnelSurname === 'undefined'){
-                this.personnelSurname = 'Admin';
-            }
-        }
         if(StorageUtil.retrieveOrganizationName()){
             this.organizationName = StorageUtil.retrieveOrganizationName();
         }
@@ -86,12 +80,7 @@ export class AppProfileComponent extends BaseComponent implements DoCheck, OnIni
     }
 
     ngOnInit(): void {
-        this.roleService.getRoleAsObservable().pipe(takeUntil(this.destroy$))
-            .subscribe({next: role => {
-                if(role){
-                    const roleString = ROLES.find((roles) => role.toString() === roles.value);
-                    this.personnelRole = roleString.name;
-                }
-                }});
     }
+
+    protected readonly JSON = JSON;
 }

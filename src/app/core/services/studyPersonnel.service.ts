@@ -4,6 +4,8 @@ import {HttpClient} from "@angular/common/http";
 import {catchError, map, Observable} from "rxjs";
 import {Personnel} from "../../shared/models/personnel.model";
 import {Study} from "../../shared/models/study.model";
+import {StudyPersonnel} from "../../shared/models/studyPersonnel.model";
+import {PersonnelRoleMap} from "../../shared/models/personnelRoleMap";
 
 /**
  * Service to manage the studyPersonnel.
@@ -59,18 +61,49 @@ export class StudyPersonnelService {
     }
 
     /**
-     * Assign personnel to the study
+     * Assign personnel to the study with their roles
      * @param studyId Id of the study
      * @param organizationId Id of the organization
-     * @param personnelList Personnel to be assigned
-     * @return {Observable<Personnel[]>}
+     * @param personnelRoleMap Map of personnel to roles
+     * @return {Observable<any>}
      */
-    createStudyPersonnelAssignment(studyId: number, organizationId: number, personnelList: Personnel[]): Observable<Personnel[]> {
-        const url = `${this.endpoint}/personnel?studyId=${studyId}&organizationId=${organizationId}`;
-        return this.httpClient.post<Personnel[]>(url, personnelList)
+    createStudyPersonnelEntries(studyId: number, organizationId: number, personnelRoleMap: PersonnelRoleMap): Observable<any> {
+        return this.httpClient.post(`${this.endpoint}/personnel?studyId=${studyId}&organizationId=${organizationId}`, personnelRoleMap.personnelRoles);
+    }
+
+
+    /**
+     * Retrieves study personnel connections for the current user
+     * and transforms the role field into a list of roles.
+     */
+    getStudyPersonnelEntries(personId: string): Observable<StudyPersonnel[]> {
+        const url = `${this.endpoint}?personId=${personId}`;
+        return this.httpClient.get<StudyPersonnel[]>(url)
             .pipe(
-                map((response: any) =>{
-                    return response.map((personnel: any) => new Personnel(personnel));
+                map((response: any) => response.map((entry: any) => {
+                    const studyPersonnel = new StudyPersonnel({});
+                    studyPersonnel.setRolesFromString(entry.role);
+                    studyPersonnel.id.personnelId = entry.id.personnelId;
+                    studyPersonnel.id.studyId = entry.id.studyId;
+                    return studyPersonnel;
+                })),
+                catchError((error) => {
+                    console.error(error);
+                    throw error;
+                })
+            );
+    }
+    /**
+     * Retrieves the personnel-role relations assigned to a study.
+     * @param studyId Id of the study
+     * @return {Observable<StudyPersonnel[]>}
+     */
+    getStudyPersonnelByStudyId(studyId: number): Observable<StudyPersonnel[]> {
+        const url = `${this.endpoint}/studyPersonnel?studyId=${studyId}`;
+        return this.httpClient.get<StudyPersonnel[]>(url)
+            .pipe(
+                map((response: any) => {
+                    return response.map((relation: any) => new StudyPersonnel(relation));
                 }),
                 catchError((error) => {
                     console.error(error);
@@ -78,6 +111,35 @@ export class StudyPersonnelService {
                 })
             );
     }
+
+    /**
+     * Retrieves the personnel-role relations assigned to a study for a specific organization.
+     * @param studyId Id of the study
+     * @param organizationId Id of the organization
+     * @return {Observable<Map<string, string[]>>} A map of personnel IDs to their roles
+     */
+    getPersonnelRolesByStudyAndOrganization(studyId: number, organizationId: number): Observable<Map<string, string[]>> {
+        const url = `${this.endpoint}/roles?studyId=${studyId}&organizationId=${organizationId}`;
+        return this.httpClient.get<{ [key: string]: string[] }>(url).pipe(
+            map((response: { [key: string]: string[] }) => {
+                const personnelRoleMap = new Map<string, string[]>();
+
+                // Iterate over the response object keys
+                Object.keys(response).forEach(personId => {
+                    personnelRoleMap.set(personId, response[personId] || []);
+                });
+
+                return personnelRoleMap;
+            }),
+            catchError((error) => {
+                console.error(error);
+                throw error;
+            })
+        );
+    }
+
+
+
 
 
 }

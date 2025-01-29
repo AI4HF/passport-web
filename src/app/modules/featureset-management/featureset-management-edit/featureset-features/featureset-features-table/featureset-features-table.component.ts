@@ -68,7 +68,7 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
      * Loads the features of the selected feature set.
      */
     loadFeatures() {
-        this.featureService.getFeaturesByFeatureSetId(this.selectedFeatureSet.featuresetId).pipe(takeUntil(this.destroy$))
+        this.featureService.getFeaturesByFeatureSetId(this.selectedFeatureSet.featuresetId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: features => {
                     this.features = features;
@@ -90,7 +90,7 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
      * @param featureId The ID of the feature to be deleted
      */
     deleteFeature(featureId: number) {
-        this.featureService.deleteFeature(featureId).pipe(takeUntil(this.destroy$))
+        this.featureService.deleteFeature(featureId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.features = this.features.filter(f => f.featureId !== featureId);

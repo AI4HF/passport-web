@@ -70,7 +70,7 @@ export class LsParameterTableComponent extends BaseComponent implements OnInit {
      * Loads the parameter assignments for the learning stage.
      */
     loadParameterAssignments() {
-        this.learningStageParameterService.getLearningStageParametersByStageId(+this.learningStageId)
+        this.learningStageParameterService.getLearningStageParametersByStageId(+this.learningStageId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: parameterAssignments => {
@@ -93,7 +93,7 @@ export class LsParameterTableComponent extends BaseComponent implements OnInit {
      * Loads the parameters associated with the assignments.
      */
     loadParameters() {
-        this.parameterService.getAllParametersByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$))
+        this.parameterService.getAllParametersByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: parameters => {
                     parameters.forEach(param => this.parameters[param.parameterId] = param);
@@ -114,7 +114,7 @@ export class LsParameterTableComponent extends BaseComponent implements OnInit {
      * @param assignment The parameter assignment to be deleted
      */
     deleteParameterAssignment(assignment: LearningStageParameter) {
-        this.learningStageParameterService.deleteLearningStageParameter(assignment.learningStageId, assignment.parameterId)
+        this.learningStageParameterService.deleteLearningStageParameter(assignment.learningStageId, assignment.parameterId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {

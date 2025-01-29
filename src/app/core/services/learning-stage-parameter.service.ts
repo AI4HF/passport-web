@@ -41,10 +41,11 @@ export class LearningStageParameterService {
      * Retrieves a learning stage parameter by composite id
      * @param learningStageId Id of the learning stage
      * @param parameterId Id of the parameter
+     * @param studyId
      * @return {Observable<LearningStageParameter>}
      */
-    getLearningStageParameterById(learningStageId: number, parameterId: number): Observable<LearningStageParameter> {
-        const url = `${this.endpoint}?learningStageId=${learningStageId}&parameterId=${parameterId}`;
+    getLearningStageParameterById(learningStageId: number, parameterId: number, studyId: String): Observable<LearningStageParameter> {
+        const url = `${this.endpoint}?learningStageId=${learningStageId}&parameterId=${parameterId}&studyId=${+studyId}`;
         return this.httpClient.get<LearningStageParameter>(url)
             .pipe(
                 map((response: any) => {
@@ -60,10 +61,11 @@ export class LearningStageParameterService {
     /**
      * Retrieves a learning stage parameter by learning stage id
      * @param learningStageId Id of the learning stage
+     * @param studyId
      * @return {Observable<LearningStageParameter>}
      */
-    getLearningStageParametersByStageId(learningStageId: number): Observable<LearningStageParameter[]> {
-        const url = `${this.endpoint}?learningStageId=${learningStageId}`;
+    getLearningStageParametersByStageId(learningStageId: number, studyId: String): Observable<LearningStageParameter[]> {
+        const url = `${this.endpoint}?learningStageId=${learningStageId}&studyId=${+studyId}`;
         return this.httpClient.get<LearningStageParameter[]>(url)
             .pipe(
                 map((response: any) => {
@@ -79,10 +81,11 @@ export class LearningStageParameterService {
     /**
      * Create a learning stage parameter
      * @param learningStageParameter LearningStageParameter to be created
+     * @param studyId
      * @return {Observable<LearningStageParameter>}
      */
-    createLearningStageParameter(learningStageParameter: LearningStageParameter): Observable<LearningStageParameter> {
-        const url = `${this.endpoint}`;
+    createLearningStageParameter(learningStageParameter: LearningStageParameter, studyId: String): Observable<LearningStageParameter> {
+        const url = `${this.endpoint}?studyId=${+studyId}`;
         return this.httpClient.post<LearningStageParameter>(url, learningStageParameter)
             .pipe(
                 map((response: any) => {
@@ -98,10 +101,11 @@ export class LearningStageParameterService {
     /**
      * Update a learning stage parameter
      * @param learningStageParameter Updated version of the learning stage parameter
+     * @param studyId
      * @return {Observable<LearningStageParameter>}
      */
-    updateLearningStageParameter(learningStageParameter: LearningStageParameter): Observable<LearningStageParameter> {
-        const url = `${this.endpoint}?learningStageId=${learningStageParameter.learningStageId}&parameterId=${learningStageParameter.parameterId}`;
+    updateLearningStageParameter(learningStageParameter: LearningStageParameter, studyId: String): Observable<LearningStageParameter> {
+        const url = `${this.endpoint}?learningStageId=${learningStageParameter.learningStageId}&parameterId=${learningStageParameter.parameterId}&studyId=${+studyId}`;
         return this.httpClient.put<LearningStageParameter>(url, learningStageParameter)
             .pipe(
                 map((response: any) => {
@@ -118,10 +122,11 @@ export class LearningStageParameterService {
      * Delete a learning stage parameter by composite id
      * @param learningStageId Id of the learning stage
      * @param parameterId Id of the parameter
+     * @param studyId
      * @return {Observable<any>}
      */
-    deleteLearningStageParameter(learningStageId: number, parameterId: number): Observable<any> {
-        const url = `${this.endpoint}?learningStageId=${learningStageId}&parameterId=${parameterId}`;
+    deleteLearningStageParameter(learningStageId: number, parameterId: number, studyId: String): Observable<any> {
+        const url = `${this.endpoint}?learningStageId=${learningStageId}&parameterId=${parameterId}&studyId=${+studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) => {

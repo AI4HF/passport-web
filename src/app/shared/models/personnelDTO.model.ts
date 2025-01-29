@@ -17,6 +17,11 @@ export class PersonnelDTO {
      */
     credentials: Credentials;
 
+    /**
+     * Boolean value of whether the user is a study owner.
+     */
+    isStudyOwner: boolean;
+
     constructor(data: any) {
 
         if(!data){
@@ -25,5 +30,6 @@ export class PersonnelDTO {
 
         this.personnel = new Personnel(data.personnel);
         this.credentials = new Credentials(data.credentials);
+        this.isStudyOwner = data.isStudyOwner;
     }
 }

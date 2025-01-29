@@ -72,10 +72,10 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
      * Loads the features associated with the dataset.
      */
     loadFeatures() {
-        this.datasetService.getDatasetById(this.datasetId)
+        this.datasetService.getDatasetById(this.datasetId, this.activeStudyService.getActiveStudy())
             .pipe(
                 takeUntil(this.destroy$),
-                switchMap(dataset => this.featureService.getFeaturesByFeatureSetId(dataset.featuresetId))
+                switchMap(dataset => this.featureService.getFeaturesByFeatureSetId(dataset.featuresetId, this.activeStudyService.getActiveStudy()))
             )
             .subscribe({
                 next: features => {
@@ -97,7 +97,7 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
      * If the filtered list is empty, closes the form and shows an error message.
      */
     filterAvailableFeatures() {
-        this.datasetCharacteristicService.getCharacteristicsByDatasetId(this.datasetId)
+        this.datasetCharacteristicService.getCharacteristicsByDatasetId(this.datasetId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: datasetCharacteristics => {
@@ -127,7 +127,7 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
      * Loads the feature details using the featureId from the characteristic.
      */
     loadFeatureById() {
-        this.featureService.getFeatureById(this.characteristic.featureId)
+        this.featureService.getFeatureById(this.characteristic.featureId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: feature => {
@@ -184,7 +184,7 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
         });
 
         if (this.isUpdateMode) {
-            this.datasetCharacteristicService.updateCharacteristic(characteristicPayload)
+            this.datasetCharacteristicService.updateCharacteristic(characteristicPayload, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: characteristic => {
@@ -206,7 +206,7 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
                     }
                 });
         } else {
-            this.datasetCharacteristicService.createCharacteristic(characteristicPayload)
+            this.datasetCharacteristicService.createCharacteristic(characteristicPayload, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: characteristic => {

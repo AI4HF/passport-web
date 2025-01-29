@@ -11,6 +11,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {PickListModule} from "primeng/picklist";
 import {CheckboxModule} from "primeng/checkbox";
 import {StudyDetailsModule} from "../study-details/study-details.module";
+import {TableModule} from "primeng/table";
 
 
 
@@ -27,7 +28,8 @@ import {StudyDetailsModule} from "../study-details/study-details.module";
         TranslateModule,
         PickListModule,
         CheckboxModule,
-        StudyDetailsModule
+        StudyDetailsModule,
+        TableModule
     ],
   exports: [PersonnelAssignmentComponent]
 })

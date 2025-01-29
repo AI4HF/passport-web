@@ -57,7 +57,7 @@ export class ParameterManagementFormComponent extends BaseComponent implements O
    */
   loadParameter() {
     if (this.parameterId) {
-      this.parameterService.getParameterById(this.parameterId).pipe(takeUntil(this.destroy$))
+      this.parameterService.getParameterById(this.parameterId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
           .subscribe({
             next: parameter => {
               this.selectedParameter = new Parameter(parameter);
@@ -125,15 +125,25 @@ export class ParameterManagementFormComponent extends BaseComponent implements O
    */
   saveParameter() {
     if (!this.selectedParameter.parameterId) {
-      const newParameter: Parameter = new Parameter({ ...this.parameterForm.value, studyId: this.activeStudyService.getActiveStudy().id });
-      this.parameterService.createParameter(newParameter).pipe(takeUntil(this.destroy$))
+      const newParameter: Parameter = new Parameter({ ...this.parameterForm.value, studyId: this.activeStudyService.getActiveStudy() });
+      this.parameterService.createParameter(newParameter, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
           .subscribe(() => {
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translateService.instant('Success'),
+              detail: this.translateService.instant('ParameterManagement.Parameter is created successfully')
+            });
             this.closeDialog();
           });
     } else {
       const updatedParameter: Parameter = new Parameter({ parameterId: this.selectedParameter.parameterId, ...this.parameterForm.value });
-      this.parameterService.updateParameter(updatedParameter).pipe(takeUntil(this.destroy$))
+      this.parameterService.updateParameter(updatedParameter, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
           .subscribe(() => {
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translateService.instant('Success'),
+              detail: this.translateService.instant('ParameterManagement.Parameter is updated successfully')
+            });
             this.closeDialog();
           });
     }

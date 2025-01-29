@@ -36,6 +36,21 @@ export class LoginComponent extends BaseComponent implements OnInit {
      * Initial check to skip the login process if the user is already logged in.
      */
     ngOnInit() {
+        const navigationState = this.router.getCurrentNavigation()?.extras.state;
+        console.log(navigationState);
+        if (navigationState) {
+            let message = navigationState['message'];
+            let severity = navigationState['severity'];
+            let detail = navigationState['detail'];
+
+            if (message) {
+                this.messageService.add({
+                    severity: severity,
+                    summary: message,
+                    detail: detail
+                });
+            }
+        }
         this.checkRememberedUser();
     }
 
@@ -54,7 +69,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
         if (token) {
             this.navigateAccordingToRole();
         }else{
-            this.roleService.clearRole();
+            this.roleService.clearRoles();
             this.activeStudyService.clearActiveStudy();
             this.activeStudyService.clearStudies();
         }
@@ -71,10 +86,12 @@ export class LoginComponent extends BaseComponent implements OnInit {
                 const helper = new JwtHelperService();
                 const decodedToken = helper.decodeToken(response.access_token);
                 StorageUtil.storeUserId(decodedToken.user_id, rememberMe);
-                StorageUtil.storePersonnelName(decodedToken.given_name, rememberMe);
-                StorageUtil.storePersonnelSurname(decodedToken.family_name, rememberMe);
-                const role: Role = decodedToken.realm_access.roles?.find((role: string) => Role[role as keyof typeof Role] !== undefined);
-                this.roleService.setRole(role);
+                StorageUtil.storePersonnelName(decodedToken.preferred_username, rememberMe)
+                const roles: Role[] = decodedToken.realm_access?.roles?.find((role: string) => (Role[role as keyof typeof Role] !== undefined) && (role == "STUDY_OWNER" || role == "ORGANIZATION_ADMIN"));
+                if(roles != null)
+                {
+                    this.roleService.setRoles(roles);
+                }
                 this.fetchLoggedPersonnel(rememberMe);
             },
             error => {
@@ -96,9 +113,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
             this.personnelService.getPersonnelByPersonId(StorageUtil.retrieveUserId())
                 .pipe(takeUntil(this.destroy$)).subscribe({
                 next: personnel => {
-                    StorageUtil.storePersonnelName(personnel.firstName, rememberMe);
                     StorageUtil.storePersonnelSurname(personnel.lastName, rememberMe);
-                    this.fetchLoggedOrganization(personnel.organizationId, rememberMe);
+                    StorageUtil.storeOrganizationId(personnel.organizationId, rememberMe);
+                    this.navigateAccordingToRole();
                 },
                 error: (error: any) => {
                     if(error.status === 404) {
@@ -127,7 +144,6 @@ export class LoginComponent extends BaseComponent implements OnInit {
             next: organization => {
                 StorageUtil.storeOrganizationName(organization.name, rememberMe);
                 StorageUtil.storeOrganizationId(organization.organizationId, rememberMe);
-                this.navigateAccordingToRole();
             },
             error: (error: any) => {
                 this.messageService.add({
@@ -140,35 +156,16 @@ export class LoginComponent extends BaseComponent implements OnInit {
     }
 
     /**
-     * Navigate the user according to the user role
+     * Navigate the user according to the roles list
      */
-    navigateAccordingToRole(){
-        this.roleService.getRoleAsObservable().pipe(takeUntil(this.destroy$))
+    navigateAccordingToRole() {
+        this.roleService.getRolesAsObservable().pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: role => {
-                    switch (role){
-                        case Role.STUDY_OWNER:
-                            this.router.navigate(['/study-management']);
-                            break;
-                        case Role.DATA_SCIENTIST:
-                            this.router.navigate(['/parameter-management']);
-                            break;
-                        case Role.SURVEY_MANAGER:
-                            this.router.navigate(['/survey-management']);
-                            break;
-                        case Role.DATA_ENGINEER:
-                            this.router.navigate(['/featureset-management']);
-                            break;
-                        case Role.ML_ENGINEER:
-                            //TODO:
-                            this.router.navigate(['/']);
-                            break;
-                        case Role.QUALITY_ASSURANCE_SPECIALIST:
-                            this.router.navigate(['/passport-management']);
-                            break;
-                        case Role.ORGANIZATION_ADMIN:
-                            this.router.navigate(['/organization-management/organization']);
-                            break;
+                next: roles => {
+                    if (roles.includes(Role.ORGANIZATION_ADMIN)) {
+                        this.router.navigate(['/organization-management/organization']);
+                    } else {
+                        this.router.navigate(['/study-management']);
                     }
                 },
                 error: (error: any) => {
@@ -180,5 +177,6 @@ export class LoginComponent extends BaseComponent implements OnInit {
                 }
             });
     }
+
 }
 

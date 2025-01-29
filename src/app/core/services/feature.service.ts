@@ -24,8 +24,8 @@ export class FeatureService {
      * Retrieves all features
      * @return {Observable<Feature[]>}
      */
-    getAllFeatures(): Observable<Feature[]> {
-        const url = `${this.endpoint}`;
+    getAllFeatures(studyId: String): Observable<Feature[]> {
+        const url = `${this.endpoint}?studyId=${+studyId}`;
         return this.httpClient.get<Feature[]>(url)
             .pipe(
                 map((response: any) =>{
@@ -41,10 +41,11 @@ export class FeatureService {
     /**
      * Retrieves a feature by id
      * @param id Id of the feature
+     * @param studyId
      * @return {Observable<Feature>}
      */
-    getFeatureById(id: number): Observable<Feature> {
-        const url = `${this.endpoint}/${id}`;
+    getFeatureById(id: number, studyId: String): Observable<Feature> {
+        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
         return this.httpClient.get<Feature>(url)
             .pipe(
                 map((response: any) =>{
@@ -60,10 +61,11 @@ export class FeatureService {
     /**
      * Retrieves features by feature set id
      * @param featureSetId Id of the feature set
+     * @param studyId
      * @return {Observable<Feature[]>}
      */
-    getFeaturesByFeatureSetId(featureSetId: number): Observable<Feature[]> {
-        const url = `${this.endpoint}?featuresetId=${featureSetId}`;
+    getFeaturesByFeatureSetId(featureSetId: number, studyId: String): Observable<Feature[]> {
+        const url = `${this.endpoint}?featuresetId=${featureSetId}&studyId=${+studyId}`;
         return this.httpClient.get<Feature[]>(url)
             .pipe(
                 map((response: any) =>{
@@ -79,10 +81,11 @@ export class FeatureService {
     /**
      * Create a feature
      * @param feature feature to be created
+     * @param studyId
      * @return {Observable<Feature>}
      */
-    createFeature(feature: Feature): Observable<Feature> {
-        const url = `${this.endpoint}`;
+    createFeature(feature: Feature, studyId: String): Observable<Feature> {
+        const url = `${this.endpoint}?studyId=${+studyId}`;
         feature.createdBy = StorageUtil.retrieveUserId();
         feature.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.post<Feature>(url, feature)
@@ -100,10 +103,11 @@ export class FeatureService {
     /**
      * Update a feature
      * @param feature updated version of the feature
+     * @param studyId
      * @return {Observable<Feature>}
      */
-    updateFeature(feature: Feature): Observable<Feature> {
-        const url = `${this.endpoint}/${feature.featureId}`;
+    updateFeature(feature: Feature, studyId: String): Observable<Feature> {
+        const url = `${this.endpoint}/${feature.featureId}?studyId=${+studyId}`;
         feature.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.put<Feature>(url, feature)
             .pipe(
@@ -120,10 +124,11 @@ export class FeatureService {
     /**
      * Delete a feature
      * @param id Id of the feature
+     * @param studyId
      * @return {Observable<any>}
      */
-    deleteFeature(id: number): Observable<any>{
-        const url = `${this.endpoint}/${id}`;
+    deleteFeature(id: number, studyId: String): Observable<any>{
+        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) =>{
