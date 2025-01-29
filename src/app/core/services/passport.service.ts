@@ -121,4 +121,26 @@ export class PassportService {
                 })
             );
     }
+
+    /**
+     * Sign an existing PDF blob by sending it to the server.
+     * @param pdfBlob The raw PDF as a Blob
+     * @param studyId The study ID for authorization
+     * @return Observable<Blob> that emits the signed PDF blob
+     */
+    signPdf(pdfBlob: Blob, studyId: number): Observable<Blob> {
+        const url = `${this.endpoint}/sign-pdf?studyId=${studyId}`;
+
+        const formData = new FormData();
+        // "pdf" must match the backend’s @RequestParam("pdf")
+        formData.append('pdf', pdfBlob, 'document_to_sign.pdf');
+
+        return this.httpClient.post(url, formData, { responseType: 'blob' })
+            .pipe(
+                catchError((error) => {
+                    console.error('Error during PDF signing request:', error);
+                    throw error;
+                })
+            );
+    }
 }
