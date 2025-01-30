@@ -23,8 +23,8 @@ export class AlgorithmService {
      * Retrieves all algorithms
      * @return {Observable<Algorithm[]>}
      */
-    getAllAlgorithms(): Observable<Algorithm[]> {
-        const url = `${this.endpoint}`;
+    getAllAlgorithms(studyId: String): Observable<Algorithm[]> {
+        const url = `${this.endpoint}?studyId=${+studyId}`;
         return this.httpClient.get<Algorithm[]>(url)
             .pipe(
                 map((response: any) => {
@@ -42,8 +42,8 @@ export class AlgorithmService {
      * @param id Id of the algorithm
      * @return {Observable<Algorithm>}
      */
-    getAlgorithmById(id: number): Observable<Algorithm> {
-        const url = `${this.endpoint}/${id}`;
+    getAlgorithmById(id: String): Observable<Algorithm> {
+        const url = `${this.endpoint}/${+id}`;
         return this.httpClient.get<Algorithm>(url)
             .pipe(
                 map((response: any) => {
@@ -59,10 +59,11 @@ export class AlgorithmService {
     /**
      * Create an algorithm
      * @param algorithm Algorithm to be created
+     * @param studyId
      * @return {Observable<Algorithm>}
      */
-    createAlgorithm(algorithm: Algorithm): Observable<Algorithm> {
-        const url = `${this.endpoint}`;
+    createAlgorithm(algorithm: Algorithm, studyId: String): Observable<Algorithm> {
+        const url = `${this.endpoint}?studyId=${+studyId}`;
         return this.httpClient.post<Algorithm>(url, algorithm)
             .pipe(
                 map((response: any) => {
@@ -99,8 +100,8 @@ export class AlgorithmService {
      * @param id Id of the algorithm
      * @return {Observable<any>}
      */
-    deleteAlgorithm(id: number): Observable<any> {
-        const url = `${this.endpoint}/${id}`;
+    deleteAlgorithm(id: String): Observable<any> {
+        const url = `${this.endpoint}/${+id}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) => {

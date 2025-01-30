@@ -42,7 +42,7 @@ export class LpManagementDashboardComponent extends BaseComponent implements OnI
      */
     ngOnInit() {
         if(this.activeStudyService.getActiveStudy()){
-            this.loadLearningProcess(this.activeStudyService.getActiveStudy().id);
+            this.loadLearningProcess(this.activeStudyService.getActiveStudy());
         }
     }
 
@@ -50,7 +50,7 @@ export class LpManagementDashboardComponent extends BaseComponent implements OnI
      * Retrieves all learningProcesss from the server.
      * @param studyId The ID of the study
      */
-    loadLearningProcess(studyId: number) {
+    loadLearningProcess(studyId: String) {
         this.loading = true;
         this.learningProcessService.getAllLearningProcessesByStudyId(studyId)
             .pipe(takeUntil(this.destroy$))
@@ -102,7 +102,7 @@ export class LpManagementDashboardComponent extends BaseComponent implements OnI
         if (learningProcess) {
             const implementationId = learningProcess.implementationId;
 
-            this.implementationService.deleteImplementation(implementationId)
+            this.implementationService.deleteImplementation(implementationId, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: () => {

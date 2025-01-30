@@ -50,7 +50,7 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
      */
     ngOnInit() {
         if(this.activeStudyService.getActiveStudy()){
-            this.loadExperimentsAndFeatureSets(this.activeStudyService.getActiveStudy().id);
+            this.loadExperimentsAndFeatureSets(this.activeStudyService.getActiveStudy());
         }
     }
 
@@ -58,7 +58,7 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
      * Retrieves all feature sets from the server.
      * @param studyId ID of the study
      */
-    getFeatureSetList(studyId: number) {
+    getFeatureSetList(studyId: String) {
         this.loading = true;
         this.featureSetService.getAllFeatureSetsByStudyId(studyId)
             .pipe(takeUntil(this.destroy$))
@@ -141,9 +141,9 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
      */
     deleteFeatureSet(id: number) {
         this.loading = true;
-        this.featureSetService.deleteFeatureSet(id).pipe(takeUntil(this.destroy$))
+        this.featureSetService.deleteFeatureSet(id, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: (response: any) => this.getFeatureSetList(this.activeStudyService.getActiveStudy().id),
+                next: (response: any) => this.getFeatureSetList(this.activeStudyService.getActiveStudy()),
                 error: (error: any) => {
                     this.messageService.add({
                         severity: 'error',
@@ -159,8 +159,8 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
      * Loads the list of experiments and feature sets by studyId.
      * @param studyId ID of the study
      */
-    loadExperimentsAndFeatureSets(studyId: number) {
-        this.loadExperimentsByStudyId(studyId);
+    loadExperimentsAndFeatureSets(studyId: String) {
+        this.loadExperimentsByStudyId(+studyId);
         this.getFeatureSetList(studyId);
     }
 }

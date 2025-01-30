@@ -14,6 +14,12 @@
   "Error": "Error",
   "Add": "Add",
   "Finish": "Finish",
+  "NotFound": {
+    "Title": "404 - Page Not Found",
+    "Message": "Sorry, the page you are looking for does not exist.",
+    "HomeButton": "Go Back to Home Page"
+
+  },
   "StudyManagement": {
     "Studies": "Studies",
     "New Study": "New Study",
@@ -34,6 +40,10 @@
     "Survey Inspection": "Survey Inspection",
     "Study is updated successfully": "Study is updated successfully",
     "Study is created successfully": "Study is created successfully",
+    "Study is deleted successfully": "Study is deleted successfully",
+    "A new study is set as the active study": "A new study is set as the active study",
+    "Owned Studies": "Owned Studies",
+    "Assigned Studies": "Assigned Studies",
     "Population": {
       "Populations": "Populations",
       "PopulationID": "Population ID",
@@ -63,7 +73,8 @@
       "Responsible Organization": "Responsible Organization",
       "Responsible Personnel": "Responsible Personnel",
       "Population": "Associated Population",
-      "Select a Population": "Select a population"
+      "Select a Population": "Select a population",
+      "Roles are assigned successfully": "Roles are assigned successfully"
     },
     "Experiment": {
       "Research Question": "Research Question",
@@ -78,6 +89,7 @@
     }
   },
   "OrganizationManagement": {
+    "Study Owner": "Set As Study Owner",
     "Organization Form": "Organization Details",
     "Organization Name": "Organization Name",
     "Enter organization name": "Enter organization name",

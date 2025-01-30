@@ -52,7 +52,7 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
    * Loads the Deployment details by environment id if entity is being edited.
    */
   loadModelDeployment(id: number) {
-    this.modelDeploymentService.getModelDeploymentByEnvironmentId(id).pipe(takeUntil(this.destroy$)).subscribe({
+    this.modelDeploymentService.getModelDeploymentByEnvironmentId(id, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
       next: modelDeployment => {
         this.selectedModelDeployment = modelDeployment;
         this.initializeForm();
@@ -75,7 +75,7 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
    * Fetches the model options from the service.
    */
   fetchModels() {
-    this.modelService.getModelsByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$)).subscribe({
+    this.modelService.getModelsByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
       next: models => {
         this.modelList = models;
       },
@@ -115,7 +115,7 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
     if(this.selectedModelDeployment.deploymentId === 0){
       const newModelDeployment: ModelDeployment = new ModelDeployment(
           { environmentId: this.environmentIdParam,...this.modelDeploymentForm.value});
-      this.modelDeploymentService.createModelDeployment(newModelDeployment)
+      this.modelDeploymentService.createModelDeployment(newModelDeployment, this.activeStudyService.getActiveStudy())
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: modelDeployment => {
@@ -140,7 +140,7 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
       const updatedModelDeployment: ModelDeployment = new ModelDeployment(
           {deploymentId: this.selectedModelDeployment.deploymentId, environmentId: this.selectedModelDeployment.environmentId,
              ...this.modelDeploymentForm.value});
-      this.modelDeploymentService.updateModelDeployment(updatedModelDeployment)
+      this.modelDeploymentService.updateModelDeployment(updatedModelDeployment, this.activeStudyService.getActiveStudy())
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: (modelDeployment: ModelDeployment) => {

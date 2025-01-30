@@ -79,7 +79,7 @@ export class LpParameterFormComponent extends BaseComponent implements OnInit {
      * Only executed when creating a new entry, not during updates.
      */
     loadParameters() {
-        this.parameterService.getAllParametersByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$))
+        this.parameterService.getAllParametersByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: parameters => {
                     this.parameters = parameters;
@@ -100,7 +100,7 @@ export class LpParameterFormComponent extends BaseComponent implements OnInit {
      * If the filtered list is empty, closes the form and shows an error message.
      */
     filterAvailableParameters() {
-        this.learningProcessParameterService.getLearningProcessParametersByProcessId(this.learningProcessId)
+        this.learningProcessParameterService.getLearningProcessParametersByProcessId(this.learningProcessId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningProcessParameters => {
@@ -130,7 +130,7 @@ export class LpParameterFormComponent extends BaseComponent implements OnInit {
      * Loads the selected LearningProcessParameter using the provided IDs.
      */
     loadParameterById() {
-        this.parameterService.getParameterById(this.parameterId)
+        this.parameterService.getParameterById(this.parameterId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: parameter => {
@@ -154,7 +154,7 @@ export class LpParameterFormComponent extends BaseComponent implements OnInit {
      * Updates the form with the loaded parameter assignment details.
      */
     updateForm() {
-        this.learningProcessParameterService.getLearningProcessParameterById(this.learningProcessId, this.parameterId)
+        this.learningProcessParameterService.getLearningProcessParameterById(this.learningProcessId, this.parameterId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningProcessParameter => {
@@ -198,7 +198,7 @@ export class LpParameterFormComponent extends BaseComponent implements OnInit {
      * @param learningProcessParameter The LearningProcessParameter to be created
      */
     createLearningProcessParameter(learningProcessParameter: LearningProcessParameter) {
-        this.learningProcessParameterService.createLearningProcessParameter(learningProcessParameter)
+        this.learningProcessParameterService.createLearningProcessParameter(learningProcessParameter, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
@@ -224,7 +224,7 @@ export class LpParameterFormComponent extends BaseComponent implements OnInit {
      * @param learningProcessParameter The LearningProcessParameter to be updated
      */
     updateLearningProcessParameter(learningProcessParameter: LearningProcessParameter) {
-        this.learningProcessParameterService.updateLearningProcessParameter(learningProcessParameter)
+        this.learningProcessParameterService.updateLearningProcessParameter(learningProcessParameter, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {

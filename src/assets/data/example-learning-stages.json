@@ -1,0 +1,22 @@
+[
+  {
+    "learningStageName": "Data Preprocessing",
+    "description": "Handles data cleaning and transformation",
+    "datasetPercentage": 100
+  },
+  {
+    "learningStageName": "Feature Engineering",
+    "description": "Creates new features from raw data",
+    "datasetPercentage": 100
+  },
+  {
+    "learningStageName": "Model Training",
+    "description": "Trains the model on the dataset",
+    "datasetPercentage": 75
+  },
+  {
+    "learningStageName": "Model Evaluation",
+    "description": "Evaluates the model performance",
+    "datasetPercentage": 25
+  }
+]

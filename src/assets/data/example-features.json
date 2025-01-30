@@ -1,0 +1,46 @@
+[
+  {
+    "title": "age",
+    "description": "Age of a patient.",
+    "dataType": "int",
+    "featureType": "Identity",
+    "mandatory": true,
+    "isUnique": false,
+    "units": "Years",
+    "equipment": " ",
+    "dataCollection": "Identity"
+  },
+  {
+    "title": "heart_rate",
+    "description": "Heart rate of a patient.",
+    "dataType": "int",
+    "featureType": "Measurement",
+    "mandatory": true,
+    "isUnique": false,
+    "units": "bpm",
+    "equipment": "EKG",
+    "dataCollection": "Medical readings"
+  },
+  {
+    "title": "blood_pressure",
+    "description": "Blood pressure of a patient",
+    "dataType": "float",
+    "featureType": "Measurement",
+    "mandatory": true,
+    "isUnique": false,
+    "units": "mmHg",
+    "equipment": "Sphygmomanometer",
+    "dataCollection": "Medical readings"
+  },
+  {
+    "title": "BNP",
+    "description": "B-type natriuretic peptide level in a patient.",
+    "dataType": "float",
+    "featureType": "Measurement",
+    "mandatory": false,
+    "isUnique": false,
+    "units": "pg/mL",
+    "equipment": " ",
+    "dataCollection": "BNP Test"
+  }
+]

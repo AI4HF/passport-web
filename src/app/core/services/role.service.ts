@@ -1,12 +1,10 @@
 import {BehaviorSubject, Observable} from "rxjs";
 import {Role} from "../../shared/models/role.enum";
-import {Injectable, Injector} from "@angular/core";
-import {StorageUtil} from "./storageUtil.service";
-import {JwtHelperService} from "@auth0/angular-jwt";
-
+import {Injectable} from "@angular/core";
+import {ROLES} from "../../shared/models/roles.constant";
 
 /**
- * Service to manage the role of the logged user.
+ * Service to manage the roles of the logged user.
  */
 @Injectable({
     providedIn: 'root'
@@ -14,49 +12,53 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 export class RoleService {
 
     /**
-     * Role of the personnel
+     * List of roles for the user
      */
-    role: BehaviorSubject<Role> = new BehaviorSubject(null);
+    roles: BehaviorSubject<Role[]> = new BehaviorSubject<Role[]>([]);
 
-    constructor(private injector: Injector) {
-        const token = StorageUtil.retrieveToken();
-        if(token){
-            const helper = new JwtHelperService();
-            const decodedToken = helper.decodeToken(token);
-            const role: Role = decodedToken.realm_access.roles?.find((role: string) => Role[role as keyof typeof Role] !== undefined);
-            this.role.next(role);
+    constructor() {
+        this.roles.next([]);
+    }
+
+    /**
+     * Set roles of the user
+     * @param roles List of roles for the user
+     */
+    setRoles(roles: Role[]) {
+        if(roles != null){
+            let roleString = JSON.stringify(roles);
+            sessionStorage.setItem("roles", roleString);
+            this.roles.next(JSON.parse(roleString));
         }
     }
 
     /**
-     * Set role of the user
-     * @param role Role of the user
+     * Get roles of the user as observable
+     * @return {Observable<Role[]>}
      */
-    setRole(role: Role) {
-        this.role.next(role);
+    getRolesAsObservable(): Observable<Role[]> {
+        this.setRoles(JSON.parse(sessionStorage.getItem("roles")));
+        return this.roles.asObservable();
     }
 
     /**
-     * Get role of the user as observable
-     * @return {Observable<Role>}
+     * Get current roles of the user
+     * @return {Role[]}
      */
-    getRoleAsObservable(): Observable<Role> {
-        return this.role.asObservable();
+    getRoles(): Role[] {
+        let roles = this.roles.getValue();
+        if(roles == null)
+        {
+            return [];
+        }
+        return roles;
     }
 
     /**
-     * Get role of the user
-     * @return {Role}
+     * Clear roles of the user
      */
-    getRole(): Role {
-        return this.role.getValue();
+    clearRoles() {
+        sessionStorage.removeItem('roles');
+        this.roles.next([]);
     }
-
-    /**
-     * Clear role of the user
-     */
-    clearRole(){
-        this.role.next(null);
-    }
-
 }

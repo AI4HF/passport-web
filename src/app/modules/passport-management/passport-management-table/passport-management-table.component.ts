@@ -81,7 +81,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
    */
   ngOnInit() {
     if (this.activeStudyService.getActiveStudy()) {
-      this.loadPassports(this.activeStudyService.getActiveStudy().id);
+      this.loadPassports(this.activeStudyService.getActiveStudy());
     }
   }
 
@@ -89,10 +89,10 @@ export class PassportManagementTableComponent extends BaseComponent implements O
    * Loads the list of passports and associated models for the specified study.
    * @param studyId The ID of the study to load passports for.
    */
-  loadPassports(studyId: number) {
+  loadPassports(studyId: String) {
     forkJoin([
       this.passportService.getPassportListByStudy(studyId).pipe(takeUntil(this.destroy$)),
-      this.modelService.getModelList().pipe(takeUntil(this.destroy$))
+      this.modelService.getModelList(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
     ]).subscribe({
       next: ([passports, models]) => {
         this.passportWithModelNameList = passports.map(passport => new PassportWithModelName(passport, ''));
@@ -117,7 +117,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
    */
   mapModelsToPassports() {
     this.passportWithModelNameList.forEach(passportWithModelName => {
-      this.modelDeploymentService.getModelDeploymentById(passportWithModelName.passport.deploymentId).pipe(
+      this.modelDeploymentService.getModelDeploymentById(passportWithModelName.passport.deploymentId, this.activeStudyService.getActiveStudy()).pipe(
           switchMap((deployment: ModelDeployment) => {
             passportWithModelName.modelName = (this.modelList.find(m => m.id === deployment.modelId))?.name ?? '';
             return of(passportWithModelName);
@@ -148,7 +148,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
    * @param passportId The ID of the passport to delete.
    */
   deletePassport(passportId: number) {
-    this.passportService.deletePassport(passportId).pipe(takeUntil(this.destroy$)).subscribe({
+    this.passportService.deletePassport(passportId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         this.passportWithModelNameList = this.passportWithModelNameList.filter(passport => passport.passport.passportId !== passportId);
         this.messageService.add({
@@ -172,7 +172,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
    */
   onFormClosed() {
     this.displayForm = false;
-    this.loadPassports(this.activeStudyService.getActiveStudy().id);
+    this.loadPassports(this.activeStudyService.getActiveStudy());
   }
 
   /**
@@ -182,7 +182,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   selectPassportForImport(passportId: number) {
     this.selectedPassportId = passportId;
 
-    this.passportService.getPassportDetailsById(passportId).pipe(takeUntil(this.destroy$)).subscribe({
+    this.passportService.getPassportDetailsById(passportId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
       next: (passportDetails: PassportDetailsDTO) => {
         const details = passportDetails.detailsJson;
 

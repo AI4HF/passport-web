@@ -23,24 +23,14 @@ export class ActiveStudyService {
      */
     activeStudy: BehaviorSubject<Study> = new BehaviorSubject(null);
 
-    constructor(private studyPersonnelService: StudyPersonnelService) {
-        // Load active study from sessionStorage, if available
-        const storedStudy = sessionStorage.getItem('activeStudy');
-        if (storedStudy) {
-            this.activeStudy.next(JSON.parse(storedStudy));
-        }
-    }
+    constructor(private studyPersonnelService: StudyPersonnelService) {}
 
     /**
      * Set active study and store it in session storage.
      * @param studyId Study ID to set as active
      */
     setActiveStudy(studyId: number) {
-        const study = this.studies.find((study: Study) => study.id === studyId);
-        if (study) {
-            this.activeStudy.next(study);
-            sessionStorage.setItem('activeStudy', JSON.stringify(study));
-        }
+            sessionStorage.setItem('activeStudy', String(studyId));
     }
 
     /**
@@ -64,8 +54,8 @@ export class ActiveStudyService {
      * Get the current active study from BehaviorSubject or session storage
      * @return {Study}
      */
-    getActiveStudy(): Study {
-        return this.activeStudy.getValue();
+    getActiveStudy(): String {
+        return sessionStorage.getItem("activeStudy");
     }
 
     /**

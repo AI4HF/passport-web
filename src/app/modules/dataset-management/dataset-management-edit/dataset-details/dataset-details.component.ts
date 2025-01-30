@@ -1,9 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from "../../../../shared/components/base.component";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { takeUntil } from "rxjs";
 import { Dataset } from "../../../../shared/models/dataset.model";
-import { DatasetManagementRoutingModule } from "../../dataset-management-routing.module";
+import {DatasetManagementRoutingModule} from "../../dataset-management-routing.module";
 
 /**
  * Component to display and manage the details of a dataset.
@@ -15,29 +16,21 @@ import { DatasetManagementRoutingModule } from "../../dataset-management-routing
 })
 export class DatasetDetailsComponent extends BaseComponent implements OnInit {
 
-    /** The currently selected dataset */
     selectedDataset: Dataset;
-
-    /** The form group for the dataset */
     datasetForm: FormGroup;
-
-    /** List of feature sets */
     featuresets: any[];
-
-    /** Flag to indicate if the form is in edit mode */
     isEditMode: boolean = false;
 
-    /**
-     * Constructor to inject dependencies.
-     * @param injector The dependency injector
-     */
-    constructor(protected injector: Injector) {
+    /** List of datasets loaded from JSON */
+    hardcodedDatasets: Dataset[] = [];
+
+    /** Filtered list for auto-fill suggestions */
+    filteredDatasets: Dataset[] = [];
+
+    constructor(protected injector: Injector, private http: HttpClient) {
         super(injector);
     }
 
-    /**
-     * Initializes the component.
-     */
     ngOnInit() {
         this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
             const id = params.get('id');
@@ -45,18 +38,30 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
                 this.isEditMode = true;
                 this.loadDataset(+id);
             } else {
-                this.selectedDataset = new Dataset({id: 0});
+                this.selectedDataset = new Dataset({ id: 0 });
                 this.initializeForm();
             }
         });
         this.loadDropdowns();
+        this.loadHardcodedDatasets();
+    }
+
+    /**
+     * Loads the predefined datasets from a JSON file for auto-fill functionality.
+     */
+    loadHardcodedDatasets() {
+        this.http.get<Dataset[]>('assets/data/example-datasets.json').pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: data => this.hardcodedDatasets = data,
+                error: err => console.error('Failed to load hardcoded datasets', err)
+            });
     }
 
     /**
      * Loads the Dataset details by id if entity is being edited.
      */
     loadDataset(id: number) {
-        this.datasetService.getDatasetById(id).pipe(takeUntil(this.destroy$)).subscribe({
+        this.datasetService.getDatasetById(id, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: dataset => {
                 this.selectedDataset = dataset;
                 this.initializeForm();
@@ -91,10 +96,37 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
     }
 
     /**
+     * Filters the datasets based on the title input for auto-fill.
+     * @param event The auto-complete event
+     */
+    filterDatasets(event: any) {
+        const query = event.query.toLowerCase();
+        this.filteredDatasets = this.hardcodedDatasets.filter(dataset =>
+            dataset.title.toLowerCase().includes(query)
+        );
+    }
+
+    /**
+     * Auto-fills the form with the selected predefined dataset.
+     * @param event The auto-complete select event
+     */
+    selectAutoFill(event: any) {
+        const selectedDataset = event.value;
+        this.datasetForm.patchValue({
+            title: selectedDataset.title,
+            description: selectedDataset.description,
+            version: selectedDataset.version,
+            referenceEntity: selectedDataset.referenceEntity,
+            numOfRecords: selectedDataset.numOfRecords,
+            synthetic: selectedDataset.synthetic
+        });
+    }
+
+    /**
      * Loads the dropdown options for feature sets, populations, and organizations.
      */
     loadDropdowns() {
-        this.featureSetService.getAllFeatureSetsByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$)).subscribe({
+        this.featureSetService.getAllFeatureSetsByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: (featuresets) => {
                 this.featuresets = featuresets;
                 if (this.isEditMode) {
@@ -123,13 +155,6 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
     }
 
     /**
-     * Navigates back to the dataset management page.
-     */
-    back() {
-        this.router.navigate([`${DatasetManagementRoutingModule.route}`]);
-    }
-
-    /**
      * Saves the dataset, either creating a new one or updating an existing one.
      */
     save() {
@@ -146,7 +171,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
 
         if (!this.selectedDataset.datasetId) {
             const newDataset: Dataset = new Dataset({ ...datasetPayload });
-            this.datasetService.createDataset(newDataset)
+            this.datasetService.createDataset(newDataset, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: dataset => {
@@ -170,7 +195,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
                 });
         } else {
             const updatedDataset: Dataset = new Dataset({ datasetId: this.selectedDataset.datasetId, ...datasetPayload });
-            this.datasetService.updateDataset(updatedDataset)
+            this.datasetService.updateDataset(updatedDataset, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: (dataset: Dataset) => {
@@ -189,9 +214,15 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
                             summary: this.translateService.instant('Error'),
                             detail: error.message
                         });
-                    },
+                    }
                 });
         }
     }
-}
 
+    /**
+     * Navigates back to the dataset management page.
+     */
+    back() {
+        this.router.navigate([`${DatasetManagementRoutingModule.route}`]);
+    }
+}

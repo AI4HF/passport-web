@@ -2,8 +2,10 @@ import {Injectable} from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import {NavigationExtras, Router} from '@angular/router';
 import {StorageUtil} from "../services/storageUtil.service";
+import {MessageService} from "primeng/api";
+import {TranslateService} from "@ngx-translate/core";
 
 /**
  * An HTTP interceptor which sets up all requests' Authorization headers and logouts if there is an Unauthorized check.
@@ -39,8 +41,26 @@ export class AuthInterceptor implements HttpInterceptor {
                     StorageUtil.removeOrganizationId();
                     StorageUtil.removePersonnelName();
                     StorageUtil.removePersonnelSurname();
-                    this.router.navigate(['/login']);
+                    const navigationExtras: NavigationExtras = {
+                        state: {
+                            message: 'Unauthorized',
+                            severity: 'error',
+                            detail: error.message
+                        }
+                    };
+                    this.router.navigate(['/login'], navigationExtras);
                 }
+                else if (error.status === 403) {
+                    const navigationExtras: NavigationExtras = {
+                        state: {
+                            message: 'Forbidden',
+                            severity: 'error',
+                            detail: 'You do not have access to this resource.'
+                        }
+                    };
+                    this.router.navigate(['/not-found'], navigationExtras);
+                }
+
                 return throwError(error);
             })
         );

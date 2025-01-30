@@ -16,12 +16,26 @@
 }
 
 .align-checkbox {
-  margin-top: 0.75rem;
+  margin-top: 0;
 }
 
 .tooltip-div {
   margin-left: 0.5rem;
 }
+
 ::ng-deep .p-dialog-content {
-  padding: 0px 1.5rem 1.5rem !important;  /* Reducing padding for top and sides */
+  padding: 0px 1.5rem 1.5rem !important;
+}
+
+i {
+  z-index: 1;
+}
+
+::ng-deep .p-autocomplete .p-inputtext {
+  padding-left: 2.5rem;
+  width: 100%;
+}
+
+::ng-deep .p-dropdown .p-inputtext {
+  padding-left: 2.5rem;
 }

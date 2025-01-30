@@ -31,29 +31,18 @@
                         <input formControlName="lastName" id="lastName" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter last name' | translate }}" type="text">
                     </span>
                 </div>
-                <label for="role" class="font-bold">{{ 'OrganizationManagement.Role' | translate }}</label>
-                <div class="p-field p-col-12 p-md-12">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-briefcase"></i>
-                        <p-dropdown
-                                [style]="{'width':'100%'}"
-                                formControlName="role"
-                                [options]="roles"
-                                optionLabel="name"
-                                optionValue="value"
-                                placeholder="{{ 'OrganizationManagement.Enter role' | translate }}"
-                                class="w-full"
-                                [panelStyle]="{'max-height': '100px'}"
-                                [scrollHeight]="'100px'">
-                        </p-dropdown>
-                    </span>
-                </div>
                 <label for="email" class="font-bold">{{ 'OrganizationManagement.Email' | translate }}</label>
                 <div class="p-field p-col-12 p-md-12">
                     <span class="p-input-icon-left w-full mb-4">
                         <i class="pi pi-envelope"></i>
                         <input formControlName="email" id="email" pInputText class="w-full" placeholder="{{ 'OrganizationManagement.Enter email' | translate }}" type="email">
                     </span>
+                </div>
+                <div *ngIf="!this.personnelId" class="p-field p-col-12 p-md-12">
+                    <div class="p-field p-col-12 p-md-12 mb-4 ">
+                        <p-checkbox formControlName="role" [binary]="true" inputId="role" class="align-checkbox mr-2"></p-checkbox>
+                        <label for="role" class="font-bold">{{ 'OrganizationManagement.Study Owner' | translate }}</label>
+                    </div>
                 </div>
             </div>
         </div>

@@ -78,7 +78,7 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
      * Only executed when creating a new entry, not during updates.
      */
     loadLearningDatasets() {
-        this.learningDatasetService.getAllLearningDatasetsByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$))
+        this.learningDatasetService.getAllLearningDatasetsByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: datasets => {
                     this.learningDatasets = datasets;
@@ -99,7 +99,7 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
      * If the filtered list is empty, closes the form and shows an error message.
      */
     filterAvailableDatasets() {
-        this.learningProcessDatasetService.getLearningProcessDatasetsByLearningProcessId(this.learningProcessId)
+        this.learningProcessDatasetService.getLearningProcessDatasetsByLearningProcessId(this.learningProcessId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningProcessDatasets => {
@@ -129,7 +129,7 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
      * Loads the learning process dataset details using the provided IDs.
      */
     loadDatasetById() {
-        this.learningDatasetService.getLearningDatasetById(this.learningDatasetId)
+        this.learningDatasetService.getLearningDatasetById(this.learningDatasetId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: dataset => {
@@ -153,7 +153,7 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
      * Updates the form with the loaded learning process dataset details.
      */
     updateForm() {
-        this.learningProcessDatasetService.getLearningProcessDatasetById(this.learningProcessId, this.learningDatasetId)
+        this.learningProcessDatasetService.getLearningProcessDatasetById(this.learningProcessId, this.learningDatasetId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningProcessDataset => {
@@ -195,7 +195,7 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
      * @param learningProcessDataset The learning process dataset to be created
      */
     createLearningProcessDataset(learningProcessDataset: LearningProcessDataset) {
-        this.learningProcessDatasetService.createLearningProcessDataset(learningProcessDataset)
+        this.learningProcessDatasetService.createLearningProcessDataset(learningProcessDataset, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
@@ -221,7 +221,7 @@ export class LpDatasetFormComponent extends BaseComponent implements OnInit {
      * @param learningProcessDataset The learning process dataset to be updated
      */
     updateLearningProcessDataset(learningProcessDataset: LearningProcessDataset) {
-        this.learningProcessDatasetService.updateLearningProcessDataset(learningProcessDataset)
+        this.learningProcessDatasetService.updateLearningProcessDataset(learningProcessDataset, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {

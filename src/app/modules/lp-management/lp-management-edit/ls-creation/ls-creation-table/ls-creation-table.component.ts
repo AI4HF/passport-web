@@ -63,7 +63,7 @@ export class LsCreationTableComponent extends BaseComponent implements OnInit {
      * Loads the learning stages associated with the selected learning process.
      */
     loadLearningStages() {
-        this.learningStageService.getLearningStagesByLearningProcessId(this.learningProcessId)
+        this.learningStageService.getLearningStagesByLearningProcessId(this.learningProcessId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningStages => {
@@ -86,7 +86,7 @@ export class LsCreationTableComponent extends BaseComponent implements OnInit {
      * Loads all datasets and maps them by their ID.
      */
     loadDatasets() {
-        this.datasetService.getAllDatasetsByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$))
+        this.datasetService.getAllDatasetsByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: datasets => {
                     datasets.forEach(dataset => {
@@ -108,7 +108,7 @@ export class LsCreationTableComponent extends BaseComponent implements OnInit {
      * @param learningStage The learning stage to be deleted
      */
     deleteLearningStage(learningStage: LearningStage) {
-        this.learningStageService.deleteLearningStage(learningStage.learningStageId)
+        this.learningStageService.deleteLearningStage(learningStage.learningStageId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {

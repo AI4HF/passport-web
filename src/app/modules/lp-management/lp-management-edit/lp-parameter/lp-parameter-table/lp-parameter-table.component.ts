@@ -63,7 +63,7 @@ export class LpParameterTableComponent extends BaseComponent implements OnInit {
      * @param learningProcessId ID of the LearningProcess
      */
     loadLearningProcessParameters(learningProcessId: number) {
-        this.learningProcessParameterService.getLearningProcessParametersByProcessId(learningProcessId).pipe(takeUntil(this.destroy$))
+        this.learningProcessParameterService.getLearningProcessParametersByProcessId(learningProcessId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (learningProcessParameters: LearningProcessParameter[]) => {
                     this.learningProcessParameters = learningProcessParameters;
@@ -85,7 +85,7 @@ export class LpParameterTableComponent extends BaseComponent implements OnInit {
      * Loads all Parameters and maps them to their IDs.
      */
     loadParameters() {
-        this.parameterService.getAllParametersByStudyId(this.activeStudyService.getActiveStudy().id).pipe(takeUntil(this.destroy$))
+        this.parameterService.getAllParametersByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (parameters: Parameter[]) => {
                     parameters.forEach(param => this.parameters[param.parameterId] = param);
@@ -105,7 +105,7 @@ export class LpParameterTableComponent extends BaseComponent implements OnInit {
      * @param learningProcessParameter The LearningProcessParameter to be deleted
      */
     deleteLearningProcessParameter(learningProcessParameter: LearningProcessParameter) {
-        this.learningProcessParameterService.deleteLearningProcessParameter(learningProcessParameter.learningProcessId, learningProcessParameter.parameterId)
+        this.learningProcessParameterService.deleteLearningProcessParameter(learningProcessParameter.learningProcessId, learningProcessParameter.parameterId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
