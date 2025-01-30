@@ -1,0 +1,43 @@
+<div class="col-12">
+  <div *ngIf="!loading" class="card p-3">
+    <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
+      <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">
+        {{ 'AuditLogTable.AuditLogs' | translate }}
+      </div>
+    </div>
+
+    <p-table
+            [value]="auditLogs"
+            [paginator]="true"
+            [rows]="10"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            [loading]="loading"
+            [showLoader]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>{{ 'AuditLogTable.ActionType' | translate }}</th>
+          <th>{{ 'AuditLogTable.OccurredAt' | translate }}</th>
+          <th>{{ 'AuditLogTable.AffectedRelation' | translate }}</th>
+          <th>{{ 'AuditLogTable.Description' | translate }}</th>
+        </tr>
+      </ng-template>
+      <ng-template let-auditLog pTemplate="body">
+        <tr>
+          <td>{{ auditLog.actionType }}</td>
+          <td>{{ auditLog.occurredAt | date: 'short' }}</td>
+          <td>{{ auditLog.affectedRelation }}</td>
+          <td>{{ auditLog.description }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <button
+            class="p-button p-button-secondary mt-3"
+            type="button"
+            (click)="goBack()"
+    >
+      {{ 'AuditLogTable.GoBack' | translate }}
+    </button>
+  </div>
+</div>

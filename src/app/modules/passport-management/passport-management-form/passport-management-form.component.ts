@@ -7,6 +7,7 @@ import { ModelWithName } from "../../../shared/models/modelWithName.model";
 import { ModelDeploymentWithModelName } from "../../../shared/models/modelDeploymentWithModelName.model";
 import {PassportDetailsSelection} from "../../../shared/models/passportDetailsSelection.model";
 import {PassportWithDetailSelection} from "../../../shared/models/passportWithDetailSelection.model";
+import {AuditLogBookService} from "../../../core/services/audit-log-book.service";
 
 /**
  * Component for creating passport.
@@ -32,8 +33,10 @@ export class PassportManagementFormComponent extends BaseComponent implements On
     /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
+     * @param auditLogBookService
      */
-    constructor(protected injector: Injector) {
+    constructor(protected injector: Injector,
+    private auditLogBookService: AuditLogBookService) {
         super(injector);
     }
 
@@ -102,33 +105,68 @@ export class PassportManagementFormComponent extends BaseComponent implements On
      * Saves the passport.
      */
     savePassport() {
-        // @ts-ignore
-        const newPassport: Passport = new Passport({...this.passportForm.value, studyId: this.activeStudyService.getActiveStudy()});
-        const passportDetails: PassportDetailsSelection = new PassportDetailsSelection({...this.passportForm.value});
-        const passportWithDetailSelection: PassportWithDetailSelection = new PassportWithDetailSelection({passport: newPassport, passportDetailsSelection: passportDetails});
-        this.passportService.createPassport(passportWithDetailSelection, this.activeStudyService.getActiveStudy())
+        const newPassport: Passport = new Passport({
+            ...this.passportForm.value,
+            studyId: this.activeStudyService.getActiveStudy(),
+        });
+        const passportDetails: PassportDetailsSelection = new PassportDetailsSelection({
+            ...this.passportForm.value,
+        });
+        const passportWithDetailSelection: PassportWithDetailSelection = new PassportWithDetailSelection({
+            passport: newPassport,
+            passportDetailsSelection: passportDetails,
+        });
+
+        this.passportService
+            .createPassport(passportWithDetailSelection, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: passport => {
+                next: (passport) => {
+                    this.auditLogBookService
+                        .createAuditLogBookEntries(
+                            passport.passportId.toString(),
+                            +this.activeStudyService.getActiveStudy(),
+                            passport.deploymentId
+                        )
+                        .pipe(takeUntil(this.destroy$))
+                        .subscribe({
+                            next: () => {
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: this.translateService.instant('Success'),
+                                    detail: this.translateService.instant('AuditLogBook.Created'),
+                                });
+                            },
+                            error: (error) => {
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: this.translateService.instant('Error'),
+                                    detail: error.message,
+                                });
+                            },
+                        });
+
+                    // Reset the form
                     this.initializeForm();
                     this.messageService.add({
                         severity: 'success',
                         summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('PassportManagement.Created')
+                        detail: this.translateService.instant('PassportManagement.Created'),
                     });
                 },
                 error: (error: any) => {
                     this.messageService.add({
                         severity: 'error',
                         summary: this.translateService.instant('Error'),
-                        detail: error.message
+                        detail: error.message,
                     });
                 },
                 complete: () => {
                     this.closeDialog();
-                }
+                },
             });
     }
+
 
     /**
      * Closes the dialog
