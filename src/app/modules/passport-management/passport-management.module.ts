@@ -4,6 +4,7 @@ import {PassportManagementTableModule} from "./passport-management-table/passpor
 import {PassportManagementRoutingModule} from "./passport-management-routing.module";
 import {PassportManagementFormModule} from "./passport-management-form/passport-management-form.module";
 import {PassportPdfExportModule} from "./passport-pdf-export/passport-pdf-export.module";
+import {AuditLogTableModule} from "./audit-log-table/audit-log-table.module";
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {PassportPdfExportModule} from "./passport-pdf-export/passport-pdf-export
         PassportManagementRoutingModule,
         PassportManagementTableModule,
         PassportManagementFormModule,
-        PassportPdfExportModule
+        PassportPdfExportModule,
+        AuditLogTableModule
     ]
 })
 export class PassportManagementModule { }

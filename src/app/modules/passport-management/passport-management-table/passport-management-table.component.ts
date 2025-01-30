@@ -225,4 +225,9 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   closePdfPreview() {
     this.showPdfPreview = false;
   }
+
+  viewAuditLogs(passportId: number): void {
+    this.router.navigate(['/passport-management/audit-logs', passportId]);
+  }
+
 }
