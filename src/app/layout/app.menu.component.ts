@@ -4,7 +4,6 @@ import { BaseComponent } from "../shared/components/base.component";
 import { MenuItem } from 'primeng/api';
 import { Role } from "../shared/models/role.enum";
 import { takeUntil } from "rxjs/operators";
-import {StorageUtil} from "../core/services/storageUtil.service";
 
 /**
  * Menu component which handles the navigation header connections.
@@ -58,14 +57,13 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
         this.model = [];
 
 
-        if (StorageUtil.retrieveUserId())
-        {
-            this.model.push({
+
+        this.model.push({
             label: this.translateService.instant('Study Management'),
             icon: 'pi pi-book',
             routerLink: ['/study-management']
         });
-            }
+
 
         if (this.userRoles != null) {
             if (this.userRoles.includes(Role.DATA_SCIENTIST)) {
