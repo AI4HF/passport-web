@@ -131,4 +131,12 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
     this.loadModelsByStudyId(this.activeStudyService.getActiveStudy());
   }
 
+  /**
+   * Navigates to the learning stage parameter assignment table.
+   * @param modelId The ID of the selected learning stage
+   */
+  goToModelParameterAssignment(modelId: number) {
+    this.router.navigate([`/model-management/${modelId}/model-parameter-assignment`]);
+  }
+
 }
