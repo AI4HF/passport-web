@@ -89,16 +89,15 @@ export class PdfExportComponent {
                 heightLeft -= pdfHeight;
             }
 
-            // Instead of .then(), directly store as Blob
             const pdfBlob: Blob = pdf.output('blob') as Blob;
 
-            // Example studyId usage if you have it:
-            const studyId = this.studyDetails?.id || 0;
+            if (!this.studyDetails?.id) {
+                throw new Error("Study Details not available - Inapplicable Passport");
+            }
+            const studyId = this.studyDetails.id;
 
-            // Now call your signing service
             this.passportService.signPdf(pdfBlob, studyId).subscribe({
                 next: (signedPdfBlob: Blob) => {
-                    // Download the signed PDF
                     const downloadUrl = URL.createObjectURL(signedPdfBlob);
                     const link = document.createElement('a');
                     link.href = downloadUrl;
