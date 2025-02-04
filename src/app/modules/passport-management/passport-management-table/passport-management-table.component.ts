@@ -198,7 +198,6 @@ export class PassportManagementTableComponent extends BaseComponent implements O
         this.datasetsWithLearningDatasets = details.datasetsWithLearningDatasets || [];
         this.featureSetsWithFeatures = details.featureSetsWithFeatures || [];
         this.learningProcessesWithStages = details.learningProcessesWithStages || [];
-        this.signature = passportDetails.signature;
       },
       error: error => {
         this.messageService.add({

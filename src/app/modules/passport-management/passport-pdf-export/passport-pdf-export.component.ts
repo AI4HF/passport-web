@@ -45,7 +45,6 @@ export class PdfExportComponent {
     @Input() featureSetsWithFeatures: FeatureSetWithFeaturesDTO[] = [];
     /** Learning processes with stages to be included in the PDF */
     @Input() learningProcessesWithStages: LearningProcessWithStagesDTO[] = [];
-    @Input() signature: Uint8Array = null;
 
     /** Flag to control the visibility of the PDF preview */
     display: boolean = true;

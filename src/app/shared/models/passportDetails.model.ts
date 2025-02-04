@@ -10,8 +10,6 @@ export class PassportDetailsDTO {
     // New addition to hold all the details as JSON
     detailsJson: any;
 
-    signature: Uint8Array;
-
     constructor(data: any) {
 
         if (!data) {
@@ -19,7 +17,6 @@ export class PassportDetailsDTO {
         }
 
         this.passport = new Passport(data.passport);
-        this.detailsJson = data.detailsJson; // Store the JSON as-is
-        this.signature = data.signature;
+        this.detailsJson = data.detailsJson;
     }
 }
