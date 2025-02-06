@@ -37,7 +37,6 @@ export class LoginComponent extends BaseComponent implements OnInit {
      */
     ngOnInit() {
         const navigationState = this.router.getCurrentNavigation()?.extras.state;
-        console.log(navigationState);
         if (navigationState) {
             let message = navigationState['message'];
             let severity = navigationState['severity'];

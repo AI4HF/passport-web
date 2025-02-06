@@ -17,6 +17,6 @@ export class PassportDetailsDTO {
         }
 
         this.passport = new Passport(data.passport);
-        this.detailsJson = data.detailsJson; // Store the JSON as-is
+        this.detailsJson = data.detailsJson;
     }
 }

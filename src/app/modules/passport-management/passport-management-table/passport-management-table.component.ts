@@ -60,6 +60,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   featureSetsWithFeatures: FeatureSetWithFeaturesDTO[] = [];
   /** Learning processes with stages for the selected passport */
   learningProcessesWithStages: LearningProcessWithStagesDTO[] = [];
+  signature: Uint8Array = null;
 
   /** Flag for showing the PDF preview dialog */
   showPdfPreview: boolean = false;
