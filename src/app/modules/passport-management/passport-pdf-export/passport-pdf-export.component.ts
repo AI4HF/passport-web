@@ -56,6 +56,7 @@ export class PdfExportComponent {
 
     /**
      * Generates the PDF for the passport using the provided details.
+     * Then conducts a PDF transaction with the server to digitally sign the pdf.
      */
     generatePdf() {
         const dataElement = document.getElementById('pdfPreviewContainer');
@@ -96,12 +97,13 @@ export class PdfExportComponent {
             }
             const studyId = this.studyDetails.id;
 
+            // Resulting PDF gets signed by the server.
             this.passportService.signPdf(pdfBlob, studyId).subscribe({
                 next: (signedPdfBlob: Blob) => {
                     const downloadUrl = URL.createObjectURL(signedPdfBlob);
                     const link = document.createElement('a');
                     link.href = downloadUrl;
-                    link.download = 'DeploymentDetails_signed.pdf';
+                    link.download = 'Passport_signed.pdf';
                     link.click();
 
                     URL.revokeObjectURL(downloadUrl);
