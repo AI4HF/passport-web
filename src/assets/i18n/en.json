@@ -629,5 +629,15 @@
     "PassportManagement": {
       "PassportFormTooltip": "Model selection for which a general passport will be generated."
     }
+  },
+  "AuditLogTable": {
+    "AuditLogs": "Audit Logs",
+    "ActionType": "Action Type",
+    "PersonId": "Person ID",
+    "AffectedRelation": "Affected Relation",
+    "AffectedRecord": "Affected Record",
+    "AffectedRecordId": "Affected Record ID",
+    "ShowDetails": "Show Details",
+    "HideDetails": "Hide Details"
   }
 }
