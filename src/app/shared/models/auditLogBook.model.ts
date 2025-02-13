@@ -5,7 +5,7 @@ export class AuditLogBook {
     /**
      * The ID of the associated Passport
      */
-    passportId: string;
+    passportId: number;
 
     /**
      * The ID of the associated AuditLog
@@ -16,7 +16,7 @@ export class AuditLogBook {
         if (!data) {
             return;
         }
-        this.passportId = data.passportId;
-        this.auditLogId = data.auditLogId;
+        this.passportId = data.id.passportId;
+        this.auditLogId = data.id.auditLogId;
     }
 }

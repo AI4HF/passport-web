@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuditLog } from '../../../shared/models/auditLog.model';
-import {AuditLogBookService} from "../../../core/services/audit-log-book.service";
-
+import { AuditLogBookService } from '../../../core/services/audit-log-book.service';
 
 /**
- * Component for displaying audit logs in a table.
+ * Component for displaying audit logs using a timeline with pagination.
  */
 @Component({
     selector: 'app-audit-log-table',
@@ -13,10 +12,16 @@ import {AuditLogBookService} from "../../../core/services/audit-log-book.service
     styleUrls: ['./audit-log-table.component.scss'],
 })
 export class AuditLogTableComponent implements OnInit {
-    /** List of audit logs to display */
+    /** List of all audit logs */
     auditLogs: AuditLog[] = [];
+    /** List of audit logs to display for the current page */
+    pagedAuditLogs: AuditLog[] = [];
     /** Flag indicating whether data is loading */
     loading: boolean = true;
+    /** Number of rows per page for pagination */
+    rowsPerPage: number = 10;
+    /** Current page index for pagination */
+    currentPage: number = 0;
 
     /**
      * Constructor to inject dependencies.
@@ -32,6 +37,7 @@ export class AuditLogTableComponent implements OnInit {
 
     /**
      * Initializes the component by loading the audit logs.
+     * Populates the first page on load.
      */
     ngOnInit(): void {
         const passportId = this.route.snapshot.paramMap.get('passportId');
@@ -47,13 +53,11 @@ export class AuditLogTableComponent implements OnInit {
     loadAuditLogs(passportId: string): void {
         this.auditLogBookService.getAllByPassportId(passportId).subscribe({
             next: (auditLogBooks) => {
-                // Map all AuditLogBook entries to extract only the AuditLog IDs
                 const auditLogIds = auditLogBooks.map((logBook) => logBook.auditLogId);
-
-                // Fetch the AuditLogs using the list of AuditLog IDs
                 this.auditLogBookService.getAuditLogsByIds(auditLogIds).subscribe({
                     next: (logs) => {
-                        this.auditLogs = logs;
+                        this.auditLogs = logs.reverse();
+                        this.updatePagedAuditLogs();
                     },
                     error: (error) => {
                         console.error('Error fetching audit logs:', error);
@@ -70,6 +74,26 @@ export class AuditLogTableComponent implements OnInit {
         });
     }
 
+    /**
+     * Updates the `pagedAuditLogs` based on the current page and rows per page.
+     * This method slices the full log list into the subset required for pagination.
+     */
+    updatePagedAuditLogs(): void {
+        const startIndex = this.currentPage * this.rowsPerPage;
+        const endIndex = startIndex + this.rowsPerPage;
+        this.pagedAuditLogs = this.auditLogs.slice(startIndex, endIndex);
+    }
+
+    /**
+     * Handles page change events triggered by the paginator.
+     * Updates the current page and refreshes the displayed logs.
+     * @param event Contains pagination details such as first row and rows per page
+     */
+    onPageChange(event: any): void {
+        this.currentPage = event.page;
+        this.rowsPerPage = event.rows;
+        this.updatePagedAuditLogs();
+    }
 
     /**
      * Navigates back to the passport management table.

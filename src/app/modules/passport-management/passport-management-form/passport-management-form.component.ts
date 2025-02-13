@@ -144,9 +144,10 @@ export class PassportManagementFormComponent extends BaseComponent implements On
                                     detail: error.message,
                                 });
                             },
+                            complete: () => {
+                                this.closeDialog();
+                            }
                         });
-
-                    // Reset the form
                     this.initializeForm();
                     this.messageService.add({
                         severity: 'success',
@@ -160,10 +161,7 @@ export class PassportManagementFormComponent extends BaseComponent implements On
                         summary: this.translateService.instant('Error'),
                         detail: error.message,
                     });
-                },
-                complete: () => {
-                    this.closeDialog();
-                },
+                }
             });
     }
 
