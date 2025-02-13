@@ -1,43 +1,50 @@
 <div class="col-12">
-  <div *ngIf="!loading" class="card p-3">
-    <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
-      <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">
-        {{ 'AuditLogTable.AuditLogs' | translate }}
-      </div>
+    <div *ngIf="!loading" class="card p-3">
+        <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">
+                {{ 'AuditLogTable.AuditLogs' | translate }}
+            </div>
+        </div>
+
+        <!-- PrimeNG Timeline -->
+        <p-timeline
+                [value]="pagedAuditLogs"
+                [styleClass]="'custom-timeline'"
+                [align]="'alternate'"
+        >
+            <!-- Template for Timeline Event -->
+            <ng-template let-auditLog pTemplate="content">
+                <div class="timeline-content">
+                    <!-- Occurred At and Description displayed by default -->
+                    <h3>{{ auditLog.occurredAt | date: 'short' }}</h3>
+                    <p>{{ auditLog.description }}</p>
+
+                    <!-- Toggle Button and State -->
+                    <button
+                            (click)="auditLog.expanded = !auditLog.expanded"
+                            class="p-button p-button-sm p-button-primary"
+                    >
+                        {{ auditLog.expanded ? ('Hide Details' | translate) : ('Show Details' | translate) }}
+                    </button>
+
+                    <!-- Additional details visible when 'expanded' is true -->
+                    <div *ngIf="auditLog.expanded" class="additional-details mt-2">
+                        <p><strong>{{ 'AuditLogTable.ActionType' | translate }}:</strong> {{ auditLog.actionType }}</p>
+                        <p><strong>{{ 'AuditLogTable.PersonId' | translate }}:</strong> {{ auditLog.personId }}</p>
+                        <p><strong>{{ 'AuditLogTable.AffectedRelation' | translate }}:</strong> {{ auditLog.affectedRelation }}</p>
+                        <p><strong>{{ 'AuditLogTable.AffectedRecord' | translate }}:</strong> {{ auditLog.affectedRecord }}</p>
+                        <p><strong>{{ 'AuditLogTable.AffectedRecordId' | translate }}:</strong> {{ auditLog.affectedRecordId }}</p>
+                    </div>
+                </div>
+            </ng-template>
+        </p-timeline>
+
+        <!-- Pagination -->
+        <p-paginator
+                [rows]="10"
+                [totalRecords]="auditLogs?.length || 0"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                (onPageChange)="onPageChange($event)">
+        </p-paginator>
     </div>
-
-    <p-table
-            [value]="auditLogs"
-            [paginator]="true"
-            [rows]="10"
-            [rowsPerPageOptions]="[10, 25, 50]"
-            [loading]="loading"
-            [showLoader]="true"
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th>{{ 'AuditLogTable.ActionType' | translate }}</th>
-          <th>{{ 'AuditLogTable.OccurredAt' | translate }}</th>
-          <th>{{ 'AuditLogTable.AffectedRelation' | translate }}</th>
-          <th>{{ 'AuditLogTable.Description' | translate }}</th>
-        </tr>
-      </ng-template>
-      <ng-template let-auditLog pTemplate="body">
-        <tr>
-          <td>{{ auditLog.actionType }}</td>
-          <td>{{ auditLog.occurredAt | date: 'short' }}</td>
-          <td>{{ auditLog.affectedRelation }}</td>
-          <td>{{ auditLog.description }}</td>
-        </tr>
-      </ng-template>
-    </p-table>
-
-    <button
-            class="p-button p-button-secondary mt-3"
-            type="button"
-            (click)="goBack()"
-    >
-      {{ 'AuditLogTable.GoBack' | translate }}
-    </button>
-  </div>
 </div>

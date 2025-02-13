@@ -13,6 +13,8 @@ import {DialogModule} from "primeng/dialog";
 import {
     SelectedStudyDropdownModule
 } from "../../../shared/components/selected-study-dropdown/selected-study-dropdown.module";
+import {TimelineModule} from "primeng/timeline";
+import {PaginatorModule} from "primeng/paginator";
 
 
 
@@ -29,7 +31,9 @@ import {
         TranslateModule,
         CardModule,
         DialogModule,
-        SelectedStudyDropdownModule
+        SelectedStudyDropdownModule,
+        TimelineModule,
+        PaginatorModule
     ],
     exports: [AuditLogTableComponent]
 })
