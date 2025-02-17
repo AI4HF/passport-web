@@ -13,6 +13,11 @@ export class AuditLog {
     personId: string;
 
     /**
+     * The ID of the personnel associated with this AuditLog
+     */
+    personName: string;
+
+    /**
      * The timestamp of the event
      */
     occurredAt: Date;
@@ -48,6 +53,7 @@ export class AuditLog {
         }
         this.auditLogId = data.auditLogId;
         this.personId = data.personId;
+        this.personName = data.personName;
         this.occurredAt = new Date(data.occurredAt);
         this.actionType = data.actionType;
         this.affectedRelation = data.affectedRelation;

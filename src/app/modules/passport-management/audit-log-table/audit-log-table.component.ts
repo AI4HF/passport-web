@@ -59,9 +59,8 @@ export class AuditLogTableComponent implements OnInit {
                 const auditLogIds = auditLogBooks.map((logBook) => logBook.auditLogId);
                 this.auditLogBookService.getAuditLogsByIds(auditLogIds).subscribe({
                     next: (logs) => {
-                        // Reverse the logs to display the most recent first
                         this.auditLogs = logs.reverse();
-                        // Initialize filtered logs with all logs
+
                         this.filteredAuditLogs = this.auditLogs;
                     },
                     error: (error) => {

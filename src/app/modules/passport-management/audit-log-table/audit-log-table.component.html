@@ -69,6 +69,10 @@
                         {{ 'AuditLogTable.PersonId' | translate }}
                         <p-sortIcon field="personId"></p-sortIcon>
                     </th>
+                    <th pSortableColumn="personName">
+                        {{ 'AuditLogTable.PersonName' | translate }}
+                        <p-sortIcon field="personName"></p-sortIcon>
+                    </th>
                     <th pSortableColumn="affectedRelation">
                         {{ 'AuditLogTable.AffectedRelation' | translate }}
                         <p-sortIcon field="affectedRelation"></p-sortIcon>
@@ -89,6 +93,7 @@
                     <td>{{ log.description }}</td>
                     <td>{{ log.actionType }}</td>
                     <td>{{ log.personId }}</td>
+                    <td>{{ log.personName }}</td>
                     <td>{{ log.affectedRelation }}</td>
                     <td>
                         <ng-container *ngIf="log.affectedRecord && log.affectedRecord.length > 50">
