@@ -15,6 +15,8 @@ import {
 } from "../../../shared/components/selected-study-dropdown/selected-study-dropdown.module";
 import {TimelineModule} from "primeng/timeline";
 import {PaginatorModule} from "primeng/paginator";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {CalendarModule} from "primeng/calendar";
 
 
 
@@ -33,7 +35,9 @@ import {PaginatorModule} from "primeng/paginator";
         DialogModule,
         SelectedStudyDropdownModule,
         TimelineModule,
-        PaginatorModule
+        PaginatorModule,
+        ProgressSpinnerModule,
+        CalendarModule
     ],
     exports: [AuditLogTableComponent]
 })

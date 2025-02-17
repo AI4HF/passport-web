@@ -389,6 +389,7 @@
     }
   },
   "PassportManagement": {
+    "ViewAuditLogs": "View Audit Logs",
     "CreatedBy": "Created By",
     "CreatedAt": "Created At",
     "Passport Management": "Passport Management",
@@ -639,5 +640,8 @@
     "AffectedRecordId": "Affected Record ID",
     "ShowDetails": "Show Details",
     "HideDetails": "Hide Details"
+  },
+  "AuditLogBook": {
+    "Created": "Audit Log Book for Passport has been created."
   }
 }

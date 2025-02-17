@@ -4,7 +4,7 @@ import { AuditLog } from '../../../shared/models/auditLog.model';
 import { AuditLogBookService } from '../../../core/services/audit-log-book.service';
 
 /**
- * Component for displaying audit logs using a timeline with pagination.
+ * Component for displaying audit logs in a table with date range filtering and search.
  */
 @Component({
     selector: 'app-audit-log-table',
@@ -14,14 +14,18 @@ import { AuditLogBookService } from '../../../core/services/audit-log-book.servi
 export class AuditLogTableComponent implements OnInit {
     /** List of all audit logs */
     auditLogs: AuditLog[] = [];
-    /** List of audit logs to display for the current page */
-    pagedAuditLogs: AuditLog[] = [];
+    /** Filtered list of audit logs to display */
+    filteredAuditLogs: AuditLog[] = [];
     /** Flag indicating whether data is loading */
     loading: boolean = true;
-    /** Number of rows per page for pagination */
-    rowsPerPage: number = 10;
-    /** Current page index for pagination */
-    currentPage: number = 0;
+
+    /** Search text for filtering action type and affected relation */
+    searchText: string = '';
+
+    /** Start date filter value */
+    startDate: Date | null = null;
+    /** End date filter value */
+    endDate: Date | null = null;
 
     /**
      * Constructor to inject dependencies.
@@ -37,7 +41,6 @@ export class AuditLogTableComponent implements OnInit {
 
     /**
      * Initializes the component by loading the audit logs.
-     * Populates the first page on load.
      */
     ngOnInit(): void {
         const passportId = this.route.snapshot.paramMap.get('passportId');
@@ -56,8 +59,10 @@ export class AuditLogTableComponent implements OnInit {
                 const auditLogIds = auditLogBooks.map((logBook) => logBook.auditLogId);
                 this.auditLogBookService.getAuditLogsByIds(auditLogIds).subscribe({
                     next: (logs) => {
+                        // Reverse the logs to display the most recent first
                         this.auditLogs = logs.reverse();
-                        this.updatePagedAuditLogs();
+                        // Initialize filtered logs with all logs
+                        this.filteredAuditLogs = this.auditLogs;
                     },
                     error: (error) => {
                         console.error('Error fetching audit logs:', error);
@@ -75,24 +80,63 @@ export class AuditLogTableComponent implements OnInit {
     }
 
     /**
-     * Updates the `pagedAuditLogs` based on the current page and rows per page.
-     * This method slices the full log list into the subset required for pagination.
+     * Updates the filteredAuditLogs based on search text and date range filters.
      */
-    updatePagedAuditLogs(): void {
-        const startIndex = this.currentPage * this.rowsPerPage;
-        const endIndex = startIndex + this.rowsPerPage;
-        this.pagedAuditLogs = this.auditLogs.slice(startIndex, endIndex);
+    updateFilters(): void {
+        let filtered = this.auditLogs;
+
+        // Apply search filter on actionType and affectedRelation
+        if (this.searchText && this.searchText.trim() !== '') {
+            const search = this.searchText.toLowerCase();
+            filtered = filtered.filter(
+                (item) =>
+                    (item.actionType && item.actionType.toLowerCase().includes(search)) ||
+                    (item.affectedRelation && item.affectedRelation.toLowerCase().includes(search))
+            );
+        }
+
+        // Apply date range filter on occurredAt
+        if (this.startDate || this.endDate) {
+            filtered = filtered.filter((item) => {
+                const itemDate = new Date(item.occurredAt);
+                if (this.startDate && this.endDate) {
+                    return itemDate >= this.startDate && itemDate <= this.endDate;
+                } else if (this.startDate) {
+                    return itemDate >= this.startDate;
+                } else if (this.endDate) {
+                    return itemDate <= this.endDate;
+                }
+                return true;
+            });
+        }
+
+        this.filteredAuditLogs = filtered;
     }
 
     /**
-     * Handles page change events triggered by the paginator.
-     * Updates the current page and refreshes the displayed logs.
-     * @param event Contains pagination details such as first row and rows per page
+     * Event handler for search input changes.
+     * @param event Input event
      */
-    onPageChange(event: any): void {
-        this.currentPage = event.page;
-        this.rowsPerPage = event.rows;
-        this.updatePagedAuditLogs();
+    onSearchChange(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        this.searchText = input.value;
+        this.updateFilters();
+    }
+
+    /**
+     * Event handler for when a date is selected from the calendar.
+     */
+    onDateSelect(): void {
+        this.updateFilters();
+    }
+
+    /**
+     * Clears the date filters and updates the filtered list.
+     */
+    clearDateFilters(): void {
+        this.startDate = null;
+        this.endDate = null;
+        this.updateFilters();
     }
 
     /**
