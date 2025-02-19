@@ -632,6 +632,10 @@
     }
   },
   "AuditLogTable": {
+    "GoBack": "Go Back",
+    "OccurredAt":"Occurred At",
+    "Description": "Description",
+    "PersonName": "Person Name",
     "AuditLogs": "Audit Logs",
     "ActionType": "Action Type",
     "PersonId": "Person ID",

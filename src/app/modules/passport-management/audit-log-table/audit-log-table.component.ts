@@ -60,7 +60,6 @@ export class AuditLogTableComponent implements OnInit {
                 this.auditLogBookService.getAuditLogsByIds(auditLogIds).subscribe({
                     next: (logs) => {
                         this.auditLogs = logs.reverse();
-
                         this.filteredAuditLogs = this.auditLogs;
                     },
                     error: (error) => {
@@ -84,11 +83,13 @@ export class AuditLogTableComponent implements OnInit {
     updateFilters(): void {
         let filtered = this.auditLogs;
 
-        // Apply search filter on actionType and affectedRelation
+        // Apply search filter on actionType, personName, description, and affectedRelation
         if (this.searchText && this.searchText.trim() !== '') {
             const search = this.searchText.toLowerCase();
             filtered = filtered.filter(
                 (item) =>
+                    (item.description && item.description.toLowerCase().includes(search)) ||
+                    (item.personName && item.personName.toLowerCase().includes(search)) ||
                     (item.actionType && item.actionType.toLowerCase().includes(search)) ||
                     (item.affectedRelation && item.affectedRelation.toLowerCase().includes(search))
             );
@@ -123,18 +124,9 @@ export class AuditLogTableComponent implements OnInit {
     }
 
     /**
-     * Event handler for when a date is selected from the calendar.
+     * Invoked whenever the start or end date changes (including clearing).
      */
     onDateSelect(): void {
-        this.updateFilters();
-    }
-
-    /**
-     * Clears the date filters and updates the filtered list.
-     */
-    clearDateFilters(): void {
-        this.startDate = null;
-        this.endDate = null;
         this.updateFilters();
     }
 

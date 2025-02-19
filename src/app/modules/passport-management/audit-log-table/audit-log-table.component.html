@@ -1,6 +1,6 @@
 <div class="col-12">
     <div *ngIf="!loading" class="card p-3">
-        <!-- Header Section with consistent styling and spaced elements -->
+        <!-- Header Section -->
         <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
             <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">
                 {{ 'AuditLogTable.AuditLogs' | translate }}
@@ -17,29 +17,23 @@
                             (input)="onSearchChange($event)"
                     />
                 </span>
+
                 <!-- Date Range Filters -->
                 <p-calendar
                         [(ngModel)]="startDate"
                         placeholder="Start Date"
-                        (onSelect)="onDateSelect()"
+                        (ngModelChange)="onDateSelect()"
                         [showIcon]="true"
                         class="mx-2"
                 ></p-calendar>
                 <p-calendar
                         [(ngModel)]="endDate"
                         placeholder="End Date"
-                        (onSelect)="onDateSelect()"
+                        (ngModelChange)="onDateSelect()"
                         [showIcon]="true"
                         class="mx-2"
                 ></p-calendar>
-                <!-- Clear Date Filters Button -->
-                <button
-                        pButton
-                        type="button"
-                        label="Clear Dates"
-                        class="p-button-rounded button-secondary mx-2"
-                        (click)="clearDateFilters()"
-                ></button>
+                <!-- Removed the "Clear Dates" button -->
             </div>
         </div>
 
@@ -98,10 +92,12 @@
                     <td>
                         <ng-container *ngIf="log.affectedRecord && log.affectedRecord.length > 50">
                             <span *ngIf="!log.showFullRecord">
-                                {{ log.affectedRecord | slice:0:50 }}<a (click)="log.showFullRecord = true" style="cursor:pointer;">...</a>
+                                {{ log.affectedRecord | slice: 0:50 }}
+                                <a (click)="log.showFullRecord = true" style="cursor: pointer;">...</a>
                             </span>
                             <span *ngIf="log.showFullRecord">
-                                {{ log.affectedRecord }} <a (click)="log.showFullRecord = false" style="cursor:pointer;">(show less)</a>
+                                {{ log.affectedRecord }}
+                                <a (click)="log.showFullRecord = false" style="cursor: pointer;">(show less)</a>
                             </span>
                         </ng-container>
                         <ng-container *ngIf="!log.affectedRecord || log.affectedRecord.length <= 50">
