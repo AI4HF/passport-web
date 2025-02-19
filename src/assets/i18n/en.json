@@ -588,6 +588,7 @@
       "VersionTooltip": "Version of the dataset.",
       "ReferenceEntityTooltip": "Entity to which this dataset refers.",
       "FeatureSetTooltip": "Feature set associated with this dataset.",
+      "PopulationTooltip": "Population associated with this dataset.",
       "NumOfRecordsTooltip": "Number of records in the dataset.",
       "SyntheticTooltip": "Indicates whether the dataset is synthetic.",
       "LearningDatasetFormTooltip": "Creation/Update form for the Learning Dataset.",

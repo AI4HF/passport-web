@@ -156,10 +156,8 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (populations) => {
-                    this.populationOptions = populations.map((pop: any) => ({
-                        label: pop.name,
-                        value: pop.id
-                    }));
+                    this.populationOptions = populations;
+                    console.log(this.populationOptions);
                 },
                 error: (err) => {
                     console.error('Failed to load populations: ', err);
@@ -175,9 +173,11 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
         if (this.selectedDataset) {
             this.datasetForm.patchValue({
                 featureset: this.featuresets.find(f => f.featuresetId === this.selectedDataset.featuresetId) || null,
+                population: this.populationOptions.find(p => p.populationId === this.selectedDataset.populationId) || null
             });
         }
     }
+
 
     /**
      * Saves the dataset, either creating a new one or updating an existing one.
@@ -190,6 +190,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             version: formValues.version,
             referenceEntity: formValues.referenceEntity,
             featuresetId: formValues.featureset.featuresetId,
+            populationId: formValues.population.populationId,
             numOfRecords: formValues.numOfRecords,
             synthetic: formValues.synthetic
         };
