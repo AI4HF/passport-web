@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injector, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuditLog } from '../../../shared/models/auditLog.model';
 import { AuditLogBookService } from '../../../core/services/audit-log-book.service';
+import {BaseComponent} from "../../../shared/components/base.component";
 
 /**
  * Component for displaying audit logs in a table with date range filtering and search.
@@ -11,7 +12,7 @@ import { AuditLogBookService } from '../../../core/services/audit-log-book.servi
     templateUrl: './audit-log-table.component.html',
     styleUrls: ['./audit-log-table.component.scss'],
 })
-export class AuditLogTableComponent implements OnInit {
+export class AuditLogTableComponent extends BaseComponent implements OnInit {
     /** List of all audit logs */
     auditLogs: AuditLog[] = [];
     /** Filtered list of audit logs to display */
@@ -29,15 +30,12 @@ export class AuditLogTableComponent implements OnInit {
 
     /**
      * Constructor to inject dependencies.
-     * @param auditLogBookService Service for managing audit logs
-     * @param route Activated route for fetching parameters
-     * @param router Router for navigation
+     * @param injector
      */
     constructor(
-        private auditLogBookService: AuditLogBookService,
-        private route: ActivatedRoute,
-        private router: Router
-    ) {}
+        protected injector: Injector
+    ) {
+        super(injector);}
 
     /**
      * Initializes the component by loading the audit logs.
@@ -54,10 +52,10 @@ export class AuditLogTableComponent implements OnInit {
      * @param passportId The ID of the passport
      */
     loadAuditLogs(passportId: string): void {
-        this.auditLogBookService.getAllByPassportId(passportId).subscribe({
+        this.auditLogBookService.getAllByPassportId(passportId, this.activeStudyService.getActiveStudy()).subscribe({
             next: (auditLogBooks) => {
                 const auditLogIds = auditLogBooks.map((logBook) => logBook.auditLogId);
-                this.auditLogBookService.getAuditLogsByIds(auditLogIds).subscribe({
+                this.auditLogBookService.getAuditLogsByIds(auditLogIds, this.activeStudyService.getActiveStudy()).subscribe({
                     next: (logs) => {
                         this.auditLogs = logs.reverse();
                         this.filteredAuditLogs = this.auditLogs;

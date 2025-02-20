@@ -35,8 +35,7 @@ export class PassportManagementFormComponent extends BaseComponent implements On
      * @param injector The dependency injector
      * @param auditLogBookService
      */
-    constructor(protected injector: Injector,
-    private auditLogBookService: AuditLogBookService) {
+    constructor(protected injector: Injector) {
         super(injector);
     }
 
@@ -125,8 +124,7 @@ export class PassportManagementFormComponent extends BaseComponent implements On
                     this.auditLogBookService
                         .createAuditLogBookEntries(
                             passport.passportId.toString(),
-                            +this.activeStudyService.getActiveStudy(),
-                            passport.deploymentId
+                            +this.activeStudyService.getActiveStudy()
                         )
                         .pipe(takeUntil(this.destroy$))
                         .subscribe({
