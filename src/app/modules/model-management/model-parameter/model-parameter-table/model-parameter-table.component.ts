@@ -51,8 +51,8 @@ export class ModelParameterTableComponent extends BaseComponent implements OnIni
             { field: 'value', header: 'ParameterAssignment.Value' }
         ];
 
-        this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            const modelId = +params.get('id');
+        this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+            const modelId = +params.get('modelId');
             this.selectedModelId = modelId;
             this.loadModelParameters(modelId);
         });
