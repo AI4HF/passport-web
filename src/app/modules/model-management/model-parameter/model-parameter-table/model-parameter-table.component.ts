@@ -159,4 +159,11 @@ export class ModelParameterTableComponent extends BaseComponent implements OnIni
     filter(table: any, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
+
+    /**
+     * Navigates back to the model table.
+     */
+    returnToModels() {
+        this.router.navigate([`/model-management`]);
+    }
 }
