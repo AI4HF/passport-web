@@ -616,7 +616,9 @@
       "LearningStageFormTooltip": "Creation/Update form for managing learning stages in the process."
     },
     "ParameterAssignment": {
-      "ParameterFormTooltip": "Creation/Update form for assigning a parameter to the learning process."
+      "ParameterFormLearningProcessTooltip": "Creation/Update form for assigning a parameter to the learning process.",
+      "ParameterFormModelTooltip": "Creation/Update form for assigning a parameter to the model.",
+      "ParameterFormLearningStageTooltip": "Creation/Update form for assigning a parameter to the learning stage."
     },
     "DeploymentManagement": {
       "Environment": {

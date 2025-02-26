@@ -3,7 +3,7 @@
     <ng-template pTemplate="header">
         <div class="flex align-items-center">
             <h5 class="text-900 font-bold mb-0">{{ 'ParameterAssignment.ParameterForm' | translate }}</h5>
-            <app-tooltip class="ml-2" message="ParameterAssignment.ParameterFormTooltip"></app-tooltip>
+            <app-tooltip class="ml-2" message="ParameterAssignment.ParameterFormLearningStageTooltip"></app-tooltip>
         </div>
     </ng-template>
     <form (ngSubmit)="save()" *ngIf="this.display" [formGroup]="form">
