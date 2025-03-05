@@ -389,6 +389,7 @@
     }
   },
   "PassportManagement": {
+    "ViewAuditLogs": "View Audit Logs",
     "CreatedBy": "Created By",
     "CreatedAt": "Created At",
     "Passport Management": "Passport Management",
@@ -587,6 +588,7 @@
       "VersionTooltip": "Version of the dataset.",
       "ReferenceEntityTooltip": "Entity to which this dataset refers.",
       "FeatureSetTooltip": "Feature set associated with this dataset.",
+      "PopulationTooltip": "Population associated with this dataset.",
       "NumOfRecordsTooltip": "Number of records in the dataset.",
       "SyntheticTooltip": "Indicates whether the dataset is synthetic.",
       "LearningDatasetFormTooltip": "Creation/Update form for the Learning Dataset.",
@@ -629,5 +631,22 @@
     "PassportManagement": {
       "PassportFormTooltip": "Model selection for which a general passport will be generated."
     }
+  },
+  "AuditLogTable": {
+    "GoBack": "Go Back",
+    "OccurredAt":"Occurred At",
+    "Description": "Description",
+    "PersonName": "Person Name",
+    "AuditLogs": "Audit Logs",
+    "ActionType": "Action Type",
+    "PersonId": "Person ID",
+    "AffectedRelation": "Affected Relation",
+    "AffectedRecord": "Affected Record",
+    "AffectedRecordId": "Affected Record ID",
+    "ShowDetails": "Show Details",
+    "HideDetails": "Hide Details"
+  },
+  "AuditLogBook": {
+    "Created": "Audit Log Book for Passport has been created."
   }
 }

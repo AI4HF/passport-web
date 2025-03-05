@@ -10,7 +10,8 @@ import { takeUntil } from "rxjs/operators";
  */
 @Component({
     selector: 'app-menu',
-    templateUrl: './app.menu.component.html'
+    templateUrl: './app.menu.component.html',
+    styleUrls: ['./app.menu.component.scss']
 })
 export class AppMenuComponent extends BaseComponent implements OnInit {
     /**

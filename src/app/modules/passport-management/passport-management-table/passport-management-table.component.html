@@ -61,6 +61,17 @@
                                 tooltipPosition="bottom"
                                 type="button">
                         </button>
+                        <button
+                                (click)="viewAuditLogs(passportWithModelName.passport.passportId)"
+                                class="p-button-text p-button-rounded p-ripple"
+                                icon="pi pi-eye"
+                                pButton
+                                pRipple
+                                pTooltip="{{ 'PassportManagement.ViewAuditLogs' | translate }}"
+                                tooltipPosition="bottom"
+                                type="button"
+                        >
+                        </button>
                         <button (click)="deletePassport(passportWithModelName.passport.passportId)"
                                 class="p-button-text p-button-rounded p-ripple" icon="pi pi-trash" pButton
                                 pRipple

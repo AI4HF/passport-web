@@ -20,6 +20,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
     datasetForm: FormGroup;
     featuresets: any[];
     isEditMode: boolean = false;
+    populationOptions: any[] = [];
 
     /** List of datasets loaded from JSON */
     hardcodedDatasets: Dataset[] = [];
@@ -86,6 +87,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             version: new FormControl(this.selectedDataset?.version || '', Validators.required),
             referenceEntity: new FormControl(this.selectedDataset?.referenceEntity || '', Validators.required),
             featureset: new FormControl(this.selectedDataset?.featuresetId || null, Validators.required),
+            population: new FormControl(this.selectedDataset?.populationId || null, Validators.required), // Initialize Population Field
             numOfRecords: new FormControl(this.selectedDataset?.numOfRecords || 0, Validators.required),
             synthetic: new FormControl(this.selectedDataset?.synthetic || false)
         });
@@ -94,6 +96,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             this.setDropdownValues();
         }
     }
+
 
     /**
      * Filters the datasets based on the title input for auto-fill.
@@ -141,7 +144,27 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
                 });
             }
         });
+        this.loadPopulations();
     }
+
+    /**
+     * Fetch available populations based on current study ID.
+     */
+    loadPopulations() {
+        const studyId = this.activeStudyService.getActiveStudy();
+        this.populationService.getPopulationByStudyId(+studyId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: (populations) => {
+                    this.populationOptions = populations;
+                    console.log(this.populationOptions);
+                },
+                error: (err) => {
+                    console.error('Failed to load populations: ', err);
+                }
+            });
+    }
+
 
     /**
      * Sets the values for the dropdowns based on the selected dataset.
@@ -150,9 +173,11 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
         if (this.selectedDataset) {
             this.datasetForm.patchValue({
                 featureset: this.featuresets.find(f => f.featuresetId === this.selectedDataset.featuresetId) || null,
+                population: this.populationOptions.find(p => p.populationId === this.selectedDataset.populationId) || null
             });
         }
     }
+
 
     /**
      * Saves the dataset, either creating a new one or updating an existing one.
@@ -165,6 +190,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             version: formValues.version,
             referenceEntity: formValues.referenceEntity,
             featuresetId: formValues.featureset.featuresetId,
+            populationId: formValues.population.populationId,
             numOfRecords: formValues.numOfRecords,
             synthetic: formValues.synthetic
         };
