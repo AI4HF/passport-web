@@ -41,7 +41,7 @@ export class ModelParameterService {
      * Retrieves a model parameter by composite id
      * @param modelId Id of the model
      * @param parameterId Id of the parameter
-     * @param studyId
+     * @param studyId Id of the related study
      * @return {Observable<ModelParameter>}
      */
     getModelParameterById(modelId: number, parameterId: number, studyId: String): Observable<ModelParameter> {
@@ -61,7 +61,7 @@ export class ModelParameterService {
     /**
      * Retrieves a model parameter by model id
      * @param modelId Id of the model
-     * @param studyId
+     * @param studyId Id of the related study
      * @return {Observable<ModelParameter>}
      */
     getModelParametersByModelId(modelId: number, studyId: String): Observable<ModelParameter[]> {
@@ -81,7 +81,7 @@ export class ModelParameterService {
     /**
      * Create a model parameter
      * @param modelParameter ModelParameter to be created
-     * @param studyId
+     * @param studyId Id of the related study
      * @return {Observable<ModelParameter>}
      */
     createModelParameter(modelParameter: ModelParameter, studyId: String): Observable<ModelParameter> {
@@ -101,7 +101,7 @@ export class ModelParameterService {
     /**
      * Update a model parameter
      * @param modelParameter Updated version of the model parameter
-     * @param studyId
+     * @param studyId Id of the related study
      * @return {Observable<ModelParameter>}
      */
     updateModelParameter(modelParameter: ModelParameter, studyId: String): Observable<ModelParameter> {
@@ -122,7 +122,7 @@ export class ModelParameterService {
      * Delete a model parameter by composite id
      * @param modelId Id of the model
      * @param parameterId Id of the parameter
-     * @param studyId
+     * @param studyId Id of the related study
      * @return {Observable<any>}
      */
     deleteModelParameter(modelId: number, parameterId: number, studyId: String): Observable<any> {
