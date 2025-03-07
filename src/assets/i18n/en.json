@@ -291,6 +291,7 @@
     "ValueDataTypePlaceholder": "Enter the value data type"
   },
   "ModelManagement": {
+    "AssignParameters": "Assign Parameters",
     "ID": "ID",
     "Name": "Name",
     "Version": "Version",
@@ -545,6 +546,7 @@
     "DatasetPercentagePlaceholder": "Enter the dataset percentage"
   },
   "ParameterAssignment": {
+    "ModelParameters": "Model Parameters",
     "LearningStageParameters": "Learning Stage Parameters",
     "LearningProcessParameters": "Learning Process Parameters",
     "ParameterForm": "Parameter Assignment Details",
@@ -560,6 +562,7 @@
     "CreateParameterAssignment": "Assign a Parameter",
     "NoAvailableParameters": "There are no available Parameters!",
     "ReturnToLearningStageManagement": "Return to Learning Stage Management",
+    "ReturnToModel": "Return to Model Management",
     "ParameterFormTooltip": "Form to assign parameters to a process.",
     "Parameter": "Parameter",
     "ParameterPlaceholder": "Select a parameter",
@@ -613,7 +616,9 @@
       "LearningStageFormTooltip": "Creation/Update form for managing learning stages in the process."
     },
     "ParameterAssignment": {
-      "ParameterFormTooltip": "Creation/Update form for assigning a parameter to the learning process."
+      "ParameterFormLearningProcessTooltip": "Creation/Update form for assigning a parameter to the learning process.",
+      "ParameterFormModelTooltip": "Creation/Update form for assigning a parameter to the model.",
+      "ParameterFormLearningStageTooltip": "Creation/Update form for assigning a parameter to the learning stage."
     },
     "DeploymentManagement": {
       "Environment": {
