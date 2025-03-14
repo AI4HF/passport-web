@@ -5,12 +5,12 @@ export class Implementation {
     /**
      * The ID of the Implementation
      */
-    implementationId: number;
+    implementationId: string;
 
     /**
      * The ID of the related Algorithm
      */
-    algorithmId: number;
+    algorithmId: string;
 
     /**
      * The software used in the Implementation

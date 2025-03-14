@@ -7,7 +7,7 @@ export class ModelWithName {
     /**
      * The ID of the model.
      */
-    id: number;
+    id: string;
 
     /**
      * The name of the model.

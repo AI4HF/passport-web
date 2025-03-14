@@ -16,7 +16,7 @@ import { takeUntil } from "rxjs";
 export class CreationStepAssignmentFormComponent extends BaseComponent implements OnInit {
 
     /** The ID of the data transformation */
-    @Input() dataTransformationId: number;
+    @Input() dataTransformationId: string;
 
     /** The transformation step to be edited or created */
     @Input() transformationStep: DatasetTransformationStep;

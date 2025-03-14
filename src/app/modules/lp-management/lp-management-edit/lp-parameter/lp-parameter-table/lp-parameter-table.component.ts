@@ -18,14 +18,14 @@ export class LpParameterTableComponent extends BaseComponent implements OnInit {
     learningProcessParameters: LearningProcessParameter[] = [];
 
     /** Dictionary of parameters keyed by their ID */
-    parameters: { [key: number]: Parameter } = {};
+    parameters: { [key: string]: Parameter } = {};
 
     /** Determines if the form is displayed */
     displayForm: boolean = false;
 
     /** The IDs for the selected LearningProcessParameter for editing */
-    selectedLearningProcessId: number;
-    selectedParameterId: number;
+    selectedLearningProcessId: string;
+    selectedParameterId: string;
 
     /** Loading state of the table */
     loading: boolean = true;
@@ -52,7 +52,7 @@ export class LpParameterTableComponent extends BaseComponent implements OnInit {
         ];
 
         this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            const learningProcessId = +params.get('id');
+            const learningProcessId = params.get('id');
             this.selectedLearningProcessId = learningProcessId;
             this.loadLearningProcessParameters(learningProcessId);
         });
@@ -62,7 +62,7 @@ export class LpParameterTableComponent extends BaseComponent implements OnInit {
      * Loads the LearningProcessParameters for the given LearningProcess ID.
      * @param learningProcessId ID of the LearningProcess
      */
-    loadLearningProcessParameters(learningProcessId: number) {
+    loadLearningProcessParameters(learningProcessId: string) {
         this.learningProcessParameterService.getLearningProcessParametersByProcessId(learningProcessId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (learningProcessParameters: LearningProcessParameter[]) => {

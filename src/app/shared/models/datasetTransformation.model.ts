@@ -5,7 +5,7 @@ export class DatasetTransformation {
     /**
      * The ID of the DatasetTransformation
      */
-    dataTransformationId: number;
+    dataTransformationId: string;
 
     /**
      * The title of the DatasetTransformation

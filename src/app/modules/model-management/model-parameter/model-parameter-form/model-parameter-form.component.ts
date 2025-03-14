@@ -16,10 +16,10 @@ import { takeUntil } from "rxjs";
 export class ModelParameterFormComponent extends BaseComponent implements OnInit {
 
     /** The ID of the Model */
-    @Input() modelId: number;
+    @Input() modelId: string;
 
     /** The ID of the Parameter to be edited or created */
-    @Input() parameterId: number;
+    @Input() parameterId: string;
 
     /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();

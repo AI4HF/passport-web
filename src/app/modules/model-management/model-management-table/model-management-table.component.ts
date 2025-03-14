@@ -21,7 +21,7 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
   /** Determines if the form is displayed */
   displayForm: boolean = false;
   /** The ID of the selected model for editing */
-  selectedModelId: number = null;
+  selectedModelId: string = null;
   /**
    * Constructor to inject dependencies.
    * @param injector The dependency injector
@@ -101,7 +101,7 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
    * Deletes the selected model.
    * @param modelId The ID of the model to be deleted
    */
-  deleteModel(modelId: number) {
+  deleteModel(modelId: string) {
     this.modelService.deleteModel(modelId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
@@ -135,7 +135,7 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
    * Navigates to the learning stage parameter assignment table.
    * @param modelId The ID of the selected learning stage
    */
-  goToModelParameterAssignment(modelId: number) {
+  goToModelParameterAssignment(modelId: string) {
     this.router.navigate([`/model-management/${modelId}/model-parameter-assignment`]);
   }
 

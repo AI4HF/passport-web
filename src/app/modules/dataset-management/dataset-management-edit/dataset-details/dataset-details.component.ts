@@ -37,7 +37,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             const id = params.get('id');
             if (id !== 'new') {
                 this.isEditMode = true;
-                this.loadDataset(+id);
+                this.loadDataset(id);
             } else {
                 this.selectedDataset = new Dataset({ id: 0 });
                 this.initializeForm();
@@ -61,7 +61,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
     /**
      * Loads the Dataset details by id if entity is being edited.
      */
-    loadDataset(id: number) {
+    loadDataset(id: string) {
         this.datasetService.getDatasetById(id, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: dataset => {
                 this.selectedDataset = dataset;
@@ -152,7 +152,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
      */
     loadPopulations() {
         const studyId = this.activeStudyService.getActiveStudy();
-        this.populationService.getPopulationByStudyId(+studyId)
+        this.populationService.getPopulationByStudyId(studyId)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (populations) => {

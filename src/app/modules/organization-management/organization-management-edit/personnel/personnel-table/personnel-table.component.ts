@@ -24,7 +24,7 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
     /** The ID of the selected personnel for editing */
     selectedPersonnelId: string;
 
-    @Input() organizationId: number;
+    @Input() organizationId: string;
     /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
@@ -52,7 +52,7 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
      * Loads the list of personnel for the given organization ID.
      * @param organizationId The ID of the organization
      */
-    loadPersonnelList(organizationId: number) {
+    loadPersonnelList(organizationId: string) {
         this.personnelService.getPersonnelByOrganizationId(organizationId).pipe(takeUntil(this.destroy$)).subscribe({
             next: personnel => {
                 this.personnelList = personnel;

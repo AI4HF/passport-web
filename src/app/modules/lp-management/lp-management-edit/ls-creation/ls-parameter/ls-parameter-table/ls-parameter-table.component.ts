@@ -18,19 +18,19 @@ export class LsParameterTableComponent extends BaseComponent implements OnInit {
     parameterAssignments: LearningStageParameter[] = [];
 
     /** Dictionary of parameters keyed by their ID */
-    parameters: { [key: number]: Parameter } = {};
+    parameters: { [key: string]: Parameter } = {};
 
     /** Determines if the form is displayed */
     displayForm: boolean = false;
 
     /** The learning stage ID from the route */
-    learningStageId: number;
+    learningStageId: string;
 
     /** The learning process ID from the route */
-    learningProcessId: number;
+    learningProcessId: string;
 
     /** The parameter ID selected for editing */
-    selectedParameterId: number = null;
+    selectedParameterId: string = null;
 
     /** The columns to display in the table */
     columns: any[];
@@ -57,11 +57,11 @@ export class LsParameterTableComponent extends BaseComponent implements OnInit {
         ];
 
         this.route.parent.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            this.learningProcessId = +params.get('id');
+            this.learningProcessId = params.get('id');
         });
 
         this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            this.learningStageId = +params.get('learningStageId');
+            this.learningStageId = params.get('learningStageId');
             this.loadParameterAssignments();
         });
     }
@@ -70,7 +70,7 @@ export class LsParameterTableComponent extends BaseComponent implements OnInit {
      * Loads the parameter assignments for the learning stage.
      */
     loadParameterAssignments() {
-        this.learningStageParameterService.getLearningStageParametersByStageId(+this.learningStageId, this.activeStudyService.getActiveStudy())
+        this.learningStageParameterService.getLearningStageParametersByStageId(this.learningStageId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: parameterAssignments => {

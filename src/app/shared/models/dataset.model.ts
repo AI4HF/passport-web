@@ -5,22 +5,22 @@ export class Dataset {
     /**
      * The ID of the Dataset
      */
-    datasetId: number;
+    datasetId: string;
 
     /**
      * The ID of the associated FeatureSet
      */
-    featuresetId: number;
+    featuresetId: string;
 
     /**
      * The ID of the associated Population
      */
-    populationId: number;
+    populationId: string;
 
     /**
      * The ID of the associated Organization
      */
-    organizationId: number;
+    organizationId: string;
 
     /**
      * The title of the Dataset

@@ -77,7 +77,7 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
      * Loads the list of experiments.
      */
     loadExperiments() {
-        this.experimentService.getExperimentListByStudyId(+this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+        this.experimentService.getExperimentListByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: experiments => {
                     this.experiments = experiments;

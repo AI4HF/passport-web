@@ -46,7 +46,7 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
                     this.selectedDeploymentEnvironment = new DeploymentEnvironment({});
                     this.initializeForm();
                 } else {
-                    this.deploymentEnvironmentService.getDeploymentEnvironmentById(+this.environmentIdParam, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+                    this.deploymentEnvironmentService.getDeploymentEnvironmentById(this.environmentIdParam, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
                         .subscribe({
                             next: deploymentEnvironment => {
                                 this.selectedDeploymentEnvironment = deploymentEnvironment;

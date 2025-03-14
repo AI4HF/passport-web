@@ -5,12 +5,12 @@ export class LearningProcessParameter {
     /**
      * The ID of the related LearningProcess
      */
-    learningProcessId: number;
+    learningProcessId: string;
 
     /**
      * The ID of the related Parameter
      */
-    parameterId: number;
+    parameterId: string;
 
     /**
      * The type of the LearningProcessParameter

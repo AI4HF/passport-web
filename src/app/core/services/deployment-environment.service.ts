@@ -26,8 +26,8 @@ export class DeploymentEnvironmentService {
      * @param studyId
      * @return {Observable<DeploymentEnvironment>}
      */
-    getDeploymentEnvironmentById(id: number, studyId: String): Observable<DeploymentEnvironment> {
-        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
+    getDeploymentEnvironmentById(id: String, studyId: String): Observable<DeploymentEnvironment> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.get<DeploymentEnvironment>(url)
             .pipe(
                 map((response: any) =>{
@@ -47,7 +47,7 @@ export class DeploymentEnvironmentService {
      * @return {Observable<DeploymentEnvironment>}
      */
     updateDeploymentEnvironment(deploymentEnvironment: DeploymentEnvironment, studyId: String): Observable<DeploymentEnvironment>{
-        const url = `${this.endpoint}/${deploymentEnvironment.environmentId}?studyId=${+studyId}`;
+        const url = `${this.endpoint}/${deploymentEnvironment.environmentId}?studyId=${studyId}`;
         return this.httpClient.put<DeploymentEnvironment>(url, deploymentEnvironment)
             .pipe(
                 map((response: any) =>{
@@ -65,7 +65,7 @@ export class DeploymentEnvironmentService {
      * @param id Id of the deploymentEnvironment
      * @return {Observable<any>}
      */
-    deleteDeploymentEnvironment(id: number): Observable<any>{
+    deleteDeploymentEnvironment(id: String): Observable<any>{
         const url = `${this.endpoint}/${id}`;
         return this.httpClient.delete<any>(url)
             .pipe(
@@ -86,7 +86,7 @@ export class DeploymentEnvironmentService {
      * @return {Observable<DeploymentEnvironment>}
      */
     createDeploymentEnvironment(deploymentEnvironment: DeploymentEnvironment, studyId: String): Observable<DeploymentEnvironment>{
-        const url = `${this.endpoint}?studyId=${+studyId}`;
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.post<DeploymentEnvironment>(url, deploymentEnvironment)
             .pipe(
                 map((response: any) =>{

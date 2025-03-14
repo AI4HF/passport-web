@@ -44,8 +44,8 @@ export class LearningStageParameterService {
      * @param studyId
      * @return {Observable<LearningStageParameter>}
      */
-    getLearningStageParameterById(learningStageId: number, parameterId: number, studyId: String): Observable<LearningStageParameter> {
-        const url = `${this.endpoint}?learningStageId=${learningStageId}&parameterId=${parameterId}&studyId=${+studyId}`;
+    getLearningStageParameterById(learningStageId: String, parameterId: String, studyId: String): Observable<LearningStageParameter> {
+        const url = `${this.endpoint}?learningStageId=${learningStageId}&parameterId=${parameterId}&studyId=${studyId}`;
         return this.httpClient.get<LearningStageParameter>(url)
             .pipe(
                 map((response: any) => {
@@ -64,8 +64,8 @@ export class LearningStageParameterService {
      * @param studyId
      * @return {Observable<LearningStageParameter>}
      */
-    getLearningStageParametersByStageId(learningStageId: number, studyId: String): Observable<LearningStageParameter[]> {
-        const url = `${this.endpoint}?learningStageId=${learningStageId}&studyId=${+studyId}`;
+    getLearningStageParametersByStageId(learningStageId: String, studyId: String): Observable<LearningStageParameter[]> {
+        const url = `${this.endpoint}?learningStageId=${learningStageId}&studyId=${studyId}`;
         return this.httpClient.get<LearningStageParameter[]>(url)
             .pipe(
                 map((response: any) => {
@@ -85,7 +85,7 @@ export class LearningStageParameterService {
      * @return {Observable<LearningStageParameter>}
      */
     createLearningStageParameter(learningStageParameter: LearningStageParameter, studyId: String): Observable<LearningStageParameter> {
-        const url = `${this.endpoint}?studyId=${+studyId}`;
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.post<LearningStageParameter>(url, learningStageParameter)
             .pipe(
                 map((response: any) => {
@@ -105,7 +105,7 @@ export class LearningStageParameterService {
      * @return {Observable<LearningStageParameter>}
      */
     updateLearningStageParameter(learningStageParameter: LearningStageParameter, studyId: String): Observable<LearningStageParameter> {
-        const url = `${this.endpoint}?learningStageId=${learningStageParameter.learningStageId}&parameterId=${learningStageParameter.parameterId}&studyId=${+studyId}`;
+        const url = `${this.endpoint}?learningStageId=${learningStageParameter.learningStageId}&parameterId=${learningStageParameter.parameterId}&studyId=${studyId}`;
         return this.httpClient.put<LearningStageParameter>(url, learningStageParameter)
             .pipe(
                 map((response: any) => {
@@ -125,8 +125,8 @@ export class LearningStageParameterService {
      * @param studyId
      * @return {Observable<any>}
      */
-    deleteLearningStageParameter(learningStageId: number, parameterId: number, studyId: String): Observable<any> {
-        const url = `${this.endpoint}?learningStageId=${learningStageId}&parameterId=${parameterId}&studyId=${+studyId}`;
+    deleteLearningStageParameter(learningStageId: String, parameterId: String, studyId: String): Observable<any> {
+        const url = `${this.endpoint}?learningStageId=${learningStageId}&parameterId=${parameterId}&studyId=${studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) => {

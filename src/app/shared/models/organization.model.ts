@@ -5,7 +5,7 @@ export class Organization {
     /**
      * The ID of Organization
      */
-    organizationId: number;
+    organizationId: string;
 
     /**
      * The name of Organization

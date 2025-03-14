@@ -28,7 +28,7 @@ export class LearningDatasetService {
      * @return {Observable<LearningDataset[]>}
      */
     getAllLearningDatasetsByStudyId(studyId: String): Observable<LearningDataset[]> {
-        const url = `${this.endpoint}?studyId=${+studyId}`;
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.get<LearningDataset[]>(url)
             .pipe(
                 map((response: any) => {
@@ -46,7 +46,7 @@ export class LearningDatasetService {
      * @param dataTransformationId Id of the data transformation
      * @return {Observable<LearningDataset[]>}
      */
-    getLearningDatasetsByTransformationId(dataTransformationId: number): Observable<LearningDataset[]> {
+    getLearningDatasetsByTransformationId(dataTransformationId: String): Observable<LearningDataset[]> {
         const url = `${this.endpoint}?dataTransformationId=${dataTransformationId}`;
         return this.httpClient.get<LearningDataset[]>(url)
             .pipe(
@@ -66,8 +66,8 @@ export class LearningDatasetService {
      * @param studyId
      * @return {Observable<LearningDataset[]>}
      */
-    getLearningDatasetsByDatasetId(datasetId: number, studyId: String): Observable<LearningDataset[]> {
-        const url = `${this.endpoint}?datasetId=${datasetId}&studyId=${+studyId}`;
+    getLearningDatasetsByDatasetId(datasetId: String, studyId: String): Observable<LearningDataset[]> {
+        const url = `${this.endpoint}?datasetId=${datasetId}&studyId=${studyId}`;
         return this.httpClient.get<LearningDataset[]>(url)
             .pipe(
                 map((response: any) => {
@@ -86,8 +86,8 @@ export class LearningDatasetService {
      * @param studyId
      * @return {Observable<LearningDataset>}
      */
-    getLearningDatasetById(id: number, studyId: String): Observable<LearningDataset> {
-        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
+    getLearningDatasetById(id: String, studyId: String): Observable<LearningDataset> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.get<LearningDataset>(url)
             .pipe(
                 map((response: any) => {
@@ -107,8 +107,8 @@ export class LearningDatasetService {
      * @param studyId
      * @return {Observable<LearningDatasetAndTransformationRequest>}
      */
-    updateLearningDatasetWithTransformation(learningDatasetId: number, request: LearningDatasetAndTransformationRequest, studyId: String): Observable<LearningDatasetAndTransformationRequest> {
-        const url = `${this.endpoint}/${learningDatasetId}?studyId=${+studyId}`;
+    updateLearningDatasetWithTransformation(learningDatasetId: String, request: LearningDatasetAndTransformationRequest, studyId: String): Observable<LearningDatasetAndTransformationRequest> {
+        const url = `${this.endpoint}/${learningDatasetId}?studyId=${studyId}`;
         return this.httpClient.put<LearningDatasetAndTransformationRequest>(url, request)
             .pipe(
                 map((response: any) => {
@@ -130,7 +130,7 @@ export class LearningDatasetService {
      * @return the saved LearningDataset and DatasetTransformation
      */
     createLearningDatasetWithTransformation(request: LearningDatasetAndTransformationRequest, studyId: String): Observable<LearningDatasetAndTransformationRequest> {
-        const url = `${this.endpoint}?studyId=${+studyId}`;
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.post<LearningDatasetAndTransformationRequest>(url, request)
             .pipe(
                 map((response: any) => {

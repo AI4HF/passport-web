@@ -21,7 +21,7 @@ export class ParameterManagementTableComponent extends BaseComponent implements 
   /** Determines if the form is displayed */
   displayForm: boolean = false;
   /** The ID of the selected parameter for editing */
-  selectedParameterId: number = null;
+  selectedParameterId: string = null;
 
   /**
    * Constructor to inject dependencies.
@@ -108,7 +108,7 @@ export class ParameterManagementTableComponent extends BaseComponent implements 
    * Deletes the selected parameter.
    * @param parameterId The ID of the Parameter to be deleted
    */
-  deleteParameter(parameterId: number) {
+  deleteParameter(parameterId: string) {
     this.parameterService.deleteParameter(parameterId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {

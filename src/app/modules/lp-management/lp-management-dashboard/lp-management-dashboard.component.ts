@@ -87,7 +87,7 @@ export class LpManagementDashboardComponent extends BaseComponent implements OnI
      * Navigates the user to the LearningProcess edit page.
      * @param id The ID of the LearningProcess to be edited
      */
-    editLearningProcess(id: number) {
+    editLearningProcess(id: string) {
         this.router.navigate([`/${LpManagementRoutingModule.route}/${id}`]);
     }
 
@@ -95,7 +95,7 @@ export class LpManagementDashboardComponent extends BaseComponent implements OnI
      * Deletes the implementation, which cascades to delete the associated learningProcess.
      * @param id The ID of the LearningProcess to be deleted
      */
-    deleteLearningProcess(id: number) {
+    deleteLearningProcess(id: string) {
         this.loading = true;
         const learningProcess = this.learningProcessList.find(lp => lp.learningProcessId === id);
 

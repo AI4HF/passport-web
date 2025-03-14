@@ -27,7 +27,7 @@ export class PassportService {
      * @return {Observable<Passport[]>}
      */
     getPassportListByStudy(studyId: String): Observable<Passport[]> {
-        const url = `${this.endpoint}?studyId=${+studyId}`;
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.get<Passport[]>(url)
             .pipe(
                 map((response: any) => {
@@ -45,7 +45,7 @@ export class PassportService {
      * @param id Id of the passport
      * @return {Observable<Passport>}
      */
-    getPassportById(id: number): Observable<Passport> {
+    getPassportById(id: String): Observable<Passport> {
         const url = `${this.endpoint}/${id}`;
         return this.httpClient.get<Passport>(url)
             .pipe(
@@ -65,8 +65,8 @@ export class PassportService {
      * @param studyId
      * @return {Observable<any>}
      */
-    deletePassport(id: number, studyId: String): Observable<any>{
-        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
+    deletePassport(id: String, studyId: String): Observable<any>{
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) =>{
@@ -86,7 +86,7 @@ export class PassportService {
      * @return {Observable<Passport>}
      */
     createPassport(passportWithDetailSelection: PassportWithDetailSelection, studyId: String): Observable<Passport>{
-        const url = `${this.endpoint}?studyId=${+studyId}`;
+        const url = `${this.endpoint}?studyId=${studyId}`;
         passportWithDetailSelection.passport.createdBy = StorageUtil.retrieveUserId();
         passportWithDetailSelection.passport.approvedBy = StorageUtil.retrieveUserId();
 
@@ -108,8 +108,8 @@ export class PassportService {
      * @param studyId
      * @return {Observable<PassportDetailsDTO>}
      */
-    getPassportDetailsById(id: number, studyId: String): Observable<PassportDetailsDTO> {
-        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
+    getPassportDetailsById(id: String, studyId: String): Observable<PassportDetailsDTO> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.get<PassportDetailsDTO>(url)
             .pipe(
                 map((response: any) => {
@@ -128,7 +128,7 @@ export class PassportService {
      * @param studyId The study ID for authorization
      * @return Observable<Blob> that emits the signed PDF blob
      */
-    signPdf(pdfBlob: Blob, studyId: number): Observable<Blob> {
+    signPdf(pdfBlob: Blob, studyId: String): Observable<Blob> {
         const url = `${this.endpoint}/sign-pdf?studyId=${studyId}`;
 
         const formData = new FormData();

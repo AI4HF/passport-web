@@ -68,7 +68,7 @@
             <div class="justify-content-end">
                 <button pButton pRipple
                         type="button"
-                        label="{{(this.selectedModelDeployment.deploymentId) ? ('Save' | translate) : ('Finish' | translate)}}"
+                        label="{{(this.selectedModelDeployment.deploymentId == null) ? ('Save' | translate) : ('Finish' | translate)}}"
                         class="p-button-raised"
                         [disabled]="!modelDeploymentForm.valid"
                         (click)="save()"></button>

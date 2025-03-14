@@ -18,14 +18,14 @@ export class ModelParameterTableComponent extends BaseComponent implements OnIni
     modelParameters: ModelParameter[] = [];
 
     /** Dictionary of parameters keyed by their ID */
-    parameters: { [key: number]: Parameter } = {};
+    parameters: { [key: string]: Parameter } = {};
 
     /** Determines if the form is displayed */
     displayForm: boolean = false;
 
     /** The IDs for the selected ModelParameter for editing */
-    selectedModelId: number;
-    selectedParameterId: number;
+    selectedModelId: string;
+    selectedParameterId: string;
 
     /** Loading state of the table */
     loading: boolean = true;
@@ -52,7 +52,7 @@ export class ModelParameterTableComponent extends BaseComponent implements OnIni
         ];
 
         this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            const modelId = +params.get('modelId');
+            const modelId = params.get('modelId');
             this.selectedModelId = modelId;
             this.loadModelParameters(modelId);
         });
@@ -62,7 +62,7 @@ export class ModelParameterTableComponent extends BaseComponent implements OnIni
      * Loads the ModelParameters for the given Model ID.
      * @param modelId ID of the Model
      */
-    loadModelParameters(modelId: number) {
+    loadModelParameters(modelId: string) {
         this.modelParameterService.getModelParametersByModelId(modelId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (modelParameters: ModelParameter[]) => {

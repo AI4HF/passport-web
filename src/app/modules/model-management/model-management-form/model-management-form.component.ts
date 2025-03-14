@@ -17,7 +17,7 @@ import {HttpClient} from "@angular/common/http";
 export class ModelManagementFormComponent extends BaseComponent implements OnInit {
 
   /** The ID of the model to be edited */
-  @Input() modelId: number;
+  @Input() modelId: string;
   /** Event emitted when the form is closed */
   @Output() formClosed = new EventEmitter<void>();
   /** The selected model */

@@ -31,7 +31,7 @@ const routes: Routes = [
             {
                 path: 'personnel-assignment',
                 component: PersonnelAssignmentComponent,
-                canActivate: [studyDetailsGuard, PopulationGuard]
+                canActivate: [studyDetailsGuard]
             },
             {
                 path: 'experiment-questions',

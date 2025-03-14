@@ -5,17 +5,17 @@ export class ModelDeployment{
     /**
      * The ID of the ModelDeployment
      */
-    deploymentId: number;
+    deploymentId: string;
 
     /**
      * The ID of the Model
      */
-    modelId: number;
+    modelId: string;
 
     /**
      * The ID of the DeploymentEnvironment
      */
-    environmentId: number;
+    environmentId: string;
 
     /**
      * Tags of the ModelDeployment

@@ -42,7 +42,7 @@ export class StudyService {
      * @param owner ID of the owner who is the study owner for all the selected studies
      * @return {Observable<Study[]>}
      */
-    getStudyListByOwner(owner: string): Observable<Study[]> {
+    getStudyListByOwner(owner: String): Observable<Study[]> {
         const url = `${this.endpoint}?owner=${owner}`;
         return this.httpClient.get<Study[]>(url)
             .pipe(
@@ -61,7 +61,7 @@ export class StudyService {
      * @param id Id of the study
      * @return {Observable<Study>}
      */
-  getStudyById(id: number): Observable<Study> {
+  getStudyById(id: String): Observable<Study> {
     const url = `${this.endpoint}/${id}`;
     return this.httpClient.get<Study>(url)
       .pipe(
@@ -99,7 +99,7 @@ export class StudyService {
      * @param id Id of the study
      * @return {Observable<any>}
      */
-  deleteStudy(id: number): Observable<any>{
+  deleteStudy(id: String): Observable<any>{
       const url = `${this.endpoint}/${id}`;
       return this.httpClient.delete<any>(url)
           .pipe(

@@ -5,7 +5,7 @@ export class Study{
     /**
      * The ID of the Study
      */
-    id: number;
+    id: string;
 
     /**
      * The name of the Study

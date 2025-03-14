@@ -19,7 +19,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   personnelList: Personnel[] = [];
   organizationList: Organization[] = [];
   populationList: Population[] = [];
-  selectedPopulationId: number = null;
+  selectedPopulationId: string = null;
   selectedStudyOrganization: StudyOrganization = null;
   /**
    * The role enumeration
@@ -37,7 +37,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   selectedResponsiblePersonnelId: string = null;
   personnelRoleMap: Map<string, string[]> = new Map();
   formDisabled: boolean = true;
-  studyId: number;
+  studyId: string;
 
   constructor(protected injector: Injector) {
     super(injector);
@@ -57,7 +57,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
 
     this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe({
       next: params => {
-        this.studyId = +params.get('id');
+        this.studyId = params.get('id');
         this.loadPopulations();
       },
       error: () => {
@@ -92,7 +92,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
     this.selectedStudyOrganization.populationId = this.selectedPopulationId;
   }
 
-  selectAnOrganization(organizationId: number) {
+  selectAnOrganization(organizationId: string) {
     this.selectedStudyOrganization = null;
     this.selectedResponsiblePersonnelId = null;
     this.formDisabled = true;
@@ -147,7 +147,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   }
 
 
-  private fetchPersonnelForOrganization(organizationId: number) {
+  private fetchPersonnelForOrganization(organizationId: string) {
     this.personnelService.getPersonnelByOrganizationId(organizationId).pipe(takeUntil(this.destroy$)).subscribe({
       next: personnel => {
         this.personnelList = personnel.map(p => new Personnel(p));

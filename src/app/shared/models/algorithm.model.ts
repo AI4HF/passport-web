@@ -5,7 +5,7 @@ export class Algorithm {
     /**
      * The ID of the Algorithm
      */
-    algorithmId: number;
+    algorithmId: string;
 
     /**
      * The name of the Algorithm

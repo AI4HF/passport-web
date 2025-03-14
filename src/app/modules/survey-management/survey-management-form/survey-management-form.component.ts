@@ -16,7 +16,7 @@ import { AutoCompleteCompleteEvent } from "primeng/autocomplete";
 })
 export class SurveyManagementFormComponent extends BaseComponent implements OnInit {
 
-    @Input() surveyId: number;
+    @Input() surveyId: string;
     @Output() formClosed = new EventEmitter<void>();
 
     selectedSurvey: Survey;

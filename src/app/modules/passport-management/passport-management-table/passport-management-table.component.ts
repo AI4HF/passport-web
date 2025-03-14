@@ -37,7 +37,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   modelList: ModelWithName[] = [];
 
   /** Currently selected passport ID */
-  selectedPassportId: number | null = null;
+  selectedPassportId: string | null = null;
   /** Deployment details for the selected passport */
   deploymentDetails: ModelDeployment | null = null;
   /** Environment details for the selected passport */
@@ -148,7 +148,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
    * Deletes the selected passport by its ID.
    * @param passportId The ID of the passport to delete.
    */
-  deletePassport(passportId: number) {
+  deletePassport(passportId: string) {
     this.passportService.deletePassport(passportId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         this.passportWithModelNameList = this.passportWithModelNameList.filter(passport => passport.passport.passportId !== passportId);
@@ -180,7 +180,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
    * Selects a passport for PDF export and loads its details.
    * @param passportId The ID of the passport to select.
    */
-  selectPassportForImport(passportId: number) {
+  selectPassportForImport(passportId: string) {
     this.selectedPassportId = passportId;
 
     this.passportService.getPassportDetailsById(passportId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
@@ -226,7 +226,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     this.showPdfPreview = false;
   }
 
-  viewAuditLogs(passportId: number): void {
+  viewAuditLogs(passportId: string): void {
     this.router.navigate(['/passport-management/audit-logs', passportId]);
   }
 

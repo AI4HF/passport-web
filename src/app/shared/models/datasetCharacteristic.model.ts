@@ -5,12 +5,12 @@ export class DatasetCharacteristic {
     /**
      * The ID of the associated Dataset
      */
-    datasetId: number;
+    datasetId: string;
 
     /**
      * The ID of the associated Feature
      */
-    featureId: number;
+    featureId: string;
 
     /**
      * The name of the characteristic

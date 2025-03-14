@@ -5,12 +5,12 @@ export class LearningStage {
     /**
      * The ID of the LearningStage
      */
-    learningStageId: number;
+    learningStageId: string;
 
     /**
      * The ID of the related LearningProcess
      */
-    learningProcessId: number;
+    learningProcessId: string;
 
     /**
      * The name of the LearningStage

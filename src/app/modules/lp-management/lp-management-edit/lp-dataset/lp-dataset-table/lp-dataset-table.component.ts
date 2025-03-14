@@ -17,7 +17,7 @@ import {
 export class LpDatasetTableComponent extends BaseComponent implements OnInit {
 
     /** The ID of the learning process */
-    learningProcessId: number;
+    learningProcessId: string;
 
     /** List of learning process datasets with descriptions */
     learningProcessDatasetsWithDescriptions: Array<LearningProcessDatasetWithDescriptionModel> = [];
@@ -29,8 +29,8 @@ export class LpDatasetTableComponent extends BaseComponent implements OnInit {
     displayForm: boolean = false;
 
     /** The IDs of the selected learning process dataset for editing */
-    selectedLearningProcessId: number;
-    selectedLearningDatasetId: number;
+    selectedLearningProcessId: string;
+    selectedLearningDatasetId: string;
 
     /** Loading state of the table */
     loading: boolean = true;
@@ -56,7 +56,7 @@ export class LpDatasetTableComponent extends BaseComponent implements OnInit {
         ];
 
         this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            this.learningProcessId = +params.get('id');
+            this.learningProcessId = params.get('id');
             this.loadLearningDatasets();
         });
     }
@@ -109,7 +109,7 @@ export class LpDatasetTableComponent extends BaseComponent implements OnInit {
      * @param learningDatasetId The ID of the learning dataset
      * @returns The description of the learning dataset
      */
-    getLearningDatasetDescription(learningDatasetId: number): string {
+    getLearningDatasetDescription(learningDatasetId: string): string {
         const dataset = this.learningDatasets.find(ld => ld.learningDatasetId === learningDatasetId);
         return dataset ? dataset.description : '';
     }

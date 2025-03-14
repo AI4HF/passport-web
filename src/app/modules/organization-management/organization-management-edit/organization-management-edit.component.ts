@@ -11,19 +11,19 @@ import {Component, OnInit} from '@angular/core';
 export class OrganizationManagementEditComponent implements OnInit{
 
   /** The currently selected organization ID */
-  selectedOrganizationId: number;
+  selectedOrganizationId: string;
 
   constructor() {
   }
 
   ngOnInit(){
-    this.selectedOrganizationId = 0;
+    this.selectedOrganizationId = null;
   }
 
   /** Set selected organization id
    *  @param selectedOrganizationId The id of organization
    */
-  setSelectedOrganizationId(selectedOrganizationId: number){
+  setSelectedOrganizationId(selectedOrganizationId: string){
     this.selectedOrganizationId = selectedOrganizationId;
   }
 }

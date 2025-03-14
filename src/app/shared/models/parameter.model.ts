@@ -5,12 +5,12 @@ export class Parameter{
     /**
      * The ID of the Parameter
      */
-    parameterId: number;
+    parameterId: string;
 
     /**
      * The ID of the study
      */
-    studyId: number;
+    studyId: string;
 
     /**
      * The name of the Parameter

@@ -5,17 +5,17 @@ export class Model{
     /**
      * The ID of the Model
      */
-    modelId: number;
+    modelId: string;
 
     /**
      * The ID of the related Learning Process
      */
-    learningProcessId: number;
+    learningProcessId: string;
 
     /**
      * The ID of the related Study
      */
-    studyId: number;
+    studyId: string;
 
     /**
      * The name of the Model
@@ -45,7 +45,7 @@ export class Model{
     /**
      * The owner of the Model
      */
-    owner: number;
+    owner: string;
 
     /**
      * The trl level of the Model

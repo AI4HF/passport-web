@@ -43,8 +43,8 @@ export class SurveyService {
      * @param studyId
      * @return {Observable<Survey>}
      */
-    getSurveyById(id: number, studyId: String): Observable<Survey> {
-        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
+    getSurveyById(id: String, studyId: String): Observable<Survey> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.get<Survey>(url)
             .pipe(
                 map((response: any) =>{
@@ -62,7 +62,7 @@ export class SurveyService {
      * @param studyId Id of the study
      * @return {Observable<Survey[]>}
      */
-    getSurveysByStudyId(studyId: number): Observable<Survey[]> {
+    getSurveysByStudyId(studyId: String): Observable<Survey[]> {
         const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.get<Survey[]>(url)
             .pipe(
@@ -83,7 +83,7 @@ export class SurveyService {
      * @return {Observable<Survey>}
      */
     createSurvey(survey: Survey, studyId: String): Observable<Survey> {
-        const url = `${this.endpoint}?studyId=${+studyId}`;
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.post<Survey>(url, survey)
             .pipe(
                 map((response: any) =>{
@@ -103,7 +103,7 @@ export class SurveyService {
      * @return {Observable<Survey>}
      */
     updateSurvey(survey: Survey, studyId: String): Observable<Survey> {
-        const url = `${this.endpoint}/${survey.surveyId}?studyId=${+studyId}`;
+        const url = `${this.endpoint}/${survey.surveyId}?studyId=${studyId}`;
         return this.httpClient.put<Survey>(url, survey)
             .pipe(
                 map((response: any) =>{
@@ -122,8 +122,8 @@ export class SurveyService {
      * @param studyId
      * @return {Observable<any>}
      */
-    deleteSurvey(id: number, studyId:number): Observable<any>{
-        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
+    deleteSurvey(id: String, studyId:String): Observable<any>{
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) =>{

@@ -5,12 +5,12 @@ export class Population{
     /**
      * The ID of the Population
      */
-    populationId: number;
+    populationId: string;
 
     /**
      * The ID reference to the Study
      */
-    studyId: number;
+    studyId: string;
 
     /**
      * The url of the Population

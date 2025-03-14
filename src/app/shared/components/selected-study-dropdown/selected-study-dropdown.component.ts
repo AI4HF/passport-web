@@ -14,11 +14,11 @@ import {takeUntil} from "rxjs/operators";
 export class SelectedStudyDropdownComponent extends BaseComponent implements OnInit{
 
   /** Emit event when selected study changes */
-  @Output() onChangeStudy = new EventEmitter<number>();
+  @Output() onChangeStudy = new EventEmitter<string>();
   /** List of studies */
   studies: Study[] = [];
   /** The ID of the selected study */
-  selectedStudyId: number = null;
+  selectedStudyId: string = null;
 
   ngOnInit() {
   }
@@ -27,8 +27,8 @@ export class SelectedStudyDropdownComponent extends BaseComponent implements OnI
    * Change active study
    * @param studyId ID of the study
    */
-  changeStudy(studyId: number) {
+  changeStudy(studyId: string) {
     this.activeStudyService.setActiveStudy(studyId);
-    this.onChangeStudy.emit(+this.activeStudyService.getActiveStudy());
+    this.onChangeStudy.emit(this.activeStudyService.getActiveStudy());
   }
 }

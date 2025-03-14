@@ -44,14 +44,14 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
       this.environmentIdParam = params.get('id');
     });
 
-    this.loadModelDeployment(+this.environmentIdParam);
+    this.loadModelDeployment(this.environmentIdParam);
     this.fetchModels();
   }
 
   /**
    * Loads the Deployment details by environment id if entity is being edited.
    */
-  loadModelDeployment(id: number) {
+  loadModelDeployment(id: string) {
     this.modelDeploymentService.getModelDeploymentByEnvironmentId(id, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
       next: modelDeployment => {
         this.selectedModelDeployment = modelDeployment;
@@ -59,7 +59,7 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
       },
       error: error => {
         if (error.status === 404) {
-          this.selectedModelDeployment = new ModelDeployment({deploymentId: 0});
+          this.selectedModelDeployment = new ModelDeployment({deploymentId: null});
         } else {
           this.messageService.add({
             severity: 'error',
@@ -112,7 +112,7 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
    * Save model deployment
    */
   save(){
-    if(this.selectedModelDeployment.deploymentId === 0){
+    if(this.selectedModelDeployment.deploymentId === null){
       const newModelDeployment: ModelDeployment = new ModelDeployment(
           { environmentId: this.environmentIdParam,...this.modelDeploymentForm.value});
       this.modelDeploymentService.createModelDeployment(newModelDeployment, this.activeStudyService.getActiveStudy())
