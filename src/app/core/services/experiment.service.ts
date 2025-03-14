@@ -42,7 +42,7 @@ export class ExperimentService {
      * @param id Id of the study
      * @return {Observable<Experiment[]>}
      */
-    getExperimentListByStudyId(id: number): Observable<Experiment[]> {
+    getExperimentListByStudyId(id: String): Observable<Experiment[]> {
         const url = `${this.endpoint}?studyId=${id}`;
         return this.httpClient.get<Experiment[]>(url)
             .pipe(
@@ -62,7 +62,7 @@ export class ExperimentService {
      * @param experiments Experiments to be created
      * @return {Observable<Personnel[]>}
      */
-    createExperiments(studyId: number, experiments: Experiment[]): Observable<Experiment[]> {
+    createExperiments(studyId: String, experiments: Experiment[]): Observable<Experiment[]> {
         const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.post<Experiment[]>(url, experiments)
             .pipe(

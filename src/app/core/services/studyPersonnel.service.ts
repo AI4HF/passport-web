@@ -28,7 +28,7 @@ export class StudyPersonnelService {
      * @param organizationId Id of the organization
      * @return {Observable<Personnel[]>}
      */
-    getPersonnelListByStudyIdAndOrganizationId(studyId: number, organizationId: number): Observable<Personnel[]> {
+    getPersonnelListByStudyIdAndOrganizationId(studyId: string, organizationId: string): Observable<Personnel[]> {
         const url = `${this.endpoint}/personnel?studyId=${studyId}&organizationId=${organizationId}`;
         return this.httpClient.get<Personnel[]>(url)
             .pipe(
@@ -67,7 +67,7 @@ export class StudyPersonnelService {
      * @param personnelRoleMap Map of personnel to roles
      * @return {Observable<any>}
      */
-    createStudyPersonnelEntries(studyId: number, organizationId: number, personnelRoleMap: PersonnelRoleMap): Observable<any> {
+    createStudyPersonnelEntries(studyId: string, organizationId: string, personnelRoleMap: PersonnelRoleMap): Observable<any> {
         return this.httpClient.post(`${this.endpoint}/personnel?studyId=${studyId}&organizationId=${organizationId}`, personnelRoleMap.personnelRoles);
     }
 
@@ -82,7 +82,7 @@ export class StudyPersonnelService {
             .pipe(
                 map((response: any) => response.map((entry: any) => {
                     const studyPersonnel = new StudyPersonnel({});
-                    studyPersonnel.setRolesFromString(entry.role);
+                    studyPersonnel.setRolesFromstring(entry.role);
                     studyPersonnel.id.personnelId = entry.id.personnelId;
                     studyPersonnel.id.studyId = entry.id.studyId;
                     return studyPersonnel;
@@ -98,7 +98,7 @@ export class StudyPersonnelService {
      * @param studyId Id of the study
      * @return {Observable<StudyPersonnel[]>}
      */
-    getStudyPersonnelByStudyId(studyId: number): Observable<StudyPersonnel[]> {
+    getStudyPersonnelByStudyId(studyId: string): Observable<StudyPersonnel[]> {
         const url = `${this.endpoint}/studyPersonnel?studyId=${studyId}`;
         return this.httpClient.get<StudyPersonnel[]>(url)
             .pipe(
@@ -118,7 +118,7 @@ export class StudyPersonnelService {
      * @param organizationId Id of the organization
      * @return {Observable<Map<string, string[]>>} A map of personnel IDs to their roles
      */
-    getPersonnelRolesByStudyAndOrganization(studyId: number, organizationId: number): Observable<Map<string, string[]>> {
+    getPersonnelRolesByStudyAndOrganization(studyId: string, organizationId: string): Observable<Map<string, string[]>> {
         const url = `${this.endpoint}/roles?studyId=${studyId}&organizationId=${organizationId}`;
         return this.httpClient.get<{ [key: string]: string[] }>(url).pipe(
             map((response: { [key: string]: string[] }) => {

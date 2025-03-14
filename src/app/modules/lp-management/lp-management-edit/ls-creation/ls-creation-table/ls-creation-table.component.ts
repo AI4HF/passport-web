@@ -15,19 +15,19 @@ import { takeUntil } from 'rxjs';
 export class LsCreationTableComponent extends BaseComponent implements OnInit {
 
     /** The ID of the learning process */
-    learningProcessId: number;
+    learningProcessId: string;
 
     /** List of learning stages */
     learningStages: LearningStage[] = [];
 
     /** Dictionary of datasets keyed by their ID */
-    datasets: { [key: number]: Dataset } = {};
+    datasets: { [key: string]: Dataset } = {};
 
     /** Determines if the form is displayed */
     displayForm: boolean = false;
 
     /** The learning stage ID selected for editing */
-    selectedLearningStageId: number = null;
+    selectedLearningStageId: string = null;
 
     /** Loading state of the table */
     loading: boolean = true;
@@ -54,7 +54,7 @@ export class LsCreationTableComponent extends BaseComponent implements OnInit {
         ];
 
         this.route.parent.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            this.learningProcessId = +params.get('id');
+            this.learningProcessId = params.get('id');
             this.loadLearningStages();
         });
     }
@@ -169,7 +169,7 @@ export class LsCreationTableComponent extends BaseComponent implements OnInit {
      * Navigates to the learning stage parameter assignment table.
      * @param learningStageId The ID of the selected learning stage
      */
-    goToLearningStageParameterAssignment(learningStageId: number) {
+    goToLearningStageParameterAssignment(learningStageId: string) {
         this.router.navigate([`/learning-process-management/${this.learningProcessId}/learning-stage-management/${learningStageId}/learning-stage-parameter-assignment`]);
     }
 }

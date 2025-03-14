@@ -5,7 +5,7 @@ export class DeploymentEnvironment{
     /**
      * The ID of the DeploymentEnvironment
      */
-    environmentId: number;
+    environmentId: string;
 
     /**
      * The title of the DeploymentEnvironment

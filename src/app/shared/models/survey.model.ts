@@ -5,12 +5,12 @@ export class Survey{
     /**
      * The ID of the Survey
      */
-    surveyId: number;
+    surveyId: string;
 
     /**
      * The related study id
      */
-    studyId: number;
+    studyId: string;
 
     /**
      * The question of the Survey

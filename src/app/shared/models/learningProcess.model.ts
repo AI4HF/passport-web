@@ -5,17 +5,17 @@ export class LearningProcess {
     /**
      * The ID of the LearningProcess
      */
-    learningProcessId: number;
+    learningProcessId: string;
 
     /**
      * The ID of the study
      */
-    studyId: number;
+    studyId: string;
 
     /**
      * The ID of the related Implementation
      */
-    implementationId: number;
+    implementationId: string;
 
     /**
      * The description of the LearningProcess

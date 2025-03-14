@@ -97,7 +97,7 @@ export class DatasetManagementDashboardComponent extends BaseComponent implement
      * Deletes a dataset.
      * @param id The ID of the Dataset to be deleted
      */
-    deleteDataset(id: number) {
+    deleteDataset(id: string) {
         this.loading = true;
         this.datasetService.deleteDataset(id, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({

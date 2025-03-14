@@ -15,22 +15,22 @@ import { takeUntil } from "rxjs";
 export class LearningDatasetCreationTableComponent extends BaseComponent implements OnInit {
 
     /** The selected dataset's ID */
-    selectedDatasetId: number;
+    selectedDatasetId: string;
 
     /** List of learning datasets */
     learningDatasets: LearningDataset[] = [];
 
     /** Dictionary of dataset transformations keyed by their ID */
-    datasetTransformations: { [key: number]: DatasetTransformation } = {};
+    datasetTransformations: { [key: string]: DatasetTransformation } = {};
 
     /** Determines if the form is displayed */
     displayForm: boolean = false;
 
     /** The learning dataset ID selected for editing */
-    selectedLearningDatasetId: number = null;
+    selectedLearningDatasetId: string = null;
 
     /** The data transformation ID selected for editing */
-    selectedDataTransformationId: number = null;
+    selectedDataTransformationId: string = null;
 
     /** Loading state of the table */
     loading: boolean = true;
@@ -57,7 +57,7 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
         ];
 
         this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            this.selectedDatasetId = +params.get('id');
+            this.selectedDatasetId = params.get('id');
             this.loadLearningDatasets();
         });
     }

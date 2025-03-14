@@ -5,22 +5,22 @@ export class LearningDataset {
     /**
      * The ID of the LearningDataset
      */
-    learningDatasetId: number;
+    learningDatasetId: string;
 
     /**
      * The ID of the associated Dataset
      */
-    datasetId: number;
+    datasetId: string;
 
     /**
      * The ID of the associated study
      */
-    studyId: number;
+    studyId: string;
 
     /**
      * The ID of the associated DataTransformation
      */
-    dataTransformationId: number;
+    dataTransformationId: string;
 
     /**
      * The description of the LearningDataset

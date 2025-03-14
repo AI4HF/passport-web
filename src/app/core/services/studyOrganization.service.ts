@@ -27,7 +27,7 @@ export class StudyOrganizationService {
      * @param organizationId ID of the organization
      * @return {Observable<StudyOrganization>}
      */
-    getStudyOrganizationByStudyIdAndOrganizationId(studyId: number, organizationId: number): Observable<StudyOrganization> {
+    getStudyOrganizationByStudyIdAndOrganizationId(studyId: String, organizationId: String): Observable<StudyOrganization> {
         const url = `${this.endpoint}?studyId=${studyId}&organizationId=${organizationId}`;
         return this.httpClient.get<Organization[]>(url)
             .pipe(
@@ -46,7 +46,7 @@ export class StudyOrganizationService {
      * @param id Id of the study
      * @return {Observable<Organization[]>}
      */
-    getOrganizationListByStudyId(id: number): Observable<Organization[]> {
+    getOrganizationListByStudyId(id: String): Observable<Organization[]> {
         const url = `${this.endpoint}/organizations?studyId=${id}`;
         return this.httpClient.get<Organization[]>(url)
             .pipe(
@@ -65,7 +65,7 @@ export class StudyOrganizationService {
      * @param id Id of the organization
      * @return {Observable<Study[]>}
      */
-    getStudyListByOrganizationId(id: number): Observable<Study[]> {
+    getStudyListByOrganizationId(id: String): Observable<Study[]> {
         const url = `${this.endpoint}/studies?organizationId=${id}`;
         return this.httpClient.get<Study[]>(url)
             .pipe(
@@ -105,7 +105,7 @@ export class StudyOrganizationService {
      * @param updatedStudyOrganization updated studyOrganization object
      * @return {Observable<StudyOrganization>}
      */
-    updateStudyOrganization(studyId: number, organizationId: number, updatedStudyOrganization: StudyOrganization): Observable<StudyOrganization> {
+    updateStudyOrganization(studyId: String, organizationId: String, updatedStudyOrganization: StudyOrganization): Observable<StudyOrganization> {
         const url = `${this.endpoint}?studyId=${studyId}&organizationId=${organizationId}`;
         return this.httpClient.put<StudyOrganization>(url, updatedStudyOrganization)
             .pipe(
@@ -125,7 +125,7 @@ export class StudyOrganizationService {
      * @param organizationId
      * @return {Observable<any>}
      */
-    deleteStudyOrganization(studyId: number, organizationId: number): Observable<any>{
+    deleteStudyOrganization(studyId: String, organizationId: String): Observable<any>{
         const url = `${this.endpoint}?studyId=${studyId}&organizationId=${organizationId}`;
         return this.httpClient.delete<any>(url)
             .pipe(

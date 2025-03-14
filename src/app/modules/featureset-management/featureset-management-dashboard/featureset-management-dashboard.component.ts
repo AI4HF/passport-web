@@ -79,7 +79,7 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
      * Loads the list of experiments by studyId.
      * @param studyId ID of the study
      */
-    loadExperimentsByStudyId(studyId: number) {
+    loadExperimentsByStudyId(studyId: String) {
         this.experimentService.getExperimentListByStudyId(studyId).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: experiments => this.experiments = experiments,
@@ -98,7 +98,7 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
      * @param experimentId The ID of the experiment
      * @returns The name of the experiment
      */
-    getExperimentName(experimentId: number): string {
+    getExperimentName(experimentId: string): string {
         const experiment = this.experiments.find(exp => exp.experimentId === experimentId);
         return experiment ? experiment.researchQuestion : '';
     }
@@ -131,7 +131,7 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
      * Navigates the user to the FeatureSet edit page.
      * @param id The ID of the FeatureSet to be edited
      */
-    editFeatureSet(id: number) {
+    editFeatureSet(id: string) {
         this.router.navigate([`${FeatureSetManagementRoutingModule.route}/${id}`]);
     }
 
@@ -139,7 +139,7 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
      * Deletes a feature set.
      * @param id The ID of the FeatureSet to be deleted
      */
-    deleteFeatureSet(id: number) {
+    deleteFeatureSet(id: string) {
         this.loading = true;
         this.featureSetService.deleteFeatureSet(id, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
@@ -160,7 +160,7 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
      * @param studyId ID of the study
      */
     loadExperimentsAndFeatureSets(studyId: String) {
-        this.loadExperimentsByStudyId(+studyId);
+        this.loadExperimentsByStudyId(studyId);
         this.getFeatureSetList(studyId);
     }
 }

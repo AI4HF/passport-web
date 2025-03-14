@@ -23,7 +23,7 @@ export class OrganizationDetailsComponent extends BaseComponent implements OnIni
   organizationForm: FormGroup;
 
   /** Set organizationId for personnel component */
-  @Output() organizationId: EventEmitter<number> = new EventEmitter<number>();
+  @Output() organizationId: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(protected injector: Injector) {
     super(injector);

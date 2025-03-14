@@ -16,10 +16,10 @@ import { takeUntil } from 'rxjs';
 export class LsParameterFormComponent extends BaseComponent implements OnInit {
 
     /** The ID of the learning stage */
-    @Input() learningStageId: number;
+    @Input() learningStageId: string;
 
     /** The ID of the parameter assignment to be edited or created */
-    @Input() parameterId: number;
+    @Input() parameterId: string;
 
     /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();

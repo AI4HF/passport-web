@@ -5,7 +5,7 @@ export class AuditLogBook {
     /**
      * The ID of the associated Passport
      */
-    passportId: number;
+    passportId: string;
 
     /**
      * The ID of the associated AuditLog

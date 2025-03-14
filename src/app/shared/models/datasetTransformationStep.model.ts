@@ -5,12 +5,12 @@ export class DatasetTransformationStep {
     /**
      * The ID of the DatasetTransformationStep
      */
-    stepId: number;
+    stepId: string;
 
     /**
      * The ID of the associated DatasetTransformation
      */
-    dataTransformationId: number;
+    dataTransformationId: string;
 
     /**
      * The input features for the transformation step

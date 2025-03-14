@@ -15,8 +15,8 @@ import { takeUntil } from "rxjs";
 })
 export class FeatureSetFeaturesFormComponent extends BaseComponent implements OnInit {
 
-    @Input() selectedFeatureSetId: number;
-    @Input() featureId: number;
+    @Input() selectedFeatureSetId: string;
+    @Input() featureId: string;
     @Output() formClosed = new EventEmitter<void>();
 
     featureForm: FormGroup;
@@ -84,7 +84,7 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
      * Loads the feature data by ID and updates the form.
      * @param featureId The ID of the feature to be loaded
      */
-    loadFeature(featureId: number) {
+    loadFeature(featureId: string) {
         this.featureService.getFeatureById(featureId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: feature => {
                 this.selectedFeature = feature;

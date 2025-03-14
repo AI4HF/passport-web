@@ -42,7 +42,7 @@ export class OrganizationService {
      * @param id Id of the organization
      * @return {Observable<Organization>}
      */
-    getOrganizationById(id: number): Observable<Organization> {
+    getOrganizationById(id: String): Observable<Organization> {
         const url = `${this.endpoint}/${id}`;
         return this.httpClient.get<Organization>(url)
             .pipe(
@@ -61,7 +61,7 @@ export class OrganizationService {
      * @param organizationAdminId Id of the organization admin
      * @return {Observable<Organization>}
      */
-    getOrganizationByOrganizationAdminId(organizationAdminId: string): Observable<Organization> {
+    getOrganizationByOrganizationAdminId(organizationAdminId: String): Observable<Organization> {
         const url = `${this.endpoint}?organizationAdminId=${organizationAdminId}`;
         return this.httpClient.get<Organization>(url)
             .pipe(
@@ -99,7 +99,7 @@ export class OrganizationService {
      * @param id Id of the organization
      * @return {Observable<any>}
      */
-    deleteOrganization(id: number): Observable<any> {
+    deleteOrganization(id: String): Observable<any> {
         const url = `${this.endpoint}/${id}`;
         return this.httpClient.delete<any>(url)
             .pipe(

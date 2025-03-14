@@ -7,12 +7,12 @@ export class StudyOrganization {
     /**
      * The ID reference to the Organization
      */
-    organizationId: number;
+    organizationId: string;
 
     /**
      * The ID reference to the Study
      */
-    studyId: number;
+    studyId: string;
 
     /**
      * The ID reference to the Personnel
@@ -27,7 +27,7 @@ export class StudyOrganization {
     /**
      * The ID reference to the Population
      */
-    populationId: number;
+    populationId: string;
 
     constructor(data: any) {
 

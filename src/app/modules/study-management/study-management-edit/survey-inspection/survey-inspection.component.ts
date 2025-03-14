@@ -24,7 +24,7 @@ export class SurveyInspectionComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      this.surveyService.getSurveysByStudyId(+params.get('id')).pipe(takeUntil(this.destroy$))
+      this.surveyService.getSurveysByStudyId(params.get('id')).pipe(takeUntil(this.destroy$))
           .subscribe({
             next: (surveyList: Survey[]) => this.surveyList = surveyList.map(survey => new Survey(survey)),
             error: (error: any) => {

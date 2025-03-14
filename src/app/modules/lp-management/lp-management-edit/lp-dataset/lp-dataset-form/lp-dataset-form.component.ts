@@ -16,10 +16,10 @@ import { takeUntil } from 'rxjs';
 export class LpDatasetFormComponent extends BaseComponent implements OnInit {
 
     /** The ID of the learning process */
-    @Input() learningProcessId: number;
+    @Input() learningProcessId: string;
 
     /** The ID of the learning dataset */
-    @Input() learningDatasetId: number;
+    @Input() learningDatasetId: string;
 
     /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();

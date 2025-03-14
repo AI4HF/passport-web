@@ -9,7 +9,7 @@ export class StudyPersonnel {
      * The composite ID of the study and personnel associated with this entry.
      */
     id: {
-        studyId: number;
+        studyId: string;
         personnelId: string;
     };
 
@@ -58,7 +58,7 @@ export class StudyPersonnel {
      * Sets the roles from a comma-separated string.
      * @param rolesString A string of comma-separated roles.
      */
-    setRolesFromString(rolesString: string): void {
+    setRolesFromstring(rolesString: string): void {
         this.role = rolesString;
         this.setRolesAsList();
     }
@@ -67,7 +67,7 @@ export class StudyPersonnel {
      * Gets the study ID from the nested id object.
      * @return The study ID.
      */
-    getStudyId(): number {
+    getStudyId(): string {
         return this.id.studyId;
     }
 

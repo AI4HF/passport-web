@@ -16,10 +16,10 @@ import { takeUntil } from 'rxjs';
 export class LsCreationFormComponent extends BaseComponent implements OnInit {
 
     /** The ID of the learning process */
-    @Input() learningProcessId: number;
+    @Input() learningProcessId: string;
 
     /** The ID of the learning stage to be edited or created */
-    @Input() learningStageId: number;
+    @Input() learningStageId: string;
 
     /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();
@@ -86,7 +86,7 @@ export class LsCreationFormComponent extends BaseComponent implements OnInit {
      * Loads the learning stage data if in update mode.
      */
     loadLearningStage() {
-        this.learningStageService.getLearningStageById(+this.learningStageId, this.activeStudyService.getActiveStudy())
+        this.learningStageService.getLearningStageById(this.learningStageId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: learningStage => {

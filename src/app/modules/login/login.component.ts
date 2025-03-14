@@ -137,7 +137,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
      * @param orgId The ID of organization
      * @param rememberMe boolean for remember feature
      */
-    fetchLoggedOrganization(orgId: number, rememberMe: boolean): void {
+    fetchLoggedOrganization(orgId: string, rememberMe: boolean): void {
         this.organizationService.getOrganizationById(orgId)
             .pipe(takeUntil(this.destroy$)).subscribe({
             next: organization => {

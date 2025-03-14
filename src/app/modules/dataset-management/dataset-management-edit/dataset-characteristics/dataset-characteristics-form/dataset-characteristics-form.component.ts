@@ -17,7 +17,7 @@ import {HttpClient} from "@angular/common/http";
 export class DatasetCharacteristicsFormComponent extends BaseComponent implements OnInit {
 
     /** The ID of the dataset */
-    @Input() datasetId: number;
+    @Input() datasetId: string;
 
     /** The characteristic to be edited or created */
     @Input() characteristic: DatasetCharacteristic;

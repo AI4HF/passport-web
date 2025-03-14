@@ -27,7 +27,7 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
   /**
    * The studyId for selected study
    */
-  studyId: number;
+  studyId: string;
 
   constructor(protected injector: Injector) {
     super(injector);
@@ -36,7 +36,7 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
 
   ngOnInit(): void {
     this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      this.studyId = +params.get('id');
+      this.studyId = params.get('id');
       this.fetchExperimentsByStudyId(this.studyId);
     });
 
@@ -47,7 +47,7 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
    * Fetch experiments from experiment service
    * @param studyId ID of the study related to experiments
    */
-  fetchExperimentsByStudyId(studyId: number): void {
+  fetchExperimentsByStudyId(studyId: string): void {
     this.experimentService.getExperimentListByStudyId(studyId)
         .pipe(takeUntil(this.destroy$))
         .subscribe({

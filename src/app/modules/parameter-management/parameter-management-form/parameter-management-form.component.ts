@@ -16,7 +16,7 @@ import { takeUntil } from "rxjs/operators";
 export class ParameterManagementFormComponent extends BaseComponent implements OnInit {
 
   /** The ID of the parameter to be edited */
-  @Input() parameterId: number;
+  @Input() parameterId: string;
   /** Event emitted when the form is closed */
   @Output() formClosed = new EventEmitter<void>();
 

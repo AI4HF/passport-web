@@ -43,8 +43,8 @@ export class DatasetCharacteristicService {
      * @param studyId
      * @return {Observable<DatasetCharacteristic[]>}
      */
-    getCharacteristicsByDatasetId(datasetId: number, studyId: String): Observable<DatasetCharacteristic[]> {
-        const url = `${this.endpoint}?datasetId=${datasetId}&studyId=${+studyId}`;
+    getCharacteristicsByDatasetId(datasetId: String, studyId: String): Observable<DatasetCharacteristic[]> {
+        const url = `${this.endpoint}?datasetId=${datasetId}&studyId=${studyId}`;
         return this.httpClient.get<DatasetCharacteristic[]>(url)
             .pipe(
                 map((response: any) => {
@@ -64,7 +64,7 @@ export class DatasetCharacteristicService {
      * @return {Observable<DatasetCharacteristic>}
      */
     createCharacteristic(characteristic: DatasetCharacteristic, studyId: String): Observable<DatasetCharacteristic> {
-        const url = `${this.endpoint}?studyId=${+studyId}`;
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.post<DatasetCharacteristic>(url, characteristic)
             .pipe(
                 map((response: any) => {
@@ -84,7 +84,7 @@ export class DatasetCharacteristicService {
      * @return {Observable<DatasetCharacteristic>}
      */
     updateCharacteristic(characteristic: DatasetCharacteristic, studyId: String): Observable<DatasetCharacteristic> {
-        const url = `${this.endpoint}?datasetId=${characteristic.datasetId}&featureId=${characteristic.featureId}&studyId=${+studyId}`;
+        const url = `${this.endpoint}?datasetId=${characteristic.datasetId}&featureId=${characteristic.featureId}&studyId=${studyId}`;
         return this.httpClient.put<DatasetCharacteristic>(url, characteristic)
             .pipe(
                 map((response: any) => {
@@ -104,8 +104,8 @@ export class DatasetCharacteristicService {
      * @param studyId
      * @return {Observable<any>}
      */
-    deleteCharacteristic(datasetId: number, featureId: number, studyId: String): Observable<any> {
-        const url = `${this.endpoint}?datasetId=${datasetId}&featureId=${featureId}&studyId=${+studyId}`;
+    deleteCharacteristic(datasetId: String, featureId: String, studyId: String): Observable<any> {
+        const url = `${this.endpoint}?datasetId=${datasetId}&featureId=${featureId}&studyId=${studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) => {

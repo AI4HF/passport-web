@@ -21,7 +21,7 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
     /** Determines if the form is displayed */
     displayForm: boolean = false;
     /** The ID of the selected survey for editing */
-    selectedSurveyId: number = null;
+    selectedSurveyId: string = null;
 
     /**
      * Constructor to inject dependencies.
@@ -44,7 +44,7 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
      */
     ngOnInit() {
         if(this.activeStudyService.getActiveStudy()){
-            this.loadSurveys(+this.activeStudyService.getActiveStudy());
+            this.loadSurveys(this.activeStudyService.getActiveStudy());
         }
     }
 
@@ -52,7 +52,7 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
      * Loads surveys by studyId.
      * @param studyId
      */
-    loadSurveys(studyId: number) {
+    loadSurveys(studyId: String) {
         this.surveyService.getSurveysByStudyId(studyId).pipe(takeUntil(this.destroy$)).subscribe({
             next: (surveys) => {
                 this.surveyList = surveys.map(survey => new Survey(survey));
@@ -100,8 +100,8 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
      * Deletes the selected survey.
      * @param surveyId The ID of the survey to be deleted
      */
-    deleteQuestion(surveyId: number) {
-        this.surveyService.deleteSurvey(surveyId, +this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
+    deleteQuestion(surveyId: string) {
+        this.surveyService.deleteSurvey(surveyId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: () => {
                 this.surveyList = this.surveyList.filter(survey => survey.surveyId !== surveyId);
                 this.messageService.add({
@@ -126,6 +126,6 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
     onFormClosed() {
         this.selectedSurveyId = null;
         this.displayForm = false;
-        this.loadSurveys(+this.activeStudyService.getActiveStudy());
+        this.loadSurveys(this.activeStudyService.getActiveStudy());
     }
 }

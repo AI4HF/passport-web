@@ -24,7 +24,7 @@ export class AlgorithmService {
      * @return {Observable<Algorithm[]>}
      */
     getAllAlgorithms(studyId: String): Observable<Algorithm[]> {
-        const url = `${this.endpoint}?studyId=${+studyId}`;
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.get<Algorithm[]>(url)
             .pipe(
                 map((response: any) => {
@@ -63,7 +63,7 @@ export class AlgorithmService {
      * @return {Observable<Algorithm>}
      */
     createAlgorithm(algorithm: Algorithm, studyId: String): Observable<Algorithm> {
-        const url = `${this.endpoint}?studyId=${+studyId}`;
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.post<Algorithm>(url, algorithm)
             .pipe(
                 map((response: any) => {
