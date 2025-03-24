@@ -5,17 +5,17 @@ export class Passport{
     /**
      * The ID of the Passport
      */
-    passportId: number;
+    passportId: string;
 
     /**
      * The ID of the Model Deployment
      */
-    deploymentId: number;
+    deploymentId: string;
 
     /**
      * The ID of the Study
      */
-    studyId: number;
+    studyId: string;
 
     /**
      * The creation date of the Passport

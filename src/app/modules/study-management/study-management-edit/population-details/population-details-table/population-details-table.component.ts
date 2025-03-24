@@ -20,7 +20,7 @@ export class PopulationDetailsTableComponent extends BaseComponent implements On
     displayForm: boolean = false;
 
     /** The population ID selected for editing */
-    selectedPopulationId: number = null;
+    selectedPopulationId: string = null;
 
     /** Loading state of the table */
     loading: boolean = true;
@@ -29,7 +29,7 @@ export class PopulationDetailsTableComponent extends BaseComponent implements On
     columns: any[];
 
     /** Current study Id */
-    studyId: number = null;
+    studyId: string = null;
 
     /**
      * Constructor to inject dependencies.
@@ -49,7 +49,7 @@ export class PopulationDetailsTableComponent extends BaseComponent implements On
         ];
 
         this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            this.studyId = +params.get('id');
+            this.studyId = params.get('id');
             this.loadPopulations();
         });
     }
@@ -79,7 +79,7 @@ export class PopulationDetailsTableComponent extends BaseComponent implements On
      * Deletes a population by its ID.
      * @param populationId The ID of the population to be deleted
      */
-    deletePopulation(populationId: number) {
+    deletePopulation(populationId: string) {
         this.populationService.deletePopulation(populationId, this.studyId).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
@@ -104,7 +104,7 @@ export class PopulationDetailsTableComponent extends BaseComponent implements On
      * Displays the form for editing a population.
      * @param populationId The ID of the population to be edited
      */
-    showPopulationForm(populationId: number) {
+    showPopulationForm(populationId: string) {
         this.selectedPopulationId = populationId;
         this.displayForm = true;
     }

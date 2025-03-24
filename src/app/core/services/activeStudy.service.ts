@@ -29,8 +29,8 @@ export class ActiveStudyService {
      * Set active study and store it in session storage.
      * @param studyId Study ID to set as active
      */
-    setActiveStudy(studyId: number) {
-            sessionStorage.setItem('activeStudy', String(studyId));
+    setActiveStudy(studyId: string) {
+            sessionStorage.setItem('activeStudy', studyId);
     }
 
     /**
@@ -54,7 +54,7 @@ export class ActiveStudyService {
      * Get the current active study from BehaviorSubject or session storage
      * @return {Study}
      */
-    getActiveStudy(): String {
+    getActiveStudy(): string {
         return sessionStorage.getItem("activeStudy");
     }
 

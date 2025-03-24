@@ -83,7 +83,7 @@ export class DeploymentManagementDashboardComponent extends BaseComponent implem
   /**
    * Navigate the user to ModelDeployment edit page
    */
-  editModelDeployment(id: number){
+  editModelDeployment(id: string){
     this.router.navigate([`/${DeploymentManagementRoutingModule.route}/${id}`]);
   }
 
@@ -91,7 +91,7 @@ export class DeploymentManagementDashboardComponent extends BaseComponent implem
   /**
    * Delete a ModelDeployment
    */
-  deleteModelDeployment(id: number){
+  deleteModelDeployment(id: string){
     this.loading = true;
     this.modelDeploymentService.deleteModelDeployment(id, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
         .subscribe({

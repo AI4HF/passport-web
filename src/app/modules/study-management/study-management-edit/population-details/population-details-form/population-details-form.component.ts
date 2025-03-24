@@ -15,10 +15,10 @@ import { takeUntil } from "rxjs";
 export class PopulationDetailsFormComponent extends BaseComponent implements OnInit {
 
     /** The ID of the population to be edited or created */
-    @Input() populationId: number;
+    @Input() populationId: string;
 
     /** The ID of the working study */
-    @Input() currentStudyId: number;
+    @Input() currentStudyId: string;
 
     /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();
@@ -72,7 +72,7 @@ export class PopulationDetailsFormComponent extends BaseComponent implements OnI
      * Loads the population data by ID and updates the form.
      * @param populationId The ID of the population to be loaded
      */
-    loadPopulation(populationId: number) {
+    loadPopulation(populationId: string) {
         this.populationService.getPopulationById(populationId, this.currentStudyId).pipe(takeUntil(this.destroy$)).subscribe({
             next: population => {
                 this.selectedPopulation = population;

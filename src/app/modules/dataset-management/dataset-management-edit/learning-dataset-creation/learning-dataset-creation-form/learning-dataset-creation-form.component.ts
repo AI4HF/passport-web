@@ -17,13 +17,13 @@ import { LearningDatasetAndTransformationRequest } from '../../../../../shared/m
 export class LearningDatasetCreationFormComponent extends BaseComponent implements OnInit {
 
     /** The ID of the dataset */
-    @Input() datasetId: number;
+    @Input() datasetId: string;
 
     /** The ID of the learning dataset to be edited or created */
-    @Input() learningDatasetId: number;
+    @Input() learningDatasetId: string;
 
     /** The ID of the data transformation to be edited or created */
-    @Input() dataTransformationId: number;
+    @Input() dataTransformationId: string;
 
     /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();

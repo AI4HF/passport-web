@@ -14,13 +14,13 @@ import { takeUntil } from "rxjs";
 export class DatasetCharacteristicsTableComponent extends BaseComponent implements OnInit {
 
     /** The selected dataset's ID */
-    selectedDatasetId: number;
+    selectedDatasetId: string;
 
     /** List of dataset characteristics */
     characteristics: DatasetCharacteristic[] = [];
 
     /** Map of feature IDs to feature names */
-    featureMap: Map<number, string> = new Map<number, string>();
+    featureMap: Map<string, string> = new Map<string, string>();
 
     /** Determines if the form is displayed */
     displayForm: boolean = false;
@@ -54,7 +54,7 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
         ];
 
         this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            this.selectedDatasetId = +params.get('id');
+            this.selectedDatasetId = params.get('id');
             this.loadFeatures();
         });
     }

@@ -128,11 +128,11 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
     this.router.navigate([`/${StudyManagementRoutingModule.route}/new`]);
   }
 
-  editStudy(id: number) {
+  editStudy(id: string) {
     this.router.navigate([`/${StudyManagementRoutingModule.route}/${id}`]);
   }
 
-  deleteStudy(id: number) {
+  deleteStudy(id: string) {
     this.loadingOwnedStudies = true;
     this.studyService.deleteStudy(id).pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -154,7 +154,7 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
         });
   }
 
-  accessStudy(studyId: number) {
+  accessStudy(studyId: string) {
     const studyPersonnelEntry = this.studyPersonnelEntries.find(entry => entry.id.studyId === studyId);
     if (studyPersonnelEntry) {
 

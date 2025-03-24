@@ -5,12 +5,12 @@ export class Experiment{
     /**
      * The ID of the Experiment
      */
-    experimentId: number;
+    experimentId: string;
 
     /**
      * The ID reference to the Study
      */
-    studyId: number;
+    studyId: string;
 
     /**
      * The concrete research question to which an answer is sought with the ML workflow.

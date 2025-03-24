@@ -34,7 +34,7 @@ export class PopulationGuard implements CanActivate {
             return false;
         }
 
-        return this.populationService.getPopulationByStudyId(+studyId).pipe(
+        return this.populationService.getPopulationByStudyId(studyId).pipe(
             map(populations => {
                 if (populations.length > 0) {
                     return true;

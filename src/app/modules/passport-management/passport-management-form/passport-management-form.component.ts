@@ -124,7 +124,7 @@ export class PassportManagementFormComponent extends BaseComponent implements On
                     this.auditLogBookService
                         .createAuditLogBookEntries(
                             passport.passportId.toString(),
-                            +this.activeStudyService.getActiveStudy()
+                            this.activeStudyService.getActiveStudy()
                         )
                         .pipe(takeUntil(this.destroy$))
                         .subscribe({

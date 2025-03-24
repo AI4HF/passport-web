@@ -5,12 +5,12 @@ export class Feature {
     /**
      * The ID of the Feature
      */
-    featureId: number;
+    featureId: string;
 
     /**
      * The ID of the associated FeatureSet
      */
-    featuresetId: number;
+    featuresetId: string;
 
     /**
      * The title of the Feature

@@ -22,10 +22,11 @@ export class AuditLogBookService {
     /**
      * Retrieves all AuditLogBook entries for a given Passport ID
      * @param passportId The ID of the Passport
+     * @param studyId
      * @return {Observable<AuditLogBook[]>}
      */
-    getAllByPassportId(passportId: string, studyId: String): Observable<AuditLogBook[]> {
-        const url = `${this.endpoint}/${passportId}?studyId=${+studyId}`;
+    getAllByPassportId(passportId: string, studyId: string): Observable<AuditLogBook[]> {
+        const url = `${this.endpoint}/${passportId}?studyId=${studyId}`;
         return this.httpClient.get<AuditLogBook[]>(url).pipe(
             map((response: any) => {
                 return response.map((item: any) => new AuditLogBook(item));
@@ -45,14 +46,14 @@ export class AuditLogBookService {
      */
     createAuditLogBookEntries(
         passportId: string,
-        studyId: number
+        studyId: string
     ): Observable<void> {
         const url = `${this.endpoint}`;
         return this.httpClient
             .post<void>(url, null, {
                 params: {
                     passportId,
-                    studyId: studyId.toString()
+                    studyId: studyId
                 },
             })
             .pipe(
@@ -69,8 +70,8 @@ export class AuditLogBookService {
      * @param studyId
      * @return {Observable<AuditLog[]>}
      */
-    getAuditLogsByIds(auditLogIds: string[], studyId: String): Observable<AuditLog[]> {
-        const url = `${this.endpoint}/audit-logs?studyId=${+studyId}`;
+    getAuditLogsByIds(auditLogIds: string[], studyId: string): Observable<AuditLog[]> {
+        const url = `${this.endpoint}/audit-logs?studyId=${studyId}`;
         return this.httpClient.post<AuditLog[]>(url, auditLogIds).pipe(
             map((response: any) => {
                 return response.map((item: any) => new AuditLog(item));

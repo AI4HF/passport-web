@@ -73,7 +73,7 @@ export class StorageUtil {
      * @param organizationId The organizationId to store.
      * @param rememberMe Whether to remember the user across sessions.
      */
-    static storeOrganizationId(organizationId: number, rememberMe: boolean): void {
+    static storeOrganizationId(organizationId: string, rememberMe: boolean): void {
         if (rememberMe) {
             localStorage.setItem('organizationId', String(organizationId));
         } else {

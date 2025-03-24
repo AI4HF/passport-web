@@ -25,7 +25,7 @@ export class PopulationService {
      * @param studyId Id of the study
      * @return {Observable<Population>}
      */
-    getPopulationById(id: number, studyId: number): Observable<Population> {
+    getPopulationById(id: String, studyId: String): Observable<Population> {
         const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.get<Population>(url)
             .pipe(
@@ -58,7 +58,7 @@ export class PopulationService {
      * @param id Id of the study
      * @return {Observable<Population[]>}
      */
-    getPopulationByStudyId(id: number): Observable<Population[]> {
+    getPopulationByStudyId(id: String): Observable<Population[]> {
         const url = `${this.endpoint}?studyId=${id}`;
         return this.httpClient.get<Population[]>(url)
             .pipe(
@@ -78,7 +78,7 @@ export class PopulationService {
      * @param id Id of the study
      * @return {Observable<Population>}
      */
-    updatePopulation(population: Population, id:number): Observable<Population> {
+    updatePopulation(population: Population, id:String): Observable<Population> {
         const url = `${this.endpoint}/${population.populationId}?studyId=${id}`;
         return this.httpClient.put<Population>(url, population)
             .pipe(
@@ -98,7 +98,7 @@ export class PopulationService {
      * @param id Id of the study
      * @return {Observable<Population>}
      */
-    createPopulation(population: Population, id: number): Observable<Population> {
+    createPopulation(population: Population, id: String): Observable<Population> {
         const url = `${this.endpoint}?studyId=${id}`;
         return this.httpClient.post<Population>(url, population)
             .pipe(
@@ -118,7 +118,7 @@ export class PopulationService {
      * @param studyId
      * @return {Observable<any>}
      */
-    deletePopulation(id: number, studyId: number): Observable<any>{
+    deletePopulation(id: String, studyId: String): Observable<any>{
         const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(

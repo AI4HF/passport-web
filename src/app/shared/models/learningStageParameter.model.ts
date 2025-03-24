@@ -5,12 +5,12 @@ export class LearningStageParameter {
     /**
      * The ID of the related LearningStage
      */
-    learningStageId: number;
+    learningStageId: string;
 
     /**
      * The ID of the related Parameter
      */
-    parameterId: number;
+    parameterId: string;
 
     /**
      * The type of the LearningStageParameter

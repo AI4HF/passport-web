@@ -33,9 +33,9 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
     this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const id = params.get('id');
       if (id !== 'new') {
-        this.loadStudy(+id);
+        this.loadStudy(id);
       } else {
-        this.selectedStudy = new Study({id: 0});
+        this.selectedStudy = new Study({id: null});
         this.initializeForm();
       }
     });
@@ -44,7 +44,7 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
   /**
    * Load study by ID
    */
-  loadStudy(id: number) {
+  loadStudy(id: string) {
     this.studyService.getStudyById(id).pipe(takeUntil(this.destroy$)).subscribe({
       next: study => {
         this.selectedStudy = study;
@@ -83,7 +83,7 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
    * Save study details
    */
   save(){
-    if(this.selectedStudy.id === 0){
+    if(this.selectedStudy.id === null){
       const newStudy: Study = new Study({ ...this.studyForm.value});
       this.studyService.createStudy(newStudy)
           .pipe(takeUntil(this.destroy$))

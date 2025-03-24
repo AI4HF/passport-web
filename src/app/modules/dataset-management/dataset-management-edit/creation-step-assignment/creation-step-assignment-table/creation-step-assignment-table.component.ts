@@ -16,7 +16,7 @@ import { takeUntil } from "rxjs";
 export class CreationStepAssignmentTableComponent extends BaseComponent implements OnInit {
 
     /** The selected dataset's ID */
-    selectedDatasetId: number;
+    selectedDatasetId: string;
 
     /** List of learning datasets */
     learningDatasets: LearningDataset[] = [];
@@ -62,7 +62,7 @@ export class CreationStepAssignmentTableComponent extends BaseComponent implemen
         ];
 
         this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            this.selectedDatasetId = +params.get('id');
+            this.selectedDatasetId = params.get('id');
             this.loadLearningDatasets();
         });
     }

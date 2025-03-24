@@ -24,7 +24,7 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
     displayForm: boolean = false;
 
     /** The feature ID selected for editing */
-    selectedFeatureId: number = null;
+    selectedFeatureId: string = null;
 
     /** Loading state of the table */
     loading: boolean = true;
@@ -89,7 +89,7 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
      * Deletes a feature by its ID.
      * @param featureId The ID of the feature to be deleted
      */
-    deleteFeature(featureId: number) {
+    deleteFeature(featureId: string) {
         this.featureService.deleteFeature(featureId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
@@ -114,7 +114,7 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
      * Displays the form for editing a feature.
      * @param featureId The ID of the feature to be edited
      */
-    showFeatureForm(featureId: number) {
+    showFeatureForm(featureId: string) {
         this.selectedFeatureId = featureId;
         this.displayForm = true;
     }

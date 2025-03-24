@@ -26,7 +26,7 @@ export class DatasetService {
      * @return {Observable<Dataset[]>}
      */
     getAllDatasetsByStudyId(studyId: String): Observable<Dataset[]> {
-        const url = `${this.endpoint}?studyId=${+studyId}`;
+        const url = `${this.endpoint}?studyId=${studyId}`;
         return this.httpClient.get<Dataset[]>(url)
             .pipe(
                 map((response: any) => {
@@ -45,8 +45,8 @@ export class DatasetService {
      * @param studyId
      * @return {Observable<Dataset>}
      */
-    getDatasetById(id: number, studyId: String): Observable<Dataset> {
-        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
+    getDatasetById(id: string, studyId: String): Observable<Dataset> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.get<Dataset>(url)
             .pipe(
                 map((response: any) => {
@@ -85,7 +85,7 @@ export class DatasetService {
      * @return {Observable<Dataset>}
      */
     createDataset(dataset: Dataset, studyId: String): Observable<Dataset> {
-        const url = `${this.endpoint}?studyId=${+studyId}`;
+        const url = `${this.endpoint}?studyId=${studyId}`;
         dataset.createdBy = StorageUtil.retrieveUserId();
         dataset.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.post<Dataset>(url, dataset)
@@ -107,7 +107,7 @@ export class DatasetService {
      * @return {Observable<Dataset>}
      */
     updateDataset(dataset: Dataset, studyId: String): Observable<Dataset> {
-        const url = `${this.endpoint}/${dataset.datasetId}?studyId=${+studyId}`;
+        const url = `${this.endpoint}/${dataset.datasetId}?studyId=${studyId}`;
         dataset.lastUpdatedBy = StorageUtil.retrieveUserId();
         return this.httpClient.put<Dataset>(url, dataset)
             .pipe(
@@ -127,8 +127,8 @@ export class DatasetService {
      * @param studyId
      * @return {Observable<any>}
      */
-    deleteDataset(id: number, studyId: String): Observable<any> {
-        const url = `${this.endpoint}/${id}?studyId=${+studyId}`;
+    deleteDataset(id: string, studyId: String): Observable<any> {
+        const url = `${this.endpoint}/${id}?studyId=${studyId}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) => {

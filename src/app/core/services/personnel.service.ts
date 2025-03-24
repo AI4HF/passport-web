@@ -43,7 +43,7 @@ export class PersonnelService {
      * @param organizationId Id of the organization
      * @return {Observable<Personnel[]>}
      */
-    getPersonnelByOrganizationId(organizationId: number): Observable<Personnel[]> {
+    getPersonnelByOrganizationId(organizationId: String): Observable<Personnel[]> {
         const url = `${this.endpoint}?organizationId=${organizationId}`;
         return this.httpClient.get<Personnel[]>(url)
             .pipe(
@@ -62,7 +62,7 @@ export class PersonnelService {
      * @param personId Id of the person
      * @return {Observable<Personnel>}
      */
-    getPersonnelByPersonId(personId: string): Observable<Personnel> {
+    getPersonnelByPersonId(personId: String): Observable<Personnel> {
         const url = `${this.endpoint}/${personId}`;
         return this.httpClient.get<Personnel>(url)
             .pipe(
@@ -119,7 +119,7 @@ export class PersonnelService {
      * @param personId Id of the person
      * @return {Observable<any>}
      */
-    deletePersonnel(personId: string): Observable<any> {
+    deletePersonnel(personId: String): Observable<any> {
         const url = `${this.endpoint}/${personId}`;
         return this.httpClient.delete<any>(url)
             .pipe(

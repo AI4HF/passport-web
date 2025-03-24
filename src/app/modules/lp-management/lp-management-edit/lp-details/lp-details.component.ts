@@ -62,10 +62,10 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
             const id = params.get('id');
             if (id !== 'new') {
                 this.isEditMode = true;
-                this.loadLearningProcess(+id);
+                this.loadLearningProcess(id);
             } else {
-                this.selectedLearningProcess = new LearningProcess({ learningProcessId: 0 });
-                this.selectedImplementation = new Implementation({ implementationId: 0 });
+                this.selectedLearningProcess = new LearningProcess({ learningProcessId: null });
+                this.selectedImplementation = new Implementation({ implementationId: null });
                 this.initializeForm();
             }
         });
@@ -89,7 +89,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
      * Loads the learning process by ID and fetches its associated implementation details.
      * @param id The ID of the learning process
      */
-    loadLearningProcess(id: number) {
+    loadLearningProcess(id: string) {
         this.learningProcessService.getLearningProcessById(id, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: learningProcess => {
                 this.selectedLearningProcess = learningProcess;
@@ -109,7 +109,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
      * Loads the implementation by ID and updates the form with its details.
      * @param implementationId The ID of the implementation
      */
-    loadImplementation(implementationId: number) {
+    loadImplementation(implementationId: string) {
         this.implementationService.getImplementationById(implementationId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: implementation => {
                 this.selectedImplementation = implementation;
@@ -320,7 +320,7 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
      * Saves the learning process after the implementation has been saved or updated.
      * @param implementationId The ID of the related implementation
      */
-    saveLearningProcess(implementationId: number) {
+    saveLearningProcess(implementationId: string) {
         const formValues = this.formGroup.value;
 
         const learningProcessPayload = {

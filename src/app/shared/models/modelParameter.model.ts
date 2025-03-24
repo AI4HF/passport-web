@@ -5,12 +5,12 @@ export class ModelParameter {
     /**
      * The ID of the related Model
      */
-    modelId: number;
+    modelId: string;
 
     /**
      * The ID of the related Parameter
      */
-    parameterId: number;
+    parameterId: string;
 
     /**
      * The type of the ModelParameter
