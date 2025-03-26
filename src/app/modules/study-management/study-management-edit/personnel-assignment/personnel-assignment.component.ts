@@ -47,10 +47,12 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
     this.organizationService.getAllOrganizations().pipe(takeUntil(this.destroy$)).subscribe({
       next: data => this.organizationList = data.map(organization => new Organization(organization)),
       error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translateService.instant('Error'),
-          detail: this.translateService.instant('StudyManagement.Personnel.OrganizationFetchError')
+        this.translateService.get(['Error', 'StudyManagement.Personnel.OrganizationFetchError']).subscribe(translations => {
+          this.messageService.add({
+            severity: 'error',
+            summary: translations['Error'],
+            detail: translations['StudyManagement.Personnel.OrganizationFetchError']
+          });
         });
       }
     });
@@ -61,10 +63,12 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
         this.loadPopulations();
       },
       error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translateService.instant('Error'),
-          detail: this.translateService.instant('StudyManagement.Personnel.RouteFetchError')
+        this.translateService.get(['Error', 'StudyManagement.Personnel.RouteFetchError']).subscribe(translations => {
+          this.messageService.add({
+            severity: 'error',
+            summary: translations['Error'],
+            detail: translations['StudyManagement.Personnel.RouteFetchError']
+          });
         });
       }
     });
@@ -74,10 +78,12 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
     this.populationService.getPopulationByStudyId(this.studyId).pipe(takeUntil(this.destroy$)).subscribe({
       next: populations => this.populationList = populations.map(pop => new Population(pop)),
       error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translateService.instant('Error'),
-          detail: this.translateService.instant('StudyManagement.Personnel.PopulationFetchError')
+        this.translateService.get(['Error', 'StudyManagement.Personnel.PopulationFetchError']).subscribe(translations => {
+          this.messageService.add({
+            severity: 'error',
+            summary: translations['Error'],
+            detail: translations['StudyManagement.Personnel.PopulationFetchError']
+          });
         });
       }
     });
@@ -118,10 +124,12 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
             );
           },
           error: () => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: this.translateService.instant('StudyManagement.Personnel.RolesFetchError')
+            this.translateService.get(['Error', 'StudyManagement.Personnel.RolesFetchError']).subscribe(translations => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translations['Error'],
+                detail: translations['StudyManagement.Personnel.RolesFetchError']
+              });
             });
           }
         });
@@ -136,10 +144,12 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
           });
 
         } else {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translateService.instant('Error'),
-            detail: this.translateService.instant('StudyManagement.Personnel.StudyOrganizationFetchError')
+          this.translateService.get(['Error', 'StudyManagement.Personnel.StudyOrganizationFetchError']).subscribe(translations => {
+            this.messageService.add({
+              severity: 'error',
+              summary: translations['Error'],
+              detail: translations['StudyManagement.Personnel.StudyOrganizationFetchError']
+            });
           });
         }
       }
@@ -154,10 +164,12 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
         this.personnelRoleMap = new Map(this.personnelList.map(p => [p.personId, []]));
       },
       error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translateService.instant('Error'),
-          detail: this.translateService.instant('StudyManagement.Personnel.PersonnelFetchError')
+        this.translateService.get(['Error', 'StudyManagement.Personnel.PersonnelFetchError']).subscribe(translations => {
+          this.messageService.add({
+            severity: 'error',
+            summary: translations['Error'],
+            detail: translations['StudyManagement.Personnel.PersonnelFetchError']
+          });
         });
       }
     });
@@ -189,24 +201,30 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
               );
             },
             error: () => {
-              this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: this.translateService.instant('StudyManagement.Personnel.RolesFetchError')
+              this.translateService.get(['Error', 'StudyManagement.Personnel.RolesFetchError']).subscribe(translations => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translations['Error'],
+                  detail: translations['StudyManagement.Personnel.RolesFetchError']
+                });
               });
             }
           });
-          this.messageService.add({
-            severity: 'success',
-            summary: this.translateService.instant('Success'),
-            detail: this.translateService.instant('StudyManagement.Personnel.StudyOrganization is updated successfully')
+          this.translateService.get(['Success', 'StudyManagement.Personnel.StudyOrganization is updated successfully']).subscribe(translations => {
+            this.messageService.add({
+              severity: 'error',
+              summary: translations['Success'],
+              detail: translations['StudyManagement.Personnel.StudyOrganization is updated successfully']
+            });
           });
         },
         error: error => {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translateService.instant('Error'),
-            detail: error.message
+          this.translateService.get('Error').subscribe(translation => {
+            this.messageService.add({
+              severity: 'error',
+              summary: translation,
+              detail: error.message
+            });
           });
         }});
     } else {
@@ -219,17 +237,21 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
           this.selectedRoles = this.selectedStudyOrganization.roles;
           this.allowedRoles = this.roles.filter(role => this.selectedRoles.includes(role.value));
           this.fetchPersonnelForOrganization(this.selectedStudyOrganization.organizationId);
-          this.messageService.add({
-            severity: 'success',
-            summary: this.translateService.instant('Success'),
-            detail: this.translateService.instant('StudyManagement.Personnel.StudyOrganization is created successfully')
+          this.translateService.get(['Success', 'StudyManagement.Personnel.StudyOrganization is created successfully']).subscribe(translations => {
+            this.messageService.add({
+              severity: 'success',
+              summary: translations['Success'],
+              detail: translations['StudyManagement.Personnel.StudyOrganization is created successfully']
+            });
           });
         },
         error: error => {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translateService.instant('Error'),
-            detail: error.message
+          this.translateService.get('Error').subscribe(translation => {
+            this.messageService.add({
+              severity: 'error',
+              summary: translation,
+              detail: error.message
+            });
           });
         }
       });
@@ -255,17 +277,21 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
     ).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant('Success'),
-              detail: this.translateService.instant('StudyManagement.Personnel.Roles are assigned successfully')
+            this.translateService.get(['Success', 'StudyManagement.Personnel.Roles are assigned successfully']).subscribe(translations => {
+              this.messageService.add({
+                severity: 'success',
+                summary: translations['Success'],
+                detail: translations['StudyManagement.Personnel.Roles are assigned successfully']
+              });
             });
           },
           error: () => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: this.translateService.instant('StudyManagement.Personnel.SaveError')
+            this.translateService.get(['Error', 'StudyManagement.Personnel.SaveError']).subscribe(translations => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translations['Error'],
+                detail: translations['StudyManagement.Personnel.SaveError']
+              });
             });
           }
         });

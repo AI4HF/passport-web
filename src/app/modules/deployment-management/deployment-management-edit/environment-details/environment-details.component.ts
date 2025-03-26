@@ -53,20 +53,24 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
                                 this.initializeForm();
                             },
                             error: (error: any) => {
-                                this.messageService.add({
-                                    severity: 'error',
-                                    summary: this.translateService.instant('Error'),
-                                    detail: error.message
+                                this.translateService.get('Error').subscribe(translation => {
+                                    this.messageService.add({
+                                        severity: 'error',
+                                        summary: translation,
+                                        detail: error.message
+                                    });
                                 });
                             }
                         });
                 }
             },
             error: (error: any) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });
@@ -104,18 +108,22 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
                 .subscribe({
                     next: deploymentEnvironment => {
                         this.selectedDeploymentEnvironment = deploymentEnvironment;
-                        this.initializeForm();this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('DeploymentManagement.Environment.Deployment Environment is created successfully')
+                        this.translateService.get(['Success', 'DeploymentManagement.Environment.Deployment Environment is created successfully']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['DeploymentManagement.Environment.Deployment Environment is created successfully']
+                            });
                         });
                         this.router.navigate([`../../${this.selectedDeploymentEnvironment.environmentId}/model-deployment-details`], {relativeTo: this.route});
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     }
                 });
@@ -127,17 +135,21 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
                     next: (deploymentEnvironment: DeploymentEnvironment) => {
                         this.selectedDeploymentEnvironment = deploymentEnvironment;
                         this.initializeForm();
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('DeploymentManagement.Environment.Deployment Environment is updated successfully')
+                        this.translateService.get(['Success', 'DeploymentManagement.Environment.Deployment Environment is updated successfully']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['DeploymentManagement.Environment.Deployment Environment is updated successfully']
+                            });
                         });
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     },
                 });

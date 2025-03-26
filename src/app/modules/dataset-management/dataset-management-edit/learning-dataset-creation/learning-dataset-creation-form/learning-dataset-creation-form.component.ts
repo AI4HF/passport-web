@@ -91,10 +91,12 @@ export class LearningDatasetCreationFormComponent extends BaseComponent implemen
                 this.updateForm();
             },
             error: error => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });
@@ -151,18 +153,22 @@ export class LearningDatasetCreationFormComponent extends BaseComponent implemen
                 next: response => {
                     this.transformation = response.datasetTransformation;
                     this.learningDataset = response.learningDataset;
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('DatasetManagement.Updated')
+                    this.translateService.get(['Success', 'DatasetManagement.Updated']).subscribe(translations => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: translations['Success'],
+                            detail: translations['DatasetManagement.Updated']
+                        });
                     });
                     this.closeDialog();
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });
@@ -185,18 +191,22 @@ export class LearningDatasetCreationFormComponent extends BaseComponent implemen
                 next: response => {
                     this.transformation = response.datasetTransformation;
                     this.learningDataset = response.learningDataset;
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('DatasetManagement.Created')
+                    this.translateService.get(['Success', 'DatasetManagement.Created']).subscribe(translations => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: translations['Success'],
+                            detail: translations['DatasetManagement.Created']
+                        });
                     });
                     this.closeDialog();
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });

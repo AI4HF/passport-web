@@ -80,10 +80,12 @@ export class PopulationDetailsFormComponent extends BaseComponent implements OnI
                 this.display = true;
             },
             error: error => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });
@@ -113,17 +115,21 @@ export class PopulationDetailsFormComponent extends BaseComponent implements OnI
                     next: population => {
                         this.selectedPopulation = population;
                         this.initializeForm();
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('StudyManagement.Population.PopulationCreated')
+                        this.translateService.get(['Success', 'StudyManagement.Population.PopulationCreated']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['StudyManagement.Population.PopulationCreated']
+                            });
                         });
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     },
                     complete: () => {
@@ -138,17 +144,21 @@ export class PopulationDetailsFormComponent extends BaseComponent implements OnI
                     next: (population: Population) => {
                         this.selectedPopulation = population;
                         this.initializeForm();
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('StudyManagement.Population.PopulationUpdated')
+                        this.translateService.get(['Success', 'StudyManagement.Population.PopulationUpdated']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['StudyManagement.Population.PopulationUpdated']
+                            });
                         });
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     },
                     complete: () => {

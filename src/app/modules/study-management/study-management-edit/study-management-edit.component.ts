@@ -22,13 +22,15 @@ export class StudyManagementEditComponent extends BaseComponent implements OnIni
 
   ngOnInit() {
 
-    this.studySteps = [
-      {name: this.translateService.instant('StudyManagement.Study Details'), routerLink: 'study-details'},
-      {name: this.translateService.instant('StudyManagement.Population Details'), routerLink: 'population-details'},
-      {name: this.translateService.instant('StudyManagement.Personnel Assignment'), routerLink: 'personnel-assignment'},
-      {name: this.translateService.instant('StudyManagement.Experiment Questions'), routerLink: 'experiment-questions'},
-      {name: this.translateService.instant('StudyManagement.Survey Inspection'), routerLink: 'survey-inspection'}
-    ];
+    this.translateService.get(['StudyManagement.Study Details', 'StudyManagement.Population Details', 'StudyManagement.Personnel Assignment', 'StudyManagement.Experiment Questions','StudyManagement.Survey Inspection']).subscribe(translations => {
+      this.studySteps = [
+        {name: translations['StudyManagement.Study Details'], routerLink: 'study-details'},
+        {name: translations['StudyManagement.Population Details'], routerLink: 'population-details'},
+        {name: translations['StudyManagement.Personnel Assignment'], routerLink: 'personnel-assignment'},
+        {name: translations['StudyManagement.Experiment Questions'], routerLink: 'experiment-questions'},
+        {name: translations['StudyManagement.Survey Inspection'], routerLink: 'survey-inspection'}
+      ];
+    });
   }
 
 }

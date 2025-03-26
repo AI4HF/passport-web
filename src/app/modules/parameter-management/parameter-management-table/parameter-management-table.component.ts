@@ -45,10 +45,12 @@ export class ParameterManagementTableComponent extends BaseComponent implements 
     if (activeStudyId) {
       this.loadParameters(activeStudyId);
     } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: this.translateService.instant('Error'),
-        detail: this.translateService.instant('ParameterManagement.NoActiveStudy')
+      this.translateService.get(['Error', 'ParameterManagement.NoActiveStudy']).subscribe(translations => {
+        this.messageService.add({
+          severity: 'error',
+          summary: translations['Error'],
+          detail: translations['ParameterManagement.NoActiveStudy']
+        });
       });
       this.loading = false;
     }
@@ -66,10 +68,12 @@ export class ParameterManagementTableComponent extends BaseComponent implements 
             this.parameterList = parameters.map(parameter => new Parameter(parameter));
           },
           error: (error: any) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
             });
           },
           complete: () => {
@@ -113,17 +117,21 @@ export class ParameterManagementTableComponent extends BaseComponent implements 
         .subscribe({
           next: () => {
             this.parameterList = this.parameterList.filter(parameter => parameter.parameterId !== parameterId);
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant('Success'),
-              detail: this.translateService.instant('ParameterManagement.Parameter is deleted successfully')
+            this.translateService.get(['Success', 'ParameterManagement.Parameter is deleted successfully']).subscribe(translations => {
+              this.messageService.add({
+                severity: 'success',
+                summary: translations['Success'],
+                detail: translations['ParameterManagement.Parameter is deleted successfully']
+              });
             });
           },
           error: (error: any) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
             });
           }
         });

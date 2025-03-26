@@ -94,10 +94,12 @@ export class LoginComponent extends BaseComponent implements OnInit {
                 this.fetchLoggedPersonnel(rememberMe);
             },
             error => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         );
@@ -120,10 +122,12 @@ export class LoginComponent extends BaseComponent implements OnInit {
                     if(error.status === 404) {
                         this.router.navigate(['/organization-management/organization']);
                     }else{
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     }
 
@@ -145,10 +149,12 @@ export class LoginComponent extends BaseComponent implements OnInit {
                 StorageUtil.storeOrganizationId(organization.organizationId, rememberMe);
             },
             error: (error: any) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });
@@ -168,10 +174,12 @@ export class LoginComponent extends BaseComponent implements OnInit {
                     }
                 },
                 error: (error: any) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });

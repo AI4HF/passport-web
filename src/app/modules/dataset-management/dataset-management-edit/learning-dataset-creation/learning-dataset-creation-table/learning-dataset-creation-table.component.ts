@@ -74,10 +74,12 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
                     this.loading = false;
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                     this.loading = false;
                 }
@@ -96,10 +98,12 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
                         this.datasetTransformations[learningDataset.dataTransformationId] = transformation;
                     },
                     error: error => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                         this.loading = false;
                     }
@@ -117,17 +121,21 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
                 next: () => {
                     this.learningDatasets = this.learningDatasets.filter(ld => ld.learningDatasetId !== learningDataset.learningDatasetId);
                     delete this.datasetTransformations[learningDataset.dataTransformationId];
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('DatasetManagement.Deleted')
+                    this.translateService.get(['Success', 'DatasetManagement.Deleted']).subscribe(translations => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: translations['Success'],
+                            detail: translations['DatasetManagement.Deleted']
+                        });
                     });
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });

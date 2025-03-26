@@ -21,11 +21,25 @@ export class LpManagementEditComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.learningProcessSteps = [
-            { name: this.translateService.instant('LearningProcessManagement.LearningProcessDetails'), routerLink: 'learning-process-and-implementation-details' },
-            { name: this.translateService.instant('LearningProcessManagement.LearningProcessDataset'), routerLink: 'learning-process-dataset-assignment' },
-            { name: this.translateService.instant('LearningProcessManagement.LearningStageManagement'), routerLink: 'learning-stage-management' },
-            { name: this.translateService.instant('LearningProcessManagement.LearningProcessParameter'), routerLink: 'learning-process-parameter-assignment' }
-        ];
+        this.translateService.get(['LearningProcessManagement.LearningProcessDetails', 'LearningProcessManagement.LearningProcessDataset', 'LearningProcessManagement.LearningStageManagement', 'LearningProcessManagement.LearningProcessParameter']).subscribe(translations => {
+            this.learningProcessSteps = [
+                {
+                    name: translations['LearningProcessManagement.LearningProcessDetails'],
+                    routerLink: 'learning-process-and-implementation-details'
+                },
+                {
+                    name: translations['LearningProcessManagement.LearningProcessDataset'],
+                    routerLink: 'learning-process-dataset-assignment'
+                },
+                {
+                    name: translations['LearningProcessManagement.LearningStageManagement'],
+                    routerLink: 'learning-stage-management'
+                },
+                {
+                    name: translations['LearningProcessManagement.LearningProcessParameter'],
+                    routerLink: 'learning-process-parameter-assignment'
+                }
+            ];
+        });
     }
 }

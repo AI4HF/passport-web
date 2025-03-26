@@ -68,10 +68,12 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
                 this.initializeForm();
             },
             error: error => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });
@@ -137,10 +139,12 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
                 }
             },
             error: (error) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });
@@ -204,18 +208,22 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
                         this.selectedDataset = dataset;
                         this.initializeForm();
                         this.setDropdownValues();
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('DatasetManagement.DatasetCreated')
+                        this.translateService.get(['Success', 'DatasetManagement.DatasetCreated']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['DatasetManagement.DatasetCreated']
+                            });
                         });
                         this.router.navigate([`../../${this.selectedDataset.datasetId}/dataset-characteristics`], { relativeTo: this.route });
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     }
                 });
@@ -228,17 +236,21 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
                         this.selectedDataset = dataset;
                         this.initializeForm();
                         this.setDropdownValues();
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('DatasetManagement.DatasetUpdated')
+                        this.translateService.get(['Success', 'DatasetManagement.DatasetUpdated']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['DatasetManagement.DatasetUpdated']
+                            });
                         });
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     }
                 });

@@ -55,10 +55,12 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
             this.experimentList = experimentList.map(experiment => new Experiment(experiment));
           },
           error: (error: any) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
             });
           }
         });
@@ -80,10 +82,12 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
         .subscribe({
           next: response => {
             this.fetchExperimentsByStudyId(this.studyId);
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant('Success'),
-              detail: this.translateService.instant('StudyManagement.Experiment.Experiments are assigned successfully')
+            this.translateService.get(['Success', 'StudyManagement.Personnel.Experiments are assigned successfully']).subscribe(translations => {
+              this.messageService.add({
+                severity: 'success',
+                summary: translations['Success'],
+                detail: translations['StudyManagement.Personnel.Experiments are assigned successfully']
+              });
             });
           }
         })

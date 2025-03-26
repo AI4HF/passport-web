@@ -7,7 +7,6 @@ import { ModelWithName } from "../../../shared/models/modelWithName.model";
 import { ModelDeploymentWithModelName } from "../../../shared/models/modelDeploymentWithModelName.model";
 import {PassportDetailsSelection} from "../../../shared/models/passportDetailsSelection.model";
 import {PassportWithDetailSelection} from "../../../shared/models/passportWithDetailSelection.model";
-import {AuditLogBookService} from "../../../core/services/audit-log-book.service";
 
 /**
  * Component for creating passport.
@@ -82,10 +81,12 @@ export class PassportManagementFormComponent extends BaseComponent implements On
                 this.mapModelsToModelDeployments();
             },
             error: error => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });
@@ -129,17 +130,21 @@ export class PassportManagementFormComponent extends BaseComponent implements On
                         .pipe(takeUntil(this.destroy$))
                         .subscribe({
                             next: () => {
-                                this.messageService.add({
-                                    severity: 'success',
-                                    summary: this.translateService.instant('Success'),
-                                    detail: this.translateService.instant('AuditLogBook.Created'),
+                                this.translateService.get(['Success', 'AuditLogBook.Created']).subscribe(translations => {
+                                    this.messageService.add({
+                                        severity: 'success',
+                                        summary: translations['Success'],
+                                        detail: translations['AuditLogBook.Created']
+                                    });
                                 });
                             },
                             error: (error) => {
-                                this.messageService.add({
-                                    severity: 'error',
-                                    summary: this.translateService.instant('Error'),
-                                    detail: error.message,
+                                this.translateService.get('Error').subscribe(translation => {
+                                    this.messageService.add({
+                                        severity: 'error',
+                                        summary: translation,
+                                        detail: error.message
+                                    });
                                 });
                             },
                             complete: () => {
@@ -147,17 +152,21 @@ export class PassportManagementFormComponent extends BaseComponent implements On
                             }
                         });
                     this.initializeForm();
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('PassportManagement.Created'),
+                    this.translateService.get(['Success', 'PassportManagement.Created']).subscribe(translations => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: translations['Success'],
+                            detail: translations['PassportManagement.Created']
+                        });
                     });
                 },
                 error: (error: any) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message,
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });

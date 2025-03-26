@@ -65,10 +65,12 @@ export class PopulationDetailsTableComponent extends BaseComponent implements On
                     this.loading = false;
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                     this.loading = false;
                 }
@@ -84,17 +86,21 @@ export class PopulationDetailsTableComponent extends BaseComponent implements On
             .subscribe({
                 next: () => {
                     this.populations = this.populations.filter(f => f.populationId !== populationId);
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('StudyManagement.Population.PopulationDeleted')
+                    this.translateService.get(['Success', 'StudyManagement.Population.PopulationDeleted']).subscribe(translations => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: translations['Success'],
+                            detail: translations['StudyManagement.Population.PopulationDeleted']
+                        });
                     });
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });

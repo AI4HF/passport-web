@@ -55,10 +55,12 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
                 this.loadFeatures();
             },
             error: error => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });
@@ -75,10 +77,12 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
                     this.loading = false;
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                     this.loading = false;
                 }
@@ -94,17 +98,21 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
             .subscribe({
                 next: () => {
                     this.features = this.features.filter(f => f.featureId !== featureId);
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('FeatureSetManagement.FeatureDeleted')
+                    this.translateService.get(['Success', 'FeatureSetManagement.FeatureDeleted']).subscribe(translations => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: translations['Success'],
+                            detail: translations['FeatureSetManagement.FeatureDeleted']
+                        });
                     });
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });

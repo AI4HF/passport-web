@@ -64,10 +64,12 @@ export class ParameterManagementFormComponent extends BaseComponent implements O
               this.initializeForm();
             },
             error: (error: any) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: error.message
+              this.translateService.get('Error').subscribe(translation => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translation,
+                  detail: error.message
+                });
               });
             }
           });
@@ -128,10 +130,12 @@ export class ParameterManagementFormComponent extends BaseComponent implements O
       const newParameter: Parameter = new Parameter({ ...this.parameterForm.value, studyId: this.activeStudyService.getActiveStudy() });
       this.parameterService.createParameter(newParameter, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
           .subscribe(() => {
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant('Success'),
-              detail: this.translateService.instant('ParameterManagement.Parameter is created successfully')
+            this.translateService.get(['Success', 'ParameterManagement.Parameter is created successfully']).subscribe(translations => {
+              this.messageService.add({
+                severity: 'success',
+                summary: translations['Success'],
+                detail: translations['ParameterManagement.Parameter is created successfully']
+              });
             });
             this.closeDialog();
           });
@@ -139,10 +143,12 @@ export class ParameterManagementFormComponent extends BaseComponent implements O
       const updatedParameter: Parameter = new Parameter({ parameterId: this.selectedParameter.parameterId, ...this.parameterForm.value });
       this.parameterService.updateParameter(updatedParameter, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
           .subscribe(() => {
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant('Success'),
-              detail: this.translateService.instant('ParameterManagement.Parameter is updated successfully')
+            this.translateService.get(['Success', 'ParameterManagement.Parameter is updated successfully']).subscribe(translations => {
+              this.messageService.add({
+                severity: 'success',
+                summary: translations['Success'],
+                detail: translations['ParameterManagement.Parameter is updated successfully']
+              });
             });
             this.closeDialog();
           });

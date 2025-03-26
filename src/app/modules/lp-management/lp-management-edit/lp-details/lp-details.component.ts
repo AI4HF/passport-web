@@ -96,10 +96,12 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                 this.loadImplementation(learningProcess.implementationId);
             },
             error: error => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });
@@ -116,10 +118,12 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                 this.initializeForm();
             },
             error: error => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });
@@ -178,10 +182,12 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                 }
             },
             error: (error) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });
@@ -257,10 +263,12 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                     this.saveFormWithCreatedAlgorithm(formValues, implementationPayload);
                 },
                 error: (error) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });
@@ -285,10 +293,12 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                         this.saveLearningProcess(implementation.implementationId);
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     }
                 });
@@ -306,10 +316,12 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                         this.saveLearningProcess(implementation.implementationId);
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     }
                 });
@@ -338,18 +350,22 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                 .subscribe({
                     next: learningProcess => {
                         this.selectedLearningProcess = learningProcess;
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('LearningProcessManagement.LearningProcessCreated')
+                        this.translateService.get(['Success', 'LearningProcessManagement.LearningProcessCreated']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['LearningProcessManagement.LearningProcessCreated']
+                            });
                         });
                         this.router.navigate([`${LpManagementRoutingModule.route}/${learningProcess.learningProcessId}/learning-process-dataset-assignment`]);
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     }
                 });
@@ -363,18 +379,22 @@ export class LpDetailsComponent extends BaseComponent implements OnInit {
                 .subscribe({
                     next: learningProcess => {
                         this.selectedLearningProcess = learningProcess;
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('LearningProcessManagement.LearningProcessUpdated')
+                        this.translateService.get(['Success', 'LearningProcessManagement.LearningProcessUpdated']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['LearningProcessManagement.LearningProcessUpdated']
+                            });
                         });
                         this.router.navigate([`${LpManagementRoutingModule.route}/${learningProcess.learningProcessId}/learning-process-dataset-assignment`]);
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     }
                 });

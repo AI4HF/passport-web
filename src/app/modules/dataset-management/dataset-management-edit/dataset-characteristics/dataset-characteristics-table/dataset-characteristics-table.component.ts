@@ -69,10 +69,12 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
                 this.loadCharacteristics();
             },
             error: (error: any) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
                 this.loading = false;
             }
@@ -93,10 +95,12 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
                     this.loading = false;
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                     this.loading = false;
                 }
@@ -112,17 +116,21 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
             .subscribe({
                 next: () => {
                     this.characteristics = this.characteristics.filter(c => c.featureId !== characteristic.featureId);
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('DatasetManagement.Deleted')
+                    this.translateService.get(['Success', 'DatasetManagement.Deleted']).subscribe(translations => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: translations['Success'],
+                            detail: translations['DatasetManagement.Deleted']
+                        });
                     });
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });

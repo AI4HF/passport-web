@@ -92,10 +92,12 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
                 this.display = true;
             },
             error: error => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });
@@ -161,17 +163,21 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
                     next: feature => {
                         this.selectedFeature = feature;
                         this.initializeForm();
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('FeatureSetManagement.FeatureCreated')
+                        this.translateService.get(['Success', 'FeatureSetManagement.FeatureCreated']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['FeatureSetManagement.FeatureCreated']
+                            });
                         });
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     },
                     complete: () => {
@@ -186,17 +192,21 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
                     next: (feature: Feature) => {
                         this.selectedFeature = feature;
                         this.initializeForm();
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('FeatureSetManagement.FeatureUpdated')
+                        this.translateService.get(['Success', 'FeatureSetManagement.FeatureUpdated']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['FeatureSetManagement.FeatureUpdated']
+                            });
                         });
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     },
                     complete: () => {

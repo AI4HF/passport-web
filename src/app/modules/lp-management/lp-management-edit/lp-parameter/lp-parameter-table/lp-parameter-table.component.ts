@@ -71,10 +71,12 @@ export class LpParameterTableComponent extends BaseComponent implements OnInit {
                     this.loading = false;
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                     this.loading = false;
                 }
@@ -91,10 +93,12 @@ export class LpParameterTableComponent extends BaseComponent implements OnInit {
                     parameters.forEach(param => this.parameters[param.parameterId] = param);
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });
@@ -110,17 +114,21 @@ export class LpParameterTableComponent extends BaseComponent implements OnInit {
             .subscribe({
                 next: () => {
                     this.learningProcessParameters = this.learningProcessParameters.filter(lpp => lpp !== learningProcessParameter);
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('ParameterAssignment.Deleted')
+                    this.translateService.get(['Success', 'ParameterAssignment.Deleted']).subscribe(translations => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: translations['Success'],
+                            detail: translations['ParameterAssignment.Deleted']
+                        });
                     });
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });

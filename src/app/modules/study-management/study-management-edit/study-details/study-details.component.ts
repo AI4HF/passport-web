@@ -51,10 +51,12 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
         this.initializeForm();
       },
       error: error => {
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translateService.instant('Error'),
-          detail: error.message
+        this.translateService.get('Error').subscribe(translation => {
+          this.messageService.add({
+            severity: 'error',
+            summary: translation,
+            detail: error.message
+          });
         });
       }
     });
@@ -91,18 +93,22 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
             next: study => {
               this.selectedStudy = study;
               this.initializeForm();
-              this.messageService.add({
-                severity: 'success',
-                summary: this.translateService.instant('Sucess'),
-                detail: this.translateService.instant('StudyManagement.Study is created successfully')
+              this.translateService.get(['Success', 'StudyManagement.Study is created successfully']).subscribe(translations => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: translations['Success'],
+                  detail: translations['StudyManagement.Study is created successfully']
+                });
               });
               this.router.navigate([`../../${this.selectedStudy.id}/population-details`], {relativeTo: this.route});
             },
             error: (error: any) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: error.message
+              this.translateService.get('Error').subscribe(translation => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translation,
+                  detail: error.message
+                });
               });
             }
           });
@@ -114,17 +120,21 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
             next: (study: Study) => {
               this.selectedStudy = study;
               this.initializeForm();
-              this.messageService.add({
-                severity: 'success',
-                summary: this.translateService.instant('Sucess'),
-                detail: this.translateService.instant('StudyManagement.Study is updated successfully')
+              this.translateService.get(['Success', 'StudyManagement.Study is updated successfully']).subscribe(translations => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: translations['Success'],
+                  detail: translations['StudyManagement.Study is updated successfully']
+                });
               });
             },
             error: (error: any) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: error.message
+              this.translateService.get('Error').subscribe(translation => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translation,
+                  detail: error.message
+                });
               });
             },
           });

@@ -21,9 +21,11 @@ export class DeploymentManagementEditComponent extends BaseComponent implements 
 
   ngOnInit() {
 
-    this.modelDeploymentSteps = [
-      {name: this.translateService.instant('DeploymentManagement.Environment Details'), routerLink: 'environment-details'},
-      {name: this.translateService.instant('DeploymentManagement.Model Deployment Details'), routerLink: 'model-deployment-details'},
-    ];
+    this.translateService.get(['DeploymentManagement.Environment Details', 'DeploymentManagement.Model Deployment Details']).subscribe(translations => {
+      this.modelDeploymentSteps = [
+        {name: translations['DeploymentManagement.Environment Details'], routerLink: 'environment-details'},
+        {name: translations['DeploymentManagement.Model Deployment Details'], routerLink: 'model-deployment-details'},
+      ];
+    });
   }
 }

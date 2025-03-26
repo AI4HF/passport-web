@@ -83,10 +83,12 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
                     this.filterAvailableFeatures();
                 },
                 error: (error) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });
@@ -107,17 +109,19 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
                     if (this.features.length === 0) {
                         this.messageService.add({
                             severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: this.translateService.instant('DatasetManagement.NoAvailableFeatures')
+                            summary: this.translateService.get('Error').toString(),
+                            detail: this.translateService.get('DatasetManagement.NoAvailableFeatures').toString()
                         });
                         this.closeDialog();
                     }
                 },
                 error: (error) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });
@@ -138,10 +142,12 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
                     this.updateForm();
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });
@@ -190,18 +196,22 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
                     next: characteristic => {
                         this.characteristic = characteristic;
                         this.updateForm();
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('DatasetManagement.Updated')
+                        this.translateService.get(['Success', 'DatasetManagement.Updated']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['DatasetManagement.Updated']
+                            });
                         });
                         this.closeDialog();
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     }
                 });
@@ -212,18 +222,22 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
                     next: characteristic => {
                         this.characteristic = characteristic;
                         this.updateForm();
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('DatasetManagement.Created')
+                        this.translateService.get(['Success', 'DatasetManagement.Created']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['DatasetManagement.Created']
+                            });
                         });
                         this.closeDialog();
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     }
                 });

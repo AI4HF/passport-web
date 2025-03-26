@@ -47,10 +47,12 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
                 this.initializeForm();
             },
             error: error => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });
@@ -87,10 +89,12 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
                     }
                 },
                 error: (error: any) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });
@@ -124,18 +128,22 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
                         this.selectedFeatureSet = featureSet;
                         this.initializeForm();
                         this.loadExperiments();
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('FeatureSetManagement.FeatureSetCreated')
+                        this.translateService.get(['Success', 'FeatureSetManagement.FeatureSetCreated']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['FeatureSetManagement.FeatureSetCreated']
+                            });
                         });
                         this.router.navigate([`../${this.selectedFeatureSet.featuresetId}`], { relativeTo: this.route });
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     }
                 });
@@ -148,17 +156,21 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
                         this.selectedFeatureSet = featureSet;
                         this.initializeForm();
                         this.loadExperiments();
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('FeatureSetManagement.FeatureSetUpdated')
+                        this.translateService.get(['Success', 'FeatureSetManagement.FeatureSetUpdated']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['FeatureSetManagement.FeatureSetUpdated']
+                            });
                         });
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     },
                 });

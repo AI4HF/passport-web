@@ -62,10 +62,12 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
             this.filterStudiesBasedOnPersonnel();
           },
           error: (error: any) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
             });
           }
         });
@@ -93,10 +95,12 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
                     this.userRoles = roles;
                   },
                   error: (error: any) => {
-                    this.messageService.add({
-                      severity: 'error',
-                      summary: this.translateService.instant('Error'),
-                      detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                      this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                      });
                     });
                   }
                 });
@@ -109,10 +113,12 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
             );
           },
           error: (error: any) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
             });
           },
           complete: () => {
@@ -138,16 +144,20 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
         .subscribe({
           next: () => {
             this.loadStudyPersonnelAndStudies();
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant('Success'),
-              detail: this.translateService.instant('StudyManagement.Study is deleted successfully')
+            this.translateService.get(['Success', 'StudyManagement.Study is deleted successfully']).subscribe(translations => {
+              this.messageService.add({
+                severity: 'success',
+                summary: translations['Success'],
+                detail: translations['StudyManagement.Study is deleted successfully']
+              });
             });},
           error: (error: any) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
             });
           },
           complete: () => this.loadingOwnedStudies = false
@@ -166,16 +176,20 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
       }
       this.roleService.setRoles(roles);
       this.activeStudyService.setActiveStudy(studyId);
-      this.messageService.add({
-        severity: 'success',
-        summary: this.translateService.instant('Success'),
-        detail: this.translateService.instant('StudyManagement.A new study is set as the active study')
+      this.translateService.get(['Success', 'StudyManagement.A new study is set as the active study']).subscribe(translations => {
+        this.messageService.add({
+          severity: 'success',
+          summary: translations['Success'],
+          detail: translations['StudyManagement.A new study is set as the active study']
+        });
       });
     } else {
-      this.messageService.add({
-        severity: 'warn',
-        summary: this.translateService.instant('Warning'),
-        detail: this.translateService.instant('StudyManagement.NoRolesFound')
+      this.translateService.get(['Warning', 'StudyManagement.NoRolesFound']).subscribe(translations => {
+        this.messageService.add({
+          severity: 'warn',
+          summary: translations['Warning'],
+          detail: translations['StudyManagement.NoRolesFound']
+        });
       });
       console.warn(`No roles found for study ID: ${studyId}`);
     }

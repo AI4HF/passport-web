@@ -59,10 +59,12 @@ export class DatasetManagementDashboardComponent extends BaseComponent implement
             .subscribe({
                 next: (datasetList: Dataset[]) => this.datasetList = datasetList,
                 error: (error: any) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 },
                 complete: () => this.loading = false
@@ -103,10 +105,12 @@ export class DatasetManagementDashboardComponent extends BaseComponent implement
             .subscribe({
                 next: (response: any) => this.loadDatasetByStudyId(this.activeStudyService.getActiveStudy()),
                 error: (error: any) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 },
                 complete: () => this.loading = false
