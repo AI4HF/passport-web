@@ -101,10 +101,12 @@ export class PassportManagementTableComponent extends BaseComponent implements O
         this.mapModelsToPassports();
       },
       error: error => {
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translateService.instant('Error'),
-          detail: error.message
+        this.translateService.get('Error').subscribe(translation => {
+          this.messageService.add({
+            severity: 'error',
+            summary: translation,
+            detail: error.message
+          });
         });
       },
       complete: () => {
@@ -152,17 +154,21 @@ export class PassportManagementTableComponent extends BaseComponent implements O
     this.passportService.deletePassport(passportId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         this.passportWithModelNameList = this.passportWithModelNameList.filter(passport => passport.passport.passportId !== passportId);
-        this.messageService.add({
-          severity: 'success',
-          summary: this.translateService.instant('Success'),
-          detail: this.translateService.instant('PassportManagement.Deleted')
+        this.translateService.get(['Success', 'PassportManagement.Deleted']).subscribe(translations => {
+          this.messageService.add({
+            severity: 'success',
+            summary: translations['Success'],
+            detail: translations['PassportManagement.Deleted']
+          });
         });
       },
       error: (error: any) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translateService.instant('Error'),
-          detail: error.message
+        this.translateService.get('Error').subscribe(translation => {
+          this.messageService.add({
+            severity: 'error',
+            summary: translation,
+            detail: error.message
+          });
         });
       }
     });
@@ -200,10 +206,12 @@ export class PassportManagementTableComponent extends BaseComponent implements O
         this.learningProcessesWithStages = details.learningProcessesWithStages || [];
       },
       error: error => {
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translateService.instant('Error'),
-          detail: error.message
+        this.translateService.get('Error').subscribe(translation => {
+          this.messageService.add({
+            severity: 'error',
+            summary: translation,
+            detail: error.message
+          });
         });
       },
       complete: () => {

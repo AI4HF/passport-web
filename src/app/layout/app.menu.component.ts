@@ -38,10 +38,12 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
                     this.configureNavigationMenu();
                 },
                 error: (error: any) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });
@@ -59,110 +61,126 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
 
 
 
-        this.model.push({
-            label: this.translateService.instant('Study Management'),
-            icon: 'pi pi-book',
-            routerLink: ['/study-management']
+        this.translateService.get('Study Management').subscribe(translation => {
+            this.model.push({
+                label: translation,
+                icon: 'pi pi-book',
+                routerLink: ['/study-management']
+            });
         });
 
 
         if (this.userRoles != null) {
             if (this.userRoles.includes(Role.DATA_SCIENTIST)) {
-                this.model.push({
-                    label: this.translateService.instant('Data Scientist'),
-                    icon: 'pi pi-globe',
-                    items: [
-                        {
-                            label: this.translateService.instant('Parameter Management'),
-                            icon: 'pi pi-cog',
-                            routerLink: ['/parameter-management']
-                        },
-                        {
-                            label: this.translateService.instant('Learning Process Management'),
-                            icon: 'pi pi-globe',
-                            routerLink: ['/learning-process-management']
-                        },
-                        {
-                            label: this.translateService.instant('Model Management'),
-                            icon: 'pi pi-code',
-                            routerLink: ['/model-management']
-                        }
-                    ]
+                this.translateService.get(['Data Scientist', 'Parameter Management', 'Learning Process Management', 'Model Management']).subscribe(translations => {
+                    this.model.push({
+                        label: translations['Data Scientist'],
+                        icon: 'pi pi-globe',
+                        items: [
+                            {
+                                label: translations['Parameter Management'],
+                                icon: 'pi pi-cog',
+                                routerLink: ['/parameter-management']
+                            },
+                            {
+                                label: translations['Learning Process Management'],
+                                icon: 'pi pi-globe',
+                                routerLink: ['/learning-process-management']
+                            },
+                            {
+                                label: translations['Model Management'],
+                                icon: 'pi pi-code',
+                                routerLink: ['/model-management']
+                            }
+                        ]
+                    });
                 });
             }
 
             if (this.userRoles.includes(Role.ML_ENGINEER)) {
-                this.model.push({
-                    label: this.translateService.instant('ML ENGINEER'),
-                    icon: 'pi pi-android',
-                    items: [
-                        {
-                            label: this.translateService.instant('Deployment Management'),
-                            icon: 'pi pi-cloud-upload',
-                            routerLink: ['/deployment-management']
-                        }
-                    ]
-                })
+                this.translateService.get(['ML ENGINEER', 'Deployment Management']).subscribe(translations => {
+                    this.model.push({
+                        label: translations['ML ENGINEER'],
+                        icon: 'pi pi-android',
+                        items: [
+                            {
+                                label: translations['Deployment Management'],
+                                icon: 'pi pi-cloud-upload',
+                                routerLink: ['/deployment-management']
+                            }
+                        ]
+                    });
+                });
             }
 
             if (this.userRoles.includes(Role.SURVEY_MANAGER)) {
-                this.model.push({
-                    label: this.translateService.instant('Survey Manager'),
-                    icon: 'pi pi-chart-line',
-                    items: [
-                        {
-                            label: this.translateService.instant('Survey Management'),
-                            icon: 'pi pi-chart-line',
-                            routerLink: ['/survey-management']
-                        }
-                    ]
+                this.translateService.get(['Survey Manager', 'Surver Management']).subscribe(translations => {
+                    this.model.push({
+                        label: translations['Survey Manager'],
+                        icon: 'pi pi-chart-line',
+                        items: [
+                            {
+                                label: translations['Survey Management'],
+                                icon: 'pi pi-chart-line',
+                                routerLink: ['/survey-management']
+                            }
+                        ]
+                    });
                 });
             }
 
             if (this.userRoles.includes(Role.DATA_ENGINEER)) {
-                this.model.push({
-                    label: this.translateService.instant('Data Engineer'),
-                    icon: 'pi pi-sliders-h',
-                    items: [
-                        {
-                            label: this.translateService.instant('Feature Management'),
-                            icon: 'pi pi-sliders-h',
-                            routerLink: ['/featureset-management']
-                        },
-                        {
-                            label: this.translateService.instant('Dataset Management'),
-                            icon: 'pi pi-folder-open',
-                            routerLink: ['/dataset-management']
-                        }
-                    ]
+                this.translateService.get(['Data Engineer', 'Feature Management', 'Dataset Management']).subscribe(translations => {
+                    this.model.push({
+                        label: translations['Data Engineer'],
+                        icon: 'pi pi-sliders-h',
+                        items: [
+                            {
+                                label: translations['Feature Management'],
+                                icon: 'pi pi-sliders-h',
+                                routerLink: ['/featureset-management']
+                            },
+                            {
+                                label: translations['Dataset Management'],
+                                icon: 'pi pi-folder-open',
+                                routerLink: ['/dataset-management']
+                            }
+                        ]
+                    });
                 });
             }
 
             if (this.userRoles.includes(Role.QUALITY_ASSURANCE_SPECIALIST)) {
-                this.model.push({
-                    label: this.translateService.instant('Quality Assurance'),
-                    icon: 'pi pi-map',
-                    items: [
-                        {
-                            label: this.translateService.instant('Passport Management'),
-                            icon: 'pi pi-map',
-                            routerLink: ['/passport-management']
-                        }
-                    ]
-                });
+                this.translateService.get(['Quality Assurance', 'Passport Management']).subscribe(translations => {
+                    this.model.push({
+                        label: translations['Quality Assurance'],
+                        icon:
+                            'pi pi-map',
+                        items:
+                            [
+                                {
+                                    label: translations['Passport Management'],
+                                    icon: 'pi pi-map',
+                                    routerLink: ['/passport-management']
+                                }
+                            ]
+                    });
+                })
             }
 
             if (this.userRoles.includes(Role.ORGANIZATION_ADMIN)) {
-                this.model.push({
-                    label: this.translateService.instant('Organization Admin'),
-                    icon: 'pi pi-building',
-                    items: [
-                        {
-                            label: this.translateService.instant('Organization Management'),
-                            icon: 'pi pi-building',
-                            routerLink: ['/organization-management/organization']
-                        }
-                    ]
+                this.translateService.get(['Organization Admin', 'Organization Management']).subscribe(translations => {
+                    this.model.push({
+                        label: translations['Organization Admin'],
+                        icon: 'pi pi-building',
+                        items: [
+                            {
+                                label: translations['Organization Management'],
+                                icon: 'pi pi-building',
+                                routerLink: ['/organization-management/organization']
+                            }
+                        ]
+                    });
                 });
             }
         }

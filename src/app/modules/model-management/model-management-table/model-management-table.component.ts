@@ -58,12 +58,13 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
             this.modelList = models.map(model => new Model(model));
           },
           error: (error: any) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
             });
-
           },
           complete: () => {
             this.loading = false;
@@ -106,17 +107,21 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
         .subscribe({
           next: () => {
             this.modelList = this.modelList.filter(model => model.modelId !== modelId);
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant('Success'),
-              detail: this.translateService.instant('ModelManagement.Model is deleted successfully')
+            this.translateService.get(['Success', 'ModelManagement.Model is deleted successfully']).subscribe(translations => {
+              this.messageService.add({
+                severity: 'success',
+                summary: translations['Success'],
+                detail: translations['ModelManagement.Model is deleted successfully']
+              });
             });
           },
           error: (error: any) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
             });
           }
         });

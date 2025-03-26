@@ -72,10 +72,12 @@ export class LpDatasetTableComponent extends BaseComponent implements OnInit {
                     this.loadLearningProcessDatasets();
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                     this.loading = false;
                 }
@@ -94,10 +96,12 @@ export class LpDatasetTableComponent extends BaseComponent implements OnInit {
                     this.loading = false;
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                     this.loading = false;
                 }
@@ -130,18 +134,22 @@ export class LpDatasetTableComponent extends BaseComponent implements OnInit {
                         lpd => !(lpd.learningProcessDataset.learningProcessId === learningProcessDataset.learningProcessId && lpd.learningProcessDataset.learningDatasetId === learningProcessDataset.learningDatasetId)
 
                     );
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('LearningProcessManagement.Deleted')
+                    this.translateService.get(['Success', 'LearningProcessManagement.Deleted']).subscribe(translations => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: translations['Success'],
+                            detail: translations['LearningProcessManagement.Deleted']
+                        });
                     });
                     this.loadLearningProcessDatasets();
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });

@@ -28,10 +28,12 @@ export class SurveyInspectionComponent extends BaseComponent implements OnInit {
           .subscribe({
             next: (surveyList: Survey[]) => this.surveyList = surveyList.map(survey => new Survey(survey)),
             error: (error: any) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: error.message
+              this.translateService.get('Error').subscribe(translation => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translation,
+                  detail: error.message
+                });
               });
             }
           });

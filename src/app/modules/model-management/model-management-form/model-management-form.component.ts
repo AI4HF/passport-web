@@ -64,10 +64,12 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
               this.loadLearningProcess();
             },
             error: (error: any) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: error.message
+              this.translateService.get('Error').subscribe(translation => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translation,
+                  detail: error.message
+                });
               });
             }
           });
@@ -88,10 +90,12 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
             this.initializeForm();
           },
           error: error => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
             });
           }
         });
@@ -166,17 +170,21 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
             next: model => {
               this.selectedModel = model;
               this.loadLearningProcess();
-              this.messageService.add({
-                severity: 'success',
-                summary: this.translateService.instant('Success'),
-                detail: this.translateService.instant('ModelManagement.Model is created successfully')
+              this.translateService.get(['Success', 'ModelManagement.Model is created successfully']).subscribe(translations => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: translations['Success'],
+                  detail: translations['ModelManagement.Model is created successfully']
+                });
               });
             },
             error: (error: any) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: error.message
+              this.translateService.get('Error').subscribe(translation => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translation,
+                  detail: error.message
+                });
               });
             },
             complete: () => {
@@ -191,17 +199,21 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
             next: (model: Model) => {
               this.selectedModel = model;
               this.loadLearningProcess();
-              this.messageService.add({
-                severity: 'success',
-                summary: this.translateService.instant('Success'),
-                detail: this.translateService.instant('ModelManagement.Model is updated successfully')
+              this.translateService.get(['Success', 'ModelManagement.Model is updated successfully']).subscribe(translations => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: translations['Success'],
+                  detail: translations['ModelManagement.Model is updated successfully']
+                });
               });
             },
             error: (error: any) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: error.message
+              this.translateService.get('Error').subscribe(translation => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translation,
+                  detail: error.message
+                });
               });
             },
             complete: () => {

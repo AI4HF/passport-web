@@ -48,10 +48,12 @@ export class OrganizationDetailsComponent extends BaseComponent implements OnIni
             this.initializeForm();
           },
           error: error => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
             });
           }
         });
@@ -80,17 +82,21 @@ export class OrganizationDetailsComponent extends BaseComponent implements OnIni
               this.selectedOrganization = new Organization(organization);
               this.initializeForm();
               this.organizationId.emit(this.selectedOrganization.organizationId);
-              this.messageService.add({
-                severity: 'success',
-                summary: this.translateService.instant('Success'),
-                detail: this.translateService.instant('OrganizationManagement.Organization is updated successfully')
+              this.translateService.get(['Success', 'OrganizationManagement.Organization is updated successfully']).subscribe(translations => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: translations['Success'],
+                  detail: translations['OrganizationManagement.Organization is updated successfully']
+                });
               });
             },
             error: (error: any) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: error.message
+              this.translateService.get('Error').subscribe(translation => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translation,
+                  detail: error.message
+                });
               });
             }
           });
@@ -103,17 +109,21 @@ export class OrganizationDetailsComponent extends BaseComponent implements OnIni
               this.selectedOrganization = new Organization(organization);
               this.initializeForm();
               this.organizationId.emit(this.selectedOrganization.organizationId);
-              this.messageService.add({
-                severity: 'success',
-                summary: this.translateService.instant('Success'),
-                detail: this.translateService.instant('OrganizationManagement.Organization is updated successfully')
+              this.translateService.get(['Success', 'OrganizationManagement.Organization is created successfully']).subscribe(translations => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: translations['Success'],
+                  detail: translations['OrganizationManagement.Organization is created successfully']
+                });
               });
             },
             error: (error: any) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: error.message
+              this.translateService.get('Error').subscribe(translation => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translation,
+                  detail: error.message
+                });
               });
             }
           });

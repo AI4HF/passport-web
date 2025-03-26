@@ -86,10 +86,12 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
                     this.filterAvailableParameters();
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });
@@ -108,19 +110,23 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
                     this.parameters = this.parameters.filter(param => !usedParameterIds.includes(param.parameterId));
 
                     if (this.parameters.length === 0) {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: this.translateService.instant('ParameterAssignment.NoAvailableParameters')
+                        this.translateService.get(['Error', 'ParameterAssignment.NoAvailableParameters']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translations['error'],
+                                detail: translations['ParameterAssignment.NoAvailableParameters']
+                            });
                         });
                         this.closeDialog();
                     }
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });
@@ -140,10 +146,12 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
                     });
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });
@@ -164,10 +172,12 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
                     });
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });
@@ -191,18 +201,22 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: () => {
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('ParameterAssignment.Updated')
+                        this.translateService.get(['Success', 'ParameterAssignment.Updated']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['success'],
+                                detail: translations['ParameterAssignment.Updated']
+                            });
                         });
                         this.closeDialog();
                     },
                     error: error => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     }
                 });
@@ -211,18 +225,22 @@ export class LsParameterFormComponent extends BaseComponent implements OnInit {
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: () => {
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('ParameterAssignment.Created')
+                        this.translateService.get(['Success', 'ParameterAssignment.Created']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['success'],
+                                detail: translations['ParameterAssignment.Created']
+                            });
                         });
                         this.closeDialog();
                     },
                     error: error => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     }
                 });

@@ -59,10 +59,12 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
             },
             error: (error) => {
                 this.loading = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             },
             complete: () => {
@@ -105,20 +107,24 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
         this.personnelService.deletePersonnel(personId).pipe(takeUntil(this.destroy$)).subscribe({
             next: () => {
                 this.personnelList = this.personnelList.filter(p => p.personId !== personId);
-                this.messageService.add({
-                    severity: 'success',
-                    summary: this.translateService.instant('Success'),
-                    detail: this.translateService.instant('OrganizationManagement.Personnel is deleted successfully')
+                this.translateService.get(['Success', 'OrganizationManagement.Personnel is deleted successfully']).subscribe(translations => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: translations['Success'],
+                        detail: translations['OrganizationManagement.Personnel is deleted successfully']
+                    });
                 });
                 if (this.organizationId) {
                     this.loadPersonnelList(this.organizationId);
                 }
             },
             error: (error) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });

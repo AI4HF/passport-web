@@ -81,10 +81,12 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
                 this.updateForm();
             },
             error: (error) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });
@@ -113,17 +115,21 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
             this.personnelService.createPersonnelByPersonId(personnelDTO).pipe(takeUntil(this.destroy$)).subscribe({
                 next: personnel => {
                     this.selectedPersonnel = personnel;
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('OrganizationManagement.Personnel is created successfully')
+                    this.translateService.get(['Success', 'OrganizationManagement.Personnel is created successfully']).subscribe(translations => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: translations['Success'],
+                            detail: translations['OrganizationManagement.Personnel is created successfully']
+                        });
                     });
                 },
                 error: (error) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 },
                 complete: () => {
@@ -135,17 +141,21 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
             this.personnelService.updatePersonnel(updatedPersonnel).pipe(takeUntil(this.destroy$)).subscribe({
                 next: personnel => {
                     this.selectedPersonnel = personnel;
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('OrganizationManagement.Personnel is updated successfully')
+                    this.translateService.get(['Success', 'OrganizationManagement.Personnel is updated successfully']).subscribe(translations => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: translations['Success'],
+                            detail: translations['OrganizationManagement.Personnel is updated successfully']
+                        });
                     });
                 },
                 error: (error) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 },
                 complete: () => {

@@ -30,10 +30,12 @@ export class FeatureSetManagementEditComponent extends BaseComponent implements 
                 this.showTable = !!this.selectedFeatureSet?.featuresetId;
             },
             error: error => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });

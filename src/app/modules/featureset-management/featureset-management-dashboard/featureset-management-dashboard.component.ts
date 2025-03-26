@@ -65,10 +65,12 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
             .subscribe({
                 next: (featureSetList: FeatureSet[]) => this.featureSetList = featureSetList,
                 error: (error: any) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 },
                 complete: () => this.loading = false
@@ -84,10 +86,12 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
             .subscribe({
                 next: experiments => this.experiments = experiments,
                 error: (error: any) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 }
             });
@@ -117,10 +121,12 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
      */
     createFeatureSet() {
         if (this.experiments.length === 0) {
-            this.messageService.add({
-                severity: 'warn',
-                summary: this.translateService.instant('Warning'),
-                detail: this.translateService.instant('FeatureSetManagement.NoExperiments')
+            this.translateService.get(['Warning', 'FeatureSetManagement.NoExperiments']).subscribe(translations => {
+                this.messageService.add({
+                    severity: 'warn',
+                    summary: translations['Warning'],
+                    detail: translations['FeatureSetManagement.NoExperiments']
+                });
             });
             return;
         }
@@ -145,10 +151,12 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
             .subscribe({
                 next: (response: any) => this.getFeatureSetList(this.activeStudyService.getActiveStudy()),
                 error: (error: any) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 },
                 complete: () => this.loading = false

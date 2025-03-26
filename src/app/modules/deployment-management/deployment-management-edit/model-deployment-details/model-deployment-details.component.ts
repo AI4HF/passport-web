@@ -61,10 +61,12 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
         if (error.status === 404) {
           this.selectedModelDeployment = new ModelDeployment({deploymentId: null});
         } else {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translateService.instant('Error'),
-            detail: error.message
+          this.translateService.get('Error').subscribe(translation => {
+            this.messageService.add({
+              severity: 'error',
+              summary: translation,
+              detail: error.message
+            });
           });
         }
       }
@@ -80,10 +82,12 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
         this.modelList = models;
       },
       error: error => {
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translateService.instant('Error'),
-          detail: error.message
+        this.translateService.get('Error').subscribe(translation => {
+          this.messageService.add({
+            severity: 'error',
+            summary: translation,
+            detail: error.message
+          });
         });
       }
     });
@@ -121,18 +125,22 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
             next: modelDeployment => {
               this.selectedModelDeployment = modelDeployment;
               this.initializeForm();
-              this.messageService.add({
-                severity: 'success',
-                summary: this.translateService.instant('Success'),
-                detail: this.translateService.instant('DeploymentManagement.Model Deployment is created successfully')
+              this.translateService.get(['Success', 'DeploymentManagement.Model Deployment is created successfully']).subscribe(translations => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: translations['Success'],
+                  detail: translations['DeploymentManagement.Model Deployment is created successfully']
+                });
               });
               this.router.navigate([`../..`], {relativeTo: this.route});
             },
             error: (error: any) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: error.message
+              this.translateService.get('Error').subscribe(translation => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translation,
+                  detail: error.message
+                });
               });
             }
           });
@@ -146,17 +154,21 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
             next: (modelDeployment: ModelDeployment) => {
               this.selectedModelDeployment = modelDeployment;
               this.initializeForm();
-              this.messageService.add({
-                severity: 'success',
-                summary: this.translateService.instant('Success'),
-                detail: this.translateService.instant('DeploymentManagement.Model Deployment is updated successfully')
+              this.translateService.get(['Success', 'DeploymentManagement.Model Deployment is updated successfully']).subscribe(translations => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: translations['Success'],
+                  detail: translations['DeploymentManagement.Model Deployment is updated successfully']
+                });
               });
             },
             error: (error: any) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: error.message
+              this.translateService.get('Error').subscribe(translation => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translation,
+                  detail: error.message
+                });
               });
             },
           });

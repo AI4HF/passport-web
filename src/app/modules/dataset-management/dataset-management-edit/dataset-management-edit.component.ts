@@ -20,12 +20,27 @@ export class DatasetManagementEditComponent extends BaseComponent implements OnI
         super(injector);
     }
 
+
     ngOnInit() {
-        this.datasetSteps = [
-            { name: this.translateService.instant('DatasetManagement.DatasetDetails'), routerLink: 'dataset-details' },
-            { name: this.translateService.instant('DatasetManagement.DatasetCharacteristics'), routerLink: 'dataset-characteristics' },
-            { name: this.translateService.instant('DatasetManagement.LearningDatasetCreation'), routerLink: 'learning-dataset-creation' },
-            { name: this.translateService.instant('DatasetManagement.TransformationStepAssignment'), routerLink: 'creation-step-assignment' }
-        ];
+        this.translateService.get(['DatasetManagement.DatasetDetails', 'DatasetManagement.DatasetCharacteristics', 'DatasetManagement.LearningDatasetCreation', 'DatasetManagement.TransformationStepAssignment']).subscribe(translations => {
+            this.datasetSteps = [
+                {
+                    name: translations['DatasetManagement.DatasetDetails'],
+                    routerLink: 'dataset-details'
+                },
+                {
+                    name: translations['DatasetManagement.DatasetCharacteristics'],
+                    routerLink: 'dataset-characteristics'
+                },
+                {
+                    name: translations['DatasetManagement.LearningDatasetCreation'],
+                    routerLink: 'learning-dataset-creation'
+                },
+                {
+                    name: translations['DatasetManagement.TransformationStepAssignment'],
+                    routerLink: 'creation-step-assignment'
+                }
+            ];
+        });
     }
 }

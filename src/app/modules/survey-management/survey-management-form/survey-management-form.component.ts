@@ -71,10 +71,12 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
                         if (error.status === 404) {
                             this.selectedSurvey = new Survey({});
                         }
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     }
                 });
@@ -149,17 +151,21 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
                 next: survey => {
                     this.selectedSurvey = survey;
                     this.initializeForm();
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('SurveyManagement.Survey is created successfully')
-                    });
+                    this.translateService.get(['Success', 'SurveyManagement.Survey is created successfully']).subscribe(translations => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: translations['Success'],
+                            detail: translations['SurveyManagement.Survey is created successfully']
+                        });
+                    })
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 },
                 complete: () => {
@@ -176,17 +182,21 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
                 next: survey => {
                     this.selectedSurvey = survey;
                     this.initializeForm();
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: this.translateService.instant('Success'),
-                        detail: this.translateService.instant('SurveyManagement.Survey is updated successfully')
+                    this.translateService.get(['Success', 'SurveyManagement.Survey is updated successfully']).subscribe(translations => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: translations['Success'],
+                            detail: translations['SurveyManagement.Survey is updated successfully']
+                        });
                     });
                 },
                 error: error => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 },
                 complete: () => {

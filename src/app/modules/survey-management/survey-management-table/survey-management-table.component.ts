@@ -58,10 +58,12 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
                 this.surveyList = surveys.map(survey => new Survey(survey));
             },
             error: error => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             },
             complete: () => {
@@ -104,17 +106,21 @@ export class SurveyManagementTableComponent extends BaseComponent implements OnI
         this.surveyService.deleteSurvey(surveyId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
             next: () => {
                 this.surveyList = this.surveyList.filter(survey => survey.surveyId !== surveyId);
-                this.messageService.add({
-                    severity: 'success',
-                    summary: this.translateService.instant('Success'),
-                    detail: this.translateService.instant('SurveyManagement.Survey is deleted successfully')
+                this.translateService.get(['Success', 'SurveyManagement.Survey is deleted successfully']).subscribe(translations => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: translations['Success'],
+                        detail: translations['SurveyManagement.Survey is deleted successfully']
+                    });
                 });
             },
             error: error => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: this.translateService.instant('Error'),
-                    detail: error.message
+                this.translateService.get('Error').subscribe(translation => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: translation,
+                        detail: error.message
+                    });
                 });
             }
         });

@@ -57,10 +57,12 @@ export class LpManagementDashboardComponent extends BaseComponent implements OnI
             .subscribe({
                 next: (learningProcessList: LearningProcess[]) => this.learningProcessList = learningProcessList,
                 error: (error: any) => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: this.translateService.instant('Error'),
-                        detail: error.message
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
                 },
                 complete: () => this.loading = false
@@ -108,26 +110,32 @@ export class LpManagementDashboardComponent extends BaseComponent implements OnI
                     next: () => {
                         this.learningProcessList = this.learningProcessList.filter(lp => lp.learningProcessId !== id);
 
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: this.translateService.instant('Success'),
-                            detail: this.translateService.instant('LearningProcessManagement.Deleted')
+                        this.translateService.get(['Success', 'LearningProcessManagement.Deleted']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: translations['Success'],
+                                detail: translations['LearningProcessManagement.Deleted']
+                            });
                         });
                     },
                     error: (error: any) => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.instant('Error'),
-                            detail: error.message
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
                     },
                     complete: () => this.loading = false
                 });
         } else {
-            this.messageService.add({
-                severity: 'error',
-                summary: this.translateService.instant('Error'),
-                detail: this.translateService.instant('LearningProcessManagement.ProcessNotFound')
+            this.translateService.get(['Error', 'LearningProcessManagement.ProcessNotFound']).subscribe(translations => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: translations['Error'],
+                    detail: translations['LearningProcessManagement.ProcessNotFound']
+                });
             });
             this.loading = false;
         }

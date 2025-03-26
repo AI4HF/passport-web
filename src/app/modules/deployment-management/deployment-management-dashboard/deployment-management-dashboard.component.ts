@@ -54,10 +54,12 @@ export class DeploymentManagementDashboardComponent extends BaseComponent implem
         .subscribe({
           next: (modelDeploymentList: ModelDeployment[]) => this.modelDeploymentList = modelDeploymentList,
           error: (error: any) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
             });
           },
           complete: () => this.loading = false
@@ -97,17 +99,21 @@ export class DeploymentManagementDashboardComponent extends BaseComponent implem
         .subscribe({
           next: (response: any) => {
             this.loadModelDeploymentsByStudyId(this.activeStudyService.getActiveStudy());
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant('Success'),
-              detail: this.translateService.instant('DeploymentManagement.Deployment is deleted successfully')
+            this.translateService.get(['Success', 'DeploymentManagement.Model Deployment is deleted successfully']).subscribe(translations => {
+              this.messageService.add({
+                severity: 'success',
+                summary: translations['Success'],
+                detail: translations['DeploymentManagement.Model Deployment is deleted successfully']
+              });
             });
           },
           error: (error: any) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant('Error'),
-              detail: error.message
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
             });
           },
           complete: () => this.loading = false
