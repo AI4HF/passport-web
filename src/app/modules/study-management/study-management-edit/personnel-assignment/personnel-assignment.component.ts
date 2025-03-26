@@ -212,7 +212,7 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
           });
           this.translateService.get(['Success', 'StudyManagement.Personnel.StudyOrganization is updated successfully']).subscribe(translations => {
             this.messageService.add({
-              severity: 'error',
+              severity: 'success',
               summary: translations['Success'],
               detail: translations['StudyManagement.Personnel.StudyOrganization is updated successfully']
             });

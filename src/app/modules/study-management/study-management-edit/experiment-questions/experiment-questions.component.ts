@@ -82,11 +82,11 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
         .subscribe({
           next: response => {
             this.fetchExperimentsByStudyId(this.studyId);
-            this.translateService.get(['Success', 'StudyManagement.Personnel.Experiments are assigned successfully']).subscribe(translations => {
+            this.translateService.get(['Success', 'StudyManagement.Experiment.Experiments are assigned successfully']).subscribe(translations => {
               this.messageService.add({
                 severity: 'success',
                 summary: translations['Success'],
-                detail: translations['StudyManagement.Personnel.Experiments are assigned successfully']
+                detail: translations['StudyManagement.Experiment.Experiments are assigned successfully']
               });
             });
           }
