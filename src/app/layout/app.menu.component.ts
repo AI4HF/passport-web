@@ -71,6 +71,43 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
 
 
         if (this.userRoles != null) {
+            if (this.userRoles.includes(Role.SURVEY_MANAGER)) {
+                this.translateService.get(['Survey Manager', 'Survey Management']).subscribe(translations => {
+                    this.model.push({
+                        label: translations['Survey Manager'],
+                        icon: 'pi pi-chart-line',
+                        items: [
+                            {
+                                label: translations['Survey Management'],
+                                icon: 'pi pi-chart-line',
+                                routerLink: ['/survey-management']
+                            }
+                        ]
+                    });
+                });
+            }
+
+            if (this.userRoles.includes(Role.DATA_ENGINEER)) {
+                this.translateService.get(['Data Engineer', 'Feature Management', 'Dataset Management']).subscribe(translations => {
+                    this.model.push({
+                        label: translations['Data Engineer'],
+                        icon: 'pi pi-sliders-h',
+                        items: [
+                            {
+                                label: translations['Feature Management'],
+                                icon: 'pi pi-sliders-h',
+                                routerLink: ['/featureset-management']
+                            },
+                            {
+                                label: translations['Dataset Management'],
+                                icon: 'pi pi-folder-open',
+                                routerLink: ['/dataset-management']
+                            }
+                        ]
+                    });
+                });
+            }
+
             if (this.userRoles.includes(Role.DATA_SCIENTIST)) {
                 this.translateService.get(['Data Scientist', 'Parameter Management', 'Learning Process Management', 'Model Management']).subscribe(translations => {
                     this.model.push({
@@ -107,43 +144,6 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
                                 label: translations['Deployment Management'],
                                 icon: 'pi pi-cloud-upload',
                                 routerLink: ['/deployment-management']
-                            }
-                        ]
-                    });
-                });
-            }
-
-            if (this.userRoles.includes(Role.SURVEY_MANAGER)) {
-                this.translateService.get(['Survey Manager', 'Survey Management']).subscribe(translations => {
-                    this.model.push({
-                        label: translations['Survey Manager'],
-                        icon: 'pi pi-chart-line',
-                        items: [
-                            {
-                                label: translations['Survey Management'],
-                                icon: 'pi pi-chart-line',
-                                routerLink: ['/survey-management']
-                            }
-                        ]
-                    });
-                });
-            }
-
-            if (this.userRoles.includes(Role.DATA_ENGINEER)) {
-                this.translateService.get(['Data Engineer', 'Feature Management', 'Dataset Management']).subscribe(translations => {
-                    this.model.push({
-                        label: translations['Data Engineer'],
-                        icon: 'pi pi-sliders-h',
-                        items: [
-                            {
-                                label: translations['Feature Management'],
-                                icon: 'pi pi-sliders-h',
-                                routerLink: ['/featureset-management']
-                            },
-                            {
-                                label: translations['Dataset Management'],
-                                icon: 'pi pi-folder-open',
-                                routerLink: ['/dataset-management']
                             }
                         ]
                     });
