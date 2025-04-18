@@ -36,6 +36,7 @@ import {RoleService} from "../../core/services/role.service";
 import {ActiveStudyService} from "../../core/services/activeStudy.service";
 import {AuditLogBookService} from "../../core/services/audit-log-book.service";
 import {ModelParameterService} from "../../core/services/model-parameter.service";
+import {EvaluationMeasureService} from "../../core/services/evaluation-measure.service";
 
 /**
  * Base component to provide common properties
@@ -91,6 +92,7 @@ export abstract class BaseComponent implements OnDestroy {
   activeStudyService: ActiveStudyService;
   auditLogBookService: AuditLogBookService;
   modelParameterService: ModelParameterService;
+  evaluationMeasureService: EvaluationMeasureService;
 
   constructor(injector: Injector){
     this.router = injector.get(Router);
@@ -130,6 +132,7 @@ export abstract class BaseComponent implements OnDestroy {
     this.activeStudyService = injector.get(ActiveStudyService);
     this.auditLogBookService = injector.get(AuditLogBookService);
     this.modelParameterService = injector.get(ModelParameterService);
+    this.evaluationMeasureService = injector.get(EvaluationMeasureService);
   }
 
   /**

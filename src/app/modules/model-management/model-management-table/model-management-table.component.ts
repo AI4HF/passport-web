@@ -137,11 +137,19 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
   }
 
   /**
-   * Navigates to the learning stage parameter assignment table.
-   * @param modelId The ID of the selected learning stage
+   * Navigates to the model parameter assignment table.
+   * @param modelId The ID of the selected model
    */
   goToModelParameterAssignment(modelId: string) {
     this.router.navigate([`/model-management/${modelId}/model-parameter-assignment`]);
+  }
+
+  /**
+   * Navigates to the evaluation measure assignment table.
+   * @param modelId The ID of the selected model
+   */
+  goToEvaluationMeasureAssignment(modelId: string) {
+    this.router.navigate([`/model-management/${modelId}/evaluation-measure-assignment`]);
   }
 
 }
