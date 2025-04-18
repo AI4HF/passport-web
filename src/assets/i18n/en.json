@@ -292,6 +292,7 @@
   },
   "ModelManagement": {
     "AssignParameters": "Assign Parameters",
+    "ExamineEvaluationMeasures": "Examine Evaluation Measures",
     "ID": "ID",
     "Name": "Name",
     "Version": "Version",
@@ -653,5 +654,25 @@
   },
   "AuditLogBook": {
     "Created": "Audit Log Book for Passport has been created."
+  },
+  "EvaluationMeasure": {
+    "EvaluationMeasures": "Evaluation Measures",
+    "EvaluationMeasureForm": "Evaluation Measure Details",
+    "Updated": "Update is successful!",
+    "Created": "Creation is successful!",
+    "Deleted": "Deletion has been successful.",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "Name": "Name",
+    "DataType": "Data Type",
+    "Value": "Value",
+    "Description": "Description",
+    "CreateEvaluationMeasure": "Create an Evaluation Measure",
+    "ReturnToModel": "Return to Model Management",
+    "NamePlaceholder": "Enter the name",
+    "DataTypePlaceholder": "Enter the data type",
+    "ValuePlaceholder": "Enter the value",
+    "DescriptionPlaceholder": "Enter the description",
+    "EvaluationMeasureFormModelTooltip": "Creation/Update form for assigning an evaluation measure to the model."
   }
 }

@@ -59,6 +59,7 @@
                         <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="editModel(model)" pTooltip="{{ 'ModelManagement.Edit Model' | translate }}" tooltipPosition="bottom"></button>
                         <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deleteModel(model.modelId)" pTooltip="{{ 'ModelManagement.Delete Model' | translate }}" tooltipPosition="bottom"></button>
                         <button pButton pRipple type="button" icon="pi pi-arrow-right" class="p-button-text p-button-rounded p-ripple" (click)="goToModelParameterAssignment(model.modelId)" pTooltip="{{ 'ModelManagement.AssignParameters' | translate }}" tooltipPosition="bottom"></button>
+                        <button pButton pRipple type="button" icon="pi pi-eye" class="p-button-text p-button-rounded p-ripple" (click)="goToEvaluationMeasureAssignment(model.modelId)" pTooltip="{{ 'ModelManagement.ExamineEvaluationMeasures' | translate }}" tooltipPosition="bottom"></button>
                     </td>
                 </tr>
             </ng-template>
