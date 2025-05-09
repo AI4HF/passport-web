@@ -18,6 +18,11 @@ export class Model{
     studyId: string;
 
     /**
+     * The ID of the related Experiment
+     */
+    experimentId: string;
+
+    /**
      * The name of the Model
      */
     name: string;
@@ -121,6 +126,7 @@ export class Model{
         this.modelId = data.modelId;
         this.learningProcessId = data.learningProcessId;
         this.studyId = data.studyId;
+        this.experimentId = data.experimentId;
         this.name = data.name;
         this.version = data.version;
         this.tag = data.tag;

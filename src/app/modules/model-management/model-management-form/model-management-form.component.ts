@@ -5,6 +5,8 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { takeUntil } from "rxjs/operators";
 import { LearningProcess } from "../../../shared/models/learningProcess.model";
 import {HttpClient} from "@angular/common/http";
+import {Experiment} from "../../../shared/models/experiment.model";
+import {forkJoin} from "rxjs";
 
 /**
  * Component for creating or updating model.
@@ -26,6 +28,8 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
   modelForm: FormGroup;
   /** List of learning processes */
   learningProcess: LearningProcess[] = [];
+  /** List of experiments */
+  experiments: Experiment[] = [];
   /** Flag indicating that dialog is visible */
   display = false;
 
@@ -61,7 +65,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
           .subscribe({
             next: model => {
               this.selectedModel = new Model(model);
-              this.loadLearningProcess();
+              this.loadLearningProcessAndExperiments();
             },
             error: (error: any) => {
               this.translateService.get('Error').subscribe(translation => {
@@ -75,30 +79,35 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
           });
     } else {
       this.selectedModel = new Model({});
-      this.loadLearningProcess();
+      this.loadLearningProcessAndExperiments();
     }
   }
 
   /**
-   * Loads the learning process to populate the dropdown.
+   * Loads the learning process and experiments to populate the dropdowns.
    */
-  loadLearningProcess() {
-    this.learningProcessService.getAllLearningProcessesByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: learningProcess => {
-            this.learningProcess = learningProcess;
-            this.initializeForm();
-          },
-          error: error => {
-            this.translateService.get('Error').subscribe(translation => {
-              this.messageService.add({
-                severity: 'error',
-                summary: translation,
-                detail: error.message
-              });
-            });
-          }
+  loadLearningProcessAndExperiments() {
+    const studyId = this.activeStudyService.getActiveStudy();
+
+    forkJoin({
+      learningProcess: this.learningProcessService.getAllLearningProcessesByStudyId(studyId),
+      experiments: this.experimentService.getExperimentListByStudyId(studyId)
+    }).pipe(takeUntil(this.destroy$)).subscribe({
+      next: ({ learningProcess, experiments }) => {
+        this.learningProcess = learningProcess;
+        this.experiments = experiments;
+        this.initializeForm();
+      },
+      error: error => {
+        this.translateService.get('Error').subscribe(translation => {
+          this.messageService.add({
+            severity: 'error',
+            summary: translation,
+            detail: error.message
+          });
         });
+      }
+    });
   }
 
   /**
@@ -107,6 +116,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
   initializeForm() {
     this.modelForm = new FormGroup({
       learningProcessId: new FormControl(this.selectedModel.learningProcessId, Validators.required),
+      experimentId: new FormControl(this.selectedModel.experimentId, Validators.required),
       name: new FormControl(this.selectedModel.name, Validators.required),
       version: new FormControl(this.selectedModel.version, Validators.required),
       tag: new FormControl(this.selectedModel.tag, Validators.required),
@@ -169,7 +179,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
           .subscribe({
             next: model => {
               this.selectedModel = model;
-              this.loadLearningProcess();
+              this.loadLearningProcessAndExperiments();
               this.translateService.get(['Success', 'ModelManagement.Model is created successfully']).subscribe(translations => {
                 this.messageService.add({
                   severity: 'success',
@@ -198,7 +208,7 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
           .subscribe({
             next: (model: Model) => {
               this.selectedModel = model;
-              this.loadLearningProcess();
+              this.loadLearningProcessAndExperiments();
               this.translateService.get(['Success', 'ModelManagement.Model is updated successfully']).subscribe(translations => {
                 this.messageService.add({
                   severity: 'success',

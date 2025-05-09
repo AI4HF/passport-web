@@ -22,6 +22,21 @@
                 </p-dropdown>
             </span>
         </div>
+        <div class="p-field p-col-12 p-md-12 mt-2">
+            <label for="experimentId" class="font-bold">{{ 'ModelManagement.Experiment' | translate }}</label>
+            <span class="p-input-icon-left w-full mb-4">
+                <i class="pi pi-globe"></i>
+                <p-dropdown
+                        [style]="{'width':'100%'}"
+                        [options]="experiments"
+                        formControlName="experimentId"
+                        optionValue="experimentId"
+                        optionLabel="researchQuestion"
+                        placeholder="{{'ModelManagement.ExperimentPlaceholder' | translate}}"
+                        class="form-control">
+                </p-dropdown>
+            </span>
+        </div>
         <div class="form-grid grid p-p-md-2">
             <div class="field col">
                 <label for="name" class="font-bold">{{ 'ModelManagement.Name' | translate }}</label>
