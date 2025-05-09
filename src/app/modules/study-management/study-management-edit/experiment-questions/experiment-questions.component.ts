@@ -86,7 +86,7 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
               this.messageService.add({
                 severity: 'success',
                 summary: translations['Success'],
-                detail: translations['StudyManagement.Personnel.Experiments are assigned successfully']
+                detail: translations['StudyManagement.Experiment.Experiments are assigned successfully']
               });
             });
           }
@@ -111,7 +111,7 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
     if(researchQuestion.length > 0){
       this.initializeForm();
       if(!this.experimentList.find(experiment => experiment.researchQuestion === researchQuestion)) {
-        this.experimentList.push(new Experiment({experimentId: 0, studyId: 0, researchQuestion: researchQuestion}));
+        this.experimentList.push(new Experiment({experimentId: null, studyId: null, researchQuestion: researchQuestion}));
       }
     }
   }
