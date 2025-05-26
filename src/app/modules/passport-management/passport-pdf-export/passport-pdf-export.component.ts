@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
+import * as html2pdf from 'html2pdf.js';
 import { ModelDeployment } from '../../../shared/models/modelDeployment.model';
 import { DeploymentEnvironment } from '../../../shared/models/deploymentEnvironment.model';
 import { Model } from '../../../shared/models/model.model';
@@ -60,44 +59,27 @@ export class PdfExportComponent {
      */
     generatePdf() {
         const dataElement = document.getElementById('pdfPreviewContainer');
-        if (!dataElement) {
-            return;
-        }
+        if (!dataElement) return;
 
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const opt = {
+            margin:       0,
+            filename:     'Passport.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  {
+                scale: 2,
+                scrollY: 0,
+                useCORS: true
+            },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
 
-        html2canvas(dataElement, {
-            scrollY: -window.scrollY,
-            scale: 2,
-            windowWidth: dataElement.scrollWidth,
-            windowHeight: dataElement.scrollHeight
-        }).then(canvas => {
-            const imgData = canvas.toDataURL('image/png');
-            const imgProps = pdf.getImageProperties(imgData);
-            const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
-            let heightLeft = imgHeight;
-            let position = 0;
-
-            pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-            heightLeft -= pdfHeight;
-
-            while (heightLeft > 0) {
-                position = heightLeft - imgHeight;
-                pdf.addPage();
-                pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-                heightLeft -= pdfHeight;
-            }
-
-            const pdfBlob: Blob = pdf.output('blob') as Blob;
-
+        html2pdf().set(opt).from(dataElement).outputPdf('blob').then((pdfBlob: Blob) => {
             if (!this.studyDetails?.id) {
                 throw new Error("Study Details not available - Inapplicable Passport");
             }
+
             const studyId = this.studyDetails.id;
 
-            // Resulting PDF gets signed by the server.
             this.passportService.signPdf(pdfBlob, studyId).subscribe({
                 next: (signedPdfBlob: Blob) => {
                     const downloadUrl = URL.createObjectURL(signedPdfBlob);
@@ -105,7 +87,6 @@ export class PdfExportComponent {
                     link.href = downloadUrl;
                     link.download = 'Passport_signed.pdf';
                     link.click();
-
                     URL.revokeObjectURL(downloadUrl);
                     this.closeDialog();
                 },
@@ -113,7 +94,7 @@ export class PdfExportComponent {
                     console.error('Error signing PDF:', err);
                 }
             });
-        }).catch(error => {
+        }).catch((error: any) => {
             console.error('Error generating PDF:', error);
         });
     }
