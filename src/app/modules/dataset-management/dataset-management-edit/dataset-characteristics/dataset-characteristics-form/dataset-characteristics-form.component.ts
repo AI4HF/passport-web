@@ -80,40 +80,6 @@ export class DatasetCharacteristicsFormComponent extends BaseComponent implement
             .subscribe({
                 next: features => {
                     this.features = features;
-                    this.filterAvailableFeatures();
-                },
-                error: (error) => {
-                    this.translateService.get('Error').subscribe(translation => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: translation,
-                            detail: error.message
-                        });
-                    });
-                }
-            });
-    }
-
-    /**
-     * Filters the features to remove those that are already associated with the dataset.
-     * If the filtered list is empty, closes the form and shows an error message.
-     */
-    filterAvailableFeatures() {
-        this.datasetCharacteristicService.getCharacteristicsByDatasetId(this.datasetId, this.activeStudyService.getActiveStudy())
-            .pipe(takeUntil(this.destroy$))
-            .subscribe({
-                next: datasetCharacteristics => {
-                    const usedFeatureIds = datasetCharacteristics.map(characteristic => characteristic.featureId);
-                    this.features = this.features.filter(feature => !usedFeatureIds.includes(feature.featureId));
-
-                    if (this.features.length === 0) {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: this.translateService.get('Error').toString(),
-                            detail: this.translateService.get('DatasetManagement.NoAvailableFeatures').toString()
-                        });
-                        this.closeDialog();
-                    }
                 },
                 error: (error) => {
                     this.translateService.get('Error').subscribe(translation => {
