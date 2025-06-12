@@ -43,7 +43,7 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
         this.initializeForm();
         this.loadHardcodedFeatures();
 
-        if (this.featureId) {
+        if (this.featureId && !this.featureId.startsWith('outcome')  && !this.featureId.startsWith('feature')) {
             this.isUpdateMode = true;
             this.loadFeature(this.featureId);
         } else {
@@ -71,7 +71,7 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
             title: new FormControl('', Validators.required),
             description: new FormControl('', Validators.required),
             dataType: new FormControl('', Validators.required),
-            featureType: new FormControl('', Validators.required),
+            isOutcome: new FormControl(this.featureId === "outcome"),
             mandatory: new FormControl(false),
             isUnique: new FormControl(false),
             units: new FormControl(''),
@@ -111,7 +111,7 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
             title: this.selectedFeature.title,
             description: this.selectedFeature.description,
             dataType: this.selectedFeature.dataType,
-            featureType: this.selectedFeature.featureType,
+            isOutcome: this.selectedFeature.isOutcome,
             mandatory: this.selectedFeature.mandatory,
             isUnique: this.selectedFeature.isUnique,
             units: this.selectedFeature.units,
@@ -141,7 +141,6 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
             title: selectedFeature.title,
             description: selectedFeature.description,
             dataType: selectedFeature.dataType,
-            featureType: selectedFeature.featureType,
             mandatory: selectedFeature.mandatory,
             isUnique: selectedFeature.isUnique,
             units: selectedFeature.units,
@@ -163,11 +162,11 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
                     next: feature => {
                         this.selectedFeature = feature;
                         this.initializeForm();
-                        this.translateService.get(['Success', 'FeatureSetManagement.FeatureCreated']).subscribe(translations => {
+                        this.translateService.get(['Success', (feature.isOutcome ? 'FeatureSetManagement.OutcomeCreated' : 'FeatureSetManagement.FeatureCreated')]).subscribe(translations => {
                             this.messageService.add({
                                 severity: 'success',
                                 summary: translations['Success'],
-                                detail: translations['FeatureSetManagement.FeatureCreated']
+                                detail: translations[(feature.isOutcome ? 'FeatureSetManagement.OutcomeCreated' : 'FeatureSetManagement.FeatureCreated')]
                             });
                         });
                     },
@@ -192,11 +191,11 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
                     next: (feature: Feature) => {
                         this.selectedFeature = feature;
                         this.initializeForm();
-                        this.translateService.get(['Success', 'FeatureSetManagement.FeatureUpdated']).subscribe(translations => {
+                        this.translateService.get(['Success', (feature.isOutcome ? 'FeatureSetManagement.OutcomeUpdated' : 'FeatureSetManagement.FeatureUpdated')]).subscribe(translations => {
                             this.messageService.add({
                                 severity: 'success',
                                 summary: translations['Success'],
-                                detail: translations['FeatureSetManagement.FeatureUpdated']
+                                detail: translations[(feature.isOutcome ? 'FeatureSetManagement.OutcomeUpdated' : 'FeatureSetManagement.FeatureUpdated')]
                             });
                         });
                     },
