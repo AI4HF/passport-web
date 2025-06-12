@@ -20,6 +20,9 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
     /** List of features in the selected feature set */
     features: Feature[] = [];
 
+    /** List of outcomes in the selected feature set */
+    outcomes: Feature[] = [];
+
     /** Determines if the form is displayed */
     displayForm: boolean = false;
 
@@ -29,8 +32,11 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
     /** Loading state of the table */
     loading: boolean = true;
 
-    /** Columns to be displayed in the table */
-    columns: any[];
+    /** Columns to be displayed in the feature table */
+    featureColumns: any[];
+
+    /** Columns to be displayed in the outcome table */
+    outcomeColumns: any[];
 
     /**
      * Constructor to inject dependencies.
@@ -44,9 +50,14 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
      * Initializes the component.
      */
     ngOnInit() {
-        this.columns = [
+        this.featureColumns = [
             { field: 'featureId', header: 'FeatureSetManagement.FeatureID' },
             { field: 'title', header: 'FeatureSetManagement.FeatureTitle' }
+        ];
+
+        this.outcomeColumns = [
+            { field: 'featureId', header: 'FeatureSetManagement.OutcomeID' },
+            { field: 'title', header: 'FeatureSetManagement.OutcomeTitle' }
         ];
 
         this.route.parent.data.pipe(takeUntil(this.destroy$)).subscribe({
@@ -73,7 +84,8 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
         this.featureService.getFeaturesByFeatureSetId(this.selectedFeatureSet.featuresetId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: features => {
-                    this.features = features;
+                    this.features = features.filter(feature => !feature.isOutcome);
+                    this.outcomes = features.filter(feature => feature.isOutcome);
                     this.loading = false;
                 },
                 error: error => {
@@ -97,12 +109,14 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
         this.featureService.deleteFeature(featureId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
+                    const isFeature = this.features.find(f => f.featureId === featureId);
                     this.features = this.features.filter(f => f.featureId !== featureId);
-                    this.translateService.get(['Success', 'FeatureSetManagement.FeatureDeleted']).subscribe(translations => {
+                    this.outcomes = this.outcomes.filter(o => o.featureId !== featureId);
+                    this.translateService.get(['Success', (isFeature ? 'FeatureSetManagement.FeatureDeleted' : 'FeatureSetManagement.OutcomeDeleted')]).subscribe(translations => {
                         this.messageService.add({
                             severity: 'success',
                             summary: translations['Success'],
-                            detail: translations['FeatureSetManagement.FeatureDeleted']
+                            detail: translations[(isFeature ? 'FeatureSetManagement.FeatureDeleted' : 'FeatureSetManagement.OutcomeDeleted')]
                         });
                     });
                 },
@@ -129,9 +143,10 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
 
     /**
      * Displays the form for creating a new feature.
+     * @param isOutcome whether create an outcome
      */
-    createFeature() {
-        this.selectedFeatureId = null;
+    createFeature(isOutcome: string) {
+        this.selectedFeatureId = isOutcome;
         this.displayForm = true;
     }
 
