@@ -168,7 +168,7 @@
                                             <th>{{ 'PassportManagement.Feature Title' | translate }}</th>
                                             <th>{{ 'PassportManagement.Feature Description' | translate }}</th>
                                             <th>{{ 'PassportManagement.Feature DataType' | translate }}</th>
-                                            <th>{{ 'PassportManagement.Feature Type' | translate }}</th>
+                                            <th>{{ 'PassportManagement.Feature IsOutcome' | translate }}</th>
                                             <th>{{ 'PassportManagement.Feature Mandatory' | translate }}</th>
                                             <th>{{ 'PassportManagement.Feature Unique' | translate }}</th>
                                             <th>{{ 'PassportManagement.Feature Units' | translate }}</th>
@@ -181,7 +181,7 @@
                                             <td>{{ feature.title }}</td>
                                             <td>{{ feature.description }}</td>
                                             <td>{{ feature.dataType }}</td>
-                                            <td>{{ feature.featureType }}</td>
+                                            <td>{{ feature.isOutcome ? 'Yes' : 'No' }}</td>
                                             <td>{{ feature.mandatory ? 'Yes' : 'No' }}</td>
                                             <td>{{ feature.isUnique ? 'Yes' : 'No' }}</td>
                                             <td>{{ feature.units }}</td>
