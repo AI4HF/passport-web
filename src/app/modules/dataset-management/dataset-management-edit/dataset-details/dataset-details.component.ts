@@ -2,9 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from "../../../../shared/components/base.component";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { takeUntil } from "rxjs";
+import {forkJoin, takeUntil} from "rxjs";
 import { Dataset } from "../../../../shared/models/dataset.model";
 import {DatasetManagementRoutingModule} from "../../dataset-management-routing.module";
+import {FeatureSet} from "../../../../shared/models/featureset.model";
+import {Population} from "../../../../shared/models/population.model";
 
 /**
  * Component to display and manage the details of a dataset.
@@ -18,9 +20,9 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
 
     selectedDataset: Dataset;
     datasetForm: FormGroup;
-    featuresets: any[];
+    featuresets: FeatureSet[];
     isEditMode: boolean = false;
-    populationOptions: any[] = [];
+    populationOptions: Population[] = [];
 
     /** List of datasets loaded from JSON */
     hardcodedDatasets: Dataset[] = [];
@@ -33,18 +35,41 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-            const id = params.get('id');
-            if (id !== 'new') {
-                this.isEditMode = true;
-                this.loadDataset(id);
-            } else {
-                this.selectedDataset = new Dataset({ id: 0 });
-                this.initializeForm();
-            }
-        });
-        this.loadDropdowns();
-        this.loadHardcodedDatasets();
+        const studyId = this.activeStudyService.getActiveStudy();
+
+        forkJoin({
+            featuresets: this.featureSetService.getAllFeatureSetsByStudyId(studyId),
+            populations: this.populationService.getPopulationByStudyId(studyId)
+        }).pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: ({ featuresets, populations }) => {
+                    this.featuresets = featuresets;
+                    this.populationOptions = populations;
+
+                    this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+                        const id = params.get('id');
+                        if (id !== 'new') {
+                            this.isEditMode = true;
+                            this.loadDataset(id);
+                        } else {
+                            this.selectedDataset = new Dataset({ id: 0 });
+                            this.initializeForm();
+                        }
+                    });
+                    this.loadHardcodedDatasets();
+                },
+                error: (error) => {
+                    console.error('Failed to load dropdowns: ', error);
+
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
+                    });
+                }
+            });
     }
 
     /**
@@ -93,10 +118,6 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             numOfRecords: new FormControl(this.selectedDataset?.numOfRecords || 0, Validators.required),
             synthetic: new FormControl(this.selectedDataset?.synthetic || false)
         });
-
-        if (this.isEditMode) {
-            this.setDropdownValues();
-        }
     }
 
 
@@ -128,62 +149,6 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
     }
 
     /**
-     * Loads the dropdown options for feature sets, populations, and organizations.
-     */
-    loadDropdowns() {
-        this.featureSetService.getAllFeatureSetsByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)).subscribe({
-            next: (featuresets) => {
-                this.featuresets = featuresets;
-                if (this.isEditMode) {
-                    this.setDropdownValues();
-                }
-            },
-            error: (error) => {
-                this.translateService.get('Error').subscribe(translation => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: translation,
-                        detail: error.message
-                    });
-                });
-            }
-        });
-        this.loadPopulations();
-    }
-
-    /**
-     * Fetch available populations based on current study ID.
-     */
-    loadPopulations() {
-        const studyId = this.activeStudyService.getActiveStudy();
-        this.populationService.getPopulationByStudyId(studyId)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe({
-                next: (populations) => {
-                    this.populationOptions = populations;
-                    console.log(this.populationOptions);
-                },
-                error: (err) => {
-                    console.error('Failed to load populations: ', err);
-                }
-            });
-    }
-
-
-    /**
-     * Sets the values for the dropdowns based on the selected dataset.
-     */
-    setDropdownValues() {
-        if (this.selectedDataset) {
-            this.datasetForm.patchValue({
-                featureset: this.featuresets.find(f => f.featuresetId === this.selectedDataset.featuresetId) || null,
-                population: this.populationOptions.find(p => p.populationId === this.selectedDataset.populationId) || null
-            });
-        }
-    }
-
-
-    /**
      * Saves the dataset, either creating a new one or updating an existing one.
      */
     save() {
@@ -193,8 +158,8 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             description: formValues.description,
             version: formValues.version,
             referenceEntity: formValues.referenceEntity,
-            featuresetId: formValues.featureset.featuresetId,
-            populationId: formValues.population.populationId,
+            featuresetId: formValues.featureset,
+            populationId: formValues.population,
             numOfRecords: formValues.numOfRecords,
             synthetic: formValues.synthetic
         };
@@ -207,7 +172,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
                     next: dataset => {
                         this.selectedDataset = dataset;
                         this.initializeForm();
-                        this.setDropdownValues();
+
                         this.translateService.get(['Success', 'DatasetManagement.DatasetCreated']).subscribe(translations => {
                             this.messageService.add({
                                 severity: 'success',
@@ -235,7 +200,6 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
                     next: (dataset: Dataset) => {
                         this.selectedDataset = dataset;
                         this.initializeForm();
-                        this.setDropdownValues();
                         this.translateService.get(['Success', 'DatasetManagement.DatasetUpdated']).subscribe(translations => {
                             this.messageService.add({
                                 severity: 'success',
