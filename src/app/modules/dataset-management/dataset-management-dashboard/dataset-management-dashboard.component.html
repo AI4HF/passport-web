@@ -15,7 +15,7 @@
         <p-table #dt [value]="datasetList" [columns]="columns" [rows]="10" [rowHover]="true" [paginator]="true"
                  [showCurrentPageReport]="true" [currentPageReportTemplate]="'DatasetManagement.NumberOfEntries' | translate"
                  [rowsPerPageOptions]="[10,25,50]" [showLoader]="true" [loading]="loading" [filterDelay]="0"
-                 [globalFilterFields]="['datasetId', 'title', 'description', 'version', 'referenceEntity']"
+                 [globalFilterFields]="['datasetId', 'featuresetId', 'populationId', 'organizationId', 'createdAt']"
                  [sortField]="'title'">
             <ng-template pTemplate="header">
                 <tr>
@@ -24,22 +24,22 @@
                         {{ 'DatasetManagement.ID' | translate }}
                         <p-sortIcon [field]="'datasetId'"></p-sortIcon>
                     </th>
-                    <th [pSortableColumn]="'title'"
+                    <th [pSortableColumn]="'featuresetId'"
                         class="white-space-nowrap min-width-10rem">
-                        {{ 'DatasetManagement.Title' | translate }}
-                        <p-sortIcon [field]="'title'"></p-sortIcon>
+                        {{ 'DatasetManagement.FeatureSetID' | translate }}
+                        <p-sortIcon [field]="'featuresetId'"></p-sortIcon>
                     </th>
-                    <th [pSortableColumn]="'description'" class="white-space-nowrap text-center">
-                        {{ 'DatasetManagement.Description' | translate }}
-                        <p-sortIcon [field]="'description'"></p-sortIcon>
+                    <th [pSortableColumn]="'populationId'" class="white-space-nowrap text-center">
+                        {{ 'DatasetManagement.PopulationID' | translate }}
+                        <p-sortIcon [field]="'populationId'"></p-sortIcon>
                     </th>
-                    <th [pSortableColumn]="'version'" class="white-space-nowrap text-center">
-                        {{ 'DatasetManagement.Version' | translate }}
-                        <p-sortIcon [field]="'version'"></p-sortIcon>
+                    <th [pSortableColumn]="'organizationId'" class="white-space-nowrap text-center">
+                        {{ 'DatasetManagement.OrganizationID' | translate }}
+                        <p-sortIcon [field]="'organizationId'"></p-sortIcon>
                     </th>
-                    <th [pSortableColumn]="'referenceEntity'" class="white-space-nowrap text-center">
-                        {{ 'DatasetManagement.ReferenceEntity' | translate }}
-                        <p-sortIcon [field]="'referenceEntity'"></p-sortIcon>
+                    <th [pSortableColumn]="'createdAt'" class="white-space-nowrap text-center">
+                        {{ 'DatasetManagement.CreatedAt' | translate }}
+                        <p-sortIcon [field]="'createdAt'"></p-sortIcon>
                     </th>
                     <th>
                         {{ 'DatasetManagement.Actions' | translate }}
@@ -53,16 +53,16 @@
                         <span>{{ dataset.datasetId }}</span>
                     </td>
                     <td class="cursor-pointer">
-                        <span>{{ dataset.title }}</span>
+                        <span>{{ dataset.featuresetId }}</span>
                     </td>
                     <td class="text-center">
-                        <span>{{ dataset.description }}</span>
+                        <span>{{ dataset.populationId }}</span>
                     </td>
                     <td class="text-center">
-                        <span>{{ dataset.version }}</span>
+                        <span>{{ dataset.organizationId }}</span>
                     </td>
                     <td class="text-center">
-                        <span>{{ dataset.referenceEntity }}</span>
+                        <span>{{ dataset.createdAt }}</span>
                     </td>
                     <td>
                         <button pButton pRipple type="button" [icon]="'pi pi-pencil'"
