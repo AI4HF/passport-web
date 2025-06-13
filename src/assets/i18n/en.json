@@ -227,6 +227,10 @@
   },
   "DatasetManagement": {
     "Title": "Title",
+    "FeatureSetID": "Feature Set ID",
+    "PopulationID": "Population ID",
+    "OrganizationID": "Organization ID",
+    "CreatedAt": "Created At",
     "Description": "Description",
     "Version": "Version",
     "ReferenceEntity": "Reference Entity",
