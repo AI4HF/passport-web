@@ -90,6 +90,8 @@
                                     [options]="featuresets"
                                     formControlName="featureset"
                                     optionLabel="title"
+                                    [readonly]="this.isEditMode"
+                                    optionValue="featuresetId"
                                     placeholder="{{ 'DatasetManagement.SelectFeatureSet' | translate }}"
                                     class="w-full"
                             >
@@ -119,8 +121,10 @@
                         <p-dropdown
                                 [options]="populationOptions"
                                 formControlName="population"
+                                [readonly]="this.isEditMode"
                                 placeholder="{{ 'DatasetManagement.Population' | translate }}"
                                 optionLabel="populationUrl"
+                                optionValue="populationId"
                                 class="w-full"
                         >
                         </p-dropdown>
