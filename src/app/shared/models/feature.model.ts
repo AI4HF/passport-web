@@ -28,9 +28,9 @@ export class Feature {
     dataType: string;
 
     /**
-     * The feature type of the Feature
+     * Indicates if the Feature is an outcome
      */
-    featureType: string;
+    isOutcome: boolean;
 
     /**
      * Indicates if the Feature is mandatory
@@ -86,7 +86,7 @@ export class Feature {
         this.title = data.title;
         this.description = data.description;
         this.dataType = data.dataType;
-        this.featureType = data.featureType;
+        this.isOutcome = data.isOutcome;
         this.mandatory = data.mandatory;
         this.isUnique = data.isUnique;
         this.units = data.units;
