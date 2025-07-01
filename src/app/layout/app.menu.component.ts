@@ -114,7 +114,7 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
             }
 
             if (this.userRoles.includes(Role.SURVEY_MANAGER)) {
-                this.translateService.get(['Survey Manager', 'Surver Management']).subscribe(translations => {
+                this.translateService.get(['Survey Manager', 'Survey Management']).subscribe(translations => {
                     this.model.push({
                         label: translations['Survey Manager'],
                         icon: 'pi pi-chart-line',
