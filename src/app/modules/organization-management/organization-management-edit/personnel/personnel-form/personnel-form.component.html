@@ -52,3 +52,10 @@
         </div>
     </form>
 </p-dialog>
+
+<app-connector-secret
+        *ngIf="displayConnectorSecret"
+        [username]="pendingUsername"
+        [password]="pendingPassword"
+        (closed)="onConnectorDialogClosed()">
+</app-connector-secret>

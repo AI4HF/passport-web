@@ -24,6 +24,11 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
     /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();
 
+    /** Connector-secret support*/
+    displayConnectorSecret = false;
+    pendingUsername!: string;
+    pendingPassword!: string;
+
     /** The selected personnel to be edited */
     selectedPersonnel: Personnel = new Personnel({});
     /** Form group for personnel form controls */
@@ -122,8 +127,23 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
                             detail: translations['OrganizationManagement.Personnel is created successfully']
                         });
                     });
+                    this.pendingUsername = formValue.username;
+                    this.pendingPassword = formValue.password;
+                    this.displayConnectorSecret = true;
                 },
                 error: (error) => {
+                    if (error?.status === 400) {
+                        this.translateService
+                            .get(['Error', 'OrganizationManagement.This username is already in use'])
+                            .subscribe(t =>
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: t['Error'],
+                                    detail:  t['OrganizationManagement.This username is already in use']
+                                })
+                            );
+                        return;
+                    }
                     this.translateService.get('Error').subscribe(translation => {
                         this.messageService.add({
                             severity: 'error',
@@ -131,9 +151,6 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
                             detail: error.message
                         });
                     });
-                },
-                complete: () => {
-                    this.closeDialog();
                 }
             });
         } else {
@@ -171,5 +188,12 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
     closeDialog() {
         this.display = false
         this.formClosed.emit();
+    }
+
+    /**
+     * Closes connector popup
+     */
+    onConnectorDialogClosed(): void {
+        this.closeDialog();
     }
 }
