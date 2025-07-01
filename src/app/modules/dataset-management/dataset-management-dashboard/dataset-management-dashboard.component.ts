@@ -54,7 +54,7 @@ export class DatasetManagementDashboardComponent extends BaseComponent implement
      */
     loadDatasetByStudyId(studyId: String) {
         this.loading = true;
-        this.datasetService.getAllDatasetsByStudyId(studyId)
+        this.datasetService.getAllDatasetsWithNamesByStudyId(studyId)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (datasetList: Dataset[]) => this.datasetList = datasetList,
