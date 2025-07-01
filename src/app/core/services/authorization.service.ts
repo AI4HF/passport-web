@@ -42,4 +42,19 @@ export class AuthorizationService {
                 })
             );
     }
+
+    /**
+     * Refresh token generation request
+     * @param username Username of the recently created user
+     * @param password Password of the recently created user
+     */
+    refreshTokenSignup(username: string, password: string): Observable<string> {
+        const url = `${this.endpoint}/user/connector/sign-up`;
+        return this.httpClient
+            .post(url, { username, password }, { responseType: 'text' })
+            .pipe(
+                catchError(err => { console.error(err); throw err; })
+            );
+    }
+
 }

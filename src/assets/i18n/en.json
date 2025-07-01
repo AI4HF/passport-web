@@ -123,7 +123,11 @@
     "Enter password": "Enter password",
     "PersonnelForm": "Personnel Details",
     "Username": "Username",
-    "Password": "Password"
+    "Password": "Password",
+    "This username is already in use": "This username is already in use",
+    "Connector Secret": "Connector Secret",
+    "GenerateConnectorSecretQuestion": "Would you like to generate a Secret/Token for Connector access to this user.",
+    "Copied": "Secret Copied"
 
   },
   "SurveyManagement": {

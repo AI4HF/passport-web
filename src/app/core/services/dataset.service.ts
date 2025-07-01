@@ -140,4 +140,20 @@ export class DatasetService {
                 })
             );
     }
+
+    /**
+     * Retrieves all datasets by studyId, with FK names
+     * @param studyId  Id of the study
+     * @returns        {Observable<Dataset[]>}
+     */
+    getAllDatasetsWithNamesByStudyId(studyId: String): Observable<Dataset[]> {
+        const url = `${this.endpoint}/names?studyId=${studyId}`;
+        return this.httpClient.get<Dataset[]>(url).pipe(
+            map((response: any) => response.map((d: any) => new Dataset(d))),
+            catchError((error) => {
+                console.error(error);
+                throw error;
+            })
+        );
+    }
 }
