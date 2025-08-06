@@ -21,6 +21,7 @@
 
   },
   "StudyManagement": {
+    "Selected": "Selected",
     "Studies": "Studies",
     "New Study": "New Study",
     "Number of entries": "Showing {first} to {last} of {totalRecords} entries",
