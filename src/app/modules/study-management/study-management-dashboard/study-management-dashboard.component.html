@@ -120,8 +120,11 @@
                         <span>{{ study.ethics }}</span>
                     </td>
                     <td>
-                        <button pButton pRipple type="button" icon="pi pi-arrow-right" class="p-button-text p-button-rounded p-ripple"
-                                (click)="accessStudy(study.id)" pTooltip="{{ 'StudyManagement.Access Study' | translate }}"
+                        <button pButton pRipple type="button" icon="pi pi-eye" class="p-button-text p-button-rounded p-ripple"
+                                (click)="viewStudy(study.id)" pTooltip="{{ 'StudyManagement.View Study' | translate }}"
+                                tooltipPosition="bottom"></button>
+                        <button pButton pRipple type="button" icon="pi pi-check-circle" class="p-button-text p-button-rounded p-ripple"
+                                (click)="selectStudy(study.id)" pTooltip="{{ 'StudyManagement.Select Study' | translate }}"
                                 tooltipPosition="bottom"></button>
                     </td>
                 </tr>

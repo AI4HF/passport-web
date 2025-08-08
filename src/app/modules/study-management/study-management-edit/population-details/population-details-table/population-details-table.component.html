@@ -7,7 +7,7 @@
           <i class="pi pi-search"></i>
           <input pInputText type="text" (input)="filter(dt, $event)" placeholder="{{ 'Search' | translate }}" class="w-full rounded-border"/>
         </span>
-                <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-primary mx-2" (click)="createPopulation()" pTooltip="{{ 'StudyManagement.Population.Create Population' | translate }}" tooltipPosition="bottom"></button>
+                <button pButton pRipple [disabled]="viewMode" icon="pi pi-plus" class="p-button-rounded p-button-primary mx-2" (click)="createPopulation()" pTooltip="{{ 'StudyManagement.Population.Create Population' | translate }}" tooltipPosition="bottom"></button>
             </div>
         </div>
         <p-table #dt [value]="populations" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['populationId', 'title']" [sortField]="'title'">
@@ -35,8 +35,8 @@
                         <span>{{ population.populationUrl }}</span>
                     </td>
                     <td>
-                        <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="showPopulationForm(population.populationId)" pTooltip="{{ 'Details' | translate }}" tooltipPosition="bottom"></button>
-                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deletePopulation(population.populationId)" pTooltip="{{ 'Delete' | translate }}" tooltipPosition="bottom"></button>
+                        <button pButton pRipple [disabled]="viewMode" type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="showPopulationForm(population.populationId)" pTooltip="{{ 'Details' | translate }}" tooltipPosition="bottom"></button>
+                        <button pButton pRipple [disabled]="viewMode" type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deletePopulation(population.populationId)" pTooltip="{{ 'Delete' | translate }}" tooltipPosition="bottom"></button>
                     </td>
                 </tr>
             </ng-template>

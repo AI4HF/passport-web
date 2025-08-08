@@ -39,11 +39,20 @@ export class PersonnelAssignmentComponent extends BaseComponent implements OnIni
   formDisabled: boolean = true;
   studyId: string;
 
+  /**
+   * Indicates whether user can edit this page
+   */
+  viewMode: boolean = false;
+
   constructor(protected injector: Injector) {
     super(injector);
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.viewMode = params['viewMode'] === 'true';
+    });
+
     this.organizationService.getAllOrganizations().pipe(takeUntil(this.destroy$)).subscribe({
       next: data => this.organizationList = data.map(organization => new Organization(organization)),
       error: () => {

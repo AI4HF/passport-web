@@ -17,7 +17,7 @@
             <button pButton pRipple
                     type="button"
                     label="{{'Add' | translate}}"
-                    [disabled]="!researchQuestionForm.valid"
+                    [disabled]="!researchQuestionForm.valid || viewMode"
                     class="p-button-raised"
                     (click)="addResearchQuestion()"></button>
         </div>
@@ -29,7 +29,10 @@
                 {{experiment.researchQuestion}}
             </div>
             <div class="flex align-items-center justify-content-end w-4rem">
-                <i class="pi pi-trash text-primary cursor-pointer" (click)="deleteQuestion(experiment.researchQuestion)"></i>
+                <i class="pi pi-trash"
+                   [ngClass]="{ 'text-primary cursor-pointer': !viewMode, 'text-secondary opacity-40': viewMode }"
+                   (click)="!viewMode && deleteQuestion(experiment.researchQuestion)">
+                </i>
             </div>
         </div>
     </div>
@@ -48,6 +51,7 @@
         </div>
         <div class="justify-content-end">
             <button pButton pRipple
+                    [disabled]="viewMode"
                     type="button"
                     label="{{'Save' | translate}}"
                     class="p-button-raised"
