@@ -164,7 +164,7 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
         });
   }
 
-  accessStudy(studyId: string) {
+  selectStudy(studyId: string) {
     const studyPersonnelEntry = this.studyPersonnelEntries.find(entry => entry.id.studyId === studyId);
     if (studyPersonnelEntry) {
 
@@ -182,6 +182,26 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
           detail: translations['StudyManagement.A new study is set as the active study']
         });
       });
+    } else {
+      this.translateService.get(['Warning', 'StudyManagement.NoRolesFound']).subscribe(translations => {
+        this.messageService.add({
+          severity: 'warn',
+          summary: translations['Warning'],
+          detail: translations['StudyManagement.NoRolesFound']
+        });
+      });
+      console.warn(`No roles found for study ID: ${studyId}`);
+    }
+  }
+
+  viewStudy(studyId: string) {
+    const studyPersonnelEntry = this.studyPersonnelEntries.find(entry => entry.id.studyId === studyId);
+    if (studyPersonnelEntry) {
+      this.router.navigate(
+          [`/${StudyManagementRoutingModule.route}/${studyId}/study-details`],
+          { queryParams: { viewMode: true } }
+      );
+
     } else {
       this.translateService.get(['Warning', 'StudyManagement.NoRolesFound']).subscribe(translations => {
         this.messageService.add({

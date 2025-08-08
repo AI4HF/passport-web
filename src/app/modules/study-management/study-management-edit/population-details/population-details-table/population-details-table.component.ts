@@ -32,6 +32,11 @@ export class PopulationDetailsTableComponent extends BaseComponent implements On
     studyId: string = null;
 
     /**
+     * Indicates whether user can edit this page
+     */
+    viewMode: boolean = false;
+
+    /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
      */
@@ -43,6 +48,10 @@ export class PopulationDetailsTableComponent extends BaseComponent implements On
      * Initializes the component.
      */
     ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.viewMode = params['viewMode'] === 'true';
+        });
+        
         this.columns = [
             { field: 'populationId', header: 'PopulationManagement.PopulationID' },
             { field: 'title', header: 'PopulationManagement.PopulationTitle' }

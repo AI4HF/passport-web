@@ -25,11 +25,20 @@ export class StudyDetailsComponent extends BaseComponent implements OnInit {
    */
   studyForm: FormGroup;
 
+  /**
+   * Indicates whether user can edit this page
+   */
+  viewMode: boolean = false;
+
   constructor(protected injector: Injector) {
     super(injector);
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.viewMode = params['viewMode'] === 'true';
+    });
+
     this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const id = params.get('id');
       if (id !== 'new') {

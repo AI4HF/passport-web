@@ -60,7 +60,7 @@
                 type="button"
                 label="{{'Save' | translate}}"
                 class="p-button-raised"
-                [disabled]="!this.selectedResponsiblePersonnelId || !this.selectedRoles.length"
+                [disabled]="!this.selectedResponsiblePersonnelId || !this.selectedRoles.length || this.viewMode"
                 (click)="saveStudyOrganization()">
         </button>
     </div>
@@ -105,7 +105,7 @@
                 label="{{ 'Save' | translate }}"
                 class="p-button-raised"
                 (click)="save()"
-                [disabled]="personnelRoleMap.size === 0">
+                [disabled]="personnelRoleMap.size === 0 || this.viewMode">
         </button>
     </div>
 </p-card>

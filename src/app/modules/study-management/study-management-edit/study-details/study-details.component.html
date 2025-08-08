@@ -80,7 +80,7 @@
                         type="button"
                         label="{{(this.selectedStudy.id) ? ('Save' | translate) : ('Next' | translate)}}"
                         class="p-button-raised"
-                        [disabled]="!studyForm.valid"
+                        [disabled]="!studyForm.valid || viewMode"
                         (click)="save()"></button>
             </div>
         </div>

@@ -18,11 +18,20 @@ export class SurveyInspectionComponent extends BaseComponent implements OnInit {
    */
   surveyList: Survey[] = [];
 
+  /**
+   * Indicates whether user can edit this page
+   */
+  viewMode: boolean = false;
+
   constructor(protected injector: Injector) {
     super(injector);
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.viewMode = params['viewMode'] === 'true';
+    });
+
     this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
       this.surveyService.getSurveysByStudyId(params.get('id')).pipe(takeUntil(this.destroy$))
           .subscribe({
@@ -44,7 +53,7 @@ export class SurveyInspectionComponent extends BaseComponent implements OnInit {
    * Back to experiment questions menu
    */
   back(){
-    this.router.navigate([`../experiment-questions`], {relativeTo: this.route});
+    this.router.navigate([`../experiment-questions`], {relativeTo: this.route, queryParams: this.route.snapshot.queryParams});
   }
 
   /**

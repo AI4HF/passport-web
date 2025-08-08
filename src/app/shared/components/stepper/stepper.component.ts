@@ -41,6 +41,6 @@ export class StepperComponent extends BaseComponent implements OnInit{
    * Navigate to a step from left menu
    */
   navigateStep(step: any) {
-    this.router.navigate([`${step.routerLink}`], {relativeTo: this.route});
+    this.router.navigate([`${step.routerLink}`], {relativeTo: this.route, queryParams: step.queryParams});
   }
 }

@@ -15,14 +15,10 @@
         <p-table #ownedTable [value]="ownedStudies" [columns]="columns" [rows]="10" [rowHover]="true" [paginator]="true"
                  [showCurrentPageReport]="true" [currentPageReportTemplate]="'StudyManagement.Number of entries' | translate"
                  [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loadingOwnedStudies"
-                 [filterDelay]="0" [globalFilterFields]="['id', 'name', 'description', 'objectives', 'ethics']"
+                 [filterDelay]="0" [globalFilterFields]="['name', 'description', 'objectives', 'ethics']"
                  [sortField]="'name'">
             <ng-template pTemplate="header">
                 <tr>
-                    <th [pSortableColumn]="'id'" class="white-space-nowrap min-width-10rem">
-                        {{ 'StudyManagement.ID' | translate }}
-                        <p-sortIcon [field]="'id'"></p-sortIcon>
-                    </th>
                     <th [pSortableColumn]="'name'" class="white-space-nowrap min-width-10rem">
                         {{ 'StudyManagement.Name' | translate }}
                         <p-sortIcon [field]="'name'"></p-sortIcon>
@@ -44,9 +40,6 @@
             </ng-template>
             <ng-template pTemplate="body" let-study>
                 <tr>
-                    <td class="cursor-pointer">
-                        <span>{{ study.id }}</span>
-                    </td>
                     <td class="cursor-pointer">
                         <span>{{ study.name }}</span>
                     </td>
@@ -86,14 +79,10 @@
         <p-table #assignedTable [value]="assignedStudies" [columns]="columns" [rows]="10" [rowHover]="true" [paginator]="true"
                  [showCurrentPageReport]="true" [currentPageReportTemplate]="'StudyManagement.Number of entries' | translate"
                  [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loadingAssignedStudies"
-                 [filterDelay]="0" [globalFilterFields]="['id', 'name', 'description', 'objectives', 'ethics']"
+                 [filterDelay]="0" [globalFilterFields]="['name', 'description', 'objectives', 'ethics']"
                  [sortField]="'name'">
             <ng-template pTemplate="header">
                 <tr>
-                    <th [pSortableColumn]="'id'" class="white-space-nowrap min-width-10rem">
-                        {{ 'StudyManagement.ID' | translate }}
-                        <p-sortIcon [field]="'id'"></p-sortIcon>
-                    </th>
                     <th [pSortableColumn]="'name'" class="white-space-nowrap min-width-10rem">
                         {{ 'StudyManagement.Name' | translate }}
                         <p-sortIcon [field]="'name'"></p-sortIcon>
@@ -114,12 +103,12 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-study>
-                <tr>
-                    <td class="cursor-pointer">
-                        <span>{{ study.id }}</span>
-                    </td>
+                <tr [ngClass]="{'active-study-row': activeStudyService.getActiveStudy() === study.id}">
                     <td class="cursor-pointer">
                         <span>{{ study.name }}</span>
+                        <ng-container *ngIf="activeStudyService.getActiveStudy() === study.id">
+                            <span class="badge-selected ml-2">{{ 'StudyManagement.Selected' | translate }}</span>
+                        </ng-container>
                     </td>
                     <td class="text-center">
                         <span>{{ study.description }}</span>
@@ -131,8 +120,11 @@
                         <span>{{ study.ethics }}</span>
                     </td>
                     <td>
-                        <button pButton pRipple type="button" icon="pi pi-arrow-right" class="p-button-text p-button-rounded p-ripple"
-                                (click)="accessStudy(study.id)" pTooltip="{{ 'StudyManagement.Access Study' | translate }}"
+                        <button pButton pRipple type="button" icon="pi pi-eye" class="p-button-text p-button-rounded p-ripple"
+                                (click)="viewStudy(study.id)" pTooltip="{{ 'StudyManagement.View Study' | translate }}"
+                                tooltipPosition="bottom"></button>
+                        <button pButton pRipple type="button" icon="pi pi-check-circle" class="p-button-text p-button-rounded p-ripple"
+                                (click)="selectStudy(study.id)" pTooltip="{{ 'StudyManagement.Select Study' | translate }}"
                                 tooltipPosition="bottom"></button>
                     </td>
                 </tr>

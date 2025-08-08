@@ -29,12 +29,21 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
    */
   studyId: string;
 
+  /**
+   * Indicates whether user can edit this page
+   */
+  viewMode: boolean = false;
+
   constructor(protected injector: Injector) {
     super(injector);
   }
 
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.viewMode = params['viewMode'] === 'true';
+    });
+
     this.route.parent.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
       this.studyId = params.get('id');
       this.fetchExperimentsByStudyId(this.studyId);
@@ -70,7 +79,7 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
    * Back to population deatils menu
    */
   back(){
-    this.router.navigate([`../personnel-assignment`], {relativeTo: this.route});
+    this.router.navigate([`../personnel-assignment`], {relativeTo: this.route, queryParams: this.route.snapshot.queryParams});
   }
 
   /**

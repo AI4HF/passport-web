@@ -4,3 +4,16 @@
 .rounded-border {
   border-radius: 2rem;
 }
+
+.badge-selected {
+  background-color: var(--primary-color); // Bootstrap primary
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 1rem;
+}
+
+.active-study-row {
+  background-color: #e3f2fd !important;
+  border-left: 5px solid var(--primary-color);
+}
