@@ -11,7 +11,8 @@
                    pInputText
                    placeholder="{{'StudyManagement.Experiment.Research Question' | translate}}"
                    formControlName="researchQuestion"
-                   class="form-control w-full">
+                   class="form-control w-full"
+                   [disabled]="viewMode">
         </div>
         <div class="flex align-items-center">
             <button pButton pRipple
