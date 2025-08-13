@@ -23,7 +23,8 @@
             optionValue="populationId"
             [(ngModel)]="selectedPopulationId"
             [style]="{ 'minWidth': '100%', 'margin-bottom': '1rem' }"
-            placeholder="{{ 'StudyManagement.Personnel.Select a Population' | translate }}">
+            placeholder="{{ 'StudyManagement.Personnel.Select a Population' | translate }}"
+            [disabled]="formDisabled || viewMode">
     </p-dropdown>
 
     <p *ngIf="!formDisabled" class="flex align-items-center">
@@ -37,13 +38,13 @@
             optionLabel="firstName"
             optionValue="personId"
             [showClear]="true"
-            [disabled]="formDisabled"
+            [disabled]="formDisabled || viewMode"
             [style]="{'minWidth':'100%', 'margin-bottom': '1rem'}"
             placeholder="{{'StudyManagement.Personnel.Select a responsible personnel' | translate}}">
     </p-dropdown>
 
     <!-- Roles Checkboxes -->
-    <div *ngIf="!formDisabled" class="checkbox-grid">
+    <div *ngIf="!formDisabled && !viewMode" class="checkbox-grid">
         <div *ngFor="let role of roles" class="field-checkbox">
             <p-checkbox
                     [(ngModel)]="selectedRoles"
@@ -55,7 +56,7 @@
         </div>
     </div>
 
-    <div *ngIf="!formDisabled" class="justify-content-end align-content-end">
+    <div *ngIf="!formDisabled && !viewMode" class="justify-content-end align-content-end">
         <button pButton pRipple
                 type="button"
                 label="{{'Save' | translate}}"
@@ -90,7 +91,8 @@
                                     [value]="role.value"
                                     [binary]="true"
                                     [ngModel]="personnelRoleMap.get(personnel.personId)?.includes(role.value)"
-                                    (ngModelChange)="onRoleChange(personnel, role.value, $event)">
+                                    (ngModelChange)="onRoleChange(personnel, role.value, $event)"
+                                    [disabled]="viewMode">
                             </p-checkbox>
                         </div>
                     </td>

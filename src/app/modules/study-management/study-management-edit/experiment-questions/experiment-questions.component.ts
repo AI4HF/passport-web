@@ -109,7 +109,9 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
     this.researchQuestionForm = new FormGroup({
       researchQuestion: new FormControl('', Validators.required)
     });
-
+    if (this.viewMode) {
+      this.researchQuestionForm.get('researchQuestion')?.disable({ emitEvent: false });
+    }
   }
 
   /**

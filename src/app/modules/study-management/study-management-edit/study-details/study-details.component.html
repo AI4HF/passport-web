@@ -14,7 +14,8 @@
                        pInputText
                        placeholder="{{'StudyManagement.Name' | translate}}"
                        formControlName="name"
-                       class="form-control">
+                       class="form-control"
+                       [readonly]="viewMode">
             </div>
 
             <!-- Description -->
@@ -30,7 +31,8 @@
                        pInputText
                        placeholder="{{'StudyManagement.Description' | translate}}"
                        formControlName="description"
-                       class="form-control">
+                       class="form-control"
+                       [readonly]="viewMode">
             </div>
 
             <!-- Objectives -->
@@ -46,7 +48,8 @@
                        pInputText
                        placeholder="{{'StudyManagement.Objectives' | translate}}"
                        formControlName="objectives"
-                       class="form-control">
+                       class="form-control"
+                       [readonly]="viewMode">
             </div>
 
             <!-- Ethics -->
@@ -62,7 +65,8 @@
                        pInputText
                        placeholder="{{'StudyManagement.Ethics' | translate}}"
                        formControlName="ethics"
-                       class="form-control">
+                       class="form-control"
+                       [readonly]="viewMode">
             </div>
         </div>
 
