@@ -8,7 +8,6 @@
     align-items: center;
     justify-content: space-between;
     padding-bottom: 1rem;
-    border-bottom: 2px solid #e57373;
 
     .logo-section img {
       max-height: 50px;
@@ -45,30 +44,33 @@
     }
 
     .section-content {
-      .row {
-        margin-bottom: 1rem; /* Increased margin between rows */
+      .attribute-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 6pt;
+      }
 
-        .col-12 {
-          display: flex;
-          justify-content: space-between;
-          padding: 0.75rem 0; /* Added padding for better alignment */
+      .attribute-table td {
+        padding: 3pt 0;
+        border-bottom: 0.5pt solid #eee;
+        vertical-align: baseline;
+      }
 
-          .attribute-title {
-            font-weight: bold;
-            color: #616161;
-            font-family: 'Anybody', sans-serif; /* Applied Anybody font */
-          }
+      .attribute-title {
+        font-weight: 600;
+        color: #333333;
+        width: 40%;
+        text-align: left;
+      }
 
-          .attribute-value {
-            color: #424242;
-            text-align: right;
-            padding-left: 2rem; /* Added padding for better alignment */
-            font-family: 'Anybody', sans-serif; /* Applied Anybody font */
-            font-weight: 400; /* Anybody Regular */
-          }
-        }
+      .attribute-value {
+        color: #333333;
+        text-align: right;
+        width: 60%;
+        white-space: nowrap;
       }
     }
+
   }
 
   p-table {
@@ -108,4 +110,19 @@
   .export-button {
     float: right;
   }
+}
+
+.passport-header-title {
+  color: #E57373;
+  font-weight: 700;
+  font-size: 18pt;
+  margin: 0;
+  text-align: right;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  letter-spacing: -0.25pt;
+}
+
+.passport-divider {
+  border-top: 3pt solid #E57373;
+  margin: 8pt 0 16pt 0;
 }

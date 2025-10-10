@@ -2,39 +2,42 @@
           header="{{ 'PassportManagement.PDF Preview' | translate }}" styleClass="small-preview-dialog">
     <div class="page-preview-container" id="pdfPreviewContainer">
         <div class="pdf-container">
-            <div class="pdf-header">
-                <div class="logo-section">
-                    <img src="favicon.ico" alt="Logo">
-                </div>
-                <div class="title-section">
-                    <h2 class="pdf-title">{{ 'PassportManagement.AI4HF Product Passport' | translate }}</h2>
-                </div>
+            <div class="passport-header">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="width: 40pt; vertical-align: middle;">
+                            <img src="favicon.ico" alt="Logo" style="width: 32pt; height: 32pt;">
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <h2 class="passport-header-title">{{ 'PassportManagement.AI4HF Product Passport' | translate }}</h2>
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <div class="top-decoration"></div>
+
 
             <!-- Model Details Section -->
             <div *ngIf="modelDetails" class="section">
                 <div class="section-title">{{ 'PassportManagement.Model Details' | translate }}</div>
                 <div class="section-content">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Model Name' | translate }}</div>
-                            <div class="attribute-value">{{ modelDetails?.name }}</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Model Version' | translate }}</div>
-                            <div class="attribute-value">{{ modelDetails?.version }}</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Model Type' | translate }}</div>
-                            <div class="attribute-value">{{ modelDetails?.modelType }}</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Product Identifier' | translate }}</div>
-                            <div class="attribute-value">{{ modelDetails?.productIdentifier }}</div>
-                        </div>
-                        <!-- Add more fields as needed -->
-                    </div>
+                    <table class="attribute-table">
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Model Name' | translate }}</td>
+                            <td class="attribute-value">{{ modelDetails?.name }}</td>
+                        </tr>
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Model Version' | translate }}</td>
+                            <td class="attribute-value">{{ modelDetails?.version }}</td>
+                        </tr>
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Model Type' | translate }}</td>
+                            <td class="attribute-value">{{ modelDetails?.modelType }}</td>
+                        </tr>
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Product Identifier' | translate }}</td>
+                            <td class="attribute-value">{{ modelDetails?.productIdentifier }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
@@ -42,21 +45,20 @@
             <div *ngIf="deploymentDetails" class="section">
                 <div class="section-title">{{ 'PassportManagement.Model Deployment Details' | translate }}</div>
                 <div class="section-content">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Deployment Tags' | translate }}</div>
-                            <div class="attribute-value">{{ deploymentDetails?.tags }}</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Deployment Status' | translate }}</div>
-                            <div class="attribute-value">{{ deploymentDetails?.status }}</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Identified Failures' | translate }}</div>
-                            <div class="attribute-value">{{ deploymentDetails?.identifiedFailures }}</div>
-                        </div>
-                        <!-- Add more fields as needed -->
-                    </div>
+                    <table class="attribute-table">
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Deployment Tags' | translate }}</td>
+                            <td class="attribute-value">{{ deploymentDetails?.tags }}</td>
+                        </tr>
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Deployment Status' | translate }}</td>
+                            <td class="attribute-value">{{ deploymentDetails?.status }}</td>
+                        </tr>
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Identified Failures' | translate }}</td>
+                            <td class="attribute-value">{{ deploymentDetails?.identifiedFailures }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
@@ -64,28 +66,28 @@
             <div *ngIf="environmentDetails" class="section">
                 <div class="section-title">{{ 'PassportManagement.Environment Details' | translate }}</div>
                 <div class="section-content">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Environment Title' | translate }}</div>
-                            <div class="attribute-value">{{ environmentDetails?.title }}</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Environment Description' | translate }}</div>
-                            <div class="attribute-value">{{ environmentDetails?.description }}</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Hardware Properties' | translate }}</div>
-                            <div class="attribute-value">{{ environmentDetails?.hardwareProperties }}</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Software Properties' | translate }}</div>
-                            <div class="attribute-value">{{ environmentDetails?.softwareProperties }}</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Connectivity Details' | translate }}</div>
-                            <div class="attribute-value">{{ environmentDetails?.connectivityDetails }}</div>
-                        </div>
-                    </div>
+                    <table class="attribute-table">
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Environment Title' | translate }}</td>
+                            <td class="attribute-value">{{ environmentDetails?.title }}</td>
+                        </tr>
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Environment Description' | translate }}</td>
+                            <td class="attribute-value">{{ environmentDetails?.description }}</td>
+                        </tr>
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Hardware Properties' | translate }}</td>
+                            <td class="attribute-value">{{ environmentDetails?.hardwareProperties }}</td>
+                        </tr>
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Software Properties' | translate }}</td>
+                            <td class="attribute-value">{{ environmentDetails?.softwareProperties }}</td>
+                        </tr>
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Connectivity Details' | translate }}</td>
+                            <td class="attribute-value">{{ environmentDetails?.connectivityDetails }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
@@ -320,24 +322,24 @@
             <div *ngIf="studyDetails" class="section">
                 <div class="section-title">{{ 'PassportManagement.Study Details' | translate }}</div>
                 <div class="section-content">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Study Name' | translate }}</div>
-                            <div class="attribute-value">{{ studyDetails?.name }}</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Study Description' | translate }}</div>
-                            <div class="attribute-value">{{ studyDetails?.description }}</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Study Ethics' | translate }}</div>
-                            <div class="attribute-value">{{ studyDetails?.ethics }}</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="attribute-title">{{ 'PassportManagement.Study Objectives' | translate }}</div>
-                            <div class="attribute-value">{{ studyDetails?.objectives }}</div>
-                        </div>
-                    </div>
+                    <table class="attribute-table">
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Study Name' | translate }}</td>
+                            <td class="attribute-value">{{ studyDetails?.name }}</td>
+                        </tr>
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Study Description' | translate }}</td>
+                            <td class="attribute-value">{{ studyDetails?.description }}</td>
+                        </tr>
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Study Ethics' | translate }}</td>
+                            <td class="attribute-value">{{ studyDetails?.ethics }}</td>
+                        </tr>
+                        <tr>
+                            <td class="attribute-title">{{ 'PassportManagement.Study Objectives' | translate }}</td>
+                            <td class="attribute-value">{{ studyDetails?.objectives }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -347,6 +349,13 @@
     <div class="ui-dialog-footer flex justify-content-between">
         <button (click)="closeDialog()" icon="pi pi-times" label="{{ 'PassportManagement.CANCEL' | translate }}"
                 pButton type="button"></button>
-        <button (click)="generatePdf()" icon="pi pi-check" label="{{ 'PassportManagement.EXPORT' | translate }}" pButton type="button"></button>
+        <div class="flex gap-2">
+            <button (click)="generateDocx()" icon="pi pi-file-word"
+                    label="{{ 'PassportManagement.EXPORT AS DOCX' | translate }}"
+                    pButton type="button"></button>
+            <button (click)="generatePdf()" icon="pi pi-file-pdf"
+                    label="{{ 'PassportManagement.EXPORT AS PDF' | translate }}"
+                    pButton type="button"></button>
+        </div>
     </div>
 </p-dialog>
