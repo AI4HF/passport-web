@@ -57,6 +57,11 @@ export class PassportDetailsSelection{
      */
     studyDetails: boolean;
 
+    /**
+     * Whether include evaluation measures
+     */
+    evaluationMeasures: boolean;
+
 
     constructor(data: any) {
 
@@ -75,6 +80,7 @@ export class PassportDetailsSelection{
         this.experimentDetails = data.experimentDetails;
         this.surveyDetails = data.surveyDetails;
         this.studyDetails = data.studyDetails;
+        this.evaluationMeasures = data.evaluationMeasures;
 
     }
 }

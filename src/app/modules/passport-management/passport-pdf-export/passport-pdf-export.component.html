@@ -342,6 +342,29 @@
                     </table>
                 </div>
             </div>
+
+            <!--Evaluation Measure Section -->
+            <div *ngIf="evaluationMeasures.length" class="section">
+                <div class="section-title">{{ 'PassportManagement.Evaluation Measures' | translate }}</div>
+                <p-table [value]="evaluationMeasures" class="survey-table">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{ 'PassportManagement.Name' | translate }}</th>
+                            <th>{{ 'PassportManagement.Data Type' | translate }}</th>
+                            <th>{{ 'PassportManagement.Value' | translate }}</th>
+                            <th>{{ 'PassportManagement.Description' | translate }}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-evaluationMeasure>
+                        <tr>
+                            <td>{{ evaluationMeasure.name }}</td>
+                            <td>{{ evaluationMeasure.dataType }}</td>
+                            <td>{{ evaluationMeasure.value }}</td>
+                            <td>{{ evaluationMeasure.description }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
         </div>
 
     </div>

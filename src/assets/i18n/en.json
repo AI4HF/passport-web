@@ -518,7 +518,12 @@
     "LearningStage Dataset Percentage": "Dataset Percentage",
     "Survey Question": "Survey Question",
     "Survey Answer": "Answer",
-    "Survey Category": "Question Category"
+    "Survey Category": "Question Category",
+    "Evaluation Measures": "Evaluation Measures",
+    "Name": "Name",
+    "Data Type": "Data Type",
+    "Value": "Value",
+    "Description": "Description"
   },
   "LearningProcessManagement": {
     "EmptyAlgorithmMessage": "No matching Algorithms. Create new Algorithm with the given name.",

@@ -13,6 +13,7 @@ import { FeatureSetWithFeaturesDTO } from '../../../shared/models/featureSetWith
 import { LearningProcessWithStagesDTO } from '../../../shared/models/learningProcessWithStagesDTO.model';
 import * as FileSaver from 'file-saver';
 import {BaseComponent} from "../../../shared/components/base.component";
+import {EvaluationMeasure} from "../../../shared/models/evaluationMeasure.model";
 
 /**
  * Component responsible for generating and exporting the passport PDF.
@@ -45,6 +46,8 @@ export class PdfExportComponent extends BaseComponent{
     @Input() featureSetsWithFeatures: FeatureSetWithFeaturesDTO[] = [];
     /** Learning processes with stages to be included in the PDF */
     @Input() learningProcessesWithStages: LearningProcessWithStagesDTO[] = [];
+    /** Evaluation Measures to be included in the PDF */
+    @Input() evaluationMeasures: EvaluationMeasure[] = [];
 
     /** Flag to control the visibility of the PDF preview */
     display: boolean = true;
