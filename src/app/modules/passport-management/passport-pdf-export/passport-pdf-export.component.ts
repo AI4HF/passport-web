@@ -72,11 +72,11 @@ export class PdfExportComponent extends BaseComponent{
             filename:     'Passport.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  {
-                scale: 2,
+                width: 1200,
                 scrollY: 0,
                 useCORS: true
             },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            jsPDF:        { unit: 'mm', format: 'a2', orientation: 'portrait' }
         };
 
         html2pdf().set(opt).from(dataElement).outputPdf('blob').then((pdfBlob: Blob) => {

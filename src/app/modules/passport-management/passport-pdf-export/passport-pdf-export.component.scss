@@ -30,8 +30,8 @@
   .section {
     margin-bottom: 2.5rem;
     margin-top: 2.5rem;
-    page-break-inside: avoid;
-    break-inside: avoid;
+    page-break-inside: auto;
+    break-inside: auto;
 
     .section-title {
       font-size: 1.75rem; /* Slightly larger font size for titles */
