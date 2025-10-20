@@ -132,52 +132,6 @@
                 </div>
             </div>
 
-            <!-- Datasets Section -->
-            <div *ngIf="datasetsWithLearningDatasets.length" class="section">
-                <div class="section-title">{{ 'PassportManagement.Datasets' | translate }}</div>
-                <p-table [value]="datasetsWithLearningDatasets" class="datasets-table">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th>{{ 'PassportManagement.Dataset Title' | translate }}</th>
-                            <th>{{ 'PassportManagement.Dataset Description' | translate }}</th>
-                            <th>{{ 'PassportManagement.Dataset Version' | translate }}</th>
-                            <th>{{ 'PassportManagement.Dataset Reference Entity' | translate }}</th>
-                            <th>{{ 'PassportManagement.Dataset Number of Records' | translate }}</th>
-                            <th>{{ 'PassportManagement.Dataset Synthetic' | translate }}</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template let-datasetWithLearningDatasets pTemplate="body">
-                        <tr>
-                            <td>{{ datasetWithLearningDatasets.dataset.title }}</td>
-                            <td>{{ datasetWithLearningDatasets.dataset.description }}</td>
-                            <td>{{ datasetWithLearningDatasets.dataset.version }}</td>
-                            <td>{{ datasetWithLearningDatasets.dataset.referenceEntity }}</td>
-                            <td>{{ datasetWithLearningDatasets.dataset.numOfRecords }}</td>
-                            <td>{{ datasetWithLearningDatasets.dataset.synthetic ? 'Yes' : 'No' }}</td>
-                        </tr>
-                        <!-- Nested Learning Datasets Table -->
-                        <tr>
-                            <td colspan="6">
-                                <p-table [value]="datasetWithLearningDatasets.learningDatasets"
-                                         class="learning-datasets-table">
-                                    <ng-template pTemplate="header">
-                                        <tr>
-                                            <th>{{ 'PassportManagement.LearningDataset Description' | translate }}</th>
-                                        </tr>
-                                    </ng-template>
-                                    <ng-template let-learningDataset pTemplate="body">
-                                        <tr>
-                                            <td>{{ learningDataset.description }}</td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
-                            </td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-            </div>
-
-
             <!-- Feature Sets Section -->
             <div *ngIf="featureSetsWithFeatures.length" class="section">
                 <div class="section-title">{{ 'PassportManagement.Feature Sets' | translate }}</div>
@@ -231,6 +185,51 @@
                                             <td>{{ feature.units }}</td>
                                             <td>{{ feature.equipment }}</td>
                                             <td>{{ feature.dataCollection }}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+            <!-- Datasets Section -->
+            <div *ngIf="datasetsWithLearningDatasets.length" class="section">
+                <div class="section-title">{{ 'PassportManagement.Datasets' | translate }}</div>
+                <p-table [value]="datasetsWithLearningDatasets" class="datasets-table">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{ 'PassportManagement.Dataset Title' | translate }}</th>
+                            <th>{{ 'PassportManagement.Dataset Description' | translate }}</th>
+                            <th>{{ 'PassportManagement.Dataset Version' | translate }}</th>
+                            <th>{{ 'PassportManagement.Dataset Reference Entity' | translate }}</th>
+                            <th>{{ 'PassportManagement.Dataset Number of Records' | translate }}</th>
+                            <th>{{ 'PassportManagement.Dataset Synthetic' | translate }}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template let-datasetWithLearningDatasets pTemplate="body">
+                        <tr>
+                            <td>{{ datasetWithLearningDatasets.dataset.title }}</td>
+                            <td>{{ datasetWithLearningDatasets.dataset.description }}</td>
+                            <td>{{ datasetWithLearningDatasets.dataset.version }}</td>
+                            <td>{{ datasetWithLearningDatasets.dataset.referenceEntity }}</td>
+                            <td>{{ datasetWithLearningDatasets.dataset.numOfRecords }}</td>
+                            <td>{{ datasetWithLearningDatasets.dataset.synthetic ? 'Yes' : 'No' }}</td>
+                        </tr>
+                        <!-- Nested Learning Datasets Table -->
+                        <tr>
+                            <td colspan="6">
+                                <p-table [value]="datasetWithLearningDatasets.learningDatasets"
+                                         class="learning-datasets-table">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>{{ 'PassportManagement.LearningDataset Description' | translate }}</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template let-learningDataset pTemplate="body">
+                                        <tr>
+                                            <td>{{ learningDataset.description }}</td>
                                         </tr>
                                     </ng-template>
                                 </p-table>
