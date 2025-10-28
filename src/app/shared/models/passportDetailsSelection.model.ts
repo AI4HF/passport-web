@@ -62,6 +62,11 @@ export class PassportDetailsSelection{
      */
     evaluationMeasures: boolean;
 
+    /**
+     * Whether clear empty fields or not
+     */
+    excludeEmptyFields: boolean;
+
 
     constructor(data: any) {
 
@@ -81,6 +86,7 @@ export class PassportDetailsSelection{
         this.surveyDetails = data.surveyDetails;
         this.studyDetails = data.studyDetails;
         this.evaluationMeasures = data.evaluationMeasures;
+        this.excludeEmptyFields = data.excludeEmptyFields;
 
     }
 }
