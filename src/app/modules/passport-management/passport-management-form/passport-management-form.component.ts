@@ -64,6 +64,7 @@ export class PassportManagementFormComponent extends BaseComponent implements On
             surveyDetails: new FormControl(true, Validators.required),
             studyDetails: new FormControl(true, Validators.required),
             evaluationMeasures: new FormControl(true, Validators.required),
+            modelFigures: new FormControl(true, Validators.required),
             excludeEmptyFields: new FormControl(true, Validators.required)
         });
         this.display = true;

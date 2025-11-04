@@ -407,6 +407,31 @@
                     </ng-template>
                 </p-table>
             </div>
+            <!-- Model Figures Section -->
+            <div *ngIf="modelFigures?.length" class="section">
+                <div class="section-title">
+                    {{ 'PassportManagement.Model Figures' | translate }}
+                </div>
+
+                <div class="grid">
+                    <div
+                            class="col-12 md:col-6 lg:col-4"
+                            *ngFor="let figure of modelFigures; let i = index"
+                    >
+                        <div class="card shadow-1 p-2 border-round-sm text-center">
+                            <img
+                                    [src]="'data:image/png;base64,' + figure.imageBase64"
+                                    alt="Model Figure {{ i + 1 }}"
+                                    class="w-full border-round-md"
+                                    style="object-fit: contain; max-height: 250px;"
+                            />
+                            <p class="text-700 mt-2 font-medium">
+                                {{ 'PassportManagement.Figure' | translate }} {{ i + 1 }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>

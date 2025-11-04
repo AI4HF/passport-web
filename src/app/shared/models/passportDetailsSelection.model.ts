@@ -63,6 +63,11 @@ export class PassportDetailsSelection{
     evaluationMeasures: boolean;
 
     /**
+     * Whether include model figures
+     */
+    modelFigures: boolean;
+
+    /**
      * Whether clear empty fields or not
      */
     excludeEmptyFields: boolean;
@@ -87,6 +92,7 @@ export class PassportDetailsSelection{
         this.studyDetails = data.studyDetails;
         this.evaluationMeasures = data.evaluationMeasures;
         this.excludeEmptyFields = data.excludeEmptyFields;
+        this.modelFigures = data.modelFigures;
 
     }
 }

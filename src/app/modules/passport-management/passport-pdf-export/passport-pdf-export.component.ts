@@ -14,6 +14,7 @@ import { LearningProcessWithStagesDTO } from '../../../shared/models/learningPro
 import * as FileSaver from 'file-saver';
 import {BaseComponent} from "../../../shared/components/base.component";
 import {EvaluationMeasure} from "../../../shared/models/evaluationMeasure.model";
+import {ModelFigure} from "../../../shared/models/modelFigure.model";
 
 /**
  * Component responsible for generating and exporting the passport PDF.
@@ -48,6 +49,8 @@ export class PdfExportComponent extends BaseComponent{
     @Input() learningProcessesWithStages: LearningProcessWithStagesDTO[] = [];
     /** Evaluation Measures to be included in the PDF */
     @Input() evaluationMeasures: EvaluationMeasure[] = [];
+    /** Model Figures to be included in the PDF */
+    @Input() modelFigures: ModelFigure[] = [];
 
     /** Flag to control the visibility of the PDF preview */
     display: boolean = true;

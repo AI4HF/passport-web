@@ -526,7 +526,9 @@
     "Name": "Name",
     "Data Type": "Data Type",
     "Value": "Value",
-    "Description": "Description"
+    "Description": "Description",
+    "Model Figures": "Model Figures",
+    "Figure": "Figure"
   },
   "LearningProcessManagement": {
     "EmptyAlgorithmMessage": "No matching Algorithms. Create new Algorithm with the given name.",
