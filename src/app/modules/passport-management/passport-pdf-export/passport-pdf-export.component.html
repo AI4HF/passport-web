@@ -391,7 +391,7 @@
                 <p-table [value]="evaluationMeasures" class="survey-table">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th *ngIf="evaluationMeasures | hasAnyValue: 'name'">{{ 'PassportManagement.Survey Question' | translate }}>{{ 'PassportManagement.Name' | translate }}</th>
+                            <th *ngIf="evaluationMeasures | hasAnyValue: 'name'">{{ 'PassportManagement.Name' | translate }}</th>
                             <th *ngIf="evaluationMeasures | hasAnyValue: 'dataType'">{{ 'PassportManagement.Data Type' | translate }}</th>
                             <th *ngIf="evaluationMeasures | hasAnyValue: 'value'">{{ 'PassportManagement.Value' | translate }}</th>
                             <th *ngIf="evaluationMeasures | hasAnyValue: 'description'">{{ 'PassportManagement.Description' | translate }}</th>
@@ -399,10 +399,10 @@
                     </ng-template>
                     <ng-template let-evaluationMeasure pTemplate="body">
                         <tr>
-                            <td *ngIf="evaluationMeasures | hasAnyValue: 'name'">{{ 'PassportManagement.Survey Question' | translate }}>{{ evaluationMeasure.name }}</td>
-                            <td *ngIf="evaluationMeasures | hasAnyValue: 'dataType'">{{ 'PassportManagement.Survey Question' | translate }}>{{ evaluationMeasure.dataType }}</td>
-                            <td *ngIf="evaluationMeasures | hasAnyValue: 'value'">{{ 'PassportManagement.Survey Question' | translate }}>{{ evaluationMeasure.value }}</td>
-                            <td *ngIf="evaluationMeasures | hasAnyValue: 'description'">{{ 'PassportManagement.Survey Question' | translate }}>{{ evaluationMeasure.description }}</td>
+                            <td *ngIf="evaluationMeasures | hasAnyValue: 'name'">{{ evaluationMeasure.name }}</td>
+                            <td *ngIf="evaluationMeasures | hasAnyValue: 'dataType'">{{ evaluationMeasure.dataType }}</td>
+                            <td *ngIf="evaluationMeasures | hasAnyValue: 'value'">{{ evaluationMeasure.value }}</td>
+                            <td *ngIf="evaluationMeasures | hasAnyValue: 'description'">{{ evaluationMeasure.description }}</td>
                         </tr>
                     </ng-template>
                 </p-table>
