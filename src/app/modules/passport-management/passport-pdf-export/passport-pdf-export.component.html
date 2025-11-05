@@ -399,7 +399,7 @@
                     </ng-template>
                     <ng-template let-evaluationMeasure pTemplate="body">
                         <tr>
-                            <td *ngIf="evaluationMeasures | hasAnyValue: 'name'">{{ evaluationMeasure.name }}</td>
+                            <td *ngIf="evaluationMeasures | hasAnyValue: 'name'"><a href="http://www.google.com">{{ evaluationMeasure.name }}</a></td>
                             <td *ngIf="evaluationMeasures | hasAnyValue: 'dataType'">{{ evaluationMeasure.dataType }}</td>
                             <td *ngIf="evaluationMeasures | hasAnyValue: 'value'">{{ evaluationMeasure.value }}</td>
                             <td *ngIf="evaluationMeasures | hasAnyValue: 'description'">{{ evaluationMeasure.description }}</td>
@@ -416,18 +416,14 @@
                 <div class="grid">
                     <div
                             class="col-12 md:col-6 lg:col-4"
-                            *ngFor="let figure of modelFigures; let i = index"
+                            *ngFor="let figure of modelFigures"
                     >
                         <div class="card shadow-1 p-2 border-round-sm text-center">
                             <img
                                     [src]="'data:image/png;base64,' + figure.imageBase64"
-                                    alt="Model Figure {{ i + 1 }}"
                                     class="w-full border-round-md"
                                     style="object-fit: contain; max-height: 250px;"
                             />
-                            <p class="text-700 mt-2 font-medium">
-                                {{ 'PassportManagement.Figure' | translate }} {{ i + 1 }}
-                            </p>
                         </div>
                     </div>
                 </div>
