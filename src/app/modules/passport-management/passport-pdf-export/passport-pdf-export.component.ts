@@ -13,6 +13,8 @@ import { FeatureSetWithFeaturesDTO } from '../../../shared/models/featureSetWith
 import { LearningProcessWithStagesDTO } from '../../../shared/models/learningProcessWithStagesDTO.model';
 import * as FileSaver from 'file-saver';
 import {BaseComponent} from "../../../shared/components/base.component";
+import {EvaluationMeasure} from "../../../shared/models/evaluationMeasure.model";
+import {ModelFigure} from "../../../shared/models/modelFigure.model";
 
 /**
  * Component responsible for generating and exporting the passport PDF.
@@ -45,6 +47,10 @@ export class PdfExportComponent extends BaseComponent{
     @Input() featureSetsWithFeatures: FeatureSetWithFeaturesDTO[] = [];
     /** Learning processes with stages to be included in the PDF */
     @Input() learningProcessesWithStages: LearningProcessWithStagesDTO[] = [];
+    /** Evaluation Measures to be included in the PDF */
+    @Input() evaluationMeasures: EvaluationMeasure[] = [];
+    /** Model Figures to be included in the PDF */
+    @Input() modelFigures: ModelFigure[] = [];
 
     /** Flag to control the visibility of the PDF preview */
     display: boolean = true;
@@ -69,11 +75,11 @@ export class PdfExportComponent extends BaseComponent{
             filename:     'Passport.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  {
-                scale: 2,
+                width: 1200,
                 scrollY: 0,
                 useCORS: true
             },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            jsPDF:        { unit: 'mm', format: 'a2', orientation: 'portrait' }
         };
 
         html2pdf().set(opt).from(dataElement).outputPdf('blob').then((pdfBlob: Blob) => {

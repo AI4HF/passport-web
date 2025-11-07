@@ -5,6 +5,7 @@ import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { TranslateModule } from '@ngx-translate/core';
 import {ButtonModule} from "primeng/button";
+import {SharedModule} from "../../../shared/shared.module";
 
 @NgModule({
     declarations: [PdfExportComponent],
@@ -13,7 +14,8 @@ import {ButtonModule} from "primeng/button";
         DialogModule,
         TableModule,
         TranslateModule,
-        ButtonModule
+        ButtonModule,
+        SharedModule
     ],
     exports: [PdfExportComponent]
 })

@@ -12,6 +12,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {PassportManagementFormComponent} from "./passport-management-form.component";
 import {StudyDetailsModule} from "../../study-management/study-management-edit/study-details/study-details.module";
 import {CheckboxModule} from "primeng/checkbox";
+import {DividerModule} from "primeng/divider";
 
 
 
@@ -29,7 +30,8 @@ import {CheckboxModule} from "primeng/checkbox";
         ReactiveFormsModule,
         TranslateModule,
         StudyDetailsModule,
-        CheckboxModule
+        CheckboxModule,
+        DividerModule
     ],
     exports: [PassportManagementFormComponent]
 })

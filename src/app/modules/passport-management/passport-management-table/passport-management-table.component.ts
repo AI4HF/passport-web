@@ -15,6 +15,8 @@ import { PassportDetailsDTO } from "../../../shared/models/passportDetails.model
 import { LearningProcessWithStagesDTO } from "../../../shared/models/learningProcessWithStagesDTO.model";
 import { DatasetWithLearningDatasetsDTO } from "../../../shared/models/datasetWithLearningDatasetsDTO.model";
 import { FeatureSetWithFeaturesDTO } from "../../../shared/models/featureSetWithFeaturesDTO.model";
+import {EvaluationMeasure} from "../../../shared/models/evaluationMeasure.model";
+import {ModelFigure} from "../../../shared/models/modelFigure.model";
 
 /**
  * Component for managing and displaying the list of passports.
@@ -42,6 +44,8 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   deploymentDetails: ModelDeployment | null = null;
   /** Environment details for the selected passport */
   environmentDetails: DeploymentEnvironment | null = null;
+  /** Evaluation Measures for the selected passport */
+  evaluationMeasures: EvaluationMeasure[]  = [];
   /** Model details for the selected passport */
   modelDetails: Model | null = null;
   /** Study details for the selected passport */
@@ -52,6 +56,8 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   populationDetails: Population[] = [];
   /** Experiment details related to the selected passport */
   experiments: Experiment[] = [];
+  /** Model Figures related to the selected passport */
+  modelFigures: ModelFigure[] = [];
   /** Survey details related to the selected passport */
   surveys: Survey[] = [];
   /** Datasets with associated learning datasets for the selected passport */
@@ -204,6 +210,8 @@ export class PassportManagementTableComponent extends BaseComponent implements O
         this.datasetsWithLearningDatasets = details.datasetsWithLearningDatasets || [];
         this.featureSetsWithFeatures = details.featureSetsWithFeatures || [];
         this.learningProcessesWithStages = details.learningProcessesWithStages || [];
+        this.evaluationMeasures = details.evaluationMeasures || [];
+        this.modelFigures = details.modelFigures || [];
       },
       error: error => {
         this.translateService.get('Error').subscribe(translation => {
