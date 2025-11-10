@@ -8,6 +8,7 @@ import {ExperimentQuestionsComponent} from "./experiment-questions/experiment-qu
 import {SurveyInspectionComponent} from "./survey-inspection/survey-inspection.component";
 import {studyDetailsGuard } from "../../../core/guards/study-details.guard"
 import {PopulationGuard} from "../../../core/guards/population-details.guard";
+import {StaticArticlesComponent} from "./static-articles/static-articles.component";
 
 
 const routes: Routes = [
@@ -36,6 +37,11 @@ const routes: Routes = [
             {
                 path: 'experiment-questions',
                 component: ExperimentQuestionsComponent,
+                canActivate: [studyDetailsGuard]
+            },
+            {
+                path: 'static-articles',
+                component: StaticArticlesComponent,
                 canActivate: [studyDetailsGuard]
             },
             {

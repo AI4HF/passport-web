@@ -39,6 +39,7 @@
     "Population Details": "Population Details",
     "Personnel Assignment": "Personnel Assignment",
     "Experiment Questions": "Experiment Questions",
+    "Static Articles": "Static Articles",
     "Survey Inspection": "Survey Inspection",
     "Study is updated successfully": "Study is updated successfully",
     "Study is created successfully": "Study is created successfully",
@@ -82,6 +83,11 @@
       "Research Question": "Research Question",
       "Please add research question": "Please add research question...",
       "Experiments are assigned successfully": "Experiments are assigned successfully"
+    },
+    "StaticArticle": {
+      "URL": "Article URL",
+      "Please add url": "Please add article url...",
+      "Static articles are assigned successfully": "Static articles are assigned successfully"
     },
     "Survey": {
       "Question": "Question",
@@ -608,7 +614,8 @@
       "ResponsibleOrganizationTooltip": "Organization from which the personnel will be assigned to this study.",
       "ResponsiblePersonnelTooltip": "Personnel who will be responsible for the role assignments to the study from the chosen organization.",
       "ResearchQuestionTooltip": "Research question of the Experiment to be created in connection to this Study.",
-      "PopulationTooltip": "Population on which the associated organization will work on."
+      "PopulationTooltip": "Population on which the associated organization will work on.",
+      "StaticArticleTooltip": "Add URLs of static articles relevant to this study."
     },
     "FeatureManagement": {
       "FeatureSetDetailsTooltip": "Base Feature Set details of the set to which the following Features are to be assigned to.",

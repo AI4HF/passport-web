@@ -53,7 +53,7 @@ export class SurveyInspectionComponent extends BaseComponent implements OnInit {
    * Back to experiment questions menu
    */
   back(){
-    this.router.navigate([`../experiment-questions`], {relativeTo: this.route, queryParams: this.route.snapshot.queryParams});
+    this.router.navigate([`../static-articles`], {relativeTo: this.route, queryParams: this.route.snapshot.queryParams});
   }
 
   /**
