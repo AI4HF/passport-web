@@ -430,7 +430,6 @@ export class PdfExportComponent extends BaseComponent{
      * Closes the PDF preview dialog and emits the `pdfPreviewClosed` event.
      */
     closeDialog() {
-        console.log(this.datasetsWithLearningDatasets);
         this.pdfPreviewClosed.emit();
     }
 }
