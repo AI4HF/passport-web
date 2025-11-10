@@ -18,12 +18,22 @@ export class HasAnyValuePipe implements PipeTransform {
         if (!Array.isArray(items) || items.length === 0) return false;
         const fieldList = Array.isArray(fields) ? fields : [fields];
 
-        const getByPath = (obj: any, path: string) =>
-            path.split('.').reduce((acc, key) => (acc == null ? undefined : acc[key]), obj);
+        const getByPath = (obj: any, path: string): any => {
+            if (obj == null) return undefined;
+            const [head, ...rest] = path.split('.');
+            const val = obj[head];
+            if (rest.length === 0) return val;
+            // Recursive call if val is an array
+            if (Array.isArray(val)) {
+                return val.some(v => getByPath(v, rest.join('.')) !== undefined);
+            }
+            return getByPath(val, rest.join('.'));
+        };
 
         return items.some(item =>
             fieldList.some(path => {
                 const val = getByPath(item, path);
+                if (Array.isArray(val)) return val.length > 0;
                 return val !== null && val !== undefined && String(val).trim().length > 0;
             })
         );

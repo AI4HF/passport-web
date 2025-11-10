@@ -94,7 +94,9 @@ export class PdfExportComponent extends BaseComponent{
                     const downloadUrl = URL.createObjectURL(signedPdfBlob);
                     const link = document.createElement('a');
                     link.href = downloadUrl;
-                    link.download = 'Passport_signed.pdf';
+                    const today = new Date();
+                    const formattedDate = today.toISOString().slice(0,10).replace(/-/g, '');
+                    link.download = `${this.studyDetails.name}_Passport_${formattedDate}.pdf`;
                     link.click();
                     URL.revokeObjectURL(downloadUrl);
                     this.closeDialog();
@@ -415,7 +417,9 @@ export class PdfExportComponent extends BaseComponent{
         try {
             // Use the global htmlDocx
             const blob = htmlDocx.asBlob(html);
-            FileSaver.saveAs(blob, 'Passport.docx');
+            const today = new Date();
+            const formattedDate = today.toISOString().slice(0,10).replace(/-/g, '');
+            FileSaver.saveAs(blob, `${this.studyDetails.name}_Passport_${formattedDate}.docx`);
             this.closeDialog();
         } catch (e) {
             console.error('Error generating DOCX:', e);
