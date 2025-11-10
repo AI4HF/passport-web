@@ -218,7 +218,7 @@
                             <td *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.synthetic'">{{ datasetWithLearningDatasets.dataset.synthetic ? 'Yes' : 'No' }}</td>
                         </tr>
                         <!-- Nested Learning Datasets Table -->
-                        <tr *ngIf="datasetWithLearningDatasets | hasAnyValue: 'learningDatasets.description'">
+                        <tr *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'learningDatasets.description'">
                             <td colspan="6">
                                 <p-table [value]="datasetWithLearningDatasets.learningDatasets"
                                          class="learning-datasets-table">
@@ -260,16 +260,16 @@
                                          class="learning-stages-table">
                                     <ng-template pTemplate="header">
                                         <tr>
-                                            <th *ngIf="learningProcessWithStages | hasAnyValue: 'learningStages.learningStageName'">{{ 'PassportManagement.LearningStage Name' | translate }}</th>
-                                            <th *ngIf="learningProcessWithStages | hasAnyValue: 'learningStages.description'">{{ 'PassportManagement.LearningStage Description' | translate }}</th>
-                                            <th *ngIf="learningProcessWithStages | hasAnyValue: 'learningStages.datasetPercentage'">{{ 'PassportManagement.LearningStage Dataset Percentage' | translate }}</th>
+                                            <th *ngIf="learningProcessesWithStages | hasAnyValue: 'learningStages.learningStageName'">{{ 'PassportManagement.LearningStage Name' | translate }}</th>
+                                            <th *ngIf="learningProcessesWithStages | hasAnyValue: 'learningStages.description'">{{ 'PassportManagement.LearningStage Description' | translate }}</th>
+                                            <th *ngIf="learningProcessesWithStages | hasAnyValue: 'learningStages.datasetPercentage'">{{ 'PassportManagement.LearningStage Dataset Percentage' | translate }}</th>
                                         </tr>
                                     </ng-template>
                                     <ng-template let-learningStage pTemplate="body">
                                         <tr>
-                                            <td *ngIf="learningProcessWithStages | hasAnyValue: 'learningStages.learningStageName'">{{ learningStage.learningStageName }}</td>
-                                            <td *ngIf="learningProcessWithStages | hasAnyValue: 'learningStages.description'">{{ learningStage.description }}</td>
-                                            <td *ngIf="learningProcessWithStages | hasAnyValue: 'learningStages.datasetPercentage'">{{ learningStage.datasetPercentage }}%</td>
+                                            <td *ngIf="learningProcessesWithStages | hasAnyValue: 'learningStages.learningStageName'">{{ learningStage.learningStageName }}</td>
+                                            <td *ngIf="learningProcessesWithStages | hasAnyValue: 'learningStages.description'">{{ learningStage.description }}</td>
+                                            <td *ngIf="learningProcessesWithStages | hasAnyValue: 'learningStages.datasetPercentage'">{{ learningStage.datasetPercentage }}%</td>
                                         </tr>
                                     </ng-template>
                                 </p-table>
