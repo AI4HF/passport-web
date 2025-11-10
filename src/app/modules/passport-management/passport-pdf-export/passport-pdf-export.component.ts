@@ -15,6 +15,7 @@ import * as FileSaver from 'file-saver';
 import {BaseComponent} from "../../../shared/components/base.component";
 import {EvaluationMeasure} from "../../../shared/models/evaluationMeasure.model";
 import {ModelFigure} from "../../../shared/models/modelFigure.model";
+import {StaticArticle} from "../../../shared/models/staticArticle.model";
 
 /**
  * Component responsible for generating and exporting the passport PDF.
@@ -39,6 +40,8 @@ export class PdfExportComponent extends BaseComponent{
     @Input() populationDetails: Population[] = [];
     /** Experiments to be included in the PDF */
     @Input() experiments: Experiment[] = [];
+    /** Static Articles to be included in the PDF */
+    @Input() staticArticles: StaticArticle[] = [];
     /** Surveys to be included in the PDF */
     @Input() surveys: Survey[] = [];
     /** Datasets with learning datasets to be included in the PDF */
@@ -66,48 +69,58 @@ export class PdfExportComponent extends BaseComponent{
      * Generates the PDF for the passport using the provided details.
      * Then conducts a PDF transaction with the server to digitally sign the pdf.
      */
-    generatePdf() {
-        const dataElement = document.getElementById('pdfPreviewContainer');
-        if (!dataElement) return;
+    async generatePdf() {
+        const container = document.getElementById('pdfPreviewContainer');
+        if (!container || !this.studyDetails?.id) return;
 
-        const opt = {
-            margin:       0,
-            filename:     'Passport.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  {
-                width: 1200,
-                scrollY: 0,
-                useCORS: true
-            },
-            jsPDF:        { unit: 'mm', format: 'a2', orientation: 'portrait' }
-        };
+        // Pull the current page’s styles
+        const headHtml = Array
+            .from(document.head.querySelectorAll('style, link[rel="stylesheet"]'))
+            .map(n => (n as HTMLElement).outerHTML)
+            .join('\n');
 
-        html2pdf().set(opt).from(dataElement).outputPdf('blob').then((pdfBlob: Blob) => {
-            if (!this.studyDetails?.id) {
-                throw new Error("Study Details not available - Inapplicable Passport");
-            }
+        const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8" />
+        <base href="${window.location.origin}/" />
+        ${headHtml}
+      </head>
+      <body>
+        ${container.outerHTML}
+      </body>
+    </html>
+  `;
 
-            const studyId = this.studyDetails.id;
+        try {
+            const response = await fetch('/generate-pdf', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ htmlContent: html })
+            });
+            if (!response.ok) throw new Error('Failed to generate PDF');
 
-            this.passportService.signPdf(pdfBlob, studyId).subscribe({
-                next: (signedPdfBlob: Blob) => {
-                    const downloadUrl = URL.createObjectURL(signedPdfBlob);
+            const blob = await response.blob();
+            this.passportService.signPdf(blob, this.studyDetails.id).subscribe({
+                next: (signedBlob: Blob) => {
+                    const url = URL.createObjectURL(signedBlob);
                     const link = document.createElement('a');
-                    link.href = downloadUrl;
+                    link.href = url;
+                    link.download = 'Passport_signed.pdf';
+                    link.href = url;
                     const today = new Date();
                     const formattedDate = today.toISOString().slice(0,10).replace(/-/g, '');
                     link.download = `${this.studyDetails.name}_Passport_${formattedDate}.pdf`;
                     link.click();
-                    URL.revokeObjectURL(downloadUrl);
+                    URL.revokeObjectURL(url);
                     this.closeDialog();
                 },
-                error: (err) => {
-                    console.error('Error signing PDF:', err);
-                }
+                error: (err) => console.error('Error signing PDF:', err)
             });
-        }).catch((error: any) => {
-            console.error('Error generating PDF:', error);
-        });
+        } catch (err) {
+            console.error('PDF generation error:', err);
+        }
     }
 
     /**

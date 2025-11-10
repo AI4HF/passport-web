@@ -339,6 +339,23 @@
                 </p-table>
             </div>
 
+            <!-- Static Articles Section -->
+            <div *ngIf="staticArticles.length && (staticArticles | hasAnyValue: 'articleUrl')" class="section">
+                <div class="section-title">{{ 'PassportManagement.Static Articles' | translate }}</div>
+                <p-table [value]="staticArticles" class="static-articles-table">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{ 'PassportManagement.Article URL' | translate }}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template let-article pTemplate="body">
+                        <tr>
+                            <td>{{ article.articleUrl }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
             <!-- Survey Details Section -->
             <div *ngIf="surveys.length" class="section">
                 <div class="section-title">{{ 'PassportManagement.Survey Details' | translate }}</div>

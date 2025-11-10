@@ -17,6 +17,7 @@ import { DatasetWithLearningDatasetsDTO } from "../../../shared/models/datasetWi
 import { FeatureSetWithFeaturesDTO } from "../../../shared/models/featureSetWithFeaturesDTO.model";
 import {EvaluationMeasure} from "../../../shared/models/evaluationMeasure.model";
 import {ModelFigure} from "../../../shared/models/modelFigure.model";
+import {StaticArticle} from "../../../shared/models/staticArticle.model";
 
 /**
  * Component for managing and displaying the list of passports.
@@ -56,6 +57,8 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   populationDetails: Population[] = [];
   /** Experiment details related to the selected passport */
   experiments: Experiment[] = [];
+  /** Static Articles related to the selected passport */
+  staticArticles: StaticArticle[] = [];
   /** Model Figures related to the selected passport */
   modelFigures: ModelFigure[] = [];
   /** Survey details related to the selected passport */
@@ -207,6 +210,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
         this.populationDetails = details.populationDetails || [];
         this.surveys = details.surveys || [];
         this.experiments = details.experiments || [];
+        this.staticArticles = details.staticArticles || [];
         this.datasetsWithLearningDatasets = details.datasetsWithLearningDatasets || [];
         this.featureSetsWithFeatures = details.featureSetsWithFeatures || [];
         this.learningProcessesWithStages = details.learningProcessesWithStages || [];
