@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, HostListener, Injector, Input, OnInit, Output} from '@angular/core';
 import { BaseComponent } from "../../../shared/components/base.component";
 import { Survey } from "../../../shared/models/survey.model";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
@@ -212,6 +212,14 @@ export class SurveyManagementFormComponent extends BaseComponent implements OnIn
     closeDialog() {
         this.display = false;
         this.formClosed.emit();
+    }
+
+    /**
+     * Closes the popup when the user presses the Escape key.
+     */
+    @HostListener('document:keydown.escape', ['$event'])
+    onEscapePress(event: KeyboardEvent) {
+        this.closeDialog();
     }
 
     /**
