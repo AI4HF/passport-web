@@ -534,7 +534,9 @@
     "Value": "Value",
     "Description": "Description",
     "Model Figures": "Model Figures",
-    "Figure": "Figure"
+    "Figure": "Figure",
+    "Static Articles": "Static Articles",
+    "Article URL": "Article URL"
   },
   "LearningProcessManagement": {
     "EmptyAlgorithmMessage": "No matching Algorithms. Create new Algorithm with the given name.",

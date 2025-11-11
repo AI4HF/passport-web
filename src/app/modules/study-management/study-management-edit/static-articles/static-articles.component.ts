@@ -90,7 +90,7 @@ export class StaticArticlesComponent extends BaseComponent implements OnInit {
             .subscribe({
                 next: response => {
                     this.fetchArticlesByStudyId(this.studyId);
-                    this.translateService.get(['Success', 'StudyManagement.StaticArticle.Articles are assigned successfully']).subscribe(translations => {
+                    this.translateService.get(['Success', 'StudyManagement.StaticArticle.Static articles are assigned successfully']).subscribe(translations => {
                         this.messageService.add({
                             severity: 'success',
                             summary: translations['Success'],
