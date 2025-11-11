@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, HostListener, Injector, Input, OnInit, Output} from '@angular/core';
 import { BaseComponent } from "../../../shared/components/base.component";
 import { Parameter } from "../../../shared/models/parameter.model";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
@@ -161,5 +161,13 @@ export class ParameterManagementFormComponent extends BaseComponent implements O
   closeDialog() {
     this.display = false;
     this.formClosed.emit();
+  }
+
+  /**
+   * Closes the popup when the user presses the Escape key.
+   */
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapePress(event: KeyboardEvent) {
+    this.closeDialog();
   }
 }
