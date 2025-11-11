@@ -94,32 +94,25 @@ export class PdfExportComponent extends BaseComponent{
   `;
 
         try {
-            const response = await fetch('/generate-pdf', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ htmlContent: html })
-            });
-            if (!response.ok) throw new Error('Failed to generate PDF');
+            this.passportService.generateAndSignPdf(html, this.studyDetails.id)
+                .subscribe((signedBlob: Blob) => {
+                    const today = new Date();
+                    const formattedDate = today.toISOString().slice(0,10).replace(/-/g, '');
+                    const fileName = `${this.studyDetails.name}_Passport_${formattedDate}.pdf`;
 
-            const blob = await response.blob();
-            this.passportService.signPdf(blob, this.studyDetails.id).subscribe({
-                next: (signedBlob: Blob) => {
                     const url = URL.createObjectURL(signedBlob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = 'Passport_signed.pdf';
-                    link.href = url;
-                    const today = new Date();
-                    const formattedDate = today.toISOString().slice(0,10).replace(/-/g, '');
-                    link.download = `${this.studyDetails.name}_Passport_${formattedDate}.pdf`;
+                    link.download = fileName;
+                    document.body.appendChild(link);
                     link.click();
+                    link.remove();
                     URL.revokeObjectURL(url);
                     this.closeDialog();
-                },
-                error: (err) => console.error('Error signing PDF:', err)
-            });
+                });
+
         } catch (err) {
-            console.error('PDF generation error:', err);
+            console.error('Signed PDF generation error:', err);
         }
     }
 

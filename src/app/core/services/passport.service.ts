@@ -123,22 +123,40 @@ export class PassportService {
     }
 
     /**
-     * Sign an existing PDF blob by sending it to the server.
-     * @param pdfBlob The raw PDF as a Blob
-     * @param studyId The study ID for authorization
+     * Generate a PDF from HTML on the server and sign it in a single request.
+     *
+     * @param html Full HTML string to render
+     * @param studyId Study ID for authorization checks on the backend
+     * @param opts Optional rendering parameters
      * @return Observable<Blob> that emits the signed PDF blob
      */
-    signPdf(pdfBlob: Blob, studyId: String): Observable<Blob> {
-        const url = `${this.endpoint}/sign-pdf?studyId=${studyId}`;
+    generateAndSignPdf(
+        html: string,
+        studyId: String,
+        opts?: {
+            baseUrl?: string;
+            fileName?: string;
+            width?: string;
+            height?: string;
+            landscape?: boolean;
+        }
+    ): Observable<Blob> {
+        const url = `${this.endpoint}/generate-and-sign`;
 
-        const formData = new FormData();
-        // "pdf" must match the backend’s @RequestParam("pdf")
-        formData.append('pdf', pdfBlob, 'document_to_sign.pdf');
+        const payload = {
+            htmlContent: html,
+            baseUrl: opts?.baseUrl ?? (window.location.origin + '/'),
+            fileName: opts?.fileName ?? 'Passport_signed.pdf',
+            width: opts?.width ?? '420mm',
+            height: opts?.height ?? '297mm',
+            landscape: opts?.landscape ?? true,
+            studyId: studyId
+        };
 
-        return this.httpClient.post(url, formData, { responseType: 'blob' })
+        return this.httpClient.post(url, payload, { responseType: 'blob' })
             .pipe(
                 catchError((error) => {
-                    console.error('Error during PDF signing request:', error);
+                    console.error('Error during Signed PDF generation request:', error);
                     throw error;
                 })
             );
