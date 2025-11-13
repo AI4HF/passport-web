@@ -15,7 +15,8 @@ import * as FileSaver from 'file-saver';
 import {BaseComponent} from "../../../shared/components/base.component";
 import {EvaluationMeasure} from "../../../shared/models/evaluationMeasure.model";
 import {ModelFigure} from "../../../shared/models/modelFigure.model";
-import {StaticArticle} from "../../../shared/models/staticArticle.model";
+import {LinkedArticle} from "../../../shared/models/linkedArticle.model";
+import {GenerateAndSignPdfOptionsDto} from "../../../shared/models/pdfGenerationDTO.model";
 
 /**
  * Component responsible for generating and exporting the passport PDF.
@@ -40,8 +41,8 @@ export class PdfExportComponent extends BaseComponent{
     @Input() populationDetails: Population[] = [];
     /** Experiments to be included in the PDF */
     @Input() experiments: Experiment[] = [];
-    /** Static Articles to be included in the PDF */
-    @Input() staticArticles: StaticArticle[] = [];
+    /** Linked Articles to be included in the PDF */
+    @Input() linkedArticles: LinkedArticle[] = [];
     /** Surveys to be included in the PDF */
     @Input() surveys: Survey[] = [];
     /** Datasets with learning datasets to be included in the PDF */
@@ -93,13 +94,17 @@ export class PdfExportComponent extends BaseComponent{
     </html>
   `;
 
-        try {
-            this.passportService.generateAndSignPdf(html, this.studyDetails.id)
-                .subscribe((signedBlob: Blob) => {
-                    const today = new Date();
-                    const formattedDate = today.toISOString().slice(0,10).replace(/-/g, '');
-                    const fileName = `${this.studyDetails.name}_Passport_${formattedDate}.pdf`;
+        // extract Href
+        const baseHref =
+            (document.querySelector('base') as HTMLBaseElement)?.href || document.baseURI;
 
+        try {
+            const today = new Date();
+            const formattedDate = today.toISOString().slice(0,10).replace(/-/g, '');
+            const fileName = `${this.studyDetails.name}_Passport_${formattedDate}.pdf`;
+            const opts: GenerateAndSignPdfOptionsDto = {fileName: fileName, baseUrl: baseHref}
+            this.passportService.generateAndSignPdf(html, this.studyDetails.id, opts)
+                .subscribe((signedBlob: Blob) => {
                     const url = URL.createObjectURL(signedBlob);
                     const link = document.createElement('a');
                     link.href = url;

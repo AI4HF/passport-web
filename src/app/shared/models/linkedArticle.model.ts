@@ -1,11 +1,11 @@
 /**
- * Model for passport StaticArticle class
+ * Model for passport LinkedArticle class
  */
-export class StaticArticle{
+export class LinkedArticle{
     /**
-     * The ID of the Static Article
+     * The ID of the Linked Article
      */
-    staticArticleId: string;
+    linkedArticleId: string;
 
     /**
      * The ID reference to the Study
@@ -23,7 +23,7 @@ export class StaticArticle{
             return;
         }
 
-        this.staticArticleId = data.staticArticleId;
+        this.linkedArticleId = data.linkedArticleId;
         this.studyId = data.studyId;
         this.articleUrl = data.articleUrl;
     }

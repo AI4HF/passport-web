@@ -7,8 +7,7 @@ import {PersonnelAssignmentComponent} from "./personnel-assignment/personnel-ass
 import {ExperimentQuestionsComponent} from "./experiment-questions/experiment-questions.component";
 import {SurveyInspectionComponent} from "./survey-inspection/survey-inspection.component";
 import {studyDetailsGuard } from "../../../core/guards/study-details.guard"
-import {PopulationGuard} from "../../../core/guards/population-details.guard";
-import {StaticArticlesComponent} from "./static-articles/static-articles.component";
+import {LinkedArticlesComponent} from "./linked-articles/linked-articles.component";
 
 
 const routes: Routes = [
@@ -40,8 +39,8 @@ const routes: Routes = [
                 canActivate: [studyDetailsGuard]
             },
             {
-                path: 'static-articles',
-                component: StaticArticlesComponent,
+                path: 'linked-articles',
+                component: LinkedArticlesComponent,
                 canActivate: [studyDetailsGuard]
             },
             {

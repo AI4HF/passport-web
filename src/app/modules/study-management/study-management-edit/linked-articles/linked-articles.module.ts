@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {StaticArticlesComponent} from "./static-articles.component";
+import {LinkedArticlesComponent} from "./linked-articles.component";
 import {ButtonModule} from "primeng/button";
 import {CardModule} from "primeng/card";
 import {DropdownModule} from "primeng/dropdown";
@@ -15,7 +15,7 @@ import {StudyDetailsModule} from "../study-details/study-details.module";
 
 @NgModule({
     declarations: [
-        StaticArticlesComponent
+        LinkedArticlesComponent
     ],
     imports: [
         CommonModule,
@@ -31,6 +31,6 @@ import {StudyDetailsModule} from "../study-details/study-details.module";
         TableModule,
         StudyDetailsModule
     ],
-    exports: [StaticArticlesComponent]
+    exports: [LinkedArticlesComponent]
 })
-export class StaticArticlesModule { }
+export class LinkedArticlesModule { }

@@ -27,7 +27,7 @@ export class StudyManagementEditComponent extends BaseComponent implements OnIni
       'StudyManagement.Population Details',
       'StudyManagement.Personnel Assignment',
       'StudyManagement.Experiment Questions',
-      'StudyManagement.Static Articles',
+      'StudyManagement.Linked Articles',
       'StudyManagement.Survey Inspection'
     ]).subscribe(translations => {
       this.studySteps = [
@@ -35,7 +35,7 @@ export class StudyManagementEditComponent extends BaseComponent implements OnIni
         {name: translations['StudyManagement.Population Details'], routerLink: 'population-details', queryParams: this.route.snapshot.queryParams},
         {name: translations['StudyManagement.Personnel Assignment'], routerLink: 'personnel-assignment', queryParams: this.route.snapshot.queryParams},
         {name: translations['StudyManagement.Experiment Questions'], routerLink: 'experiment-questions', queryParams: this.route.snapshot.queryParams},
-        {name: translations['StudyManagement.Static Articles'], routerLink: 'static-articles', queryParams: this.route.snapshot.queryParams},
+        {name: translations['StudyManagement.Linked Articles'], routerLink: 'linked-articles', queryParams: this.route.snapshot.queryParams},
         {name: translations['StudyManagement.Survey Inspection'], routerLink: 'survey-inspection', queryParams: this.route.snapshot.queryParams}
       ];
     });

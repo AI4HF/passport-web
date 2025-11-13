@@ -6,6 +6,7 @@ import {Passport} from "../../shared/models/passport.model";
 import {StorageUtil} from "./storageUtil.service";
 import {PassportDetailsDTO} from "../../shared/models/passportDetails.model";
 import {PassportWithDetailSelection} from "../../shared/models/passportWithDetailSelection.model";
+import {GenerateAndSignPdfOptionsDto, GenerateAndSignPdfRequestDto} from "../../shared/models/pdfGenerationDTO.model";
 
 /**
  * Service to manage the passport.
@@ -133,19 +134,14 @@ export class PassportService {
     generateAndSignPdf(
         html: string,
         studyId: String,
-        opts?: {
-            baseUrl?: string;
-            fileName?: string;
-            width?: string;
-            height?: string;
-            landscape?: boolean;
-        }
+        opts?: GenerateAndSignPdfOptionsDto
     ): Observable<Blob> {
         const url = `${this.endpoint}/generate-and-sign`;
 
-        const payload = {
+        const payload: GenerateAndSignPdfRequestDto = {
             htmlContent: html,
             baseUrl: opts?.baseUrl ?? (window.location.origin + '/'),
+            // Passport PDF generation flow provides a file name based on existing conventions
             fileName: opts?.fileName ?? 'Passport_signed.pdf',
             width: opts?.width ?? '420mm',
             height: opts?.height ?? '297mm',

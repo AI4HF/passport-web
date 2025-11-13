@@ -2,27 +2,27 @@ import {Component, Injector, OnInit} from '@angular/core';
 import {BaseComponent} from "../../../../shared/components/base.component";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {takeUntil} from "rxjs";
-import {StaticArticle} from "../../../../shared/models/staticArticle.model";
+import {LinkedArticle} from "../../../../shared/models/linkedArticle.model";
 
 /**
- * Shows list of static articles related to the study
+ * Shows list of linked articles related to the study
  */
 @Component({
-    selector: 'app-static-articles',
-    templateUrl: './static-articles.component.html',
-    styleUrls: ['./static-articles.component.scss']
+    selector: 'app-linked-articles',
+    templateUrl: './linked-articles.component.html',
+    styleUrls: ['./linked-articles.component.scss']
 })
-export class StaticArticlesComponent extends BaseComponent implements OnInit {
+export class LinkedArticlesComponent extends BaseComponent implements OnInit {
 
     /**
-     * The form object keeping the static article URL.
+     * The form object keeping the linked article URL.
      */
     articleForm: FormGroup;
 
     /**
-     * The StaticArticle list for selected Study
+     * The LinkedArticle list for selected Study
      */
-    articleList: StaticArticle[] = [];
+    articleList: LinkedArticle[] = [];
 
     /**
      * The studyId for selected study
@@ -52,15 +52,15 @@ export class StaticArticlesComponent extends BaseComponent implements OnInit {
     }
 
     /**
-     * Fetch articles from static article service
-     * @param studyId ID of the study related to static articles
+     * Fetch articles from linked article service
+     * @param studyId ID of the study related to linked articles
      */
     fetchArticlesByStudyId(studyId: string): void {
-        this.staticArticleService.getStaticArticlesByStudyId(studyId)
+        this.linkedArticleService.getLinkedArticlesByStudyId(studyId)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: (articleList: StaticArticle[]) => {
-                    this.articleList = articleList.map(article => new StaticArticle(article));
+                next: (articleList: LinkedArticle[]) => {
+                    this.articleList = articleList.map(article => new LinkedArticle(article));
                 },
                 error: (error: any) => {
                     this.translateService.get('Error').subscribe(translation => {
@@ -82,19 +82,19 @@ export class StaticArticlesComponent extends BaseComponent implements OnInit {
     }
 
     /**
-     * Save created static articles
+     * Save created linked articles
      */
     save() {
-        this.staticArticleService.createStaticArticles(this.studyId, this.articleList)
+        this.linkedArticleService.createLinkedArticles(this.studyId, this.articleList)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: response => {
                     this.fetchArticlesByStudyId(this.studyId);
-                    this.translateService.get(['Success', 'StudyManagement.StaticArticle.Static articles are assigned successfully']).subscribe(translations => {
+                    this.translateService.get(['Success', 'StudyManagement.LinkedArticle.Linked articles are assigned successfully']).subscribe(translations => {
                         this.messageService.add({
                             severity: 'success',
                             summary: translations['Success'],
-                            detail: translations['StudyManagement.StaticArticle.Static articles are assigned successfully']
+                            detail: translations['StudyManagement.LinkedArticle.Linked articles are assigned successfully']
                         });
                     });
                 }
@@ -102,7 +102,7 @@ export class StaticArticlesComponent extends BaseComponent implements OnInit {
     }
 
     /**
-     * Initializes the form object for the static article URL.
+     * Initializes the form object for the linked article URL.
      */
     initializeForm() {
         this.articleForm = new FormGroup({
@@ -114,20 +114,20 @@ export class StaticArticlesComponent extends BaseComponent implements OnInit {
     }
 
     /**
-     * Add static article into articleList.
+     * Add linked article into articleList.
      */
     addArticle() {
         const articleUrl = this.articleForm.value.articleUrl;
         if (articleUrl.length > 0) {
             this.initializeForm();
             if (!this.articleList.find(article => article.articleUrl === articleUrl)) {
-                this.articleList.push(new StaticArticle({staticArticleId: null, studyId: null, articleUrl}));
+                this.articleList.push(new LinkedArticle({linkedArticleId: null, studyId: null, articleUrl}));
             }
         }
     }
 
     /**
-     * Delete static article from articleList.
+     * Delete linked article from articleList.
      */
     deleteArticle(url: string) {
         this.articleList = this.articleList.filter(article => article.articleUrl !== url);

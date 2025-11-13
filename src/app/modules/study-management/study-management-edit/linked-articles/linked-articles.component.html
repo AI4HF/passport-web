@@ -2,14 +2,14 @@
     <div class="flex flex-row pb-3 gap-3 mb-3" [formGroup]="articleForm">
         <div class="flex align-items-center w-13rem">
             <label class="text-900 font-medium pl-2"
-                   for="articleUrl">{{'StudyManagement.StaticArticle.URL' | translate}}</label>
-            <app-tooltip class="ml-2" message="StudyManagement.StaticArticleTooltip"></app-tooltip>
+                   for="articleUrl">{{'StudyManagement.LinkedArticle.URL' | translate}}</label>
+            <app-tooltip class="ml-2" message="StudyManagement.LinkedArticleTooltip"></app-tooltip>
         </div>
         <div class="text-900 flex align-items-center w-full">
             <input type="text"
                    id="articleUrl"
                    pInputText
-                   placeholder="{{'StudyManagement.StaticArticle.URL' | translate}}"
+                   placeholder="{{'StudyManagement.LinkedArticle.URL' | translate}}"
                    formControlName="articleUrl"
                    class="form-control w-full"
                    [disabled]="viewMode">
@@ -39,7 +39,7 @@
     </div>
 
     <div *ngIf="!articleList.length" class="flex justify-content-center border-1 border-300 border-round p-6">
-        {{'StudyManagement.StaticArticle.Please add article url' | translate }}
+        {{'StudyManagement.LinkedArticle.Please add article url' | translate }}
     </div>
 
     <div class="flex justify-content-between flex-wrap mt-4">

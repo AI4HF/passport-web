@@ -339,10 +339,10 @@
                 </p-table>
             </div>
 
-            <!-- Static Articles Section -->
-            <div *ngIf="staticArticles.length && (staticArticles | hasAnyValue: 'articleUrl')" class="section">
-                <div class="section-title">{{ 'PassportManagement.Static Articles' | translate }}</div>
-                <p-table [value]="staticArticles" class="static-articles-table">
+            <!-- Linked Articles Section -->
+            <div *ngIf="linkedArticles.length && (linkedArticles | hasAnyValue: 'articleUrl')" class="section">
+                <div class="section-title">{{ 'PassportManagement.Linked Articles' | translate }}</div>
+                <p-table [value]="linkedArticles" class="linked-articles-table">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>{{ 'PassportManagement.Article URL' | translate }}</th>

@@ -1,18 +1,18 @@
 import {Injectable, Injector} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, map, Observable} from "rxjs";
-import {StaticArticle} from "../../shared/models/staticArticle.model";
+import {LinkedArticle} from "../../shared/models/linkedArticle.model";
 import {environment} from "../../../environments/environment";
 
 /**
- * Service to manage the Static Articles.
+ * Service to manage the Linked Articles.
  */
 @Injectable({
     providedIn: 'root'
 })
-export class StaticArticleService {
+export class LinkedArticleService {
 
-    readonly endpoint = environment.PASSPORT_API_URL + '/staticArticle';
+    readonly endpoint = environment.PASSPORT_API_URL + '/linkedArticle';
     private httpClient: HttpClient;
 
     constructor(private injector: Injector) {
@@ -20,15 +20,15 @@ export class StaticArticleService {
     }
 
     /**
-     * Fetch Static Articles by Study ID
+     * Fetch Linked Articles by Study ID
      * @param studyId Study identifier
      */
-    getStaticArticlesByStudyId(studyId: string): Observable<StaticArticle[]> {
+    getLinkedArticlesByStudyId(studyId: string): Observable<LinkedArticle[]> {
         const url = `${this.endpoint}?studyId=${studyId}`;
-        return this.httpClient.get<StaticArticle[]>(url)
+        return this.httpClient.get<LinkedArticle[]>(url)
             .pipe(
                 map((response: any) => {
-                    return (response || []).map((sa: any) => new StaticArticle(sa));
+                    return (response || []).map((sa: any) => new LinkedArticle(sa));
                 }),
                 catchError((error) => {
                     console.error(error);
@@ -38,16 +38,16 @@ export class StaticArticleService {
     }
 
     /**
-     * Create Static Articles for a Study in bulk
+     * Create Linked Articles for a Study in bulk
      * @param studyId Study identifier
-     * @param items Array of StaticArticle models
+     * @param items Array of LinkedArticle models
      */
-    createStaticArticles(studyId: string, items: StaticArticle[]): Observable<StaticArticle[]> {
+    createLinkedArticles(studyId: string, items: LinkedArticle[]): Observable<LinkedArticle[]> {
         const url = `${this.endpoint}?studyId=${studyId}`;
-        return this.httpClient.post<StaticArticle[]>(url, items)
+        return this.httpClient.post<LinkedArticle[]>(url, items)
             .pipe(
                 map((response: any) => {
-                    return (response || []).map((sa: any) => new StaticArticle(sa));
+                    return (response || []).map((sa: any) => new LinkedArticle(sa));
                 }),
                 catchError((error) => {
                     console.error(error);
