@@ -48,6 +48,11 @@ export class PassportDetailsSelection{
     experimentDetails: boolean;
 
     /**
+     * Whether include linked article details
+     */
+    linkedArticleDetails: boolean;
+
+    /**
      * Whether include survey details
      */
     surveyDetails: boolean;
@@ -88,6 +93,7 @@ export class PassportDetailsSelection{
         this.parameterDetails = data.parameterDetails;
         this.populationDetails = data.populationDetails;
         this.experimentDetails = data.experimentDetails;
+        this.linkedArticleDetails = data.linkedArticleDetails;
         this.surveyDetails = data.surveyDetails;
         this.studyDetails = data.studyDetails;
         this.evaluationMeasures = data.evaluationMeasures;

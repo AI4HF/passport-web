@@ -7,7 +7,7 @@ import {PersonnelAssignmentComponent} from "./personnel-assignment/personnel-ass
 import {ExperimentQuestionsComponent} from "./experiment-questions/experiment-questions.component";
 import {SurveyInspectionComponent} from "./survey-inspection/survey-inspection.component";
 import {studyDetailsGuard } from "../../../core/guards/study-details.guard"
-import {PopulationGuard} from "../../../core/guards/population-details.guard";
+import {LinkedArticlesComponent} from "./linked-articles/linked-articles.component";
 
 
 const routes: Routes = [
@@ -36,6 +36,11 @@ const routes: Routes = [
             {
                 path: 'experiment-questions',
                 component: ExperimentQuestionsComponent,
+                canActivate: [studyDetailsGuard]
+            },
+            {
+                path: 'linked-articles',
+                component: LinkedArticlesComponent,
                 canActivate: [studyDetailsGuard]
             },
             {

@@ -1,5 +1,4 @@
 import {Component, EventEmitter, HostListener, Injector, Input, Output} from '@angular/core';
-import * as html2pdf from 'html2pdf.js';
 import { ModelDeployment } from '../../../shared/models/modelDeployment.model';
 import { DeploymentEnvironment } from '../../../shared/models/deploymentEnvironment.model';
 import { Model } from '../../../shared/models/model.model';
@@ -15,6 +14,8 @@ import * as FileSaver from 'file-saver';
 import {BaseComponent} from "../../../shared/components/base.component";
 import {EvaluationMeasure} from "../../../shared/models/evaluationMeasure.model";
 import {ModelFigure} from "../../../shared/models/modelFigure.model";
+import {LinkedArticle} from "../../../shared/models/linkedArticle.model";
+import {GenerateAndSignPdfOptionsDto} from "../../../shared/models/pdfGenerationDTO.model";
 
 /**
  * Component responsible for generating and exporting the passport PDF.
@@ -39,6 +40,8 @@ export class PdfExportComponent extends BaseComponent{
     @Input() populationDetails: Population[] = [];
     /** Experiments to be included in the PDF */
     @Input() experiments: Experiment[] = [];
+    /** Linked Articles to be included in the PDF */
+    @Input() linkedArticles: LinkedArticle[] = [];
     /** Surveys to be included in the PDF */
     @Input() surveys: Survey[] = [];
     /** Datasets with learning datasets to be included in the PDF */
@@ -55,6 +58,8 @@ export class PdfExportComponent extends BaseComponent{
     /** Flag to control the visibility of the PDF preview */
     display: boolean = true;
 
+    public logoDataUrl?: string;
+
     /** Event emitted when the PDF preview is closed */
     @Output() pdfPreviewClosed = new EventEmitter<void>();
 
@@ -63,51 +68,100 @@ export class PdfExportComponent extends BaseComponent{
     }
 
     /**
+     * Logo data url is set on initialization for global access to relative path
+     */
+    async ngOnInit() {
+        const absLogoUrl = new URL('favicon.ico', document.baseURI).href;
+        this.logoDataUrl = await this.toDataUrl(absLogoUrl);
+    }
+
+    /**
+     * Url converter to allow global access on absolute image links
+     * @param absUrl Absolute URL of the subject
+     * @private
+     */
+    private async toDataUrl(absUrl: string): Promise<string> {
+        const res = await fetch(absUrl, { cache: 'no-cache' });
+        const blob = await res.blob();
+        return await new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(blob);
+        });
+    }
+
+
+
+    /**
      * Generates the PDF for the passport using the provided details.
      * Then conducts a PDF transaction with the server to digitally sign the pdf.
      */
-    generatePdf() {
-        const dataElement = document.getElementById('pdfPreviewContainer');
-        if (!dataElement) return;
+    async generatePdf() {
+        const container = document.getElementById('pdfPreviewContainer');
+        if (!container || !this.studyDetails?.id) return;
 
-        const opt = {
-            margin:       0,
-            filename:     'Passport.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  {
-                width: 1200,
-                scrollY: 0,
-                useCORS: true
-            },
-            jsPDF:        { unit: 'mm', format: 'a2', orientation: 'portrait' }
-        };
+        // Pull the current page’s styles
+        const headHtml = Array
+            .from(document.head.querySelectorAll('style, link[rel="stylesheet"]'))
+            .map(n => (n as HTMLElement).outerHTML)
+            .join('\n');
 
-        html2pdf().set(opt).from(dataElement).outputPdf('blob').then((pdfBlob: Blob) => {
-            if (!this.studyDetails?.id) {
-                throw new Error("Study Details not available - Inapplicable Passport");
-            }
+        const pdfGridFallback = `
+<style id="pdf-grid-fallback">
+  /* Minimal PrimeFlex to explicitly set outside of existing stylesheet links */
+  #pdfPreviewContainer .grid { display: flex; flex-wrap: wrap; margin: 0 -0.5rem; }
+  #pdfPreviewContainer .grid > [class*="col-"] { padding: 0 0.5rem; box-sizing: border-box; }
 
-            const studyId = this.studyDetails.id;
+  /* base widths */
+  #pdfPreviewContainer .col-12 { flex: 0 0 100%; max-width: 100%; }
 
-            this.passportService.signPdf(pdfBlob, studyId).subscribe({
-                next: (signedPdfBlob: Blob) => {
-                    const downloadUrl = URL.createObjectURL(signedPdfBlob);
+  /* md-lg breakpoints */
+  @media (min-width: 768px) {
+    #pdfPreviewContainer .md\\:col-6 { flex: 0 0 50%;  max-width: 50%; }
+  }
+  @media (min-width: 992px) {
+    #pdfPreviewContainer .lg\\:col-4 { flex: 0 0 33.3333%; max-width: 33.3333%; }
+  }
+</style>`;
+
+        const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8" />
+        ${headHtml}${pdfGridFallback}
+      </head>
+      <body>
+        ${container.outerHTML}
+      </body>
+    </html>
+  `;
+
+        // extract Href
+        const baseHref =
+            (document.querySelector('base') as HTMLBaseElement)?.href || document.baseURI;
+
+        try {
+            const today = new Date();
+            const formattedDate = today.toISOString().slice(0,10).replace(/-/g, '');
+            const fileName = `${this.studyDetails.name}_Passport_${formattedDate}.pdf`;
+            const opts: GenerateAndSignPdfOptionsDto = {fileName: fileName, baseUrl: baseHref}
+            this.passportService.generateAndSignPdf(html, this.studyDetails.id, opts)
+                .subscribe((signedBlob: Blob) => {
+                    const url = URL.createObjectURL(signedBlob);
                     const link = document.createElement('a');
-                    link.href = downloadUrl;
-                    const today = new Date();
-                    const formattedDate = today.toISOString().slice(0,10).replace(/-/g, '');
-                    link.download = `${this.studyDetails.name}_Passport_${formattedDate}.pdf`;
+                    link.href = url;
+                    link.download = fileName;
+                    document.body.appendChild(link);
                     link.click();
-                    URL.revokeObjectURL(downloadUrl);
+                    link.remove();
+                    URL.revokeObjectURL(url);
                     this.closeDialog();
-                },
-                error: (err) => {
-                    console.error('Error signing PDF:', err);
-                }
-            });
-        }).catch((error: any) => {
-            console.error('Error generating PDF:', error);
-        });
+                });
+
+        } catch (err) {
+            console.error('Signed PDF generation error:', err);
+        }
     }
 
     /**

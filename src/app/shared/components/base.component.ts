@@ -38,6 +38,7 @@ import {AuditLogBookService} from "../../core/services/audit-log-book.service";
 import {ModelParameterService} from "../../core/services/model-parameter.service";
 import {EvaluationMeasureService} from "../../core/services/evaluation-measure.service";
 import {ModelFigureService} from "../../core/services/model-figure.service";
+import {LinkedArticleService} from "../../core/services/linked-article.service";
 
 /**
  * Base component to provide common properties
@@ -65,6 +66,7 @@ export abstract class BaseComponent implements OnDestroy {
   populationService: PopulationService;
   personnelService: PersonnelService;
   experimentService: ExperimentService;
+  linkedArticleService: LinkedArticleService;
   surveyService: SurveyService;
   organizationService: OrganizationService;
   studyPersonnelService: StudyPersonnelService;
@@ -106,6 +108,7 @@ export abstract class BaseComponent implements OnDestroy {
     this.populationService = injector.get(PopulationService);
     this.personnelService = injector.get(PersonnelService);
     this.experimentService = injector.get(ExperimentService);
+    this.linkedArticleService = injector.get(LinkedArticleService);
     this.surveyService = injector.get(SurveyService);
     this.organizationService = injector.get(OrganizationService);
     this.studyPersonnelService = injector.get(StudyPersonnelService);

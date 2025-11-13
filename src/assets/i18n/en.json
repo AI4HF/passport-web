@@ -39,6 +39,7 @@
     "Population Details": "Population Details",
     "Personnel Assignment": "Personnel Assignment",
     "Experiment Questions": "Experiment Questions",
+    "Linked Articles": "Linked Articles",
     "Survey Inspection": "Survey Inspection",
     "Study is updated successfully": "Study is updated successfully",
     "Study is created successfully": "Study is created successfully",
@@ -82,6 +83,11 @@
       "Research Question": "Research Question",
       "Please add research question": "Please add research question...",
       "Experiments are assigned successfully": "Experiments are assigned successfully"
+    },
+    "LinkedArticle": {
+      "URL": "Article URL",
+      "Please add article url": "Please add article url...",
+      "Linked articles are assigned successfully": "Linked articles are assigned successfully"
     },
     "Survey": {
       "Question": "Question",
@@ -528,7 +534,10 @@
     "Value": "Value",
     "Description": "Description",
     "Model Figures": "Model Figures",
-    "Figure": "Figure"
+    "Figure": "Figure",
+    "Linked Articles": "Linked Articles",
+    "Linked Article Details": "Linked Article Details",
+    "Article URL": "Article URL"
   },
   "LearningProcessManagement": {
     "EmptyAlgorithmMessage": "No matching Algorithms. Create new Algorithm with the given name.",
@@ -608,7 +617,8 @@
       "ResponsibleOrganizationTooltip": "Organization from which the personnel will be assigned to this study.",
       "ResponsiblePersonnelTooltip": "Personnel who will be responsible for the role assignments to the study from the chosen organization.",
       "ResearchQuestionTooltip": "Research question of the Experiment to be created in connection to this Study.",
-      "PopulationTooltip": "Population on which the associated organization will work on."
+      "PopulationTooltip": "Population on which the associated organization will work on.",
+      "LinkedArticleTooltip": "Add URLs of linked articles relevant to this study."
     },
     "FeatureManagement": {
       "FeatureSetDetailsTooltip": "Base Feature Set details of the set to which the following Features are to be assigned to.",

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Injector, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Injector, OnInit, Output} from '@angular/core';
 import { Passport } from "../../../shared/models/passport.model";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { BaseComponent } from "../../../shared/components/base.component";
@@ -61,6 +61,7 @@ export class PassportManagementFormComponent extends BaseComponent implements On
             parameterDetails: new FormControl(true, Validators.required),
             populationDetails: new FormControl(true, Validators.required),
             experimentDetails: new FormControl(true, Validators.required),
+            linkedArticleDetails: new FormControl(true, Validators.required),
             surveyDetails: new FormControl(true, Validators.required),
             studyDetails: new FormControl(true, Validators.required),
             evaluationMeasures: new FormControl(true, Validators.required),

@@ -6,7 +6,7 @@
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr>
                         <td style="width: 40pt; vertical-align: middle;">
-                            <img alt="Logo" src="favicon.ico" style="width: 32pt; height: 32pt;">
+                            <img alt="Logo" [src]="logoDataUrl" style="width: 32pt; height: 32pt;">
                         </td>
 
                         <td style="vertical-align: middle;">
@@ -334,6 +334,23 @@
                     <ng-template let-experiment pTemplate="body">
                         <tr>
                             <td>{{ experiment.researchQuestion }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+            <!-- Linked Articles Section -->
+            <div *ngIf="linkedArticles.length && (linkedArticles | hasAnyValue: 'articleUrl')" class="section">
+                <div class="section-title">{{ 'PassportManagement.Linked Articles' | translate }}</div>
+                <p-table [value]="linkedArticles" class="linked-articles-table">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{ 'PassportManagement.Article URL' | translate }}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template let-article pTemplate="body">
+                        <tr>
+                            <td><a href="{{ article.articleUrl }}">{{ article.articleUrl }}</a></td>
                         </tr>
                     </ng-template>
                 </p-table>
