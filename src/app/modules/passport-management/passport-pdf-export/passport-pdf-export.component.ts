@@ -1,5 +1,4 @@
 import {Component, EventEmitter, HostListener, Injector, Input, Output} from '@angular/core';
-import * as html2pdf from 'html2pdf.js';
 import { ModelDeployment } from '../../../shared/models/modelDeployment.model';
 import { DeploymentEnvironment } from '../../../shared/models/deploymentEnvironment.model';
 import { Model } from '../../../shared/models/model.model';
@@ -59,12 +58,39 @@ export class PdfExportComponent extends BaseComponent{
     /** Flag to control the visibility of the PDF preview */
     display: boolean = true;
 
+    public logoDataUrl?: string;
+
     /** Event emitted when the PDF preview is closed */
     @Output() pdfPreviewClosed = new EventEmitter<void>();
 
     constructor(protected injector: Injector) {
         super(injector);
     }
+
+    /**
+     * Logo data url is set on initialization for global access to relative path
+     */
+    async ngOnInit() {
+        const absLogoUrl = new URL('favicon.ico', document.baseURI).href;
+        this.logoDataUrl = await this.toDataUrl(absLogoUrl);
+    }
+
+    /**
+     * Url converter to allow global access on absolute image links
+     * @param absUrl Absolute URL of the subject
+     * @private
+     */
+    private async toDataUrl(absUrl: string): Promise<string> {
+        const res = await fetch(absUrl, { cache: 'no-cache' });
+        const blob = await res.blob();
+        return await new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(blob);
+        });
+    }
+
+
 
     /**
      * Generates the PDF for the passport using the provided details.
@@ -80,13 +106,30 @@ export class PdfExportComponent extends BaseComponent{
             .map(n => (n as HTMLElement).outerHTML)
             .join('\n');
 
+        const pdfGridFallback = `
+<style id="pdf-grid-fallback">
+  /* Minimal PrimeFlex to explicitly set outside of existing stylesheet links */
+  #pdfPreviewContainer .grid { display: flex; flex-wrap: wrap; margin: 0 -0.5rem; }
+  #pdfPreviewContainer .grid > [class*="col-"] { padding: 0 0.5rem; box-sizing: border-box; }
+
+  /* base widths */
+  #pdfPreviewContainer .col-12 { flex: 0 0 100%; max-width: 100%; }
+
+  /* md-lg breakpoints */
+  @media (min-width: 768px) {
+    #pdfPreviewContainer .md\\:col-6 { flex: 0 0 50%;  max-width: 50%; }
+  }
+  @media (min-width: 992px) {
+    #pdfPreviewContainer .lg\\:col-4 { flex: 0 0 33.3333%; max-width: 33.3333%; }
+  }
+</style>`;
+
         const html = `
     <!DOCTYPE html>
     <html>
       <head>
         <meta charset="UTF-8" />
-        <base href="${window.location.origin}/" />
-        ${headHtml}
+        ${headHtml}${pdfGridFallback}
       </head>
       <body>
         ${container.outerHTML}
