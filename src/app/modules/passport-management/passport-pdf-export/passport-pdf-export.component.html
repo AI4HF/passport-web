@@ -453,12 +453,22 @@
         <button (click)="closeDialog()" icon="pi pi-times" label="{{ 'PassportManagement.CANCEL' | translate }}"
                 pButton type="button"></button>
         <div class="flex gap-2">
-            <button (click)="generateDocx()" icon="pi pi-file-word"
-                    label="{{ 'PassportManagement.EXPORT AS DOCX' | translate }}"
-                    pButton type="button"></button>
-            <button (click)="generatePdf()" icon="pi pi-file-pdf"
-                    label="{{ 'PassportManagement.EXPORT AS PDF' | translate }}"
-                    pButton type="button"></button>
+            <button
+                    (click)="generateDocx()"
+                    icon="pi pi-file-word"
+                    [disabled]="exporting"
+                    [label]="exporting ? ('PassportManagement.EXPORTING' | translate) : ('PassportManagement.EXPORT AS DOCX' | translate)"
+                    pButton
+                    type="button">
+            </button>
+            <button
+                    (click)="generatePdf()"
+                    icon="pi pi-file-pdf"
+                    [disabled]="exporting"
+                    [label]="exporting ? ('PassportManagement.EXPORTING' | translate) : ('PassportManagement.EXPORT AS PDF' | translate)"
+                    pButton
+                    type="button">
+            </button>
         </div>
     </div>
 </p-dialog>
