@@ -58,6 +58,9 @@ export class PdfExportComponent extends BaseComponent{
     /** Flag to control the visibility of the PDF preview */
     display: boolean = true;
 
+    /** Locks export buttons and toggles labels while an export is running */
+    exporting = false;
+
     public logoDataUrl?: string;
 
     /** Event emitted when the PDF preview is closed */
@@ -142,6 +145,7 @@ export class PdfExportComponent extends BaseComponent{
             (document.querySelector('base') as HTMLBaseElement)?.href || document.baseURI;
 
         try {
+            this.exporting = true;
             const today = new Date();
             const formattedDate = today.toISOString().slice(0,10).replace(/-/g, '');
             const fileName = `${this.studyDetails.name}_Passport_${formattedDate}.pdf`;
@@ -160,6 +164,7 @@ export class PdfExportComponent extends BaseComponent{
                 });
 
         } catch (err) {
+            this.exporting = false;
             console.error('Signed PDF generation error:', err);
         }
     }
@@ -172,6 +177,7 @@ export class PdfExportComponent extends BaseComponent{
         const container = document.getElementById('pdfPreviewContainer'); // uses your existing preview root
         if (!container) return;
 
+        this.exporting = true;
         // Clone to avoid touching live DOM
         const clone = container.cloneNode(true) as HTMLElement;
         // Remove favicon
@@ -476,6 +482,7 @@ export class PdfExportComponent extends BaseComponent{
             FileSaver.saveAs(blob, `${this.studyDetails.name}_Passport_${formattedDate}.docx`);
             this.closeDialog();
         } catch (e) {
+            this.exporting = false;
             console.error('Error generating DOCX:', e);
         }
     }
