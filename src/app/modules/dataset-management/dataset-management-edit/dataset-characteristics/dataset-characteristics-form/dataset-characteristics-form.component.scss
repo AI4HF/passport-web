@@ -13,3 +13,13 @@ i {
 ::ng-deep .p-dropdown .p-inputtext {
   padding-left: 2.5rem;
 }
+
+.readonly-input {
+  background-color: #f1f3f5 !important;
+  border-color: #d6d6d6 !important;
+  color: #6c757d !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  box-shadow: none !important;
+  user-select: none !important;
+}
