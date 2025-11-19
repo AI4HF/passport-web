@@ -101,11 +101,12 @@ export class DatasetCharacteristicService {
      * Delete a dataset characteristic
      * @param datasetId Id of the dataset
      * @param featureId Id of the feature
+     * @param characteristicName Name of the characteristic
      * @param studyId
      * @return {Observable<any>}
      */
-    deleteCharacteristic(datasetId: String, featureId: String, studyId: String): Observable<any> {
-        const url = `${this.endpoint}?datasetId=${datasetId}&featureId=${featureId}&studyId=${studyId}`;
+    deleteCharacteristic(datasetId: String, featureId: String, characteristicName:String, studyId: String): Observable<any> {
+        const url = `${this.endpoint}?datasetId=${datasetId}&featureId=${featureId}&studyId=${studyId}&characteristicName=${characteristicName}`;
         return this.httpClient.delete<any>(url)
             .pipe(
                 map((response: any) => {

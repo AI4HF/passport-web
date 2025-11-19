@@ -30,20 +30,34 @@
 
                 <!-- Characteristic Name AutoComplete with Icon -->
                 <label for="characteristicName" class="font-bold">{{ 'DatasetManagement.CharacteristicName' | translate }}</label>
+                <!-- Characteristic Name -->
                 <div class="p-field p-col-12 p-md-6">
-                    <span class="p-input-icon-left w-full mb-4">
-                        <i class="pi pi-bookmark"></i>
-                        <p-autoComplete
-                                [style]="{'width':'100%'}"
-                                [suggestions]="filteredCharacteristics"
-                                (completeMethod)="filterCharacteristics($event)"
-                                (onSelect)="selectAutoFillCharacteristic($event)"
-                                field="characteristicName"
+                    <!-- UPDATE MODE: readonly normal input -->
+                    <ng-container *ngIf="isUpdateMode; else editMode">
+                        <input
+                                pInputText
+                                class="w-full readonly-input"
                                 formControlName="characteristicName"
-                                placeholder="{{ 'DatasetManagement.CharacteristicNamePlaceholder' | translate }}"
-                                class="w-full">
-                        </p-autoComplete>
-                    </span>
+                                readonly
+                        />
+                    </ng-container>
+
+                    <!-- CREATE MODE: autocomplete -->
+                    <ng-template #editMode>
+                        <span class="p-input-icon-left w-full mb-4">
+                            <i class="pi pi-bookmark"></i>
+                            <p-autoComplete
+                                    [style]="{'width':'100%'}"
+                                    [suggestions]="filteredCharacteristics"
+                                    (completeMethod)="filterCharacteristics($event)"
+                                    (onSelect)="selectAutoFillCharacteristic($event)"
+                                    field="characteristicName"
+                                    formControlName="characteristicName"
+                                    placeholder="{{ 'DatasetManagement.CharacteristicNamePlaceholder' | translate }}"
+                                    class="w-full">
+                            </p-autoComplete>
+                        </span>
+                    </ng-template>
                 </div>
 
                 <!-- Value Input with Icon -->

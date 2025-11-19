@@ -112,7 +112,7 @@ export class DatasetCharacteristicsTableComponent extends BaseComponent implemen
      * @param characteristic The characteristic to be deleted
      */
     deleteCharacteristic(characteristic: DatasetCharacteristic) {
-        this.datasetCharacteristicService.deleteCharacteristic(characteristic.datasetId, characteristic.featureId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+        this.datasetCharacteristicService.deleteCharacteristic(characteristic.datasetId, characteristic.featureId, characteristic.characteristicName, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.characteristics = this.characteristics.filter(c => c.featureId !== characteristic.featureId);

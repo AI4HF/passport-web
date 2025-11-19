@@ -10,7 +10,7 @@
                 <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-primary mx-2" (click)="createCharacteristic()" pTooltip="{{ 'DatasetManagement.CreateCharacteristic' | translate }}" tooltipPosition="bottom"></button>
             </div>
         </div>
-        <p-table #dt [value]="characteristics" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['characteristicName', 'featureId', 'value', 'valueDataType']" [sortField]="'characteristicName'" [resizableColumns]="true" [autoLayout]="true">
+        <p-table #dt [value]="characteristics" [columns]="columns" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading" [filterDelay]="0" [globalFilterFields]="['characteristicName', 'featureName', 'value', 'valueDataType']" [sortField]="'characteristicName'" [resizableColumns]="true" [autoLayout]="true">
             <ng-template pTemplate="header">
                 <tr>
                     <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="white-space-nowrap min-width-10rem">
@@ -24,7 +24,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-characteristic>
                 <tr>
-                    <td *ngFor="let col of columns" class="cursor-pointer">
+                    <td *ngFor="let col of columns" class="cursor-pointer value-column">
                         <span>{{ characteristic[col.field] }}</span>
                     </td>
                     <td>
