@@ -340,17 +340,27 @@
             </div>
 
             <!-- Linked Articles Section -->
-            <div *ngIf="linkedArticles.length && (linkedArticles | hasAnyValue: 'articleUrl')" class="section">
+            <div *ngIf="linkedArticles.length" class="section">
                 <div class="section-title">{{ 'PassportManagement.Linked Articles' | translate }}</div>
                 <p-table [value]="linkedArticles" class="linked-articles-table">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th>{{ 'PassportManagement.Article URL' | translate }}</th>
+                            <th *ngIf="linkedArticles | hasAnyValue: 'articleUrl'">
+                                {{ 'PassportManagement.Article URL' | translate }}
+                            </th>
+                            <th *ngIf="linkedArticles | hasAnyValue: 'description'">
+                                {{ 'PassportManagement.Description' | translate }}
+                            </th>
                         </tr>
                     </ng-template>
                     <ng-template let-article pTemplate="body">
                         <tr>
-                            <td><a href="{{ article.articleUrl }}">{{ article.articleUrl }}</a></td>
+                            <td *ngIf="linkedArticles | hasAnyValue: 'articleUrl'">
+                                <a [href]="article.articleUrl">{{ article.articleUrl }}</a>
+                            </td>
+                            <td *ngIf="linkedArticles | hasAnyValue: 'description'">
+                                {{ article.description }}
+                            </td>
                         </tr>
                     </ng-template>
                 </p-table>
