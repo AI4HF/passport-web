@@ -15,7 +15,7 @@
         <p-table #dt [value]="featureSetList" [columns]="columns" [rows]="10" [rowHover]="true" [paginator]="true"
                  [showCurrentPageReport]="true" [currentPageReportTemplate]="'FeatureSetManagement.NumberOfEntries' | translate"
                  [rowsPerPageOptions]="[10,25,50]" [showLoader]="true" [loading]="loading" [filterDelay]="0"
-                 [globalFilterFields]="['featuresetId', 'title', 'description', 'featuresetURL', 'experimentId']"
+                 [globalFilterFields]="['featuresetId', 'title', 'description', 'featuresetURL', 'experimentId', 'createdAt']"
                  [sortField]="'title'">
             <ng-template pTemplate="header">
                 <tr>
@@ -41,6 +41,10 @@
                         {{ 'FeatureSetManagement.Experiment' | translate }}
                         <p-sortIcon [field]="'experimentId'"></p-sortIcon>
                     </th>
+                    <th [pSortableColumn]="'createdAt'" class="white-space-nowrap text-center">
+                        {{ 'FeatureSetManagement.CreatedAt' | translate }}
+                        <p-sortIcon [field]="'createdAt'"></p-sortIcon>
+                    </th>
                     <th>
                         {{ 'FeatureSetManagement.Actions' | translate }}
                     </th>
@@ -64,6 +68,10 @@
                     <td class="text-center">
                         <span>{{ getExperimentName(featureSet.experimentId) }}</span>
                     </td>
+                    <td class="text-center">
+                        <span>{{ featureSet.createdAt ? (featureSet.createdAt | date:'yyyy-MM-dd HH:mm:ss') : '-' }}</span>
+                    </td>
+
                     <td>
                         <button pButton pRipple type="button" [icon]="'pi pi-pencil'"
                                 class="p-button-text p-button-rounded p-ripple" tooltipPosition="bottom"

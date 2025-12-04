@@ -41,7 +41,8 @@ export class FeatureSetManagementDashboardComponent extends BaseComponent implem
             { header: 'Title', field: 'title' },
             { header: 'Description', field: 'description' },
             { header: 'URL', field: 'featuresetURL' },
-            { header: 'Experiment', field: 'experimentId' }
+            { header: 'Experiment', field: 'experimentId' },
+            { header: 'Created At', field: 'createdAt' }
         ];
     }
 
