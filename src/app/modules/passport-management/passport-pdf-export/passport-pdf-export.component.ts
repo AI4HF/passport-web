@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Injector, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Injector, Input, Output} from '@angular/core';
 import { ModelDeployment } from '../../../shared/models/modelDeployment.model';
 import { DeploymentEnvironment } from '../../../shared/models/deploymentEnvironment.model';
 import { Model } from '../../../shared/models/model.model';
@@ -523,13 +523,5 @@ export class PdfExportComponent extends BaseComponent{
      */
     closeDialog() {
         this.pdfPreviewClosed.emit();
-    }
-
-    /**
-     * Closes the popup when the user presses the Escape key.
-     */
-    @HostListener('document:keydown.escape', ['$event'])
-    onEscapePress(event: KeyboardEvent) {
-        this.closeDialog();
     }
 }

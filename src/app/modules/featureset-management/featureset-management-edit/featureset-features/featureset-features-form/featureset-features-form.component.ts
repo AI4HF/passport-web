@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import {Component, EventEmitter, HostListener, Injector, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Injector, Input, OnInit, Output} from '@angular/core';
 import { BaseComponent } from "../../../../../shared/components/base.component";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Feature } from "../../../../../shared/models/feature.model";
@@ -223,11 +223,4 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
         this.formClosed.emit();
     }
 
-    /**
-     * Closes the popup when the user presses the Escape key.
-     */
-    @HostListener('document:keydown.escape', ['$event'])
-    onEscapePress(event: KeyboardEvent) {
-        this.closeDialog();
-    }
 }

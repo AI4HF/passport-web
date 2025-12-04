@@ -1,4 +1,4 @@
-import {Component, Injector, Input, OnInit, Output, EventEmitter, HostListener} from '@angular/core';
+import {Component, Injector, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Personnel } from '../../../../../shared/models/personnel.model';
 import { takeUntil } from 'rxjs/operators';
@@ -188,14 +188,6 @@ export class PersonnelFormComponent extends BaseComponent implements OnInit {
     closeDialog() {
         this.display = false
         this.formClosed.emit();
-    }
-
-    /**
-     * Closes the popup when the user presses the Escape key.
-     */
-    @HostListener('document:keydown.escape', ['$event'])
-    onEscapePress(event: KeyboardEvent) {
-        this.closeDialog();
     }
 
     /**
