@@ -85,7 +85,16 @@
       "Experiments are assigned successfully": "Experiments are assigned successfully"
     },
     "LinkedArticle": {
+      "LinkedArticleID": "Article ID",
       "URL": "Article URL",
+      "Description": "Description",
+      "LinkedArticleDetails": "Linked Article Details",
+      "CreateLinkedArticle": "Create Article",
+      "URLPlaceholder": "Enter the article URL",
+      "DescriptionPlaceholder": "Enter the description",
+      "LinkedArticleCreated": "Article has been created.",
+      "LinkedArticleUpdated": "Article has been updated.",
+      "LinkedArticleDeleted": "Article has been deleted.",
       "Please add article url": "Please add article url...",
       "Linked articles are assigned successfully": "Linked articles are assigned successfully"
     },
@@ -193,6 +202,7 @@
     "NewFeatureSet": "New Feature Set",
     "NumberOfEntries": "Showing {first} to {last} of {totalRecords} entries",
     "ID": "ID",
+    "CreatedAt": "Created At",
     "Experiment": "Experiment",
     "Title": "Title",
     "Description": "Description",
