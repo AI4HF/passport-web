@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Injector, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Injector, OnInit, Output} from '@angular/core';
 import { Passport } from "../../../shared/models/passport.model";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { BaseComponent } from "../../../shared/components/base.component";
@@ -183,13 +183,5 @@ export class PassportManagementFormComponent extends BaseComponent implements On
     closeDialog() {
         this.display = false;
         this.formClosed.emit();
-    }
-
-    /**
-     * Closes the popup when the user presses the Escape key.
-     */
-    @HostListener('document:keydown.escape', ['$event'])
-    onEscapePress(event: KeyboardEvent) {
-        this.closeDialog();
     }
 }

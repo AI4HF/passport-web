@@ -1,36 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {LinkedArticlesComponent} from "./linked-articles.component";
-import {ButtonModule} from "primeng/button";
-import {CardModule} from "primeng/card";
-import {DropdownModule} from "primeng/dropdown";
-import {PickListModule} from "primeng/picklist";
-import {RippleModule} from "primeng/ripple";
-import {SharedModule} from "primeng/api";
-import {TranslateModule} from "@ngx-translate/core";
-import {InputTextModule} from "primeng/inputtext";
-import {ReactiveFormsModule} from "@angular/forms";
-import {TableModule} from "primeng/table";
-import {StudyDetailsModule} from "../study-details/study-details.module";
+import { LinkedArticlesTableModule } from './linked-articles-table/linked-articles-table.module';
+import { LinkedArticlesFormModule } from './linked-articles-form/linked-articles-form.module';
+import { LinkedArticlesRoutingModule } from './linked-articles-routing.module';
 
 @NgModule({
-    declarations: [
-        LinkedArticlesComponent
-    ],
+    declarations: [],
     imports: [
         CommonModule,
-        ButtonModule,
-        CardModule,
-        DropdownModule,
-        PickListModule,
-        RippleModule,
-        SharedModule,
-        TranslateModule,
-        InputTextModule,
-        ReactiveFormsModule,
-        TableModule,
-        StudyDetailsModule
-    ],
-    exports: [LinkedArticlesComponent]
+        LinkedArticlesRoutingModule,
+        LinkedArticlesTableModule,
+        LinkedArticlesFormModule
+    ]
 })
 export class LinkedArticlesModule { }
