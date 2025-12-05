@@ -16,6 +16,7 @@ import {EvaluationMeasure} from "../../../shared/models/evaluationMeasure.model"
 import {ModelFigure} from "../../../shared/models/modelFigure.model";
 import {LinkedArticle} from "../../../shared/models/linkedArticle.model";
 import {GenerateAndSignPdfOptionsDto} from "../../../shared/models/pdfGenerationDTO.model";
+import {takeUntil} from "rxjs/operators";
 
 /**
  * Component responsible for generating and exporting the passport PDF.
@@ -61,6 +62,16 @@ export class PdfExportComponent extends BaseComponent{
     /** Locks export buttons and toggles labels while an export is running */
     exporting = false;
 
+    /**
+     * ID to be used strictly for digital signing.
+     */
+    private exportStudyId: string = '';
+
+    /**
+     * Name to be used strictly for file naming.
+     */
+    private exportStudyName: string = 'AI4HF_Export';
+
     public logoDataUrl?: string;
 
     /** Event emitted when the PDF preview is closed */
@@ -76,6 +87,26 @@ export class PdfExportComponent extends BaseComponent{
     async ngOnInit() {
         const absLogoUrl = new URL('favicon.ico', document.baseURI).href;
         this.logoDataUrl = await this.toDataUrl(absLogoUrl);
+
+        // Study ID/Name Initialization
+        if (this.studyDetails && this.studyDetails.id) {
+            this.exportStudyId = this.studyDetails.id;
+            this.exportStudyName = this.studyDetails.name;
+        } else {
+            const activeId = this.activeStudyService.getActiveStudy();
+
+            if (activeId) {
+                this.exportStudyId = activeId;
+                this.studyService.getStudyById(activeId)
+                    .pipe(takeUntil(this.destroy$))
+                    .subscribe({
+                        next: (study) => {
+                            this.exportStudyName = study.name;
+                        },
+                        error: (err) => console.error('Could not fetch study name for export', err)
+                    });
+            }
+        }
     }
 
     /**
@@ -101,7 +132,7 @@ export class PdfExportComponent extends BaseComponent{
      */
     async generatePdf() {
         const container = document.getElementById('pdfPreviewContainer');
-        if (!container || !this.studyDetails?.id) return;
+        if (!container) return;
 
         // Pull the current page’s styles
         const headHtml = Array
@@ -148,9 +179,9 @@ export class PdfExportComponent extends BaseComponent{
             this.exporting = true;
             const today = new Date();
             const formattedDate = today.toISOString().slice(0,10).replace(/-/g, '');
-            const fileName = `${this.studyDetails.name}_Passport_${formattedDate}.pdf`;
+            const fileName = `${this.exportStudyName}_Passport_${formattedDate}.pdf`;
             const opts: GenerateAndSignPdfOptionsDto = {fileName: fileName, baseUrl: baseHref}
-            this.passportService.generateAndSignPdf(html, this.studyDetails.id, opts)
+            this.passportService.generateAndSignPdf(html, this.exportStudyId, opts)
                 .subscribe((signedBlob: Blob) => {
                     const url = URL.createObjectURL(signedBlob);
                     const link = document.createElement('a');
@@ -479,7 +510,7 @@ export class PdfExportComponent extends BaseComponent{
             const blob = htmlDocx.asBlob(html);
             const today = new Date();
             const formattedDate = today.toISOString().slice(0,10).replace(/-/g, '');
-            FileSaver.saveAs(blob, `${this.studyDetails.name}_Passport_${formattedDate}.docx`);
+            FileSaver.saveAs(blob, `${this.exportStudyName}_Passport_${formattedDate}.docx`);
             this.closeDialog();
         } catch (e) {
             this.exporting = false;
