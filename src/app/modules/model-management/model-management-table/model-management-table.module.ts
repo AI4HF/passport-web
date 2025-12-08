@@ -18,6 +18,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {
     SelectedStudyDropdownModule
 } from "../../../shared/components/selected-study-dropdown/selected-study-dropdown.module";
+import {ModelFigureGalleryModule} from "../model-figure-gallery/model-figure-gallery.module";
 
 
 
@@ -34,7 +35,7 @@ import {
         TableModule,
         TooltipModule,
         TranslateModule,
-        ModelManagementFormModule,
+        ModelFigureGalleryModule,
         DropdownModule,
         PaginatorModule,
         ReactiveFormsModule,

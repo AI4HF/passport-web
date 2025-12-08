@@ -5,6 +5,7 @@ import { ModelParameterTableComponent } from './model-parameter/model-parameter-
 import {
     EvaluationMeasureTableComponent
 } from "./evaluation-measure/evaluation-measure-table/evaluation-measure-table.component";
+import {ModelFigureGalleryComponent} from "./model-figure-gallery/model-figure-gallery.component";
 
 const routes: Routes = [
     {
@@ -18,6 +19,10 @@ const routes: Routes = [
     {
         path: ':modelId/evaluation-measure-assignment',
         component: EvaluationMeasureTableComponent
+    },
+    {
+        path: ':modelId/model-figure-gallery',
+        component: ModelFigureGalleryComponent
     }
 ];
 

@@ -152,4 +152,12 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
     this.router.navigate([`/model-management/${modelId}/evaluation-measure-assignment`]);
   }
 
+  /**
+   * Navigates to the model figure gallery view.
+   * @param modelId The ID of the selected model
+   */
+  goToModelFigureGallery(modelId: string) {
+    this.router.navigate([`/model-management/${modelId}/model-figure-gallery`]);
+  }
+
 }
