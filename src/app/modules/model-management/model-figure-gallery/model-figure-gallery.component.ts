@@ -54,13 +54,15 @@ export class ModelFigureGalleryComponent extends BaseComponent implements OnInit
                     this.modelFigures = modelFigures;
                 },
                 error: error => {
-                    this.translateService.get('Error').subscribe(translation => {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: translation,
-                            detail: error.message
+                    if(error.status != 404) {
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
                         });
-                    });
+                    }
                 }
         })
     }

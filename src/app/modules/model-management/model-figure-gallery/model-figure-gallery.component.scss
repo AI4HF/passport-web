@@ -32,3 +32,23 @@
     display: block;
   }
 }
+
+.no-figure-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--surface-b);
+}
+
+.no-figure-card {
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: var(--shadow-2);
+  border-radius: var(--border-radius);
+}
+
+.no-figure-content p {
+  margin: 1rem 0;
+}

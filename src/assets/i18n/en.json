@@ -387,7 +387,9 @@
     "Figure Details": "Figure Details",
     "Add Figure": "Add Figure",
     "Model Figure is created successfully": "Model Figure is created successfully",
-    "Model Figure is deleted successfully": "Model Figure is deleted successfully"
+    "Model Figure is deleted successfully": "Model Figure is deleted successfully",
+    "No Figures Added": "No Figures Added",
+    "Click “Add Figure” to create your first visualization": "Click “Add Figure” to create your first visualization."
   },
   "DeploymentManagement": {
     "Deployments": "Deployments",
