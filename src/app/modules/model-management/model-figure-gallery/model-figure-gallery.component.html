@@ -78,6 +78,7 @@
 
 <!-- Add Figure Dialog -->
 <p-dialog
+        *ngIf="addDialogVisible"
         [(visible)]="addDialogVisible"
         [modal]="true"
         [style]="{ width: '30vw' }"
