@@ -16,7 +16,7 @@
 
     <!-- Add -->
     <button pButton
-            [label]="'ModelManagement.Add Figure' | translate"
+            [label]="'ModelManagement.Create Model Figure' | translate"
             icon="pi pi-plus"
             class="p-button-sm ml-3"
             (click)="openAddFigureDialog()">
@@ -67,7 +67,7 @@
 <div *ngIf="!modelFigures.length" class="no-figure-container">
     <p-card header="{{ 'ModelManagement.No Figures Added' | translate }}" class="no-figure-card">
         <div class="no-figure-content">
-            <p>{{ 'ModelManagement.Click “Add Figure” to create your first visualization' | translate }}</p>
+            <p>{{ 'ModelManagement.Click “Create Model Figure” to create your first visualization' | translate }}</p>
         </div>
     </p-card>
 </div>
@@ -96,7 +96,7 @@
     </div>
 </p-dialog>
 
-<!-- Add Figure Dialog -->
+<!-- Create Figure Dialog -->
 <p-dialog
         *ngIf="addDialogVisible"
         [(visible)]="addDialogVisible"
@@ -106,7 +106,7 @@
 >
     <ng-template pTemplate="header">
         <div class="flex align-items-center">
-            <h5 class="text-900 font-bold mb-0">{{ 'ModelManagement.Add Figure' | translate }}</h5>
+            <h5 class="text-900 font-bold mb-0">{{ 'ModelManagement.Create Model Figure' | translate }}</h5>
             <app-tooltip class="ml-2" message="ModelManagement.AddFigureToolTip"></app-tooltip>
         </div>
     </ng-template>

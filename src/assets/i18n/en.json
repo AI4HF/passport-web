@@ -385,11 +385,11 @@
     "ModelFormTooltip": "Form to create or update a model.",
     "Model Figures": "Model Figures",
     "Figure Details": "Figure Details",
-    "Add Figure": "Add Figure",
+    "Create Model Figure": "Create Model Figure",
     "Model Figure is created successfully": "Model Figure is created successfully",
     "Model Figure is deleted successfully": "Model Figure is deleted successfully",
     "No Figures Added": "No Figures Added",
-    "Click “Add Figure” to create your first visualization": "Click “Add Figure” to create your first visualization."
+    "Click “Create Model Figure” to create your first visualization": "Click “Create Model Figure” to create your first visualization."
   },
   "DeploymentManagement": {
     "Deployments": "Deployments",
