@@ -7,6 +7,7 @@ import {ModelFigureGalleryRoutingModule} from "./model-figure-gallery-routing.mo
 import {ButtonModule} from "primeng/button";
 import {StudyDetailsModule} from "../../study-management/study-management-edit/study-details/study-details.module";
 import {TranslateModule} from "@ngx-translate/core";
+import {RippleModule} from "primeng/ripple";
 
 
 
@@ -19,7 +20,8 @@ import {TranslateModule} from "@ngx-translate/core";
         ModelFigureGalleryRoutingModule,
         ButtonModule,
         StudyDetailsModule,
-        TranslateModule
+        TranslateModule,
+        RippleModule
     ],
     exports: [ModelFigureGalleryComponent]
 })

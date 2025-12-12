@@ -208,4 +208,11 @@ export class ModelFigureGalleryComponent extends BaseComponent implements OnInit
         }
         this.newFigurePreviewUrl = null;
     }
+
+    /**
+     * Navigates back to the model table.
+     */
+    returnToModels() {
+        this.router.navigate([`/model-management`]);
+    }
 }

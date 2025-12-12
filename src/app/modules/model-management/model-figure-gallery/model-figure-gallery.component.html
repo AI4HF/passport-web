@@ -1,10 +1,30 @@
-<div class="flex justify-content-between align-items-center mb-3">
-    <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'ModelManagement.Model Figures' | translate }}</div>
-    <button pButton [label]="('ModelManagement.Add Figure' | translate)" icon="pi pi-plus" class="p-button-sm"
-            (click)="openAddFigureDialog()"></button>
+<div class="flex align-items-center">
+    <!-- Back -->
+    <button pButton
+            pRipple
+            type="button"
+            icon="pi pi-arrow-left"
+            label="{{ 'ParameterAssignment.ReturnToModel' | translate }}"
+            class="p-button-sm mr-3"
+            (click)="returnToModels()">
+    </button>
+
+    <!-- Title -->
+    <div class="flex-1 text-center text-900 text-2xl font-semibold">
+        {{ 'ModelManagement.Model Figures' | translate }}
+    </div>
+
+    <!-- Add -->
+    <button pButton
+            [label]="'ModelManagement.Add Figure' | translate"
+            icon="pi pi-plus"
+            class="p-button-sm ml-3"
+            (click)="openAddFigureDialog()">
+    </button>
 </div>
 
-<div *ngIf="modelFigures.length" class="grid">
+
+<div *ngIf="modelFigures.length" class="grid model-figure-grid mt-3">
     <div
             class="col-12 sm:col-6 md:col-4 lg:col-3"
             *ngFor="let fig of modelFigures"
@@ -24,22 +44,22 @@
             </div>
 
             <ng-template pTemplate="footer">
-                <div class="flex justify-content-end gap-2">
-                    <button
-                            pButton
-                            icon="pi pi-eye"
-                            class="p-button-text p-button-sm"
-                            (click)="openFigure(fig); $event.stopPropagation()"
-                    ></button>
-
+                <div class="flex justify-content-between align-items-center w-full">
                     <button
                             pButton
                             icon="pi pi-trash"
                             class="p-button-text p-button-danger p-button-sm"
                             (click)="deleteFigure(fig, $event)"
                     ></button>
+                    <button
+                            pButton
+                            icon="pi pi-eye"
+                            class="p-button-text p-button-sm"
+                            (click)="openFigure(fig); $event.stopPropagation()"
+                    ></button>
                 </div>
             </ng-template>
+
         </p-card>
     </div>
 </div>
