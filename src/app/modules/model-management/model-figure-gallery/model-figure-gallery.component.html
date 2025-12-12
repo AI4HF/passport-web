@@ -1,0 +1,133 @@
+<div class="flex align-items-center">
+    <!-- Back -->
+    <button pButton
+            pRipple
+            type="button"
+            icon="pi pi-arrow-left"
+            label="{{ 'ParameterAssignment.ReturnToModel' | translate }}"
+            class="p-button-sm mr-3"
+            (click)="returnToModels()">
+    </button>
+
+    <!-- Title -->
+    <div class="flex-1 text-center text-900 text-2xl font-semibold">
+        {{ 'ModelManagement.Model Figures' | translate }}
+    </div>
+
+    <!-- Add -->
+    <button pButton
+            [label]="'ModelManagement.Create Model Figure' | translate"
+            icon="pi pi-plus"
+            class="p-button-sm ml-3"
+            (click)="openAddFigureDialog()">
+    </button>
+</div>
+
+
+<div *ngIf="modelFigures.length" class="grid model-figure-grid mt-3">
+    <div
+            class="col-12 sm:col-6 md:col-4 lg:col-3"
+            *ngFor="let fig of modelFigures"
+    >
+        <p-card
+                class="figure-card"
+                (click)="openFigure(fig)"
+                [style.cursor]="'pointer'"
+        >
+            <div class="thumb-wrapper">
+                <img
+                        *ngIf="fig.imageBase64"
+                        [src]="'data:image/png;base64,' + fig.imageBase64"
+                        alt="figure"
+                        class="thumb-img"
+                />
+            </div>
+
+            <ng-template pTemplate="footer">
+                <div class="flex justify-content-between align-items-center w-full">
+                    <button
+                            pButton
+                            icon="pi pi-trash"
+                            class="p-button-text p-button-danger p-button-sm"
+                            (click)="deleteFigure(fig, $event)"
+                    ></button>
+                    <button
+                            pButton
+                            icon="pi pi-eye"
+                            class="p-button-text p-button-sm"
+                            (click)="openFigure(fig); $event.stopPropagation()"
+                    ></button>
+                </div>
+            </ng-template>
+
+        </p-card>
+    </div>
+</div>
+
+<div *ngIf="!modelFigures.length" class="no-figure-container">
+    <p-card header="{{ 'ModelManagement.No Figures Added' | translate }}" class="no-figure-card">
+        <div class="no-figure-content">
+            <p>{{ 'ModelManagement.Click “Create Model Figure” to create your first visualization' | translate }}</p>
+        </div>
+    </p-card>
+</div>
+
+<!-- Full-size Figure Dialog -->
+<p-dialog
+        [(visible)]="dialogVisible"
+        [modal]="true"
+        [style]="{ width: '60vw' }"
+        [dismissableMask]="true"
+        [maximizable]="true"
+>
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center">
+            <h5 class="text-900 font-bold mb-0">{{ 'ModelManagement.Figure Details' | translate }}</h5>
+            <app-tooltip class="ml-2" message="ModelManagement.FigureDetailsToolTip"></app-tooltip>
+        </div>
+    </ng-template>
+
+    <div class="flex flex-column align-items-center">
+        <img
+                *ngIf="selectedFigure"
+                [src]="'data:image/png;base64,' + selectedFigure.imageBase64"
+                class="full-img"
+        />
+    </div>
+</p-dialog>
+
+<!-- Create Figure Dialog -->
+<p-dialog
+        *ngIf="addDialogVisible"
+        [(visible)]="addDialogVisible"
+        [modal]="true"
+        [style]="{ width: '30vw' }"
+        [dismissableMask]="true"
+>
+    <ng-template pTemplate="header">
+        <div class="flex align-items-center">
+            <h5 class="text-900 font-bold mb-0">{{ 'ModelManagement.Create Model Figure' | translate }}</h5>
+            <app-tooltip class="ml-2" message="ModelManagement.AddFigureToolTip"></app-tooltip>
+        </div>
+    </ng-template>
+
+    <div class="flex flex-column gap-3">
+        <div>
+            <input type="file"
+                   accept="image/png"
+                   (change)="onFileSelected($event)" />
+        </div>
+
+        <div *ngIf="newFigurePreviewUrl" class="preview-wrapper">
+            <img [src]="newFigurePreviewUrl" alt="preview" class="preview-img" />
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <button pButton label="Cancel" class="p-button-text"
+                (click)="cancelAddFigure()"></button>
+        <button pButton label="Save" icon="pi pi-check"
+                [disabled]="!newFigureFile"
+                (click)="saveNewFigure()"></button>
+    </ng-template>
+</p-dialog>

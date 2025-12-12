@@ -314,6 +314,7 @@
   "ModelManagement": {
     "AssignParameters": "Assign Parameters",
     "ExamineEvaluationMeasures": "Examine Evaluation Measures",
+    "OpenModelFigureGallery": "Open Model Figure Gallery",
     "ID": "ID",
     "Name": "Name",
     "Version": "Version",
@@ -381,7 +382,14 @@
     "LimitationsPlaceholder": "Enter the limitations",
     "FairnessConstraints": "Fairness Constraints",
     "FairnessConstraintsPlaceholder": "Enter the fairness constraints",
-    "ModelFormTooltip": "Form to create or update a model."
+    "ModelFormTooltip": "Form to create or update a model.",
+    "Model Figures": "Model Figures",
+    "Figure Details": "Figure Details",
+    "Create Model Figure": "Create Model Figure",
+    "Model Figure is created successfully": "Model Figure is created successfully",
+    "Model Figure is deleted successfully": "Model Figure is deleted successfully",
+    "No Figures Added": "No Figures Added",
+    "Click “Create Model Figure” to create your first visualization": "Click “Create Model Figure” to create your first visualization."
   },
   "DeploymentManagement": {
     "Deployments": "Deployments",
@@ -645,7 +653,9 @@
     },
     "ModelManagement": {
       "ModelFormTooltip": "Creation/Update form for managing models.",
-      "ActiveStudyTooltip": "Selection of the Study to be worked on within the specified role responsibilities."
+      "ActiveStudyTooltip": "Selection of the Study to be worked on within the specified role responsibilities.",
+      "FigureDetailsToolTip": "Examine the model figure.",
+      "AddFigureToolTip": "Select a PNG file for creating a model figure."
     },
     "LearningProcessManagement": {
       "AlgorithmTooltip": "Select the algorithm to be used in the learning process.",

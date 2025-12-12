@@ -5,6 +5,7 @@ import {ModelManagementTableModule} from "./model-management-table/model-managem
 import {ModelManagementFormModule} from "./model-management-form/model-management-form.module";
 import {ModelParameterModule} from "./model-parameter/model-parameter.module";
 import {EvaluationMeasureModule} from "./evaluation-measure/evaluation-measure.module";
+import {ModelFigureGalleryModule} from "./model-figure-gallery/model-figure-gallery.module";
 
 
 
@@ -16,7 +17,8 @@ import {EvaluationMeasureModule} from "./evaluation-measure/evaluation-measure.m
       ModelManagementTableModule,
       ModelManagementFormModule,
       ModelParameterModule,
-      EvaluationMeasureModule
+      EvaluationMeasureModule,
+      ModelFigureGalleryModule
   ]
 })
 export class ModelManagementModule { }
