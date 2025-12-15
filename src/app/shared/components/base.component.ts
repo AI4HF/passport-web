@@ -1,4 +1,4 @@
-import {Component, Injector, OnDestroy} from '@angular/core';
+import {Component, HostListener, Injector, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subject} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
@@ -149,6 +149,25 @@ export abstract class BaseComponent implements OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
     this.clearState();
+  }
+
+  /**
+   * Check for the display variable and closeDialog function of the component, then comply with those on 'escape'.
+   * @param event
+   * @protected
+   */
+  @HostListener('document:keydown.escape', ['$event'])
+  protected handleEscapeFromBase(event: KeyboardEvent): void {
+    try {
+      const self = this as any;
+      if (!self.display) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (typeof self.closeDialog === 'function') self.closeDialog();
+      else self.display = false;
+    } catch {}
   }
 
   /**

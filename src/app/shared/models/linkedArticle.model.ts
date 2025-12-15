@@ -17,6 +17,11 @@ export class LinkedArticle{
      */
     articleUrl: string;
 
+    /**
+     * Description of the linked article
+     */
+    description: string;
+
     constructor(data: any) {
 
         if(!data){
@@ -26,5 +31,6 @@ export class LinkedArticle{
         this.linkedArticleId = data.linkedArticleId;
         this.studyId = data.studyId;
         this.articleUrl = data.articleUrl;
+        this.description = data.description;
     }
 }
