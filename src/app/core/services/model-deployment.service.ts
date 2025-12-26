@@ -151,4 +151,23 @@ export class ModelDeploymentService {
             })
         );
   }
+
+    /**
+     * Validates if a model deployment deletion is safe regarding cascading permissions.
+     * @param deploymentId Id of the deployment
+     * @param studyId ID of the study
+     * @return {Observable<any>}
+     */
+    validateModelDeploymentDeletion(deploymentId: String, studyId: String): Observable<any> {
+        const url = `${this.endpoint}/${deploymentId}/validate-deletion?studyId=${studyId}`;
+        return this.httpClient.get(url, { responseType: 'text' })
+            .pipe(
+                map((response: any) => {
+                    return response;
+                }),
+                catchError((error) => {
+                    throw error;
+                })
+            );
+    }
 }

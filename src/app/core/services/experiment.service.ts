@@ -75,4 +75,25 @@ export class ExperimentService {
                 })
             );
     }
+
+    /**
+     * Validates if the new list of experiments is safe regarding cascading permissions.
+     * @param studyId ID of the study
+     * @param experiments The new list of experiments to be saved
+     * @return {Observable<any>}
+     */
+    validateExperimentReplacement(studyId: string, experiments: Experiment[]): Observable<any> {
+        const url = `${this.endpoint}/validate-deletion?studyId=${studyId}`;
+        return this.httpClient.request('POST', url, {
+            body: experiments,
+            responseType: 'text'
+        }).pipe(
+            map((response: any) => {
+                return response;
+            }),
+            catchError((error) => {
+                throw error;
+            })
+        );
+    }
 }

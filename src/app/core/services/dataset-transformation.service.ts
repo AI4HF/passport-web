@@ -76,4 +76,23 @@ export class DatasetTransformationService {
                 })
             );
     }
+
+    /**
+     * Validates if a learning dataset deletion is safe regarding cascading permissions.
+     * @param datasetTransformationId Id of the learning dataset
+     * @param studyId ID of the study
+     * @return {Observable<any>}
+     */
+    validateDatasetTransformationDeletion(datasetTransformationId: String, studyId: String): Observable<any> {
+        const url = `${this.endpoint}/${datasetTransformationId}/validate-deletion?studyId=${studyId}`;
+        return this.httpClient.get(url, { responseType: 'text' })
+            .pipe(
+                map((response: any) => {
+                    return response;
+                }),
+                catchError((error) => {
+                    throw error;
+                })
+            );
+    }
 }

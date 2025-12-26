@@ -144,4 +144,22 @@ export class ModelService {
                 })
             );
     }
+
+    /**
+     * Validates if a model deletion is safe regarding cascading permissions.
+     * @param modelId Id of the model
+     * @return {Observable<any>}
+     */
+    validateModelDeletion(modelId: String): Observable<any> {
+        const url = `${this.endpoint}/${modelId}/validate-deletion`;
+        return this.httpClient.get(url, { responseType: 'text' })
+            .pipe(
+                map((response: any) => {
+                    return response;
+                }),
+                catchError((error) => {
+                    throw error;
+                })
+            );
+    }
 }

@@ -119,4 +119,23 @@ export class ParameterService {
             );
     }
 
+    /**
+     * Validates if a parameter deletion is safe regarding cascading permissions.
+     * @param parameterId Id of the parameter
+     * @param studyId ID of the study
+     * @return {Observable<any>}
+     */
+    validateParameterDeletion(parameterId: String, studyId: String): Observable<any> {
+        const url = `${this.endpoint}/${parameterId}/validate-deletion?studyId=${studyId}`;
+        return this.httpClient.get(url, { responseType: 'text' })
+            .pipe(
+                map((response: any) => {
+                    return response;
+                }),
+                catchError((error) => {
+                    throw error;
+                })
+            );
+    }
+
 }

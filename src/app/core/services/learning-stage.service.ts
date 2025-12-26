@@ -134,4 +134,23 @@ export class LearningStageService {
                 })
             );
     }
+
+    /**
+     * Validates if a learning stage deletion is safe regarding cascading permissions.
+     * @param learningStageId Id of the learning stage
+     * @param studyId ID of the study
+     * @return {Observable<any>}
+     */
+    validateLearningStageDeletion(learningStageId: String, studyId: String): Observable<any> {
+        const url = `${this.endpoint}/${learningStageId}/validate-deletion?studyId=${studyId}`;
+        return this.httpClient.get(url, { responseType: 'text' })
+            .pipe(
+                map((response: any) => {
+                    return response;
+                }),
+                catchError((error) => {
+                    throw error;
+                })
+            );
+    }
 }
