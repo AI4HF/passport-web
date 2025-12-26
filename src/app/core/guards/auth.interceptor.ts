@@ -1,11 +1,12 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import {NavigationExtras, Router} from '@angular/router';
 import {StorageUtil} from "../services/storageUtil.service";
-import {MessageService} from "primeng/api";
-import {TranslateService} from "@ngx-translate/core";
+import {ActiveStudyService} from "../services/activeStudy.service";
+import {RoleService} from "../services/role.service";
+import {Role} from "../../shared/models/role.enum";
 
 /**
  * An HTTP interceptor which sets up all requests' Authorization headers and logouts if there is an Unauthorized check.
@@ -13,7 +14,8 @@ import {TranslateService} from "@ngx-translate/core";
  */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-    constructor(private router: Router) {}
+
+    constructor(private router: Router, private injector: Injector) {}
 
     /**
      * Interceptor which controls tasks related to token injection and authorization control on inner pages.
@@ -59,6 +61,22 @@ export class AuthInterceptor implements HttpInterceptor {
                         }
                     };
                     this.router.navigate(['/not-found'], navigationExtras);
+                }
+                else if (error.status === 410) {
+                    const navigationExtras: NavigationExtras = {
+                        state: {
+                            message: 'Study Not Found',
+                            severity: 'error',
+                            detail: 'Authorized Study does not exist.'
+                        }
+                    };
+                    const activeStudyService = this.injector.get(ActiveStudyService);
+                    const roleService = this.injector.get(RoleService)
+                    const roles = roleService.getRoles();
+                    roleService.clearRoles();
+                    if(roles.includes(Role.STUDY_OWNER)) roleService.setRoles([Role.STUDY_OWNER]);
+                    activeStudyService.clearActiveStudy();
+                    this.router.navigate(['/study-management'], navigationExtras);
                 }
 
                 return throwError(error);
