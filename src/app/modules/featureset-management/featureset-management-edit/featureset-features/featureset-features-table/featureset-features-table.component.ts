@@ -38,6 +38,18 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
     /** Columns to be displayed in the outcome table */
     outcomeColumns: any[];
 
+    /** Visibility flag for cascade validation dialog */
+    displayCascadeDialog: boolean = false;
+
+    /** List of tables to display in the validation dialog */
+    cascadeTables: string = '';
+
+    /** Authorization status for the validation dialog */
+    cascadeAuthorized: boolean = false;
+
+    /** Temporary storage of the feature ID pending deletion */
+    pendingDeletionId: string = null;
+
     /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
@@ -102,11 +114,50 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
     }
 
     /**
-     * Deletes a feature by its ID.
+     * Initiates the deletion process by validating permissions first.
      * @param featureId The ID of the feature to be deleted
      */
     deleteFeature(featureId: string) {
-        this.featureService.deleteFeature(featureId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+        this.pendingDeletionId = featureId;
+
+        this.featureService.validateFeatureDeletion(featureId, this.activeStudyService.getActiveStudy())
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: (response: string) => {
+                    if (!response || response.trim() === '') {
+                        this.executeDeletion(this.pendingDeletionId);
+                    } else {
+                        this.cascadeTables = response;
+                        this.cascadeAuthorized = true;
+                        this.displayCascadeDialog = true;
+                    }
+                },
+                error: (error: any) => {
+                    if (error.status === 409) {
+                        this.cascadeTables = error.error || '';
+                        this.cascadeAuthorized = false;
+                        this.displayCascadeDialog = true;
+                    } else {
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
+                        });
+                        this.pendingDeletionId = null;
+                    }
+                }
+            });
+    }
+
+    /**
+     * Executes the actual deletion after validation or confirmation.
+     * @param featureId The ID of the feature to be deleted
+     */
+    executeDeletion(featureId: string) {
+        this.featureService.deleteFeature(featureId, this.activeStudyService.getActiveStudy())
+            .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     const isFeature = this.features.find(f => f.featureId === featureId);
@@ -119,6 +170,7 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
                             detail: translations[(isFeature ? 'FeatureSetManagement.FeatureDeleted' : 'FeatureSetManagement.OutcomeDeleted')]
                         });
                     });
+                    this.pendingDeletionId = null;
                 },
                 error: error => {
                     this.translateService.get('Error').subscribe(translation => {
@@ -128,8 +180,18 @@ export class FeatureSetFeaturesTableComponent extends BaseComponent implements O
                             detail: error.message
                         });
                     });
+                    this.pendingDeletionId = null;
                 }
             });
+    }
+
+    /**
+     * Handles the cancellation of the cascade dialog.
+     */
+    onCascadeDialogCancel() {
+        this.displayCascadeDialog = false;
+        this.pendingDeletionId = null;
+        this.cascadeTables = '';
     }
 
     /**

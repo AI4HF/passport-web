@@ -22,6 +22,14 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
   displayForm: boolean = false;
   /** The ID of the selected model for editing */
   selectedModelId: string = null;
+  /** Visibility flag for cascade validation dialog */
+  displayCascadeDialog: boolean = false;
+  /** List of tables to display in the validation dialog */
+  cascadeTables: string = '';
+  /** Authorization status for the validation dialog */
+  cascadeAuthorized: boolean = false;
+  /** Temporary storage of the model ID pending deletion */
+  pendingDeletionModelId: string = null;
   /**
    * Constructor to inject dependencies.
    * @param injector The dependency injector
@@ -99,11 +107,51 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
   }
 
   /**
-   * Deletes the selected model.
+   * Initiates the deletion process by validating permissions first.
    * @param modelId The ID of the model to be deleted
    */
   deleteModel(modelId: string) {
-    this.modelService.deleteModel(modelId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+    this.pendingDeletionModelId = modelId;
+
+    this.modelService.validateModelDeletion(modelId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response: string) => {
+
+            if (!response || response.trim() === '') {
+              this.executeDeletion(this.pendingDeletionModelId);
+            } else {
+              this.cascadeTables = response;
+              this.cascadeAuthorized = true;
+              this.displayCascadeDialog = true;
+            }
+          },
+          error: (error: any) => {
+            if (error.status === 409) {
+              this.cascadeTables = error.error || '';
+              this.cascadeAuthorized = false;
+              this.displayCascadeDialog = true;
+            } else {
+              this.translateService.get('Error').subscribe(translation => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translation,
+                  detail: error.message
+                });
+              });
+              this.pendingDeletionModelId = null;
+            }
+          }
+        });
+  }
+
+  /**
+   * Executes the actual deletion after validation or confirmation.
+   * @param modelId The ID of the model to be deleted
+   */
+  executeDeletion(modelId: string) {
+    this.modelService.deleteModel(modelId, this.activeStudyService.getActiveStudy())
+        .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
             this.modelList = this.modelList.filter(model => model.modelId !== modelId);
@@ -114,6 +162,7 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
                 detail: translations['ModelManagement.Model is deleted successfully']
               });
             });
+            this.pendingDeletionModelId = null;
           },
           error: (error: any) => {
             this.translateService.get('Error').subscribe(translation => {
@@ -123,8 +172,18 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
                 detail: error.message
               });
             });
+            this.pendingDeletionModelId = null;
           }
         });
+  }
+
+  /**
+   * Handles the cancellation of the cascade dialog.
+   */
+  onCascadeDialogCancel() {
+    this.displayCascadeDialog = false;
+    this.pendingDeletionModelId = null;
+    this.cascadeTables = '';
   }
 
   /**

@@ -88,3 +88,10 @@
 </div>
 
 <app-featureset-features-form *ngIf="displayForm" [selectedFeatureSetId]="selectedFeatureSet.featuresetId" [featureId]="selectedFeatureId" (formClosed)="onFormClosed()"></app-featureset-features-form>
+<app-cascade-validation-dialog
+        [display]="displayCascadeDialog"
+        [tables]="cascadeTables"
+        [authorized]="cascadeAuthorized"
+        (confirm)="executeDeletion(pendingDeletionId)"
+        (cancel)="onCascadeDialogCancel()">
+</app-cascade-validation-dialog>

@@ -11,6 +11,9 @@ import {TranslateModule} from "@ngx-translate/core";
 import {RippleModule} from "primeng/ripple";
 import {ChipsModule} from "primeng/chips";
 import {CheckboxModule} from "primeng/checkbox";
+import {
+    CascadeValidationDialogModule
+} from "../../../../../shared/components/cascade-validation-dialog/cascade-validation-dialog.module";
 
 @NgModule({
     declarations: [LsCreationTableComponent],
@@ -25,7 +28,8 @@ import {CheckboxModule} from "primeng/checkbox";
         TranslateModule,
         RippleModule,
         ChipsModule,
-        CheckboxModule
+        CheckboxModule,
+        CascadeValidationDialogModule
     ],
     exports: [LsCreationTableComponent]
 })

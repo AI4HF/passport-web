@@ -12,6 +12,9 @@ import {ParameterManagementFormModule} from "../parameter-management-form/parame
 import {
     SelectedStudyDropdownModule
 } from "../../../shared/components/selected-study-dropdown/selected-study-dropdown.module";
+import {
+    CascadeValidationDialogModule
+} from "../../../shared/components/cascade-validation-dialog/cascade-validation-dialog.module";
 
 
 
@@ -28,6 +31,7 @@ import {
         TranslateModule,
         ParameterManagementFormModule,
         SelectedStudyDropdownModule,
+        CascadeValidationDialogModule,
     ],
   exports: [ParameterManagementTableComponent]
 })

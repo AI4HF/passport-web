@@ -36,6 +36,18 @@ export class PopulationDetailsTableComponent extends BaseComponent implements On
      */
     viewMode: boolean = false;
 
+    /** Visibility flag for cascade validation dialog */
+    displayCascadeDialog: boolean = false;
+
+    /** List of tables to display in the validation dialog */
+    cascadeTables: string = '';
+
+    /** Authorization status for the validation dialog */
+    cascadeAuthorized: boolean = false;
+
+    /** Temporary storage of the population ID pending deletion */
+    pendingDeletionId: string = null;
+
     /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
@@ -87,11 +99,50 @@ export class PopulationDetailsTableComponent extends BaseComponent implements On
     }
 
     /**
-     * Deletes a population by its ID.
+     * Initiates the deletion process by validating permissions first.
      * @param populationId The ID of the population to be deleted
      */
     deletePopulation(populationId: string) {
-        this.populationService.deletePopulation(populationId, this.studyId).pipe(takeUntil(this.destroy$))
+        this.pendingDeletionId = populationId;
+
+        this.populationService.validatePopulationDeletion(populationId, this.studyId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: (response: string) => {
+                    if (!response || response.trim() === '') {
+                        this.executeDeletion(this.pendingDeletionId);
+                    } else {
+                        this.cascadeTables = response;
+                        this.cascadeAuthorized = true;
+                        this.displayCascadeDialog = true;
+                    }
+                },
+                error: (error: any) => {
+                    if (error.status === 409) {
+                        this.cascadeTables = error.error || '';
+                        this.cascadeAuthorized = false;
+                        this.displayCascadeDialog = true;
+                    } else {
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
+                        });
+                        this.pendingDeletionId = null;
+                    }
+                }
+            });
+    }
+
+    /**
+     * Executes the actual deletion after validation or confirmation.
+     * @param populationId The ID of the population to be deleted
+     */
+    executeDeletion(populationId: string) {
+        this.populationService.deletePopulation(populationId, this.studyId)
+            .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.populations = this.populations.filter(f => f.populationId !== populationId);
@@ -102,6 +153,7 @@ export class PopulationDetailsTableComponent extends BaseComponent implements On
                             detail: translations['StudyManagement.Population.PopulationDeleted']
                         });
                     });
+                    this.pendingDeletionId = null;
                 },
                 error: error => {
                     this.translateService.get('Error').subscribe(translation => {
@@ -111,8 +163,18 @@ export class PopulationDetailsTableComponent extends BaseComponent implements On
                             detail: error.message
                         });
                     });
+                    this.pendingDeletionId = null;
                 }
             });
+    }
+
+    /**
+     * Handles the cancellation of the cascade dialog.
+     */
+    onCascadeDialogCancel() {
+        this.displayCascadeDialog = false;
+        this.pendingDeletionId = null;
+        this.cascadeTables = '';
     }
 
     /**

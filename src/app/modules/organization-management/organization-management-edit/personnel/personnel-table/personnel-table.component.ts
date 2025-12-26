@@ -101,6 +101,7 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
 
     /**
      * Deletes the selected personnel.
+     * Handles specific conflict errors.
      * @param personId The ID of the personnel to be deleted
      */
     deletePersonnel(personId: string) {
@@ -119,13 +120,41 @@ export class PersonnelTableComponent extends BaseComponent implements OnInit {
                 }
             },
             error: (error) => {
-                this.translateService.get('Error').subscribe(translation => {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: translation,
-                        detail: error.message
+                if (error.status === 409) {
+                    const backendMessage = error.error;
+
+                    if (backendMessage && backendMessage.includes('Owner')) {
+                        this.translateService.get(['Error', 'OrganizationManagement.Error.StudyOwnerDeletion']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translations['Error'],
+                                detail: translations['OrganizationManagement.Error.StudyOwnerDeletion']
+                            });
+                        });
+                    } else if (backendMessage && backendMessage.includes('Responsible Personnel')) {
+                        this.translateService.get(['Error', 'OrganizationManagement.Error.ResponsiblePersonnelDeletion']).subscribe(translations => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translations['Error'],
+                                detail: translations['OrganizationManagement.Error.ResponsiblePersonnelDeletion']
+                            });
+                        });
+                    } else {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Error',
+                            detail: backendMessage || error.message
+                        });
+                    }
+                } else {
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message
+                        });
                     });
-                });
+                }
             }
         });
     }

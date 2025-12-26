@@ -40,3 +40,10 @@
 
 
 <app-learning-stage-creation-form *ngIf="displayForm" [learningProcessId]="learningProcessId" [learningStageId]="selectedLearningStageId" (formClosed)="onFormClosed()"></app-learning-stage-creation-form>
+<app-cascade-validation-dialog
+        [display]="displayCascadeDialog"
+        [tables]="cascadeTables"
+        [authorized]="cascadeAuthorized"
+        (confirm)="executeDeletion(pendingDeletionId)"
+        (cancel)="onCascadeDialogCancel()">
+</app-cascade-validation-dialog>

@@ -19,6 +19,9 @@ import {
     SelectedStudyDropdownModule
 } from "../../../shared/components/selected-study-dropdown/selected-study-dropdown.module";
 import {ModelFigureGalleryModule} from "../model-figure-gallery/model-figure-gallery.module";
+import {
+    CascadeValidationDialogModule
+} from "../../../shared/components/cascade-validation-dialog/cascade-validation-dialog.module";
 
 
 
@@ -36,6 +39,7 @@ import {ModelFigureGalleryModule} from "../model-figure-gallery/model-figure-gal
         TooltipModule,
         TranslateModule,
         ModelFigureGalleryModule,
+        CascadeValidationDialogModule,
         DropdownModule,
         PaginatorModule,
         ReactiveFormsModule,

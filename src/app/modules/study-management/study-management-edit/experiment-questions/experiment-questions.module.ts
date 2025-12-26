@@ -12,6 +12,9 @@ import {InputTextModule} from "primeng/inputtext";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TableModule} from "primeng/table";
 import {StudyDetailsModule} from "../study-details/study-details.module";
+import {
+    CascadeValidationDialogModule
+} from "../../../../shared/components/cascade-validation-dialog/cascade-validation-dialog.module";
 
 
 
@@ -29,7 +32,8 @@ import {StudyDetailsModule} from "../study-details/study-details.module";
         InputTextModule,
         ReactiveFormsModule,
         TableModule,
-        StudyDetailsModule
+        StudyDetailsModule,
+        CascadeValidationDialogModule
     ],
   exports: [ExperimentQuestionsComponent]
 })

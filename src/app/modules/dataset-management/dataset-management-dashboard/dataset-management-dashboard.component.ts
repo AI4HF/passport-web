@@ -24,6 +24,18 @@ export class DatasetManagementDashboardComponent extends BaseComponent implement
     /** Loading state of the table */
     loading: boolean = true;
 
+    /** Visibility flag for cascade validation dialog */
+    displayCascadeDialog: boolean = false;
+
+    /** List of tables to display in the validation dialog */
+    cascadeTables: string = '';
+
+    /** Authorization status for the validation dialog */
+    cascadeAuthorized: boolean = false;
+
+    /** Temporary storage of the dataset ID pending deletion */
+    pendingDeletionId: string = null;
+
     /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
@@ -96,14 +108,66 @@ export class DatasetManagementDashboardComponent extends BaseComponent implement
     }
 
     /**
-     * Deletes a dataset.
+     * Initiates the deletion process by validating permissions first.
      * @param id The ID of the Dataset to be deleted
      */
     deleteDataset(id: string) {
+        this.pendingDeletionId = id;
         this.loading = true;
-        this.datasetService.deleteDataset(id, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+
+        this.datasetService.validateDatasetDeletion(id, this.activeStudyService.getActiveStudy())
+            .pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: (response: any) => this.loadDatasetByStudyId(this.activeStudyService.getActiveStudy()),
+                next: (response: string) => {
+                    this.loading = false;
+                    if (!response || response.trim() === '') {
+                        this.executeDeletion(this.pendingDeletionId);
+                    } else {
+                        this.cascadeTables = response;
+                        this.cascadeAuthorized = true;
+                        this.displayCascadeDialog = true;
+                    }
+                },
+                error: (error: any) => {
+                    this.loading = false;
+                    if (error.status === 409) {
+                        this.cascadeTables = error.error || '';
+                        this.cascadeAuthorized = false;
+                        this.displayCascadeDialog = true;
+                    } else {
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
+                        });
+                        this.pendingDeletionId = null;
+                    }
+                }
+            });
+    }
+
+    /**
+     * Executes the actual deletion after validation or confirmation.
+     * @param id The ID of the Dataset to be deleted
+     */
+    executeDeletion(id: string) {
+        this.loading = true;
+        this.datasetService.deleteDataset(id, this.activeStudyService.getActiveStudy())
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: (response: any) => {
+                    this.loadDatasetByStudyId(this.activeStudyService.getActiveStudy());
+                    this.translateService.get(['Success', 'DatasetManagement.Deleted']).subscribe(translations => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: translations['Success'],
+                            detail: translations['DatasetManagement.Deleted'] // Assumed key based on context
+                        });
+                    });
+                    this.pendingDeletionId = null;
+                },
                 error: (error: any) => {
                     this.translateService.get('Error').subscribe(translation => {
                         this.messageService.add({
@@ -112,8 +176,18 @@ export class DatasetManagementDashboardComponent extends BaseComponent implement
                             detail: error.message
                         });
                     });
+                    this.pendingDeletionId = null;
                 },
                 complete: () => this.loading = false
             });
+    }
+
+    /**
+     * Handles the cancellation of the cascade dialog.
+     */
+    onCascadeDialogCancel() {
+        this.displayCascadeDialog = false;
+        this.pendingDeletionId = null;
+        this.cascadeTables = '';
     }
 }
