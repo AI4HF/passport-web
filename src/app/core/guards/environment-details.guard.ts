@@ -1,18 +1,24 @@
-import {CanActivateFn} from "@angular/router";
+import { CanActivateFn, Router } from "@angular/router";
 import { inject } from "@angular/core";
-import { Router } from "@angular/router";
 
 /**
- * A guard that blocks other pages before filling environment details page.
+ * A guard that blocks direct access to model deployment if environment data isn't ready.
  */
 export const environmentDetailsGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
+    const id = route.parent?.params["id"];
 
-    // when creating new model deployment, continue to model deployment details page only if environment is created
-    if (route.parent?.params["id"] === 'new') {
-        router.navigate(['deployment-management/new/environment-details']);
-        return false;
+    if (id !== 'new') {
+        return true;
     }
 
-    return true;
+    const navigation = router.getCurrentNavigation();
+    const hasPendingData = navigation?.extras.state?.['pendingEnvironmentData'];
+
+    if (hasPendingData) {
+        return true;
+    }
+
+    router.navigate(['deployment-management/new/environment-details']);
+    return false;
 };
