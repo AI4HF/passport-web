@@ -160,6 +160,7 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
   onCascadeDialogCancel() {
     this.displayCascadeDialog = false;
     this.cascadeTables = '';
+    this.fetchExperimentsByStudyId(this.studyId);
   }
 
   /**
