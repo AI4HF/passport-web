@@ -1,9 +1,10 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {BaseComponent} from "../../../../shared/components/base.component";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {takeUntil} from "rxjs";
+import {switchMap, takeUntil} from "rxjs";
 import {ModelDeployment} from "../../../../shared/models/modelDeployment.model";
 import {Model} from "../../../../shared/models/model.model";
+import {DeploymentEnvironment} from "../../../../shared/models/deploymentEnvironment.model";
 
 /**
  * Shows details of a model deployment
@@ -35,8 +36,19 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
    */
   modelDeploymentForm: FormGroup;
 
+  /**
+   * Holds the data passed from the Environment component if in 'new' mode
+   */
+  pendingEnvironmentData: any = null;
+
   constructor(protected injector: Injector) {
     super(injector);
+    const nav = this.router.getCurrentNavigation();
+    if (nav?.extras?.state) {
+      this.pendingEnvironmentData = nav.extras.state['pendingEnvironmentData'];
+    } else {
+      this.pendingEnvironmentData = history.state['pendingEnvironmentData'];
+    }
   }
 
   ngOnInit() {
@@ -44,7 +56,16 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
       this.environmentIdParam = params.get('id');
     });
 
-    this.loadModelDeployment(this.environmentIdParam);
+    if (this.environmentIdParam === 'new' && !this.pendingEnvironmentData) {
+      this.back();
+      return;
+    }
+    if (this.environmentIdParam !== 'new') {
+      this.loadModelDeployment(this.environmentIdParam);
+    } else {
+      this.selectedModelDeployment = new ModelDeployment({ deploymentId: null });
+      this.initializeForm();
+    }
     this.fetchModels();
   }
 
@@ -116,23 +137,31 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
    * Save model deployment
    */
   save(){
-    if(this.selectedModelDeployment.deploymentId === null){
-      const newModelDeployment: ModelDeployment = new ModelDeployment(
-          { environmentId: this.environmentIdParam,...this.modelDeploymentForm.value});
-      this.modelDeploymentService.createModelDeployment(newModelDeployment, this.activeStudyService.getActiveStudy())
-          .pipe(takeUntil(this.destroy$))
+    if (this.environmentIdParam === 'new' && this.pendingEnvironmentData) {
+
+      const newEnv = new DeploymentEnvironment({ ...this.pendingEnvironmentData });
+
+      this.deploymentEnvironmentService.createDeploymentEnvironment(newEnv, this.activeStudyService.getActiveStudy())
+          .pipe(
+              takeUntil(this.destroy$),
+              switchMap((createdEnv: DeploymentEnvironment) => {
+                const newModelDeployment = new ModelDeployment({
+                  environmentId: createdEnv.environmentId,
+                  ...this.modelDeploymentForm.value
+                });
+                return this.modelDeploymentService.createModelDeployment(newModelDeployment, this.activeStudyService.getActiveStudy());
+              })
+          )
           .subscribe({
-            next: modelDeployment => {
-              this.selectedModelDeployment = modelDeployment;
-              this.initializeForm();
-              this.translateService.get(['Success', 'DeploymentManagement.Model Deployment is created successfully']).subscribe(translations => {
+            next: (modelDeployment) => {
+              this.translateService.get(['Success', 'DeploymentManagement.FullDeploymentCreated']).subscribe(translations => {
                 this.messageService.add({
                   severity: 'success',
                   summary: translations['Success'],
-                  detail: translations['DeploymentManagement.Model Deployment is created successfully']
+                  detail: translations['DeploymentManagement.FullDeploymentCreated']
                 });
               });
-              this.router.navigate([`../..`], {relativeTo: this.route});
+              this.router.navigate(['../..'], { relativeTo: this.route });
             },
             error: (error: any) => {
               this.translateService.get('Error').subscribe(translation => {
