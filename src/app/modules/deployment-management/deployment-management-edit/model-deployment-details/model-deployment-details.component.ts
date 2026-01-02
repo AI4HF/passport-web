@@ -39,7 +39,7 @@ export class ModelDeploymentDetailsComponent extends BaseComponent implements On
   /**
    * Holds the data passed from the Environment component if in 'new' mode
    */
-  pendingEnvironmentData: any = null;
+  pendingEnvironmentData: DeploymentEnvironment = null;
 
   constructor(protected injector: Injector) {
     super(injector);

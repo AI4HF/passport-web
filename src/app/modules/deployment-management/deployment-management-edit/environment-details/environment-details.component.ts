@@ -102,7 +102,7 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
     save() {
         if (this.deploymentEnvironmentForm.invalid) return;
         if (this.environmentIdParam === 'new') {
-            const pendingEnvironmentData = { ...this.deploymentEnvironmentForm.value };
+            const pendingEnvironmentData: DeploymentEnvironment = { ...this.deploymentEnvironmentForm.value };
 
             this.router.navigate(['../model-deployment-details'], {
                 relativeTo: this.route,
