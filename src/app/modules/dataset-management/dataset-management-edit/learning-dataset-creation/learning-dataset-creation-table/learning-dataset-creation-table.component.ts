@@ -2,7 +2,8 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from "../../../../../shared/components/base.component";
 import { LearningDataset } from "../../../../../shared/models/learningDataset.model";
 import { DatasetTransformation } from "../../../../../shared/models/datasetTransformation.model";
-import { takeUntil } from "rxjs";
+import {forkJoin, of, takeUntil} from "rxjs";
+import {catchError, map} from "rxjs/operators";
 
 /**
  * Component for managing and displaying the learning datasets creation table.
@@ -37,6 +38,18 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
 
     /** Columns to be displayed in the table */
     columns: any[];
+
+    /** Visibility flag for cascade validation dialog */
+    displayCascadeDialog: boolean = false;
+
+    /** List of tables to display in the validation dialog */
+    cascadeTables: string = '';
+
+    /** Authorization status for the validation dialog */
+    cascadeAuthorized: boolean = false;
+
+    /** Temporary storage of the learning dataset object pending deletion */
+    pendingDeletionObject: LearningDataset = null;
 
     /**
      * Constructor to inject dependencies.
@@ -112,11 +125,74 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
     }
 
     /**
-     * Deletes a learning dataset by its ID.
+     * Initiates the deletion process by validating permissions for BOTH LearningDataset and DatasetTransformation.
      * @param learningDataset The learning dataset to be deleted
      */
     deleteLearningDataset(learningDataset: LearningDataset) {
-        this.datasetTransformationService.deleteDatasetTransformation(learningDataset.dataTransformationId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+        this.pendingDeletionObject = learningDataset;
+
+        const validateLd$ = this.learningDatasetService.validateLearningDatasetDeletion(
+            learningDataset.learningDatasetId,
+            this.activeStudyService.getActiveStudy()
+        ).pipe(
+            map(response => ({ status: 200, tables: response })),
+            catchError(error => of({ status: error.status, tables: error.error || '' }))
+        );
+
+        const validateDt$ = this.datasetTransformationService.validateDatasetTransformationDeletion(
+            learningDataset.dataTransformationId,
+            this.activeStudyService.getActiveStudy()
+        ).pipe(
+            map(response => ({ status: 200, tables: response })),
+            catchError(error => of({ status: error.status, tables: error.error || '' }))
+        );
+
+        forkJoin([validateLd$, validateDt$])
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: (results) => {
+                    const allTables = [
+                        ... (results[0].tables ? results[0].tables.split(',') : []),
+                        ... (results[1].tables ? results[1].tables.split(',') : [])
+                    ];
+
+                    const uniqueTables = [...new Set(allTables
+                        .map(t => t.trim())
+                        .filter(t => t !== ''
+                            && t.toLowerCase() !== 'learningdataset'
+                            && t.toLowerCase() !== 'datasettransformation')
+                    )];
+
+                    const isUnauthorized = results.some(r => r.status === 409);
+
+                    if (uniqueTables.length === 0) {
+                        this.executeDeletion(this.pendingDeletionObject);
+                    } else {
+                        this.cascadeTables = uniqueTables.join(', ');
+                        this.cascadeAuthorized = !isUnauthorized;
+                        this.displayCascadeDialog = true;
+                    }
+                },
+                error: (error: any) => {
+                    this.translateService.get('Error').subscribe(translation => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: translation,
+                            detail: error.message || 'An unexpected error occurred during validation.'
+                        });
+                    });
+                    this.pendingDeletionObject = null;
+                }
+            });
+    }
+
+    /**
+     * Executes the actual deletion after validation or confirmation.
+     * @param learningDataset The learning dataset object to be deleted
+     */
+    executeDeletion(learningDataset: LearningDataset) {
+        this.datasetTransformationService.deleteDatasetTransformation(learningDataset.dataTransformationId, this.activeStudyService.getActiveStudy())
+            .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.learningDatasets = this.learningDatasets.filter(ld => ld.learningDatasetId !== learningDataset.learningDatasetId);
@@ -128,6 +204,7 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
                             detail: translations['DatasetManagement.Deleted']
                         });
                     });
+                    this.pendingDeletionObject = null;
                 },
                 error: error => {
                     this.translateService.get('Error').subscribe(translation => {
@@ -137,8 +214,18 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
                             detail: error.message
                         });
                     });
+                    this.pendingDeletionObject = null;
                 }
             });
+    }
+
+    /**
+     * Handles the cancellation of the cascade dialog.
+     */
+    onCascadeDialogCancel() {
+        this.displayCascadeDialog = false;
+        this.pendingDeletionObject = null;
+        this.cascadeTables = '';
     }
 
     /**

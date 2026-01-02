@@ -58,3 +58,10 @@
     </div>
 </div>
 <app-parameter-management-form *ngIf="this.displayForm" [parameterId]="selectedParameterId" (formClosed)="onFormClosed()"></app-parameter-management-form>
+<app-cascade-validation-dialog
+        [display]="displayCascadeDialog"
+        [tables]="cascadeTables"
+        [authorized]="cascadeAuthorized"
+        (confirm)="executeDeletion(pendingDeletionId)"
+        (cancel)="onCascadeDialogCancel()">
+</app-cascade-validation-dialog>

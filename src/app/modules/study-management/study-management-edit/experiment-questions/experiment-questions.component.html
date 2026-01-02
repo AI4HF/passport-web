@@ -60,3 +60,10 @@
         </div>
     </div>
 </p-card>
+<app-cascade-validation-dialog
+        [display]="displayCascadeDialog"
+        [tables]="cascadeTables"
+        [authorized]="cascadeAuthorized"
+        (confirm)="executeSave()"
+        (cancel)="onCascadeDialogCancel()">
+</app-cascade-validation-dialog>

@@ -7,6 +7,9 @@ import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {TooltipModule} from "primeng/tooltip";
 import {TableModule} from "primeng/table";
+import {
+    CascadeValidationDialogModule
+} from "../../../shared/components/cascade-validation-dialog/cascade-validation-dialog.module";
 
 
 
@@ -19,7 +22,8 @@ import {TableModule} from "primeng/table";
         ButtonModule,
         RippleModule,
         TooltipModule,
-        TableModule
+        TableModule,
+        CascadeValidationDialogModule
     ]
 })
 export class StudyManagementDashboardModule { }

@@ -35,6 +35,18 @@ export class LsCreationTableComponent extends BaseComponent implements OnInit {
     /** Columns to be displayed in the table */
     columns: any[];
 
+    /** Visibility flag for cascade validation dialog */
+    displayCascadeDialog: boolean = false;
+
+    /** List of tables to display in the validation dialog */
+    cascadeTables: string = '';
+
+    /** Authorization status for the validation dialog */
+    cascadeAuthorized: boolean = false;
+
+    /** Temporary storage of the learning stage ID pending deletion */
+    pendingDeletionId: string = null;
+
     /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
@@ -108,16 +120,54 @@ export class LsCreationTableComponent extends BaseComponent implements OnInit {
     }
 
     /**
-     * Deletes a learning stage by its ID.
+     * Initiates the deletion process by validating permissions first.
      * @param learningStage The learning stage to be deleted
      */
     deleteLearningStage(learningStage: LearningStage) {
-        this.learningStageService.deleteLearningStage(learningStage.learningStageId, this.activeStudyService.getActiveStudy())
+        this.pendingDeletionId = learningStage.learningStageId;
+
+        this.learningStageService.validateLearningStageDeletion(learningStage.learningStageId, this.activeStudyService.getActiveStudy())
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: (response: string) => {
+                    if (!response || response.trim() === '') {
+                        this.executeDeletion(this.pendingDeletionId);
+                    } else {
+                        this.cascadeTables = response;
+                        this.cascadeAuthorized = true;
+                        this.displayCascadeDialog = true;
+                    }
+                },
+                error: (error: any) => {
+                    if (error.status === 409) {
+                        this.cascadeTables = error.error || '';
+                        this.cascadeAuthorized = false;
+                        this.displayCascadeDialog = true;
+                    } else {
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
+                        });
+                        this.pendingDeletionId = null;
+                    }
+                }
+            });
+    }
+
+    /**
+     * Executes the actual deletion after validation or confirmation.
+     * @param learningStageId The ID of the learning stage to be deleted
+     */
+    executeDeletion(learningStageId: string) {
+        this.learningStageService.deleteLearningStage(learningStageId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.learningStages = this.learningStages.filter(
-                        ls => ls.learningStageId !== learningStage.learningStageId
+                        ls => ls.learningStageId !== learningStageId
                     );
                     this.translateService.get(['Success', 'LearningProcessManagement.Deleted']).subscribe(translations => {
                         this.messageService.add({
@@ -126,6 +176,7 @@ export class LsCreationTableComponent extends BaseComponent implements OnInit {
                             detail: translations['LearningProcessManagement.Deleted']
                         });
                     });
+                    this.pendingDeletionId = null;
                 },
                 error: error => {
                     this.translateService.get('Error').subscribe(translation => {
@@ -135,8 +186,18 @@ export class LsCreationTableComponent extends BaseComponent implements OnInit {
                             detail: error.message
                         });
                     });
+                    this.pendingDeletionId = null;
                 }
             });
+    }
+
+    /**
+     * Handles the cancellation of the cascade dialog.
+     */
+    onCascadeDialogCancel() {
+        this.displayCascadeDialog = false;
+        this.pendingDeletionId = null;
+        this.cascadeTables = '';
     }
 
     /**

@@ -132,4 +132,21 @@ export class StudyService {
             })
         );
   }
+    /**
+     * Validates if a study deletion is safe regarding cascading permissions.
+     * @param studyId Id of the study
+     * @return {Observable<any>}
+     */
+    validateStudyDeletion(studyId: string): Observable<any> {
+        const url = `${this.endpoint}/${studyId}/validate-deletion`;
+        return this.httpClient.get(url, { responseType: 'text' })
+            .pipe(
+                map((response: any) => {
+                    return response;
+                }),
+                catchError((error) => {
+                    throw error;
+                })
+            );
+    }
 }

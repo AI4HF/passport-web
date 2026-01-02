@@ -144,8 +144,11 @@
     "This username is already in use": "This username is already in use",
     "Connector Secret": "Connector Secret",
     "GenerateConnectorSecretQuestion": "Would you like to generate a Secret/Token for Connector access to this user.",
-    "Copied": "Secret Copied"
-
+    "Copied": "Secret Copied",
+    "Error": {
+      "StudyOwnerDeletion": "Deletion failed: This user is the Owner of one or more studies. Please delete them first before proceeding.",
+      "ResponsiblePersonnelDeletion": "Deletion failed: This user is assigned as the Responsible Personnel for one or more studies. Please reassign this role before deleting."
+    }
   },
   "SurveyManagement": {
     "Survey Question Management": "Survey Question Management",
@@ -734,5 +737,12 @@
     "ValuePlaceholder": "Enter the value",
     "DescriptionPlaceholder": "Enter the description",
     "EvaluationMeasureFormModelTooltip": "Creation/Update form for assigning an evaluation measure to the model."
+  },
+  "CascadeValidation": {
+    "AuthorizedWarning": "Warning: Deleting this item will also automatically delete related records in the following tables:",
+    "TablesToCascade": "Tables to be Cascaded",
+    "UnauthorizedError": "Action Denied: You do not have sufficient permissions to delete the cascading data found in the following tables:",
+    "RestrictedTables": "Restricted Tables",
+    "ContactAdminInstruction": "You cannot proceed with this deletion. Please contact an authorized administrator to remove these dependent entities first."
   }
 }

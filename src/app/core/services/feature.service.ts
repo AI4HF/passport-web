@@ -140,4 +140,23 @@ export class FeatureService {
                 })
             );
     }
+
+    /**
+     * Validates if a feature deletion is safe regarding cascading permissions.
+     * @param featureId Id of the feature
+     * @param studyId ID of the study
+     * @return {Observable<any>}
+     */
+    validateFeatureDeletion(featureId: string, studyId: string): Observable<any> {
+        const url = `${this.endpoint}/${featureId}/validate-deletion?studyId=${studyId}`;
+        return this.httpClient.get(url, { responseType: 'text' })
+            .pipe(
+                map((response: any) => {
+                    return response;
+                }),
+                catchError((error) => {
+                    throw error;
+                })
+            );
+    }
 }

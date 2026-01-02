@@ -10,6 +10,9 @@ import {TableModule} from "primeng/table";
 import {
     SelectedStudyDropdownModule
 } from "../../../shared/components/selected-study-dropdown/selected-study-dropdown.module";
+import {
+    CascadeValidationDialogModule
+} from "../../../shared/components/cascade-validation-dialog/cascade-validation-dialog.module";
 
 
 
@@ -23,7 +26,8 @@ import {
         RippleModule,
         TooltipModule,
         TableModule,
-        SelectedStudyDropdownModule
+        SelectedStudyDropdownModule,
+        CascadeValidationDialogModule
     ]
 })
 export class DeploymentManagementDashboardModule { }

@@ -34,6 +34,15 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
    */
   viewMode: boolean = false;
 
+  /** Visibility flag for cascade validation dialog */
+  displayCascadeDialog: boolean = false;
+
+  /** List of tables to display in the validation dialog */
+  cascadeTables: string = '';
+
+  /** Authorization status for the validation dialog */
+  cascadeAuthorized: boolean = false;
+
   constructor(protected injector: Injector) {
     super(injector);
   }
@@ -83,9 +92,43 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
   }
 
   /**
-   * Save created experiments
+   * Initiates the save process by validating potential deletions first.
    */
-  save(){
+  save() {
+    this.experimentService.validateExperimentReplacement(this.studyId, this.experimentList)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response: string) => {
+            if (!response || response.trim() === '') {
+              this.executeSave();
+            } else {
+              this.cascadeTables = response;
+              this.cascadeAuthorized = true;
+              this.displayCascadeDialog = true;
+            }
+          },
+          error: (error: any) => {
+            if (error.status === 409) {
+              this.cascadeTables = error.error || '';
+              this.cascadeAuthorized = false;
+              this.displayCascadeDialog = true;
+            } else {
+              this.translateService.get('Error').subscribe(translation => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translation,
+                  detail: error.message
+                });
+              });
+            }
+          }
+        });
+  }
+
+  /**
+   * Executes the actual save operation after validation or confirmation.
+   */
+  executeSave() {
     this.experimentService.createExperiments(this.studyId, this.experimentList)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -98,8 +141,26 @@ export class ExperimentQuestionsComponent extends BaseComponent implements OnIni
                 detail: translations['StudyManagement.Experiment.Experiments are assigned successfully']
               });
             });
+          },
+          error: (error: any) => {
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
+            });
           }
-        })
+        });
+  }
+
+  /**
+   * Handles the cancellation of the cascade dialog.
+   */
+  onCascadeDialogCancel() {
+    this.displayCascadeDialog = false;
+    this.cascadeTables = '';
+    this.fetchExperimentsByStudyId(this.studyId);
   }
 
   /**

@@ -156,4 +156,22 @@ export class DatasetService {
             })
         );
     }
+
+    /**
+     * Validates if a dataset deletion is safe regarding cascading permissions.
+     * @param datasetId Id of the dataset
+     * @param studyId ID of the study
+     */
+    validateDatasetDeletion(datasetId: String, studyId: String): Observable<any> {
+        const url = `${this.endpoint}/${datasetId}/validate-deletion?studyId=${studyId}`;
+        return this.httpClient.get(url, { responseType: 'text' })
+            .pipe(
+                map((response: any) => {
+                    return response;
+                }),
+                catchError((error) => {
+                    throw error;
+                })
+            );
+    }
 }

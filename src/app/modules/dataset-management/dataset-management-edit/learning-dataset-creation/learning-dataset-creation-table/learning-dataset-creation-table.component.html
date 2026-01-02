@@ -38,3 +38,10 @@
 </div>
 
 <app-learning-dataset-creation-form *ngIf="displayForm" [datasetId]="selectedDatasetId" [learningDatasetId]="selectedLearningDatasetId" [dataTransformationId]="selectedDataTransformationId" (formClosed)="onFormClosed()"></app-learning-dataset-creation-form>
+<app-cascade-validation-dialog
+        [display]="displayCascadeDialog"
+        [tables]="cascadeTables"
+        [authorized]="cascadeAuthorized"
+        (confirm)="executeDeletion(pendingDeletionObject)"
+        (cancel)="onCascadeDialogCancel()">
+</app-cascade-validation-dialog>

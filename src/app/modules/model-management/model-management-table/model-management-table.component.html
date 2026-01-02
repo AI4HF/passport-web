@@ -68,3 +68,10 @@
     </div>
 </div>
 <app-model-management-form *ngIf="this.displayForm" [modelId]="selectedModelId" (formClosed)="onFormClosed()"></app-model-management-form>
+<app-cascade-validation-dialog
+        [display]="displayCascadeDialog"
+        [tables]="cascadeTables"
+        [authorized]="cascadeAuthorized"
+        (confirm)="executeDeletion(pendingDeletionModelId)"
+        (cancel)="onCascadeDialogCancel()">
+</app-cascade-validation-dialog>

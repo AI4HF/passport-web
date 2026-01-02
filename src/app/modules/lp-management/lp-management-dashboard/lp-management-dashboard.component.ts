@@ -24,6 +24,18 @@ export class LpManagementDashboardComponent extends BaseComponent implements OnI
     /** Loading state of the table */
     loading: boolean = true;
 
+    /** Visibility flag for cascade validation dialog */
+    displayCascadeDialog: boolean = false;
+
+    /** List of tables to display in the validation dialog */
+    cascadeTables: string = '';
+
+    /** Authorization status for the validation dialog */
+    cascadeAuthorized: boolean = false;
+
+    /** Temporary storage of the learning process ID pending deletion */
+    pendingDeletionId: string = null;
+
     /**
      * Constructor to inject dependencies.
      * @param injector The dependency injector
@@ -94,10 +106,51 @@ export class LpManagementDashboardComponent extends BaseComponent implements OnI
     }
 
     /**
-     * Deletes the implementation, which cascades to delete the associated learningProcess.
+     * Initiates the deletion process by validating permissions first.
      * @param id The ID of the LearningProcess to be deleted
      */
     deleteLearningProcess(id: string) {
+        this.pendingDeletionId = id;
+        this.loading = true;
+
+        this.learningProcessService.validateLearningProcessDeletion(id, this.activeStudyService.getActiveStudy())
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: (response: string) => {
+                    this.loading = false;
+                    if (!response || response.trim() === '') {
+                        this.executeDeletion(this.pendingDeletionId);
+                    } else {
+                        this.cascadeTables = response;
+                        this.cascadeAuthorized = true;
+                        this.displayCascadeDialog = true;
+                    }
+                },
+                error: (error: any) => {
+                    this.loading = false;
+                    if (error.status === 409) {
+                        this.cascadeTables = error.error || '';
+                        this.cascadeAuthorized = false;
+                        this.displayCascadeDialog = true;
+                    } else {
+                        this.translateService.get('Error').subscribe(translation => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: translation,
+                                detail: error.message
+                            });
+                        });
+                        this.pendingDeletionId = null;
+                    }
+                }
+            });
+    }
+
+    /**
+     * Executes the actual deletion (via Implementation service) after validation or confirmation.
+     * @param id The ID of the LearningProcess to be deleted
+     */
+    executeDeletion(id: string) {
         this.loading = true;
         const learningProcess = this.learningProcessList.find(lp => lp.learningProcessId === id);
 
@@ -117,6 +170,7 @@ export class LpManagementDashboardComponent extends BaseComponent implements OnI
                                 detail: translations['LearningProcessManagement.Deleted']
                             });
                         });
+                        this.pendingDeletionId = null;
                     },
                     error: (error: any) => {
                         this.translateService.get('Error').subscribe(translation => {
@@ -126,6 +180,7 @@ export class LpManagementDashboardComponent extends BaseComponent implements OnI
                                 detail: error.message
                             });
                         });
+                        this.pendingDeletionId = null;
                     },
                     complete: () => this.loading = false
                 });
@@ -138,6 +193,16 @@ export class LpManagementDashboardComponent extends BaseComponent implements OnI
                 });
             });
             this.loading = false;
+            this.pendingDeletionId = null;
         }
+    }
+
+    /**
+     * Handles the cancellation of the cascade dialog.
+     */
+    onCascadeDialogCancel() {
+        this.displayCascadeDialog = false;
+        this.pendingDeletionId = null;
+        this.cascadeTables = '';
     }
 }

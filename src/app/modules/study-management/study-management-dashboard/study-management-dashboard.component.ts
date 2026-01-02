@@ -27,6 +27,18 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
   studyPersonnelEntries: StudyPersonnel[] = [];
   userRoles: Role[] = [];
 
+  /** Visibility flag for cascade validation dialog */
+  displayCascadeDialog: boolean = false;
+
+  /** List of tables to display in the validation dialog */
+  cascadeTables: string = '';
+
+  /** Authorization status for the validation dialog */
+  cascadeAuthorized: boolean = false;
+
+  /** Temporary storage of the study ID pending deletion */
+  pendingDeletionId: string = null;
+
 
   constructor(
       protected injector: Injector,
@@ -138,7 +150,52 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
     this.router.navigate([`/${StudyManagementRoutingModule.route}/${id}`]);
   }
 
+  /**
+   * Initiates the deletion process by validating permissions first.
+   * @param id The ID of the Study to be deleted
+   */
   deleteStudy(id: string) {
+    this.pendingDeletionId = id;
+    this.loadingOwnedStudies = true;
+
+    this.studyService.validateStudyDeletion(id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response: string) => {
+            this.loadingOwnedStudies = false;
+            if (!response || response.trim() === '') {
+              this.executeDeletion(this.pendingDeletionId);
+            } else {
+              this.cascadeTables = response;
+              this.cascadeAuthorized = true;
+              this.displayCascadeDialog = true;
+            }
+          },
+          error: (error: any) => {
+            this.loadingOwnedStudies = false;
+            if (error.status === 409) {
+              this.cascadeTables = error.error || '';
+              this.cascadeAuthorized = false;
+              this.displayCascadeDialog = true;
+            } else {
+              this.translateService.get('Error').subscribe(translation => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: translation,
+                  detail: error.message
+                });
+              });
+              this.pendingDeletionId = null;
+            }
+          }
+        });
+  }
+
+  /**
+   * Executes the actual deletion after validation or confirmation.
+   * @param id The ID of the Study to be deleted
+   */
+  executeDeletion(id: string) {
     this.loadingOwnedStudies = true;
     this.studyService.deleteStudy(id).pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -150,7 +207,9 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
                 summary: translations['Success'],
                 detail: translations['StudyManagement.Study is deleted successfully']
               });
-            });},
+            });
+            this.pendingDeletionId = null;
+          },
           error: (error: any) => {
             this.translateService.get('Error').subscribe(translation => {
               this.messageService.add({
@@ -159,9 +218,19 @@ export class StudyManagementDashboardComponent extends BaseComponent implements 
                 detail: error.message
               });
             });
+            this.pendingDeletionId = null;
           },
           complete: () => this.loadingOwnedStudies = false
         });
+  }
+
+  /**
+   * Handles the cancellation of the cascade dialog.
+   */
+  onCascadeDialogCancel() {
+    this.displayCascadeDialog = false;
+    this.pendingDeletionId = null;
+    this.cascadeTables = '';
   }
 
   selectStudy(studyId: string) {

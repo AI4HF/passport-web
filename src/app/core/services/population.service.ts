@@ -131,4 +131,23 @@ export class PopulationService {
                 })
             );
     }
+
+    /**
+     * Validates if a population deletion is safe regarding cascading permissions.
+     * @param populationId Id of the population
+     * @param studyId ID of the study
+     * @return {Observable<any>}
+     */
+    validatePopulationDeletion(populationId: string, studyId: string): Observable<any> {
+        const url = `${this.endpoint}/${populationId}/validate-deletion?studyId=${studyId}`;
+        return this.httpClient.get(url, { responseType: 'text' })
+            .pipe(
+                map((response: any) => {
+                    return response;
+                }),
+                catchError((error) => {
+                    throw error;
+                })
+            );
+    }
 }

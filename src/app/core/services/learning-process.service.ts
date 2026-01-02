@@ -116,4 +116,23 @@ export class LearningProcessService {
                 })
             );
     }
+
+    /**
+     * Validates if a learning process deletion is safe regarding cascading permissions.
+     * @param learningProcessId Id of the learning process
+     * @param studyId ID of the study
+     * @return {Observable<any>}
+     */
+    validateLearningProcessDeletion(learningProcessId: String, studyId: String): Observable<any> {
+        const url = `${this.endpoint}/${learningProcessId}/validate-deletion?studyId=${studyId}`;
+        return this.httpClient.get(url, { responseType: 'text' })
+            .pipe(
+                map((response: any) => {
+                    return response;
+                }),
+                catchError((error) => {
+                    throw error;
+                })
+            );
+    }
 }
