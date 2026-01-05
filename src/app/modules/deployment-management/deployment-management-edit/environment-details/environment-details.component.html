@@ -78,7 +78,7 @@
             <div class="justify-content-end">
                 <button pButton pRipple
                         type="button"
-                        label="{{'Save' | translate}}"
+                        label="{{ (environmentIdParam === 'new' ? 'Next' : 'Save') | translate }}"
                         class="p-button-raised"
                         [disabled]="!deploymentEnvironmentForm.valid"
                         (click)="save()"></button>

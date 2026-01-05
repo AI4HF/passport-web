@@ -421,6 +421,8 @@
     "Model Deployment Details": "Model Deployment Details",
     "Model Deployment is updated successfully": "Model Deployment is updated successfully",
     "Model Deployment is created successfully": "Model Deployment is created successfully",
+    "Model Deployment is deleted successfully": "Model Deployment is deleted successfully",
+    "FullDeploymentCreated": "Deployment Environment and Model Deployment created successfully",
     "Deployment is deleted successfully": "Deployment is deleted successfully",
     "Model": "Model",
     "Select Model": "Select Model",

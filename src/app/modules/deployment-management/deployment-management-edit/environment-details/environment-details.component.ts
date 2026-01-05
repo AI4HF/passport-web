@@ -99,34 +99,15 @@ export class EnvironmentDetailsComponent extends BaseComponent implements OnInit
     /**
      * Save deploymentEnvironment details
      */
-    save(){
-        // creating new deployment environment using form inputs
-        if(this.environmentIdParam === 'new'){
-            const newDeploymentEnvironment: DeploymentEnvironment = new DeploymentEnvironment({ ...this.deploymentEnvironmentForm.value});
-            this.deploymentEnvironmentService.createDeploymentEnvironment(newDeploymentEnvironment, this.activeStudyService.getActiveStudy())
-                .pipe(takeUntil(this.destroy$))
-                .subscribe({
-                    next: deploymentEnvironment => {
-                        this.selectedDeploymentEnvironment = deploymentEnvironment;
-                        this.translateService.get(['Success', 'DeploymentManagement.Environment.Deployment Environment is created successfully']).subscribe(translations => {
-                            this.messageService.add({
-                                severity: 'success',
-                                summary: translations['Success'],
-                                detail: translations['DeploymentManagement.Environment.Deployment Environment is created successfully']
-                            });
-                        });
-                        this.router.navigate([`../../${this.selectedDeploymentEnvironment.environmentId}/model-deployment-details`], {relativeTo: this.route});
-                    },
-                    error: (error: any) => {
-                        this.translateService.get('Error').subscribe(translation => {
-                            this.messageService.add({
-                                severity: 'error',
-                                summary: translation,
-                                detail: error.message
-                            });
-                        });
-                    }
-                });
+    save() {
+        if (this.deploymentEnvironmentForm.invalid) return;
+        if (this.environmentIdParam === 'new') {
+            const pendingEnvironmentData: DeploymentEnvironment = { ...this.deploymentEnvironmentForm.value };
+
+            this.router.navigate(['../model-deployment-details'], {
+                relativeTo: this.route,
+                state: { pendingEnvironmentData: pendingEnvironmentData }
+            });
         }else{
             const updatedDeploymentEnvironment: DeploymentEnvironment = {environmentId: this.selectedDeploymentEnvironment.environmentId, ...this.deploymentEnvironmentForm.value};
             this.deploymentEnvironmentService.updateDeploymentEnvironment(updatedDeploymentEnvironment, this.activeStudyService.getActiveStudy())
