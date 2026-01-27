@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Injector, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Injector, Input, OnInit, Output} from '@angular/core';
 import { ModelDeployment } from '../../../shared/models/modelDeployment.model';
 import { DeploymentEnvironment } from '../../../shared/models/deploymentEnvironment.model';
 import { Model } from '../../../shared/models/model.model';
@@ -17,6 +17,8 @@ import {ModelFigure} from "../../../shared/models/modelFigure.model";
 import {LinkedArticle} from "../../../shared/models/linkedArticle.model";
 import {GenerateAndSignPdfOptionsDto} from "../../../shared/models/pdfGenerationDTO.model";
 import {takeUntil} from "rxjs/operators";
+import {LearningProcessParameter} from "../../../shared/models/learningProcessParameter.model";
+import {LearningStageParameter} from "../../../shared/models/learningStageParameter.model";
 
 /**
  * Component responsible for generating and exporting the passport PDF.
@@ -26,7 +28,7 @@ import {takeUntil} from "rxjs/operators";
     templateUrl: './passport-pdf-export.component.html',
     styleUrls: ['./passport-pdf-export.component.scss']
 })
-export class PdfExportComponent extends BaseComponent{
+export class PdfExportComponent extends BaseComponent implements OnInit{
     /** Deployment details to be included in the PDF */
     @Input() deploymentDetails: ModelDeployment | null = null;
     /** Environment details to be included in the PDF */
@@ -37,6 +39,10 @@ export class PdfExportComponent extends BaseComponent{
     @Input() studyDetails: Study | null = null;
     /** Parameters to be included in the PDF */
     @Input() parameters: Parameter[] = [];
+    /** LearningProcessParameters to be included in the PDF */
+    @Input() learningProcessParameters: LearningProcessParameter[] = [];
+    /** LearningStageParameters to be included in the PDF */
+    @Input() learningStageParameters: LearningStageParameter[] = [];
     /** Population details to be included in the PDF */
     @Input() populationDetails: Population[] = [];
     /** Experiments to be included in the PDF */
@@ -74,6 +80,11 @@ export class PdfExportComponent extends BaseComponent{
 
     public logoDataUrl?: string;
 
+    /**
+     * Parameters are modified with values
+     */
+    parametersWithValues: any[] = [];
+
     /** Event emitted when the PDF preview is closed */
     @Output() pdfPreviewClosed = new EventEmitter<void>();
 
@@ -107,6 +118,26 @@ export class PdfExportComponent extends BaseComponent{
                     });
             }
         }
+
+        // Assign values with parameters
+        this.parameters.forEach(parameter =>{
+           this.learningProcessParameters.filter(lpp => lpp.parameterId === parameter.parameterId)
+               .map(lpp => lpp.value)
+               .forEach(value => this.parametersWithValues.push({
+                   name: parameter.name,
+                   dataType: parameter.dataType,
+                   description: parameter.description,
+                   value: value
+               }));
+           this.learningStageParameters.filter(lsp => lsp.parameterId === parameter.parameterId)
+               .map(lsp => lsp.value)
+               .forEach(value => this.parametersWithValues.push({
+                   name: parameter.name,
+                   dataType: parameter.dataType,
+                   description: parameter.description,
+                   value: value
+               }));
+        });
     }
 
     /**

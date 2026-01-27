@@ -18,6 +18,8 @@ import { FeatureSetWithFeaturesDTO } from "../../../shared/models/featureSetWith
 import {EvaluationMeasure} from "../../../shared/models/evaluationMeasure.model";
 import {ModelFigure} from "../../../shared/models/modelFigure.model";
 import {LinkedArticle} from "../../../shared/models/linkedArticle.model";
+import {LearningProcessParameter} from "../../../shared/models/learningProcessParameter.model";
+import {LearningStageParameter} from "../../../shared/models/learningStageParameter.model";
 
 /**
  * Component for managing and displaying the list of passports.
@@ -53,6 +55,10 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   studyDetails: Study | null = null;
   /** Parameters related to the selected passport */
   parameters: Parameter[] = [];
+  /** LearningProcessParameters related to the selected passport */
+  learningProcessParameters: LearningProcessParameter[] = [];
+  /** LearningStageParameters related to the selected passport */
+  learningStageParameters: LearningStageParameter[] = [];
   /** Population details related to the selected passport */
   populationDetails: Population[] = [];
   /** Experiment details related to the selected passport */
@@ -206,7 +212,11 @@ export class PassportManagementTableComponent extends BaseComponent implements O
         this.environmentDetails = details.environmentDetails;
         this.modelDetails = details.modelDetails;
         this.studyDetails = details.studyDetails;
-        this.parameters = details.parameters || [];
+        this.learningProcessParameters = details.learningProcessParameters || [];
+        this.learningStageParameters = details.learningStageParameters || [];
+        this.parameters = details.parameters.filter((p: Parameter) => (this.learningStageParameters
+            .find(lsp => lsp.parameterId === p.parameterId)) ||
+            (this.learningProcessParameters.find(lpp => lpp.parameterId === p.parameterId))) || [];
         this.populationDetails = details.populationDetails || [];
         this.surveys = details.surveys || [];
         this.experiments = details.experiments || [];
