@@ -214,7 +214,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
         this.studyDetails = details.studyDetails;
         this.learningProcessParameters = details.learningProcessParameters || [];
         this.learningStageParameters = details.learningStageParameters || [];
-        this.parameters = details.parameters.filter((p: Parameter) => (this.learningStageParameters
+        this.parameters = details.parameters?.filter((p: Parameter) => (this.learningStageParameters
             .find(lsp => lsp.parameterId === p.parameterId)) ||
             (this.learningProcessParameters.find(lpp => lpp.parameterId === p.parameterId))) || [];
         this.populationDetails = details.populationDetails || [];
