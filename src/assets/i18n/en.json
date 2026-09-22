@@ -650,14 +650,29 @@
       "PassportFormTooltip": "Model selection for which a general passport will be generated."
     }
   },
+  "SoftwareAgent": {
+    "Software Agents": "Software Agents",
+    "Software Agent Form": "Software Agent Form",
+    "Create Software Agent": "Create Software Agent",
+    "Name": "Name",
+    "Version": "Version",
+    "Keycloak Client": "Keycloak Client",
+    "Description": "Description",
+    "Software agent is created successfully": "Software agent is created successfully",
+    "Software agent is updated successfully": "Software agent is updated successfully",
+    "Software agent is deleted successfully": "Software agent is deleted successfully"
+  },
   "AuditLogTable": {
     "GoBack": "Go Back",
     "OccurredAt":"Occurred At",
     "Description": "Description",
-    "PersonName": "Person Name",
+    "ActorName": "Actor Name",
     "AuditLogs": "Audit Logs",
     "ActionType": "Action Type",
-    "PersonId": "Person ID",
+    "ActorId": "Actor ID",
+    "ActorType": "Actor Type",
+    "PERSONNEL": "Person",
+    "SOFTWARE_AGENT": "Software Agent",
     "AffectedRelation": "Affected Relation",
     "AffectedRecord": "Affected Record",
     "AffectedRecordId": "Affected Record ID",

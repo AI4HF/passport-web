@@ -7,6 +7,7 @@ import {LayoutService} from "../../layout/service/app.layout.service";
 import {StudyService} from "../../core/services/study.service";
 import {PopulationService} from "../../core/services/population.service";
 import {PersonnelService} from "../../core/services/personnel.service";
+import {SoftwareAgentService} from "../../core/services/software-agent.service";
 import {ExperimentService} from "../../core/services/experiment.service";
 import {SurveyService} from "../../core/services/survey.service";
 import {OrganizationService} from "../../core/services/organization.service";
@@ -63,6 +64,7 @@ export abstract class BaseComponent implements OnDestroy {
   studyService: StudyService;
   populationService: PopulationService;
   personnelService: PersonnelService;
+  softwareAgentService: SoftwareAgentService;
   experimentService: ExperimentService;
   linkedArticleService: LinkedArticleService;
   surveyService: SurveyService;
@@ -103,6 +105,7 @@ export abstract class BaseComponent implements OnDestroy {
     this.studyService = injector.get(StudyService);
     this.populationService = injector.get(PopulationService);
     this.personnelService = injector.get(PersonnelService);
+    this.softwareAgentService = injector.get(SoftwareAgentService);
     this.experimentService = injector.get(ExperimentService);
     this.linkedArticleService = injector.get(LinkedArticleService);
     this.surveyService = injector.get(SurveyService);

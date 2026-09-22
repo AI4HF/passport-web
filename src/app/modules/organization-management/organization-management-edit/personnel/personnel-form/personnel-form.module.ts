@@ -9,7 +9,6 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TranslateModule } from '@ngx-translate/core';
 import {DropdownModule} from "primeng/dropdown";
 import {CheckboxModule} from "primeng/checkbox";
-import {ConnectorSecretModule} from "../connector-secret/connector-secret.module";
 
 @NgModule({
     declarations: [PersonnelFormComponent],
@@ -26,8 +25,7 @@ import {ConnectorSecretModule} from "../connector-secret/connector-secret.module
         InputTextareaModule,
         TranslateModule,
         DropdownModule,
-        CheckboxModule,
-        ConnectorSecretModule
+        CheckboxModule
     ]
 })
 export class PersonnelFormModule { }

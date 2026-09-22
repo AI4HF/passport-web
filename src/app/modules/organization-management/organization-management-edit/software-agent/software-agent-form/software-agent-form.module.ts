@@ -1,24 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConnectorSecretComponent } from './connector-secret.component';
+import { SoftwareAgentFormComponent } from './software-agent-form.component';
 import { DialogModule } from 'primeng/dialog';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { FormsModule } from '@angular/forms';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-    declarations: [ConnectorSecretComponent],
-    exports:      [ConnectorSecretComponent],
+    declarations: [SoftwareAgentFormComponent],
+    exports: [
+        SoftwareAgentFormComponent
+    ],
     imports: [
         CommonModule,
         DialogModule,
+        FormsModule,
+        ReactiveFormsModule,
         ButtonModule,
         InputTextModule,
-        ProgressSpinnerModule,
-        FormsModule,
+        InputTextareaModule,
         TranslateModule
     ]
 })
-export class ConnectorSecretModule { }
+export class SoftwareAgentFormModule { }

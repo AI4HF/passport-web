@@ -1,0 +1,27 @@
+<p-dialog [(visible)]="display" [modal]="true" header="{{ 'SoftwareAgent.Software Agent Form' | translate }}"
+          (onHide)="closeDialog()" [style]="{width: '30rem'}">
+    <form *ngIf="display" (ngSubmit)="saveSoftwareAgent()" [formGroup]="softwareAgentForm">
+        <div class="p-field p-col-12 p-md-12 mb-3">
+            <label class="text-900 font-medium" for="name">{{ 'SoftwareAgent.Name' | translate }}</label>
+            <input class="w-full" formControlName="name" id="name" pInputText type="text"/>
+        </div>
+        <div class="p-field p-col-12 p-md-12 mb-3">
+            <label class="text-900 font-medium" for="version">{{ 'SoftwareAgent.Version' | translate }}</label>
+            <input class="w-full" formControlName="version" id="version" pInputText type="text"/>
+        </div>
+        <div class="p-field p-col-12 p-md-12 mb-3">
+            <label class="text-900 font-medium" for="keycloakClientId">{{ 'SoftwareAgent.Keycloak Client' | translate }}</label>
+            <input class="w-full" formControlName="keycloakClientId" id="keycloakClientId" pInputText type="text"/>
+        </div>
+        <div class="p-field p-col-12 p-md-12 mb-4">
+            <label class="text-900 font-medium" for="description">{{ 'SoftwareAgent.Description' | translate }}</label>
+            <textarea class="w-full" formControlName="description" id="description" pInputTextarea rows="3"></textarea>
+        </div>
+        <div class="flex justify-content-between">
+            <button type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Cancel' | translate }}" pButton
+                    class="p-button-primary"></button>
+            <button type="submit" icon="pi pi-check" label="{{ 'Save' | translate }}" pButton class="p-button-primary"
+                    [disabled]="softwareAgentForm.invalid"></button>
+        </div>
+    </form>
+</p-dialog>
