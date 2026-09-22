@@ -1,10 +1,8 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from "../../../shared/components/base.component";
-import { forkJoin, of, switchMap, takeUntil } from "rxjs";
+import { forkJoin, takeUntil } from "rxjs";
 import { ModelWithName } from "../../../shared/models/modelWithName.model";
 import { PassportWithModelName } from "../../../shared/models/passportWithModelName.model";
-import { ModelDeployment } from "../../../shared/models/modelDeployment.model";
-import { DeploymentEnvironment } from "../../../shared/models/deploymentEnvironment.model";
 import { Model } from "../../../shared/models/model.model";
 import { Study } from "../../../shared/models/study.model";
 import { Parameter } from "../../../shared/models/parameter.model";
@@ -43,10 +41,6 @@ export class PassportManagementTableComponent extends BaseComponent implements O
 
   /** Currently selected passport ID */
   selectedPassportId: string | null = null;
-  /** Deployment details for the selected passport */
-  deploymentDetails: ModelDeployment | null = null;
-  /** Environment details for the selected passport */
-  environmentDetails: DeploymentEnvironment | null = null;
   /** Evaluation Measures for the selected passport */
   evaluationMeasures: EvaluationMeasure[]  = [];
   /** Model details for the selected passport */
@@ -135,13 +129,8 @@ export class PassportManagementTableComponent extends BaseComponent implements O
    */
   mapModelsToPassports() {
     this.passportWithModelNameList.forEach(passportWithModelName => {
-      this.modelDeploymentService.getModelDeploymentById(passportWithModelName.passport.deploymentId, this.activeStudyService.getActiveStudy()).pipe(
-          switchMap((deployment: ModelDeployment) => {
-            passportWithModelName.modelName = (this.modelList.find(m => m.id === deployment.modelId))?.name ?? '';
-            return of(passportWithModelName);
-          }),
-          takeUntil(this.destroy$)
-      ).subscribe();
+      passportWithModelName.modelName =
+          (this.modelList.find(m => m.id === passportWithModelName.passport.modelId))?.name ?? '';
     });
   }
 
@@ -208,8 +197,6 @@ export class PassportManagementTableComponent extends BaseComponent implements O
       next: (passportDetails: PassportDetailsDTO) => {
         const details = passportDetails.detailsJson;
 
-        this.deploymentDetails = details.deploymentDetails;
-        this.environmentDetails = details.environmentDetails;
         this.modelDetails = details.modelDetails;
         this.studyDetails = details.studyDetails;
         this.learningProcessParameters = details.learningProcessParameters || [];

@@ -21,8 +21,6 @@ import {DatasetTransformationStepService} from "../../core/services/dataset-tran
 import {DatasetTransformationService} from "../../core/services/dataset-transformation.service";
 import {DatasetCharacteristicService} from "../../core/services/dataset-characteristic.service";
 import {ModelService} from "../../core/services/model.service";
-import {ModelDeploymentService} from "../../core/services/model-deployment.service";
-import {DeploymentEnvironmentService} from "../../core/services/deployment-environment.service";
 import {StudyOrganizationService} from "../../core/services/studyOrganization.service";
 import {PassportService} from "../../core/services/passport.service";
 import {AlgorithmService} from "../../core/services/algorithm.service";
@@ -81,8 +79,6 @@ export abstract class BaseComponent implements OnDestroy {
   parameterService: ParameterService;
   studyOrganizationService: StudyOrganizationService;
   modelService: ModelService;
-  modelDeploymentService: ModelDeploymentService;
-  deploymentEnvironmentService: DeploymentEnvironmentService;
   passportService: PassportService;
   algorithmService: AlgorithmService;
   implementationService: ImplementationService;
@@ -129,8 +125,6 @@ export abstract class BaseComponent implements OnDestroy {
     this.learningProcessParameterService = injector.get(LearningProcessParameterService);
     this.learningStageParameterService = injector.get(LearningStageParameterService);
     this.modelService = injector.get(ModelService);
-    this.modelDeploymentService = injector.get(ModelDeploymentService);
-    this.deploymentEnvironmentService = injector.get(DeploymentEnvironmentService);
     this.studyOrganizationService = injector.get(StudyOrganizationService);
     this.passportService = injector.get(PassportService);
     this.roleService = injector.get(RoleService);

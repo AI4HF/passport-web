@@ -97,22 +97,6 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
                 });
             }
 
-            if (this.userRoles.includes(Role.ML_ENGINEER)) {
-                this.translateService.get(['ML ENGINEER', 'Deployment Management']).subscribe(translations => {
-                    this.model.push({
-                        label: translations['ML ENGINEER'],
-                        icon: 'pi pi-android',
-                        items: [
-                            {
-                                label: translations['Deployment Management'],
-                                icon: 'pi pi-cloud-upload',
-                                routerLink: ['/deployment-management']
-                            }
-                        ]
-                    });
-                });
-            }
-
             if (this.userRoles.includes(Role.SURVEY_MANAGER)) {
                 this.translateService.get(['Survey Manager', 'Survey Management']).subscribe(translations => {
                     this.model.push({

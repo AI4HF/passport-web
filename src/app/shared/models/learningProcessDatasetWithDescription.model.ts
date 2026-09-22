@@ -1,7 +1,7 @@
 import {LearningProcessDataset} from "./learningProcessDataset.model";
 
 /**
- * Model representing a model deployment with an additional model name.
+ * Model representing a learning process dataset with an additional description.
  */
 export class LearningProcessDatasetWithDescriptionModel {
 

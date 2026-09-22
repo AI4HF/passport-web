@@ -8,16 +8,6 @@ export class PassportDetailsSelection{
     modelDetails: boolean;
 
     /**
-     * Whether include model deployment details
-     */
-    modelDeploymentDetails: boolean;
-
-    /**
-     * Whether include environment details
-     */
-    environmentDetails: boolean;
-
-    /**
      * Whether include datasets
      */
     datasets: boolean;
@@ -85,8 +75,6 @@ export class PassportDetailsSelection{
         }
 
         this.modelDetails = data.modelDetails;
-        this.modelDeploymentDetails = data.modelDeploymentDetails;
-        this.environmentDetails = data.environmentDetails;
         this.datasets = data.datasets;
         this.featureSets = data.featureSets;
         this.learningProcessDetails = data.learningProcessDetails;

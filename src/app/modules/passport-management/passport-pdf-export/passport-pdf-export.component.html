@@ -82,56 +82,6 @@
                 </div>
             </div>
 
-            <!-- Deployment Details Section -->
-            <div *ngIf="deploymentDetails" class="section">
-                <div class="section-title">{{ 'PassportManagement.Model Deployment Details' | translate }}</div>
-                <div class="section-content">
-                    <table class="attribute-table">
-                        <tr *ngIf="deploymentDetails.tags">
-                            <td class="attribute-title">{{ 'PassportManagement.Deployment Tags' | translate }}</td>
-                            <td class="attribute-value">{{ deploymentDetails?.tags }}</td>
-                        </tr>
-                        <tr *ngIf="deploymentDetails.status">
-                            <td class="attribute-title">{{ 'PassportManagement.Deployment Status' | translate }}</td>
-                            <td class="attribute-value">{{ deploymentDetails?.status }}</td>
-                        </tr>
-                        <tr *ngIf="deploymentDetails.identifiedFailures">
-                            <td class="attribute-title">{{ 'PassportManagement.Identified Failures' | translate }}</td>
-                            <td class="attribute-value">{{ deploymentDetails?.identifiedFailures }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Environment Details Section -->
-            <div *ngIf="environmentDetails" class="section">
-                <div class="section-title">{{ 'PassportManagement.Environment Details' | translate }}</div>
-                <div class="section-content">
-                    <table class="attribute-table">
-                        <tr *ngIf="environmentDetails.title">
-                            <td class="attribute-title">{{ 'PassportManagement.Environment Title' | translate }}</td>
-                            <td class="attribute-value">{{ environmentDetails?.title }}</td>
-                        </tr>
-                        <tr *ngIf="environmentDetails.description">
-                            <td class="attribute-title">{{ 'PassportManagement.Environment Description' | translate }}</td>
-                            <td class="attribute-value">{{ environmentDetails?.description }}</td>
-                        </tr>
-                        <tr *ngIf="environmentDetails.hardwareProperties">
-                            <td class="attribute-title">{{ 'PassportManagement.Hardware Properties' | translate }}</td>
-                            <td class="attribute-value">{{ environmentDetails?.hardwareProperties }}</td>
-                        </tr>
-                        <tr *ngIf="environmentDetails.softwareProperties">
-                            <td class="attribute-title">{{ 'PassportManagement.Software Properties' | translate }}</td>
-                            <td class="attribute-value">{{ environmentDetails?.softwareProperties }}</td>
-                        </tr>
-                        <tr *ngIf="environmentDetails.connectivityDetails">
-                            <td class="attribute-title">{{ 'PassportManagement.Connectivity Details' | translate }}</td>
-                            <td class="attribute-value">{{ environmentDetails?.connectivityDetails }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
             <!-- Feature Sets Section -->
             <div *ngIf="featureSetsWithFeatures.length" class="section">
                 <div class="section-title">{{ 'PassportManagement.Feature Sets' | translate }}</div>

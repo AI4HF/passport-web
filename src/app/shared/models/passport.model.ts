@@ -8,9 +8,9 @@ export class Passport{
     passportId: string;
 
     /**
-     * The ID of the Model Deployment
+     * The ID of the Model
      */
-    deploymentId: string;
+    modelId: string;
 
     /**
      * The ID of the Study
@@ -44,7 +44,7 @@ export class Passport{
         }
 
         this.passportId = data.passportId;
-        this.deploymentId = data.deploymentId;
+        this.modelId = data.modelId;
         this.studyId = data.studyId;
         this.createdAt = data.createdAt;
         this.createdBy = data.createdBy;

@@ -404,39 +404,8 @@
     "No Figures Added": "No Figures Added",
     "Click “Create Model Figure” to create your first visualization": "Click “Create Model Figure” to create your first visualization."
   },
-  "DeploymentManagement": {
-    "Deployments": "Deployments",
-    "New Deployment": "New Deployment",
-    "Number of entries": "Showing {first} to {last} of {totalRecords} entries",
-    "ID": "ID",
-    "Tags": "Tags",
-    "Identified Failures": "Identified Failures",
-    "Status": "Status",
-    "Actions": "Actions",
-    "Edit Deployment": "Edit Deployment",
-    "Delete Deployment": "Delete Deployment",
-    "Access Deployment": "Access Deployment",
-    "Deployment Details": "Deployment Details",
-    "Environment Details": "Environment Details",
-    "Model Deployment Details": "Model Deployment Details",
-    "Model Deployment is updated successfully": "Model Deployment is updated successfully",
-    "Model Deployment is created successfully": "Model Deployment is created successfully",
-    "Model Deployment is deleted successfully": "Model Deployment is deleted successfully",
-    "FullDeploymentCreated": "Deployment Environment and Model Deployment created successfully",
-    "Deployment is deleted successfully": "Deployment is deleted successfully",
-    "Model": "Model",
-    "Select Model": "Select Model",
-    "Environment": {
-      "Title": "Title",
-      "Description": "Description",
-      "Hardware Properties": "Hardware Properties",
-      "Software Properties": "Software Properties",
-      "Connectivity Details": "Connectivity Details",
-      "Deployment Environment is updated successfully": "Deployment Environment is updated successfully",
-      "Deployment Environment is created successfully": "Deployment Environment is created successfully"
-    }
-  },
   "PassportManagement": {
+    "Select Model": "Select Model",
     "ViewAuditLogs": "View Audit Logs",
     "CreatedBy": "Created By",
     "CreatedAt": "Created At",
@@ -450,18 +419,10 @@
     "Export Passport": "Export Passport",
     "Delete Passport": "Delete Passport",
     "PDF Preview": "PDF Preview",
-    "Deployment Tags": "Deployment Tags",
-    "Deployment Status": "Deployment Status",
-    "Identified Failures": "Identified Failures",
     "Created At": "Created At",
     "Created By": "Created By",
     "Last Updated At": "Last Updated At",
     "Last Updated By": "Last Updated By",
-    "Environment Title": "Environment Title",
-    "Environment Description": "Environment Description",
-    "Hardware Properties": "Hardware Properties",
-    "Software Properties": "Software Properties",
-    "Connectivity Details": "Connectivity Details",
     "Model Name": "Model Name",
     "Model Version": "Model Version",
     "Model Type": "Model Type",
@@ -481,8 +442,6 @@
     "Study Ethics": "Study Ethics",
     "Owner": "Owner",
     "AI4HF Product Passport": "AI4HF Product Passport",
-    "Model Deployment Details": "Model Deployment Details",
-    "Environment Details": "Environment Details",
     "Model Details": "Model Details",
     "Study Details": "Study Details",
     "EXPORT AS PDF": "EXPORT AS PDF",
@@ -686,19 +645,6 @@
       "ParameterFormLearningProcessTooltip": "Creation/Update form for assigning a parameter to the learning process.",
       "ParameterFormModelTooltip": "Creation/Update form for assigning a parameter to the model.",
       "ParameterFormLearningStageTooltip": "Creation/Update form for assigning a parameter to the learning stage."
-    },
-    "DeploymentManagement": {
-      "Environment": {
-        "TitleTooltip": "Title of the deployment environment.",
-        "DescriptionTooltip": "Brief description of the deployment environment.",
-        "HardwarePropertiesTooltip": "Specifications and details of the hardware used.",
-        "SoftwarePropertiesTooltip": "Details about the software used in the deployment environment.",
-        "ConnectivityDetailsTooltip": "Information regarding network and connectivity details."
-      },
-      "ModelTooltip": "Select the model to be deployed.",
-      "TagsTooltip": "Tags associated with the deployment.",
-      "IdentifiedFailuresTooltip": "Any known failures identified during deployment.",
-      "StatusTooltip": "Current status of the deployment."
     },
     "PassportManagement": {
       "PassportFormTooltip": "Model selection for which a general passport will be generated."

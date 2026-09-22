@@ -1,6 +1,4 @@
 import {Component, EventEmitter, Injector, Input, OnInit, Output} from '@angular/core';
-import { ModelDeployment } from '../../../shared/models/modelDeployment.model';
-import { DeploymentEnvironment } from '../../../shared/models/deploymentEnvironment.model';
 import { Model } from '../../../shared/models/model.model';
 import { Study } from '../../../shared/models/study.model';
 import { Parameter } from '../../../shared/models/parameter.model';
@@ -29,10 +27,6 @@ import {LearningStageParameter} from "../../../shared/models/learningStageParame
     styleUrls: ['./passport-pdf-export.component.scss']
 })
 export class PdfExportComponent extends BaseComponent implements OnInit{
-    /** Deployment details to be included in the PDF */
-    @Input() deploymentDetails: ModelDeployment | null = null;
-    /** Environment details to be included in the PDF */
-    @Input() environmentDetails: DeploymentEnvironment | null = null;
     /** Model details to be included in the PDF */
     @Input() modelDetails: Model | null = null;
     /** Study details to be included in the PDF */

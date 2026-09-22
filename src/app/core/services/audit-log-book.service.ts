@@ -39,7 +39,7 @@ export class AuditLogBookService {
     }
 
     /**
-     * Creates AuditLogBook entries for a given Passport based on its Study ID and Deployment ID
+     * Creates AuditLogBook entries for a given Passport based on its Study ID and Model ID
      * @param passportId The ID of the Passport
      * @param studyId The ID of the Study
      * @return {Observable<void>}
