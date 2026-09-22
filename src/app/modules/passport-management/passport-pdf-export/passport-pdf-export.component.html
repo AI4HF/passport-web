@@ -240,7 +240,7 @@
                             <th *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.description'">{{ 'PassportManagement.Dataset Description' | translate }}</th>
                             <th *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.version'">{{ 'PassportManagement.Dataset Version' | translate }}</th>
                             <th *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.referenceEntity'">{{ 'PassportManagement.Dataset Reference Entity' | translate }}</th>
-                            <th *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.numOfRecords'">{{ 'PassportManagement.Dataset Number of Records' | translate }}</th>
+                            <th *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.numberOfRecords'">{{ 'PassportManagement.Dataset Number of Records' | translate }}</th>
                             <th *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.synthetic'">{{ 'PassportManagement.Dataset Synthetic' | translate }}</th>
                         </tr>
                     </ng-template>
@@ -250,7 +250,7 @@
                             <td *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.description'">{{ datasetWithLearningDatasets.dataset.description }}</td>
                             <td *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.version'">{{ datasetWithLearningDatasets.dataset.version }}</td>
                             <td *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.referenceEntity'">{{ datasetWithLearningDatasets.dataset.referenceEntity }}</td>
-                            <td *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.numOfRecords'">{{ datasetWithLearningDatasets.dataset.numOfRecords }}</td>
+                            <td *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.numberOfRecords'">{{ datasetWithLearningDatasets.dataset.numberOfRecords }}</td>
                             <td *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.synthetic'">{{ datasetWithLearningDatasets.dataset.synthetic ? 'Yes' : 'No' }}</td>
                         </tr>
                         <!-- Nested Learning Datasets Table -->

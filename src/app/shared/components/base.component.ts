@@ -12,6 +12,10 @@ import {QualityCriteriaService} from "../../core/services/quality-criteria.servi
 import {QualityCriterionService} from "../../core/services/quality-criterion.service";
 import {QualityAssessmentService} from "../../core/services/quality-assessment.service";
 import {QualityCriterionAssessmentResultService} from "../../core/services/quality-criterion-assessment-result.service";
+import {DatasetConceptService} from "../../core/services/dataset-concept.service";
+import {CatalogueDatasetService} from "../../core/services/catalogue-dataset.service";
+import {DatasetDistributionService} from "../../core/services/dataset-distribution.service";
+import {CatalogueRegistrationService} from "../../core/services/catalogue-registration.service";
 import {ExperimentService} from "../../core/services/experiment.service";
 import {SurveyService} from "../../core/services/survey.service";
 import {OrganizationService} from "../../core/services/organization.service";
@@ -73,6 +77,10 @@ export abstract class BaseComponent implements OnDestroy {
   qualityCriterionService: QualityCriterionService;
   qualityAssessmentService: QualityAssessmentService;
   qualityCriterionAssessmentResultService: QualityCriterionAssessmentResultService;
+  datasetConceptService: DatasetConceptService;
+  catalogueDatasetService: CatalogueDatasetService;
+  datasetDistributionService: DatasetDistributionService;
+  catalogueRegistrationService: CatalogueRegistrationService;
   experimentService: ExperimentService;
   linkedArticleService: LinkedArticleService;
   surveyService: SurveyService;
@@ -118,6 +126,10 @@ export abstract class BaseComponent implements OnDestroy {
     this.qualityCriterionService = injector.get(QualityCriterionService);
     this.qualityAssessmentService = injector.get(QualityAssessmentService);
     this.qualityCriterionAssessmentResultService = injector.get(QualityCriterionAssessmentResultService);
+    this.datasetConceptService = injector.get(DatasetConceptService);
+    this.catalogueDatasetService = injector.get(CatalogueDatasetService);
+    this.datasetDistributionService = injector.get(DatasetDistributionService);
+    this.catalogueRegistrationService = injector.get(CatalogueRegistrationService);
     this.experimentService = injector.get(ExperimentService);
     this.linkedArticleService = injector.get(LinkedArticleService);
     this.surveyService = injector.get(SurveyService);

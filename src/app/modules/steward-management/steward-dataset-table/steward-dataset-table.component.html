@@ -1,0 +1,65 @@
+<div class="col-12">
+    <div class="card p-mt-3">
+        <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
+            <div>
+                <div class="text-900 text-2xl font-semibold mb-1">{{ 'StewardManagement.My Organization Datasets' | translate }}</div>
+                <div class="text-500">{{ 'StewardManagement.Intro' | translate }}</div>
+            </div>
+            <span class="p-input-icon-left flex-auto mx-2">
+                <i class="pi pi-search"></i>
+                <input (input)="filter(dt, $event)" class="w-full rounded-border" pInputText
+                       placeholder="{{ 'Search' | translate }}" type="text"/>
+            </span>
+        </div>
+        <p-table
+            #dt
+            [loading]="loading"
+            [paginator]="true"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            [rows]="10"
+            [totalRecords]="datasetList?.length"
+            [value]="datasetList"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="title">{{ 'StewardManagement.Dataset' | translate }}
+                        <p-sortIcon field="title"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="version">{{ 'StewardManagement.Version' | translate }}
+                        <p-sortIcon field="version"></p-sortIcon>
+                    </th>
+                    <th>{{ 'StewardManagement.Records' | translate }}</th>
+                    <th>{{ 'StewardManagement.Publication' | translate }}</th>
+                    <th>{{ 'Actions' | translate }}</th>
+                </tr>
+            </ng-template>
+            <ng-template let-dataset pTemplate="body">
+                <tr>
+                    <td>
+                        <div class="font-medium">{{ dataset.title }}</div>
+                        <div class="text-500">{{ dataset.description }}</div>
+                    </td>
+                    <td>{{ dataset.version }}</td>
+                    <td>{{ dataset.numberOfRecords }}</td>
+                    <td>
+                        <span *ngIf="isPublished(dataset)">{{ 'StewardManagement.Marked for publication' | translate }}</span>
+                        <span *ngIf="!isPublished(dataset)" class="text-500">{{ 'StewardManagement.Internal only' | translate }}</span>
+                    </td>
+                    <td>
+                        <button (click)="editMetadata(dataset)" class="p-button-text p-button-rounded p-ripple"
+                                icon="pi pi-pencil" pButton pRipple
+                                pTooltip="{{ 'StewardManagement.Complete metadata' | translate }}"
+                                tooltipPosition="bottom" type="button"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5">{{ 'StewardManagement.No datasets' | translate }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<app-steward-metadata-form (formClosed)="onFormClosed()" *ngIf="this.displayForm"
+                           [dataset]="selectedDataset"></app-steward-metadata-form>

@@ -115,7 +115,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             referenceEntity: new FormControl(this.selectedDataset?.referenceEntity || '', Validators.required),
             featureset: new FormControl(this.selectedDataset?.featuresetId || null, Validators.required),
             population: new FormControl(this.selectedDataset?.populationId || null, Validators.required), // Initialize Population Field
-            numOfRecords: new FormControl(this.selectedDataset?.numOfRecords || 0, Validators.required),
+            numberOfRecords: new FormControl(this.selectedDataset?.numberOfRecords || 0, Validators.required),
             synthetic: new FormControl(this.selectedDataset?.synthetic || false)
         });
     }
@@ -143,7 +143,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             description: selectedDataset.description,
             version: selectedDataset.version,
             referenceEntity: selectedDataset.referenceEntity,
-            numOfRecords: selectedDataset.numOfRecords,
+            numberOfRecords: selectedDataset.numberOfRecords,
             synthetic: selectedDataset.synthetic
         });
     }
@@ -160,7 +160,7 @@ export class DatasetDetailsComponent extends BaseComponent implements OnInit {
             referenceEntity: formValues.referenceEntity,
             featuresetId: formValues.featureset,
             populationId: formValues.population,
-            numOfRecords: formValues.numOfRecords,
+            numberOfRecords: formValues.numberOfRecords,
             synthetic: formValues.synthetic
         };
 

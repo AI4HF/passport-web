@@ -4,7 +4,7 @@
     "description": "Dataset containing health-related records.",
     "version": "1.0",
     "referenceEntity": "Health Department",
-    "numOfRecords": 1500,
+    "numberOfRecords": 1500,
     "synthetic": true
   }
 ]

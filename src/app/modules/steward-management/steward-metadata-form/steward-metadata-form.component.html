@@ -1,0 +1,128 @@
+<p-dialog [(visible)]="display" [modal]="true" (onHide)="closeDialog()" [style]="{width: '48rem'}"
+          header="{{ 'StewardManagement.Dataset Metadata' | translate }}">
+    <div *ngIf="display">
+        <div class="text-500 mb-4">{{ dataset?.title }}</div>
+
+        <p-divider align="center" type="solid">
+            <b class="text-900 font-bold">{{ 'StewardManagement.Publication' | translate }}</b>
+        </p-divider>
+
+        <form (ngSubmit)="savePublication()" [formGroup]="catalogueForm">
+            <div class="grid">
+                <div class="col-12 field">
+                    <label class="text-900 font-medium" for="publicTitle">{{ 'StewardManagement.Public Title' | translate }}</label>
+                    <input class="w-full" formControlName="publicTitle" id="publicTitle" pInputText type="text"/>
+                </div>
+                <div class="col-12 field">
+                    <label class="text-900 font-medium" for="publicDescription">{{ 'StewardManagement.Public Description' | translate }}</label>
+                    <textarea class="w-full" formControlName="publicDescription" id="publicDescription" pInputTextarea rows="2"></textarea>
+                </div>
+                <div class="col-6 field">
+                    <label class="text-900 font-medium" for="accessRights">{{ 'StewardManagement.Access Rights' | translate }}</label>
+                    <input class="w-full" formControlName="accessRights" id="accessRights" pInputText type="text"/>
+                </div>
+                <div class="col-6 field">
+                    <label class="text-900 font-medium" for="hdabName">{{ 'StewardManagement.Health Data Access Body' | translate }}</label>
+                    <input class="w-full" formControlName="hdabName" id="hdabName" pInputText type="text"/>
+                </div>
+                <div class="col-6 field">
+                    <label class="text-900 font-medium" for="publisherName">{{ 'StewardManagement.Publisher' | translate }}</label>
+                    <input class="w-full" formControlName="publisherName" id="publisherName" pInputText type="text"/>
+                </div>
+                <div class="col-6 field">
+                    <label class="text-900 font-medium" for="contactPoint">{{ 'StewardManagement.Contact Point' | translate }}</label>
+                    <input class="w-full" formControlName="contactPoint" id="contactPoint" pInputText type="text"/>
+                </div>
+                <div class="col-6 field">
+                    <label class="text-900 font-medium" for="legalBasis">{{ 'StewardManagement.Legal Basis' | translate }}</label>
+                    <input class="w-full" formControlName="legalBasis" id="legalBasis" pInputText type="text"/>
+                </div>
+                <div class="col-6 field">
+                    <label class="text-900 font-medium" for="applicableLegislation">{{ 'StewardManagement.Applicable Legislation' | translate }}</label>
+                    <input class="w-full" formControlName="applicableLegislation" id="applicableLegislation" pInputText type="text"/>
+                </div>
+                <div class="col-12 field">
+                    <label class="text-900 font-medium" for="purpose">{{ 'StewardManagement.Purpose' | translate }}</label>
+                    <textarea class="w-full" formControlName="purpose" id="purpose" pInputTextarea rows="2"></textarea>
+                </div>
+                <div class="col-6 field">
+                    <label class="text-900 font-medium" for="retentionPeriodStart">{{ 'StewardManagement.Retention Start' | translate }}</label>
+                    <input class="w-full" formControlName="retentionPeriodStart" id="retentionPeriodStart" pInputText type="date"/>
+                </div>
+                <div class="col-6 field">
+                    <label class="text-900 font-medium" for="retentionPeriodEnd">{{ 'StewardManagement.Retention End' | translate }}</label>
+                    <input class="w-full" formControlName="retentionPeriodEnd" id="retentionPeriodEnd" pInputText type="date"/>
+                </div>
+                <div class="col-6 field">
+                    <label class="text-900 font-medium" for="landingPage">{{ 'StewardManagement.Landing Page' | translate }}</label>
+                    <input class="w-full" formControlName="landingPage" id="landingPage" pInputText type="text"/>
+                </div>
+                <div class="col-6 field flex align-items-center mt-4">
+                    <p-checkbox formControlName="personalData" [binary]="true" inputId="personalData"></p-checkbox>
+                    <label class="text-900 font-medium ml-2" for="personalData">{{ 'StewardManagement.Contains Personal Data' | translate }}</label>
+                </div>
+            </div>
+            <div class="flex justify-content-end mb-4">
+                <button type="submit" icon="pi pi-check" label="{{ 'StewardManagement.Save publication metadata' | translate }}"
+                        pButton class="p-button-primary" [disabled]="catalogueForm.invalid"></button>
+            </div>
+        </form>
+
+        <p-divider align="center" type="solid">
+            <b class="text-900 font-bold">{{ 'StewardManagement.Concepts' | translate }}</b>
+        </p-divider>
+
+        <p-table [value]="concepts" class="mb-3">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>{{ 'StewardManagement.Property' | translate }}</th>
+                    <th>{{ 'StewardManagement.Label' | translate }}</th>
+                    <th>{{ 'StewardManagement.Concept URI' | translate }}</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-concept>
+                <tr>
+                    <td>{{ concept.propertyUri }}</td>
+                    <td>{{ concept.prefLabel }}</td>
+                    <td>{{ concept.conceptUri }}</td>
+                    <td>
+                        <button (click)="removeConcept(concept)" class="p-button-text p-button-rounded p-ripple"
+                                icon="pi pi-trash" pButton pRipple type="button"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">{{ 'StewardManagement.No concepts' | translate }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <form (ngSubmit)="addConcept()" [formGroup]="conceptForm">
+            <div class="grid">
+                <div class="col-4 field">
+                    <input class="w-full" formControlName="propertyUri" pInputText type="text"
+                           placeholder="{{ 'StewardManagement.Property' | translate }}"/>
+                </div>
+                <div class="col-3 field">
+                    <input class="w-full" formControlName="prefLabel" pInputText type="text"
+                           placeholder="{{ 'StewardManagement.Label' | translate }}"/>
+                </div>
+                <div class="col-4 field">
+                    <input class="w-full" formControlName="conceptUri" pInputText type="text"
+                           placeholder="{{ 'StewardManagement.Concept URI' | translate }}"/>
+                </div>
+                <div class="col-1 field">
+                    <button type="submit" icon="pi pi-plus" pButton class="p-button-primary"
+                            [disabled]="conceptForm.invalid"></button>
+                </div>
+            </div>
+        </form>
+
+        <div class="flex justify-content-start">
+            <button type="button" (click)="closeDialog()" icon="pi pi-times" label="{{ 'Close' | translate }}"
+                    pButton class="p-button-secondary"></button>
+        </div>
+    </div>
+</p-dialog>

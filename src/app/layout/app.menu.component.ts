@@ -113,6 +113,37 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
                 });
             }
 
+            if (this.userRoles.includes(Role.DATA_STEWARD)) {
+
+                this.translateService.get(['Data Steward', 'Dataset Metadata']).subscribe(translations => {
+
+                    this.model.push({
+
+                        label: translations['Data Steward'],
+
+                        icon: 'pi pi-verified',
+
+                        items: [
+
+                            {
+
+                                label: translations['Dataset Metadata'],
+
+                                icon: 'pi pi-book',
+
+                                routerLink: ['/steward-management']
+
+                            }
+
+                        ]
+
+                    });
+
+                });
+
+            }
+
+
             if (this.userRoles.includes(Role.DATA_ENGINEER)) {
                 this.translateService.get(['Data Engineer', 'Feature Management', 'Dataset Management', 'Quality Management']).subscribe(translations => {
                     this.model.push({
