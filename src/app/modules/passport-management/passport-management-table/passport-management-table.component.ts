@@ -191,6 +191,37 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   }
 
   /**
+   * Downloads the signed document stored on a passport - the bytes exactly as they were signed, rather
+   * than a freshly rendered copy.
+   * @param passportId The ID of the passport
+   */
+  downloadSignedPdf(passportId: string) {
+    this.passportService.downloadSignedPdf(passportId, this.activeStudyService.getActiveStudy())
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (signedBlob: Blob) => {
+            const url = URL.createObjectURL(signedBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `passport-${passportId}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+          },
+          error: error => {
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
+            });
+          }
+        });
+  }
+
+  /**
    * Selects a passport for PDF export and loads its details.
    * @param passportId The ID of the passport to select.
    */

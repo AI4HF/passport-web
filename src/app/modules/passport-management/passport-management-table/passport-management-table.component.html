@@ -28,6 +28,11 @@
                         {{ 'PassportManagement.Model' | translate }}
                         <p-sortIcon [field]="'modelName'"></p-sortIcon>
                     </th>
+                    <th [pSortableColumn]="'passport.version'" class="white-space-nowrap">
+                        {{ 'PassportManagement.Version' | translate }}
+                        <p-sortIcon [field]="'passport.version'"></p-sortIcon>
+                    </th>
+                    <th class="white-space-nowrap">{{ 'PassportManagement.Document' | translate }}</th>
                     <th [pSortableColumn]="'passport.createdBy'" class="white-space-nowrap min-width-10rem">
                         {{ 'PassportManagement.CreatedBy' | translate }}
                         <p-sortIcon [field]="'passport.createdBy'"></p-sortIcon>
@@ -47,6 +52,21 @@
                     <td class="cursor-pointer">
                         <span>{{ passportWithModelName.modelName }}</span>
                     </td>
+                    <td>
+                        <span>{{ passportWithModelName.passport.version }}</span>
+                    </td>
+                    <td class="white-space-nowrap">
+                        <span *ngIf="passportWithModelName.passport.signedPdfHash"
+                              class="text-600 text-sm"
+                              pTooltip="{{ passportWithModelName.passport.signedPdfHash }}"
+                              tooltipPosition="bottom">
+                            {{ 'PassportManagement.Signed' | translate }}
+                            ({{ passportWithModelName.passport.signedPdfHash | slice:0:12 }}…)
+                        </span>
+                        <span *ngIf="!passportWithModelName.passport.signedPdfHash" class="text-500 text-sm">
+                            {{ 'PassportManagement.Not generated yet' | translate }}
+                        </span>
+                    </td>
                     <td class="cursor-pointer">
                         <span>{{ passportWithModelName.passport.createdBy }}</span>
                     </td>
@@ -58,6 +78,14 @@
                                 class="p-button-text p-button-rounded p-ripple" icon="pi pi-upload" pButton
                                 pRipple
                                 pTooltip="{{ 'PassportManagement.Export Passport' | translate }}"
+                                tooltipPosition="bottom"
+                                type="button">
+                        </button>
+                        <button *ngIf="passportWithModelName.passport.signedPdfHash"
+                                (click)="downloadSignedPdf(passportWithModelName.passport.passportId)"
+                                class="p-button-text p-button-rounded p-ripple" icon="pi pi-download" pButton
+                                pRipple
+                                pTooltip="{{ 'PassportManagement.Download signed document' | translate }}"
                                 tooltipPosition="bottom"
                                 type="button">
                         </button>
@@ -91,6 +119,7 @@
 <app-passport-pdf-export
         *ngIf="showPdfPreview"
         (pdfPreviewClosed)="closePdfPreview()"
+        [passportId]="selectedPassportId"
         [modelDetails]="modelDetails"
         [studyDetails]="studyDetails"
         [parameters]="parameters"

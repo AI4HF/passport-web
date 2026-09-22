@@ -27,6 +27,9 @@ import {LearningStageParameter} from "../../../shared/models/learningStageParame
 })
 export class PdfExportComponent extends BaseComponent implements OnInit{
     /** Model details to be included in the PDF */
+    /** The passport being exported - the document is stored on it once signed */
+    @Input() passportId: string = '';
+
     @Input() modelDetails: ModelWithOwnerName | null = null;
     /** Study details to be included in the PDF */
     @Input() studyDetails: Study | null = null;
@@ -210,7 +213,7 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
             const today = new Date();
             const formattedDate = today.toISOString().slice(0,10).replace(/-/g, '');
             const fileName = `${this.exportStudyName}_Passport_${formattedDate}.pdf`;
-            const opts: GenerateAndSignPdfOptionsDto = {fileName: fileName, baseUrl: baseHref}
+            const opts: GenerateAndSignPdfOptionsDto = {fileName: fileName, baseUrl: baseHref, passportId: this.passportId}
             this.passportService.generateAndSignPdf(html, this.exportStudyId, opts)
                 .subscribe((signedBlob: Blob) => {
                     const url = URL.createObjectURL(signedBlob);

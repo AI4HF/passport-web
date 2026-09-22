@@ -604,7 +604,12 @@
     "Article Year": "Year",
     "Article Doi": "DOI",
     "Retrained From": "Retrained From",
-    "Retraining Reason": "Retraining Reason"
+    "Retraining Reason": "Retraining Reason",
+    "Version": "Version",
+    "Document": "Document",
+    "Signed": "Signed",
+    "Not generated yet": "Not generated yet",
+    "Download signed document": "Download the signed document"
   },
   "LearningProcessManagement": {
     "EmptyAlgorithmMessage": "No matching Algorithms. Create new Algorithm with the given name.",

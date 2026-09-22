@@ -124,6 +124,23 @@ export class PassportService {
     }
 
     /**
+     * Downloads the signed document stored on a passport - the bytes exactly as they were signed.
+     * @param passportId Id of the passport
+     * @param studyId Id of the related study
+     * @return {Observable<Blob>}
+     */
+    downloadSignedPdf(passportId: String, studyId: String): Observable<Blob> {
+        const url = `${this.endpoint}/${passportId}/signed-pdf?studyId=${studyId}`;
+        return this.httpClient.get(url, { responseType: 'blob' })
+            .pipe(
+                catchError((error) => {
+                    console.error(error);
+                    throw error;
+                })
+            );
+    }
+
+    /**
      * Generate a PDF from HTML on the server and sign it in a single request.
      *
      * @param html Full HTML string to render
@@ -146,7 +163,8 @@ export class PassportService {
             width: opts?.width ?? '420mm',
             height: opts?.height ?? '297mm',
             landscape: opts?.landscape ?? true,
-            studyId: studyId
+            studyId: studyId,
+            passportId: opts?.passportId
         };
 
         return this.httpClient.post(url, payload, { responseType: 'blob' })

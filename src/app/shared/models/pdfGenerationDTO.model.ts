@@ -2,6 +2,7 @@
  * Input parameters for PDF generation request parameters
  */
 export class GenerateAndSignPdfOptionsDto {
+    passportId?: string;
     baseUrl?: string;
     fileName?: string;
     width?: string;
@@ -20,4 +21,5 @@ export class GenerateAndSignPdfRequestDto {
     height: string;
     landscape: boolean;
     studyId: String;
+    passportId: string;
 }
