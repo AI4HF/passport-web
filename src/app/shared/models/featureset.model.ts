@@ -23,6 +23,11 @@ export class FeatureSet {
     featuresetURL: string;
 
     /**
+     * The version of the declarative feature set definition
+     */
+    version: string;
+
+    /**
      * The description of the FeatureSet
      */
     description: string;
@@ -55,6 +60,7 @@ export class FeatureSet {
         this.experimentId = data.experimentId;
         this.title = data.title;
         this.featuresetURL = data.featuresetURL;
+        this.version = data.version;
         this.description = data.description;
         this.createdAt = data.createdAt;
         this.createdBy = data.createdBy;

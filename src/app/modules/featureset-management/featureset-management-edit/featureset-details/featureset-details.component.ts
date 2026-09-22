@@ -66,6 +66,7 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
             title: new FormControl(this.selectedFeatureSet?.title || '', Validators.required),
             description: new FormControl(this.selectedFeatureSet?.description || '', Validators.required),
             featuresetURL: new FormControl(this.selectedFeatureSet?.featuresetURL || '', Validators.required),
+            version: new FormControl(this.selectedFeatureSet?.version || '', Validators.required),
             experiment: new FormControl(null, Validators.required)
         });
 
@@ -116,6 +117,7 @@ export class FeatureSetDetailsComponent extends BaseComponent implements OnInit 
             title: formValues.title,
             description: formValues.description,
             featuresetURL: formValues.featuresetURL,
+            version: formValues.version,
             experimentId: formValues.experiment.experimentId
         };
 

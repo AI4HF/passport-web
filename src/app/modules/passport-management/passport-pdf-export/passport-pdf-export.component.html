@@ -91,6 +91,7 @@
                             <th *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.title'">{{ 'PassportManagement.FeatureSet Title' | translate }}</th>
                             <th *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.description'">{{ 'PassportManagement.FeatureSet Description' | translate }}</th>
                             <th *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.featuresetURL'">{{ 'PassportManagement.FeatureSet URL' | translate }}</th>
+                            <th *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.version'">{{ 'PassportManagement.FeatureSet Version' | translate }}</th>
                             <th *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.createdAt'">{{ 'PassportManagement.FeatureSet Created At' | translate }}</th>
                             <th *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.createdBy'">{{ 'PassportManagement.FeatureSet Created By' | translate }}</th>
                             <th *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.lastUpdatedAt'">{{ 'PassportManagement.FeatureSet Last Updated At' | translate }}</th>
@@ -102,6 +103,7 @@
                             <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.title'">{{ featureSetWithFeatures.featureSet.title }}</td>
                             <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.description'">{{ featureSetWithFeatures.featureSet.description }}</td>
                             <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.featuresetURL'">{{ featureSetWithFeatures.featureSet.featuresetURL }}</td>
+                            <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.version'">{{ featureSetWithFeatures.featureSet.version }}</td>
                             <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.createdAt'">{{ featureSetWithFeatures.featureSet.createdAt | date: 'medium' }}</td>
                             <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.createdBy'">{{ featureSetWithFeatures.featureSet.createdBy }}</td>
                             <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.lastUpdatedAt'">{{ featureSetWithFeatures.featureSet.lastUpdatedAt | date: 'medium' }}</td>
@@ -122,6 +124,7 @@
                                             <th *ngIf="featureSetWithFeatures.features | hasAnyValue: 'units'">{{ 'PassportManagement.Feature Units' | translate }}</th>
                                             <th *ngIf="featureSetWithFeatures.features | hasAnyValue: 'equipment'">{{ 'PassportManagement.Feature Equipment' | translate }}</th>
                                             <th *ngIf="featureSetWithFeatures.features | hasAnyValue: 'dataCollection'">{{ 'PassportManagement.Feature DataCollection' | translate }}</th>
+                                            <th *ngIf="featureSetWithFeatures.features | hasAnyValue: 'extractionDefinition'">{{ 'PassportManagement.Feature ExtractionDefinition' | translate }}</th>
                                         </tr>
                                     </ng-template>
                                     <ng-template let-feature pTemplate="body">
@@ -135,6 +138,7 @@
                                             <td *ngIf="featureSetWithFeatures.features | hasAnyValue: 'units'">{{ feature.units }}</td>
                                             <td *ngIf="featureSetWithFeatures.features | hasAnyValue: 'equipment'">{{ feature.equipment }}</td>
                                             <td *ngIf="featureSetWithFeatures.features | hasAnyValue: 'dataCollection'">{{ feature.dataCollection }}</td>
+                                            <td *ngIf="featureSetWithFeatures.features | hasAnyValue: 'extractionDefinition'">{{ feature.extractionDefinition }}</td>
                                         </tr>
                                     </ng-template>
                                 </p-table>
@@ -262,6 +266,7 @@
                     <ng-template pTemplate="header">
                         <tr>
                             <th *ngIf="populationDetails | hasAnyValue: 'populationUrl'">{{ 'PassportManagement.Population URL' | translate }}</th>
+                            <th *ngIf="populationDetails | hasAnyValue: 'version'">{{ 'PassportManagement.Population Version' | translate }}</th>
                             <th *ngIf="populationDetails | hasAnyValue: 'description'">{{ 'PassportManagement.Population Description' | translate }}</th>
                             <th *ngIf="populationDetails | hasAnyValue: 'characteristics'">{{ 'PassportManagement.Population Characteristics' | translate }}</th>
                         </tr>
@@ -269,6 +274,7 @@
                     <ng-template let-population pTemplate="body">
                         <tr>
                             <td *ngIf="populationDetails | hasAnyValue: 'populationUrl'">{{ population.populationUrl }}</td>
+                            <td *ngIf="populationDetails | hasAnyValue: 'version'">{{ population.version }}</td>
                             <td *ngIf="populationDetails | hasAnyValue: 'description'">{{ population.description }}</td>
                             <td *ngIf="populationDetails | hasAnyValue: 'characteristics'">{{ population.characteristics }}</td>
                         </tr>

@@ -5,7 +5,12 @@ export class DatasetTransformation {
     /**
      * The ID of the DatasetTransformation
      */
-    dataTransformationId: string;
+    datasetTransformationId: string;
+
+    /**
+     * The ID of the Study the transformation belongs to
+     */
+    studyId: string;
 
     /**
      * The title of the DatasetTransformation
@@ -21,7 +26,8 @@ export class DatasetTransformation {
         if (!data) {
             return;
         }
-        this.dataTransformationId = data.dataTransformationId;
+        this.datasetTransformationId = data.datasetTransformationId;
+        this.studyId = data.studyId;
         this.title = data.title;
         this.description = data.description;
     }

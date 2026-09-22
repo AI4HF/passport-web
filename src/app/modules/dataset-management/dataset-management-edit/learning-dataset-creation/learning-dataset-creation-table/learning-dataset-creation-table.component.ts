@@ -31,7 +31,7 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
     selectedLearningDatasetId: string = null;
 
     /** The data transformation ID selected for editing */
-    selectedDataTransformationId: string = null;
+    selectedDatasetTransformationId: string = null;
 
     /** Loading state of the table */
     loading: boolean = true;
@@ -104,11 +104,11 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
      */
     loadDatasetTransformations() {
         this.learningDatasets.forEach(learningDataset => {
-            this.datasetTransformationService.getDatasetTransformationById(learningDataset.dataTransformationId, this.activeStudyService.getActiveStudy())
+            this.datasetTransformationService.getDatasetTransformationById(learningDataset.datasetTransformationId, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe({
                     next: transformation => {
-                        this.datasetTransformations[learningDataset.dataTransformationId] = transformation;
+                        this.datasetTransformations[learningDataset.datasetTransformationId] = transformation;
                     },
                     error: error => {
                         this.translateService.get('Error').subscribe(translation => {
@@ -140,7 +140,7 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
         );
 
         const validateDt$ = this.datasetTransformationService.validateDatasetTransformationDeletion(
-            learningDataset.dataTransformationId,
+            learningDataset.datasetTransformationId,
             this.activeStudyService.getActiveStudy()
         ).pipe(
             map(response => ({ status: 200, tables: response })),
@@ -191,12 +191,12 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
      * @param learningDataset The learning dataset object to be deleted
      */
     executeDeletion(learningDataset: LearningDataset) {
-        this.datasetTransformationService.deleteDatasetTransformation(learningDataset.dataTransformationId, this.activeStudyService.getActiveStudy())
+        this.datasetTransformationService.deleteDatasetTransformation(learningDataset.datasetTransformationId, this.activeStudyService.getActiveStudy())
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.learningDatasets = this.learningDatasets.filter(ld => ld.learningDatasetId !== learningDataset.learningDatasetId);
-                    delete this.datasetTransformations[learningDataset.dataTransformationId];
+                    delete this.datasetTransformations[learningDataset.datasetTransformationId];
                     this.translateService.get(['Success', 'DatasetManagement.Deleted']).subscribe(translations => {
                         this.messageService.add({
                             severity: 'success',
@@ -234,7 +234,7 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
      */
     showLearningDatasetForm(learningDataset: LearningDataset) {
         this.selectedLearningDatasetId = learningDataset.learningDatasetId;
-        this.selectedDataTransformationId = learningDataset.dataTransformationId;
+        this.selectedDatasetTransformationId = learningDataset.datasetTransformationId;
         this.displayForm = true;
     }
 
@@ -243,7 +243,7 @@ export class LearningDatasetCreationTableComponent extends BaseComponent impleme
      */
     createLearningDataset() {
         this.selectedLearningDatasetId = null;
-        this.selectedDataTransformationId = null;
+        this.selectedDatasetTransformationId = null;
         this.displayForm = true;
     }
 

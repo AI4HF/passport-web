@@ -63,6 +63,7 @@ export class PopulationDetailsFormComponent extends BaseComponent implements OnI
     initializeForm() {
         this.populationForm = new FormGroup({
             populationUrl: new FormControl('', Validators.required),
+            version: new FormControl('', Validators.required),
             description: new FormControl('', Validators.required),
             characteristics: new FormControl('', Validators.required)
         });
@@ -97,6 +98,7 @@ export class PopulationDetailsFormComponent extends BaseComponent implements OnI
     updateForm() {
         this.populationForm.patchValue({
             populationUrl: this.selectedPopulation.populationUrl,
+            version: this.selectedPopulation.version,
             description: this.selectedPopulation.description,
             characteristics: this.selectedPopulation.characteristics
         });

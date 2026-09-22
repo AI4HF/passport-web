@@ -67,6 +67,46 @@
                     </span>
                 </div>
 
+                <label for="conceptUri" class="font-bold">{{ 'FeatureSetManagement.ConceptUri' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-link"></i>
+                        <input formControlName="conceptUri" id="conceptUri" pInputText class="w-full">
+                    </span>
+                </div>
+
+                <label for="conceptSystem" class="font-bold">{{ 'FeatureSetManagement.ConceptSystem' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-sitemap"></i>
+                        <input formControlName="conceptSystem" id="conceptSystem" pInputText class="w-full">
+                    </span>
+                </div>
+
+                <label for="conceptCode" class="font-bold">{{ 'FeatureSetManagement.ConceptCode' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-hashtag"></i>
+                        <input formControlName="conceptCode" id="conceptCode" pInputText class="w-full">
+                    </span>
+                </div>
+
+                <label for="extractionDefinition" class="font-bold">{{ 'FeatureSetManagement.ExtractionDefinition' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+                    <span class="w-full mb-4">
+                        <textarea formControlName="extractionDefinition" id="extractionDefinition" pInputTextarea rows="2" class="w-full"
+                                  placeholder="{{ 'FeatureSetManagement.ExtractionDefinitionPlaceholder' | translate }}"></textarea>
+                    </span>
+                </div>
+
+                <label for="extractionDefinitionUrl" class="font-bold">{{ 'FeatureSetManagement.ExtractionDefinitionUrl' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-bookmark"></i>
+                        <input formControlName="extractionDefinitionUrl" id="extractionDefinitionUrl" pInputText class="w-full">
+                    </span>
+                </div>
+
                 <div class="form-grid grid mt-3">
                     <div class="field col mb-0 ">
                         <p-checkbox formControlName="isUnique" [binary]="true" inputId="isUnique" class="align-checkbox"></p-checkbox>

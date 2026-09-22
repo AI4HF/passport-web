@@ -37,6 +37,15 @@
                                class="w-full">
                     </div>
                     <div class="field mt-4">
+                        <label class="text-900 font-medium" for="version">{{'FeatureSetManagement.Version' | translate}}</label>
+                        <input type="text"
+                               id="version"
+                               pInputText
+                               placeholder="{{'FeatureSetManagement.Version' | translate}}"
+                               formControlName="version"
+                               class="w-full">
+                    </div>
+                    <div class="field mt-4">
                         <label class="text-900 font-medium" for="experiment">{{'FeatureSetManagement.Experiment' | translate}}</label>
                         <p-dropdown
                                 [options]="experiments"

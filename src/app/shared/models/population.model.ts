@@ -18,6 +18,11 @@ export class Population{
     populationUrl: string;
 
     /**
+     * The version of the declarative cohort definition
+     */
+    version: string;
+
+    /**
      * The description of the Population
      */
     description: string;
@@ -36,6 +41,7 @@ export class Population{
         this.populationId = data.populationId;
         this.studyId = data.studyId;
         this.populationUrl = data.populationUrl;
+        this.version = data.version;
         this.description = data.description;
         this.characteristics = data.characteristics;
     }

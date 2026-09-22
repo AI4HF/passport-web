@@ -33,6 +33,7 @@
                     </td>
                     <td class="cursor-pointer">
                         <span>{{ population.populationUrl }}</span>
+                        <span class="text-500" *ngIf="population.version"> ({{ population.version }})</span>
                     </td>
                     <td>
                         <button pButton pRipple [disabled]="viewMode" type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="showPopulationForm(population.populationId)" pTooltip="{{ 'Details' | translate }}" tooltipPosition="bottom"></button>
