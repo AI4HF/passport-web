@@ -8,6 +8,16 @@ export class PassportDetailsSelection{
     modelDetails: boolean;
 
     /**
+     * Whether include the quality criteria sets
+     */
+    qualityCriteria: boolean;
+
+    /**
+     * Whether include the quality assessment runs
+     */
+    qualityAssessments: boolean;
+
+    /**
      * Whether include datasets
      */
     datasets: boolean;
@@ -75,6 +85,8 @@ export class PassportDetailsSelection{
         }
 
         this.modelDetails = data.modelDetails;
+        this.qualityCriteria = data.qualityCriteria;
+        this.qualityAssessments = data.qualityAssessments;
         this.datasets = data.datasets;
         this.featureSets = data.featureSets;
         this.learningProcessDetails = data.learningProcessDetails;

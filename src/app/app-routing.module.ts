@@ -44,6 +44,11 @@ const routes: Routes = [
                 canActivate: [authGuard]
             },
             {
+                path: 'quality-management',
+                loadChildren: () => import('./modules/quality-management/quality-management.module').then(m => m.QualityManagementModule),
+                canActivate: [authGuard]
+            },
+            {
                 path: 'learning-process-management',
                 loadChildren: () => import('./modules/lp-management/lp-management.module').then(m => m.LpManagementModule),
                 canActivate: [authGuard]

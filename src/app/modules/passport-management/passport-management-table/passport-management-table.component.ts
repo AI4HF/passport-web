@@ -63,6 +63,10 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   modelFigures: ModelFigure[] = [];
   /** Survey details related to the selected passport */
   surveys: Survey[] = [];
+  /** Quality criteria sets for the selected passport */
+  qualityCriteriaWithCriterion: any[] = [];
+  /** Quality assessment runs for the selected passport */
+  qualityAssessmentsWithResults: any[] = [];
   /** Datasets with associated learning datasets for the selected passport */
   datasetsWithLearningDatasets: DatasetWithLearningDatasetsDTO[] = [];
   /** Feature sets with associated features for the selected passport */
@@ -208,6 +212,8 @@ export class PassportManagementTableComponent extends BaseComponent implements O
         this.surveys = details.surveys || [];
         this.experiments = details.experiments || [];
         this.linkedArticles = details.linkedArticles || [];
+        this.qualityCriteriaWithCriterion = details.qualityCriteriaWithCriterion || [];
+        this.qualityAssessmentsWithResults = details.qualityAssessmentsWithResults || [];
         this.datasetsWithLearningDatasets = details.datasetsWithLearningDatasets || [];
         this.featureSetsWithFeatures = details.featureSetsWithFeatures || [];
         this.learningProcessesWithStages = details.learningProcessesWithStages || [];

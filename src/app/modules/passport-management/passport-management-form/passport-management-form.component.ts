@@ -50,6 +50,8 @@ export class PassportManagementFormComponent extends BaseComponent implements On
         this.passportForm = new FormGroup({
             modelId: new FormControl(null, Validators.required),
             modelDetails: new FormControl(true, Validators.required),
+            qualityCriteria: new FormControl(true, Validators.required),
+            qualityAssessments: new FormControl(true, Validators.required),
             datasets: new FormControl(true, Validators.required),
             featureSets: new FormControl(true, Validators.required),
             learningProcessDetails: new FormControl(true, Validators.required),

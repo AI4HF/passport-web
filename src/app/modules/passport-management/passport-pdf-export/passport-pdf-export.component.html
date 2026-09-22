@@ -148,6 +148,88 @@
                 </p-table>
             </div>
 
+            <!-- Data Quality Criteria Section -->
+            <div *ngIf="qualityCriteriaWithCriterion?.length" class="section">
+                <div class="section-title">{{ 'PassportManagement.Quality Criteria' | translate }}</div>
+                <div class="section-content">
+                    <div *ngFor="let criteriaWithCriterion of qualityCriteriaWithCriterion" class="mb-3">
+                        <table class="attribute-table">
+                            <tr>
+                                <td class="attribute-title">{{ 'PassportManagement.Quality Criteria Title' | translate }}</td>
+                                <td class="attribute-value">{{ criteriaWithCriterion.qualityCriteria?.title }}</td>
+                            </tr>
+                            <tr *ngIf="criteriaWithCriterion.qualityCriteria?.url">
+                                <td class="attribute-title">{{ 'PassportManagement.Quality Criteria URL' | translate }}</td>
+                                <td class="attribute-value">
+                                    {{ criteriaWithCriterion.qualityCriteria?.url }}
+                                    <span *ngIf="criteriaWithCriterion.qualityCriteria?.version"> ({{ criteriaWithCriterion.qualityCriteria?.version }})</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="data-table" *ngIf="criteriaWithCriterion.qualityCriterion?.length">
+                            <thead>
+                            <tr>
+                                <th>{{ 'PassportManagement.Quality Rule' | translate }}</th>
+                                <th>{{ 'PassportManagement.Quality Category' | translate }}</th>
+                                <th>{{ 'PassportManagement.Quality Rule Expression' | translate }}</th>
+                                <th>{{ 'PassportManagement.Quality Bounds' | translate }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let criterion of criteriaWithCriterion.qualityCriterion">
+                                <td>{{ criterion.name }}</td>
+                                <td>{{ criterion.category }}</td>
+                                <td>{{ criterion.ruleExpression }}</td>
+                                <td>
+                                    <span *ngIf="criterion.low !== null && criterion.low !== undefined">&ge; {{ criterion.low }}</span>
+                                    <span *ngIf="criterion.high !== null && criterion.high !== undefined">&le; {{ criterion.high }}</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Quality Assessments Section -->
+            <div *ngIf="qualityAssessmentsWithResults?.length" class="section">
+                <div class="section-title">{{ 'PassportManagement.Quality Assessments' | translate }}</div>
+                <div class="section-content">
+                    <div *ngFor="let assessmentWithResults of qualityAssessmentsWithResults" class="mb-3">
+                        <table class="attribute-table">
+                            <tr>
+                                <td class="attribute-title">{{ 'PassportManagement.Quality Executed At' | translate }}</td>
+                                <td class="attribute-value">{{ assessmentWithResults.qualityAssessment?.executedAt | date: 'short' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="attribute-title">{{ 'PassportManagement.Quality Overall Result' | translate }}</td>
+                                <td class="attribute-value">{{ assessmentWithResults.qualityAssessment?.overallResult }}</td>
+                            </tr>
+                            <tr *ngIf="assessmentWithResults.qualityAssessment?.summary">
+                                <td class="attribute-title">{{ 'PassportManagement.Quality Summary' | translate }}</td>
+                                <td class="attribute-value">{{ assessmentWithResults.qualityAssessment?.summary }}</td>
+                            </tr>
+                        </table>
+                        <table class="data-table" *ngIf="assessmentWithResults.results?.length">
+                            <thead>
+                            <tr>
+                                <th>{{ 'PassportManagement.Quality Value' | translate }}</th>
+                                <th>{{ 'PassportManagement.Quality Result' | translate }}</th>
+                                <th>{{ 'PassportManagement.Quality Detail' | translate }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let result of assessmentWithResults.results">
+                                <td>{{ result.value }}</td>
+                                <td>{{ result.result }}</td>
+                                <td>{{ result.detail }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             <!-- Datasets Section -->
             <div *ngIf="datasetsWithLearningDatasets.length" class="section">
                 <div class="section-title">{{ 'PassportManagement.Datasets' | translate }}</div>

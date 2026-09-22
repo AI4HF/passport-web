@@ -46,6 +46,12 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
     /** Surveys to be included in the PDF */
     @Input() surveys: Survey[] = [];
     /** Datasets with learning datasets to be included in the PDF */
+    /** Quality criteria sets, each with its rules */
+    @Input() qualityCriteriaWithCriterion: any[] = [];
+
+    /** Quality assessment runs, each with its per-criterion results */
+    @Input() qualityAssessmentsWithResults: any[] = [];
+
     @Input() datasetsWithLearningDatasets: DatasetWithLearningDatasetsDTO[] = [];
     /** Feature sets with associated features to be included in the PDF */
     @Input() featureSetsWithFeatures: FeatureSetWithFeaturesDTO[] = [];

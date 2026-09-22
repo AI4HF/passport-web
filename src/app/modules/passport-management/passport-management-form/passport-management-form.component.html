@@ -41,6 +41,30 @@
                 </p-checkbox>
             </div>
             <div class="col-10 flex align-items-center mt-1">
+                <label class="text-900 font-medium" for="qualityCriteria">
+                    {{'PassportManagement.Quality Criteria' | translate}}
+                </label>
+            </div>
+            <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">
+                <p-checkbox
+                        formControlName="qualityCriteria"
+                        [binary]="true"
+                        inputId="qualityCriteria">
+                </p-checkbox>
+            </div>
+            <div class="col-10 flex align-items-center mt-1">
+                <label class="text-900 font-medium" for="qualityAssessments">
+                    {{'PassportManagement.Quality Assessments' | translate}}
+                </label>
+            </div>
+            <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">
+                <p-checkbox
+                        formControlName="qualityAssessments"
+                        [binary]="true"
+                        inputId="qualityAssessments">
+                </p-checkbox>
+            </div>
+            <div class="col-10 flex align-items-center mt-1">
                 <label class="text-900 font-medium" for="datasets">
                     {{'PassportManagement.Datasets' | translate}}
                 </label>

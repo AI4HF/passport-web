@@ -114,7 +114,7 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
             }
 
             if (this.userRoles.includes(Role.DATA_ENGINEER)) {
-                this.translateService.get(['Data Engineer', 'Feature Management', 'Dataset Management']).subscribe(translations => {
+                this.translateService.get(['Data Engineer', 'Feature Management', 'Dataset Management', 'Quality Management']).subscribe(translations => {
                     this.model.push({
                         label: translations['Data Engineer'],
                         icon: 'pi pi-sliders-h',
@@ -128,6 +128,11 @@ export class AppMenuComponent extends BaseComponent implements OnInit {
                                 label: translations['Dataset Management'],
                                 icon: 'pi pi-folder-open',
                                 routerLink: ['/dataset-management']
+                            },
+                            {
+                                label: translations['Quality Management'],
+                                icon: 'pi pi-check-square',
+                                routerLink: ['/quality-management']
                             }
                         ]
                     });
