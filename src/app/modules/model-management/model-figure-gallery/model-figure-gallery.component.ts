@@ -20,6 +20,10 @@ export class ModelFigureGalleryComponent extends BaseComponent implements OnInit
     dialogVisible: boolean = false;
     /** Determines if the file upload form is displayed */
     addDialogVisible: boolean = false;
+    /** The title given to the figure being created */
+    newFigureTitle: string = '';
+    /** What the figure being created shows */
+    newFigureDescription: string = '';
     /** The file selected for creating new model figure */
     newFigureFile?: File | null;
     /** The URL for prevıew new model figure */
@@ -114,6 +118,8 @@ export class ModelFigureGalleryComponent extends BaseComponent implements OnInit
         this.addDialogVisible = true;
         this.newFigureFile = null;
         this.newFigurePreviewUrl = null;
+        this.newFigureTitle = '';
+        this.newFigureDescription = '';
     }
 
     /**
@@ -159,6 +165,8 @@ export class ModelFigureGalleryComponent extends BaseComponent implements OnInit
             const modelFigure = new ModelFigure({
                 modelId: this.selectedModelId,
                 figureId: undefined,
+                title: this.newFigureTitle,
+                description: this.newFigureDescription,
                 imageBase64: base64Data
             });
 

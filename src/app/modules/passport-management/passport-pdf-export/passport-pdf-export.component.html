@@ -38,9 +38,17 @@
                             <td class="attribute-title">{{ 'PassportManagement.Product Identifier' | translate }}</td>
                             <td class="attribute-value">{{ modelDetails.productIdentifier }}</td>
                         </tr>
-                        <tr *ngIf="modelDetails.owner">
+                        <tr *ngIf="modelDetails.ownerOrganizationName">
                             <td class="attribute-title">{{ 'PassportManagement.Owner' | translate }}</td>
-                            <td class="attribute-value">{{ modelDetails.owner }}</td>
+                            <td class="attribute-value">{{ modelDetails.ownerOrganizationName }}</td>
+                        </tr>
+                        <tr *ngIf="modelDetails.previousModelId">
+                            <td class="attribute-title">{{ 'PassportManagement.Retrained From' | translate }}</td>
+                            <td class="attribute-value">{{ modelDetails.previousModelId }}</td>
+                        </tr>
+                        <tr *ngIf="modelDetails.retrainingReason">
+                            <td class="attribute-title">{{ 'PassportManagement.Retraining Reason' | translate }}</td>
+                            <td class="attribute-value">{{ modelDetails.retrainingReason }}</td>
                         </tr>
                         <tr *ngIf="modelDetails.trlLevel">
                             <td class="attribute-title">{{ 'PassportManagement.TRL Level' | translate }}</td>
@@ -387,7 +395,22 @@
                 <p-table [value]="linkedArticles" class="linked-articles-table">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th *ngIf="linkedArticles | hasAnyValue: 'articleUrl'">
+                            <th *ngIf="linkedArticles | hasAnyValue: 'title'">
+                                {{ 'PassportManagement.Article Title' | translate }}
+                            </th>
+                            <th *ngIf="linkedArticles | hasAnyValue: 'authors'">
+                                {{ 'PassportManagement.Article Authors' | translate }}
+                            </th>
+                            <th *ngIf="linkedArticles | hasAnyValue: 'publicationVenue'">
+                                {{ 'PassportManagement.Article Venue' | translate }}
+                            </th>
+                            <th *ngIf="linkedArticles | hasAnyValue: 'publicationYear'">
+                                {{ 'PassportManagement.Article Year' | translate }}
+                            </th>
+                            <th *ngIf="linkedArticles | hasAnyValue: 'doi'">
+                                {{ 'PassportManagement.Article Doi' | translate }}
+                            </th>
+                            <th *ngIf="linkedArticles | hasAnyValue: 'url'">
                                 {{ 'PassportManagement.Article URL' | translate }}
                             </th>
                             <th *ngIf="linkedArticles | hasAnyValue: 'description'">
@@ -397,8 +420,13 @@
                     </ng-template>
                     <ng-template let-article pTemplate="body">
                         <tr>
-                            <td *ngIf="linkedArticles | hasAnyValue: 'articleUrl'">
-                                <a [href]="article.articleUrl">{{ article.articleUrl }}</a>
+                            <td *ngIf="linkedArticles | hasAnyValue: 'title'">{{ article.title }}</td>
+                            <td *ngIf="linkedArticles | hasAnyValue: 'authors'">{{ article.authors }}</td>
+                            <td *ngIf="linkedArticles | hasAnyValue: 'publicationVenue'">{{ article.publicationVenue }}</td>
+                            <td *ngIf="linkedArticles | hasAnyValue: 'publicationYear'">{{ article.publicationYear }}</td>
+                            <td *ngIf="linkedArticles | hasAnyValue: 'doi'">{{ article.doi }}</td>
+                            <td *ngIf="linkedArticles | hasAnyValue: 'url'">
+                                <a [href]="article.url">{{ article.url }}</a>
                             </td>
                             <td *ngIf="linkedArticles | hasAnyValue: 'description'">
                                 {{ article.description }}
@@ -454,27 +482,49 @@
                 </div>
             </div>
 
-            <!--Evaluation Measure Section -->
-            <div *ngIf="evaluationMeasures.length" class="section">
-                <div class="section-title">{{ 'PassportManagement.Evaluation Measures' | translate }}</div>
-                <p-table [value]="evaluationMeasures" class="survey-table">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th *ngIf="evaluationMeasures | hasAnyValue: 'name'">{{ 'PassportManagement.Name' | translate }}</th>
-                            <th *ngIf="evaluationMeasures | hasAnyValue: 'dataType'">{{ 'PassportManagement.Data Type' | translate }}</th>
-                            <th *ngIf="evaluationMeasures | hasAnyValue: 'value'">{{ 'PassportManagement.Value' | translate }}</th>
-                            <th *ngIf="evaluationMeasures | hasAnyValue: 'description'">{{ 'PassportManagement.Description' | translate }}</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template let-evaluationMeasure pTemplate="body">
-                        <tr>
-                            <td *ngIf="evaluationMeasures | hasAnyValue: 'name'">{{ evaluationMeasure.name }}</td>
-                            <td *ngIf="evaluationMeasures | hasAnyValue: 'dataType'">{{ evaluationMeasure.dataType }}</td>
-                            <td *ngIf="evaluationMeasures | hasAnyValue: 'value'">{{ evaluationMeasure.value }}</td>
-                            <td *ngIf="evaluationMeasures | hasAnyValue: 'description'">{{ evaluationMeasure.description }}</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
+            <!-- Model Evaluations Section -->
+            <div *ngIf="modelEvaluationsWithMeasures?.length" class="section">
+                <div class="section-title">{{ 'PassportManagement.Model Evaluations' | translate }}</div>
+                <div class="section-content">
+                    <div *ngFor="let evaluationWithMeasures of modelEvaluationsWithMeasures" class="mb-3">
+                        <table class="attribute-table">
+                            <tr>
+                                <td class="attribute-title">{{ 'PassportManagement.Evaluation Trigger' | translate }}</td>
+                                <td class="attribute-value">{{ evaluationWithMeasures.modelEvaluation?.trigger }}</td>
+                            </tr>
+                            <tr *ngIf="evaluationWithMeasures.modelEvaluation?.aggregationMethod">
+                                <td class="attribute-title">{{ 'PassportManagement.Evaluation Aggregation Method' | translate }}</td>
+                                <td class="attribute-value">{{ evaluationWithMeasures.modelEvaluation?.aggregationMethod }}</td>
+                            </tr>
+                            <tr *ngIf="evaluationWithMeasures.modelEvaluation?.executedAt">
+                                <td class="attribute-title">{{ 'PassportManagement.Evaluation Executed At' | translate }}</td>
+                                <td class="attribute-value">{{ evaluationWithMeasures.modelEvaluation?.executedAt | date: 'short' }}</td>
+                            </tr>
+                            <tr *ngIf="evaluationWithMeasures.modelEvaluation?.description">
+                                <td class="attribute-title">{{ 'PassportManagement.Description' | translate }}</td>
+                                <td class="attribute-value">{{ evaluationWithMeasures.modelEvaluation?.description }}</td>
+                            </tr>
+                        </table>
+                        <table class="data-table" *ngIf="evaluationWithMeasures.evaluationMeasures?.length">
+                            <thead>
+                            <tr>
+                                <th>{{ 'PassportManagement.Name' | translate }}</th>
+                                <th>{{ 'PassportManagement.Data Type' | translate }}</th>
+                                <th>{{ 'PassportManagement.Value' | translate }}</th>
+                                <th>{{ 'PassportManagement.Description' | translate }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let evaluationMeasure of evaluationWithMeasures.evaluationMeasures">
+                                <td>{{ evaluationMeasure.name }}</td>
+                                <td>{{ evaluationMeasure.dataType }}</td>
+                                <td>{{ evaluationMeasure.value }}</td>
+                                <td>{{ evaluationMeasure.description }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <!-- Model Figures Section -->
             <div *ngIf="modelFigures?.length" class="section">

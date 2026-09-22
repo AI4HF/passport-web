@@ -14,8 +14,8 @@ import {EvaluationMeasure} from "../../../../shared/models/evaluationMeasure.mod
 })
 export class EvaluationMeasureFormComponent extends BaseComponent implements OnInit {
 
-    /** The ID of the Model */
-    @Input() modelId: string;
+    /** The ID of the evaluation run the measure belongs to */
+    @Input() modelEvaluationId: string;
 
     /** The ID of the evaluationMeasure to be updated */
     @Input() evaluationMeasureId: string;
@@ -70,7 +70,7 @@ export class EvaluationMeasureFormComponent extends BaseComponent implements OnI
                     }
                 });
         } else {
-            this.evaluationMeasure = new EvaluationMeasure({ modelId: this.modelId });
+            this.evaluationMeasure = new EvaluationMeasure({ modelEvaluationId: this.modelEvaluationId });
         }
     }
 
@@ -92,7 +92,7 @@ export class EvaluationMeasureFormComponent extends BaseComponent implements OnI
     save() {
         const formValues = this.form.value;
 
-        this.evaluationMeasure = new EvaluationMeasure({ measureId: this.evaluationMeasureId, modelId: this.modelId,  ...formValues});
+        this.evaluationMeasure = new EvaluationMeasure({ measureId: this.evaluationMeasureId, modelEvaluationId: this.modelEvaluationId, ...formValues});
 
         if (this.isUpdateMode) {
             this.updateEvaluationMeasure(this.evaluationMeasure);

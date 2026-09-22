@@ -61,6 +61,24 @@
                         <input formControlName="version" id="version" pInputText class="w-full" placeholder="{{ 'ModelManagement.VersionPlaceholder' | translate }}" type="text">
                     </span>
                 </div>
+                <label for="previousModelId" class="font-bold">{{ 'ModelManagement.PreviousModel' | translate }}</label>
+                <span class="p-input-icon-left w-full mb-4">
+                    <p-dropdown
+                            [style]="{'width':'100%'}"
+                            [options]="previousModelOptions"
+                            formControlName="previousModelId"
+                            optionValue="modelId"
+                            optionLabel="name"
+                            [showClear]="true"
+                            placeholder="{{'ModelManagement.PreviousModelPlaceholder' | translate}}"
+                            class="form-control">
+                    </p-dropdown>
+                </span>
+                <label for="retrainingReason" class="font-bold">{{ 'ModelManagement.RetrainingReason' | translate }}</label>
+                <span class="p-input-icon-left w-full mb-4">
+                    <i class="pi pi-replay"></i>
+                    <input formControlName="retrainingReason" id="retrainingReason" pInputText class="w-full" placeholder="{{ 'ModelManagement.RetrainingReasonPlaceholder' | translate }}" type="text">
+                </span>
                 <label for="tag" class="font-bold">{{ 'ModelManagement.Tag' | translate }}</label>
                 <div class="p-field p-col-12 p-md-6">
                     <span class="p-input-icon-left w-full mb-4">

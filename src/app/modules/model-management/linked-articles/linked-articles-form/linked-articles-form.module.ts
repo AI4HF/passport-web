@@ -7,7 +7,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { LinkedArticlesFormComponent } from './linked-articles-form.component';
 import {TranslateModule} from "@ngx-translate/core";
-import {StudyDetailsModule} from "../../study-details/study-details.module";
 
 @NgModule({
     declarations: [LinkedArticlesFormComponent],
@@ -18,8 +17,7 @@ import {StudyDetailsModule} from "../../study-details/study-details.module";
         DialogModule,
         InputTextModule,
         ButtonModule,
-        TranslateModule,
-        StudyDetailsModule
+        TranslateModule
     ],
     exports: [LinkedArticlesFormComponent]
 })

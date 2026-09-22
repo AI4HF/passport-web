@@ -9,9 +9,9 @@ export class EvaluationMeasure {
     measureId: string;
     
     /**
-     * The ID of the related Model
+     * The ID of the evaluation run that produced this measure
      */
-    modelId: string;
+    modelEvaluationId: string;
     
     /**
      * The name of the EvaluationMeasure
@@ -39,7 +39,7 @@ export class EvaluationMeasure {
         }
 
         this.measureId = data.measureId;
-        this.modelId = data.modelId;
+        this.modelEvaluationId = data.modelEvaluationId;
         this.name = data.name;
         this.value = data.value;
         this.dataType = data.dataType;

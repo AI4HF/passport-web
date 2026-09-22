@@ -44,6 +44,7 @@ import {ActiveStudyService} from "../../core/services/activeStudy.service";
 import {AuditLogBookService} from "../../core/services/audit-log-book.service";
 import {ModelParameterService} from "../../core/services/model-parameter.service";
 import {EvaluationMeasureService} from "../../core/services/evaluation-measure.service";
+import {ModelEvaluationService} from "../../core/services/model-evaluation.service";
 import {ModelFigureService} from "../../core/services/model-figure.service";
 import {LinkedArticleService} from "../../core/services/linked-article.service";
 
@@ -110,6 +111,7 @@ export abstract class BaseComponent implements OnDestroy {
   auditLogBookService: AuditLogBookService;
   modelParameterService: ModelParameterService;
   evaluationMeasureService: EvaluationMeasureService;
+  modelEvaluationService: ModelEvaluationService;
   modelFigureService: ModelFigureService;
 
   constructor(injector: Injector){
@@ -159,6 +161,7 @@ export abstract class BaseComponent implements OnDestroy {
     this.auditLogBookService = injector.get(AuditLogBookService);
     this.modelParameterService = injector.get(ModelParameterService);
     this.evaluationMeasureService = injector.get(EvaluationMeasureService);
+    this.modelEvaluationService = injector.get(ModelEvaluationService);
     this.modelFigureService = injector.get(ModelFigureService);
   }
 

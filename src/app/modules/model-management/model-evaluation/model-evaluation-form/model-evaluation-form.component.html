@@ -1,0 +1,49 @@
+<p-dialog (onHide)="closeDialog()" [(visible)]="this.display" [modal]="true" [style]="{width: '50rem'}"
+          header="{{ 'ModelEvaluation.ModelEvaluationForm' | translate }}">
+    <form (ngSubmit)="save()" *ngIf="this.display" [formGroup]="form">
+        <div class="form-grid grid">
+            <div class="field col">
+                <label for="trigger" class="font-bold">{{ 'ModelEvaluation.Trigger' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-bolt"></i>
+                        <input class="w-full" formControlName="trigger" id="trigger" pInputText
+                               placeholder="{{ 'ModelEvaluation.TriggerPlaceholder' | translate }}">
+                    </span>
+                </div>
+                <label for="aggregationMethod" class="font-bold">{{ 'ModelEvaluation.AggregationMethod' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-sitemap"></i>
+                        <input class="w-full" formControlName="aggregationMethod" id="aggregationMethod" pInputText
+                               placeholder="{{ 'ModelEvaluation.AggregationMethodPlaceholder' | translate }}">
+                    </span>
+                </div>
+                <label for="executedAt" class="font-bold">{{ 'ModelEvaluation.ExecutedAt' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+                    <p-calendar class="w-full mb-4" formControlName="executedAt" inputId="executedAt"
+                                [showTime]="true" [showIcon]="true" appendTo="body" styleClass="w-full"></p-calendar>
+                </div>
+                <label for="executedBy" class="font-bold">{{ 'ModelEvaluation.ExecutedBy' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+                    <span class="p-input-icon-left w-full mb-4">
+                        <i class="pi pi-user"></i>
+                        <input class="w-full" formControlName="executedBy" id="executedBy" pInputText
+                               placeholder="{{ 'ModelEvaluation.ExecutedByPlaceholder' | translate }}">
+                    </span>
+                </div>
+                <label for="description" class="font-bold">{{ 'ModelEvaluation.Description' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+                    <textarea class="w-full mb-4" formControlName="description" id="description" pInputTextarea rows="2"
+                              placeholder="{{ 'ModelEvaluation.DescriptionPlaceholder' | translate }}"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-content-between">
+            <button (click)="closeDialog()" class="p-button-primary" icon="pi pi-times"
+                    label="{{ 'Cancel' | translate }}" pButton type="button"></button>
+            <button [disabled]="form.invalid" class="p-button-primary" icon="pi pi-check" label="{{ 'Save' | translate }}"
+                    pButton type="submit"></button>
+        </div>
+    </form>
+</p-dialog>

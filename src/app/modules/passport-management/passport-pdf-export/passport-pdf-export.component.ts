@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Injector, Input, OnInit, Output} from '@angular/core';
-import { Model } from '../../../shared/models/model.model';
+import { ModelWithOwnerName } from '../../../shared/models/modelWithOwnerName.model';
 import { Study } from '../../../shared/models/study.model';
 import { Parameter } from '../../../shared/models/parameter.model';
 import { Population } from '../../../shared/models/population.model';
@@ -10,7 +10,6 @@ import { FeatureSetWithFeaturesDTO } from '../../../shared/models/featureSetWith
 import { LearningProcessWithStagesDTO } from '../../../shared/models/learningProcessWithStagesDTO.model';
 import * as FileSaver from 'file-saver';
 import {BaseComponent} from "../../../shared/components/base.component";
-import {EvaluationMeasure} from "../../../shared/models/evaluationMeasure.model";
 import {ModelFigure} from "../../../shared/models/modelFigure.model";
 import {LinkedArticle} from "../../../shared/models/linkedArticle.model";
 import {GenerateAndSignPdfOptionsDto} from "../../../shared/models/pdfGenerationDTO.model";
@@ -28,7 +27,7 @@ import {LearningStageParameter} from "../../../shared/models/learningStageParame
 })
 export class PdfExportComponent extends BaseComponent implements OnInit{
     /** Model details to be included in the PDF */
-    @Input() modelDetails: Model | null = null;
+    @Input() modelDetails: ModelWithOwnerName | null = null;
     /** Study details to be included in the PDF */
     @Input() studyDetails: Study | null = null;
     /** Parameters to be included in the PDF */
@@ -58,7 +57,7 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
     /** Learning processes with stages to be included in the PDF */
     @Input() learningProcessesWithStages: LearningProcessWithStagesDTO[] = [];
     /** Evaluation Measures to be included in the PDF */
-    @Input() evaluationMeasures: EvaluationMeasure[] = [];
+    @Input() modelEvaluationsWithMeasures: any[] = [];
     /** Model Figures to be included in the PDF */
     @Input() modelFigures: ModelFigure[] = [];
 

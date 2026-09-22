@@ -8,6 +8,8 @@ import {ButtonModule} from "primeng/button";
 import {StudyDetailsModule} from "../../study-management/study-management-edit/study-details/study-details.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {RippleModule} from "primeng/ripple";
+import {FormsModule} from "@angular/forms";
+import {InputTextModule} from "primeng/inputtext";
 
 
 
@@ -21,7 +23,9 @@ import {RippleModule} from "primeng/ripple";
         ButtonModule,
         StudyDetailsModule,
         TranslateModule,
-        RippleModule
+        RippleModule,
+        FormsModule,
+        InputTextModule
     ],
     exports: [ModelFigureGalleryComponent]
 })

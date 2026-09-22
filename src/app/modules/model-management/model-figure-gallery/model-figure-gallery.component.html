@@ -43,6 +43,11 @@
                 />
             </div>
 
+            <div class="mt-2">
+                <div class="text-900 font-semibold">{{ fig.title }}</div>
+                <div class="text-500 text-sm">{{ fig.description }}</div>
+            </div>
+
             <ng-template pTemplate="footer">
                 <div class="flex justify-content-between align-items-center w-full">
                     <button
@@ -93,6 +98,10 @@
                 [src]="'data:image/png;base64,' + selectedFigure.imageBase64"
                 class="full-img"
         />
+        <div *ngIf="selectedFigure" class="mt-3 text-center">
+            <div class="text-900 font-semibold">{{ selectedFigure.title }}</div>
+            <div class="text-500">{{ selectedFigure.description }}</div>
+        </div>
     </div>
 </p-dialog>
 
@@ -112,6 +121,18 @@
     </ng-template>
 
     <div class="flex flex-column gap-3">
+        <div>
+            <label for="figureTitle" class="font-bold">{{ 'ModelManagement.Figure Title' | translate }}</label>
+            <input id="figureTitle" pInputText class="w-full" type="text" [(ngModel)]="newFigureTitle"
+                   placeholder="{{ 'ModelManagement.Figure Title Placeholder' | translate }}" />
+        </div>
+
+        <div>
+            <label for="figureDescription" class="font-bold">{{ 'ModelManagement.Figure Description' | translate }}</label>
+            <input id="figureDescription" pInputText class="w-full" type="text" [(ngModel)]="newFigureDescription"
+                   placeholder="{{ 'ModelManagement.Figure Description Placeholder' | translate }}" />
+        </div>
+
         <div>
             <input type="file"
                    accept="image/png"

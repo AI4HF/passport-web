@@ -30,6 +30,8 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
   learningProcess: LearningProcess[] = [];
   /** List of experiments */
   experiments: Experiment[] = [];
+  /** The other models of the study, offered as the predecessor this one was retrained from */
+  previousModelOptions: Model[] = [];
   /** Flag indicating that dialog is visible */
   display = false;
 
@@ -91,11 +93,13 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
 
     forkJoin({
       learningProcess: this.learningProcessService.getAllLearningProcessesByStudyId(studyId),
-      experiments: this.experimentService.getExperimentListByStudyId(studyId)
+      experiments: this.experimentService.getExperimentListByStudyId(studyId),
+      models: this.modelService.getModelsByStudyId(studyId)
     }).pipe(takeUntil(this.destroy$)).subscribe({
-      next: ({ learningProcess, experiments }) => {
+      next: ({ learningProcess, experiments, models }) => {
         this.learningProcess = learningProcess;
         this.experiments = experiments;
+        this.previousModelOptions = models.filter(model => model.modelId !== this.modelId);
         this.initializeForm();
       },
       error: error => {
@@ -119,6 +123,8 @@ export class ModelManagementFormComponent extends BaseComponent implements OnIni
       experimentId: new FormControl(this.selectedModel.experimentId, Validators.required),
       name: new FormControl(this.selectedModel.name, Validators.required),
       version: new FormControl(this.selectedModel.version, Validators.required),
+      previousModelId: new FormControl(this.selectedModel.previousModelId),
+      retrainingReason: new FormControl(this.selectedModel.retrainingReason),
       tag: new FormControl(this.selectedModel.tag, Validators.required),
       modelType: new FormControl(this.selectedModel.modelType, Validators.required),
       productIdentifier: new FormControl(this.selectedModel.productIdentifier, Validators.required),

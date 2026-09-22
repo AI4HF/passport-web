@@ -40,13 +40,13 @@ export class EvaluationMeasureService {
     }
 
     /**
-     * Retrieves related evaluation measures by model id
-     * @param modelId Id of the model
+     * Retrieves the evaluation measures produced by an evaluation run
+     * @param modelEvaluationId Id of the evaluation run
      * @param studyId Id of the related study
      * @return {Observable<EvaluationMeasure>}
      */
-    getEvaluationMeasuresByModelId(modelId: String, studyId: String): Observable<EvaluationMeasure[]> {
-        const url = `${this.endpoint}?modelId=${modelId}&studyId=${studyId}`;
+    getEvaluationMeasuresByModelEvaluationId(modelEvaluationId: String, studyId: String): Observable<EvaluationMeasure[]> {
+        const url = `${this.endpoint}?modelEvaluationId=${modelEvaluationId}&studyId=${studyId}`;
         return this.httpClient.get<EvaluationMeasure[]>(url)
             .pipe(
                 map((response: any) => {

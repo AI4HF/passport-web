@@ -1,0 +1,105 @@
+<div class="content-container">
+    <div class="card lg:pt-5">
+        <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'ModelEvaluation.ModelEvaluations' | translate }}</div>
+            <div class="inline-flex align-items-center">
+                <span class="p-input-icon-left flex-auto mx-2">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="filter(dt, $event)" placeholder="{{ 'Search' | translate }}" class="w-full rounded-border"/>
+                </span>
+                <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-primary mx-2" (click)="createModelEvaluation()" pTooltip="{{ 'ModelEvaluation.CreateModelEvaluation' | translate }}" tooltipPosition="bottom"></button>
+            </div>
+        </div>
+        <div class="text-500 mb-3">{{ 'ModelEvaluation.Intro' | translate }}</div>
+        <p-table #dt [value]="modelEvaluations" [columns]="columns" dataKey="modelEvaluationId" [rows]="10"
+                 [paginator]="true" [rowsPerPageOptions]="[10, 25, 50]" [showLoader]="true" [loading]="loading"
+                 [filterDelay]="0" [globalFilterFields]="['trigger', 'aggregationMethod', 'executedBy', 'description']"
+                 [sortField]="'executedAt'">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 3rem"></th>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="white-space-nowrap min-width-10rem">
+                        {{ col.header | translate }}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                    <th>{{ 'Actions' | translate }}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-modelEvaluation let-expanded="expanded">
+                <tr>
+                    <td>
+                        <button type="button" pButton pRipple [pRowToggler]="modelEvaluation"
+                                class="p-button-text p-button-rounded p-button-plain"
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                    </td>
+                    <td>{{ modelEvaluation.trigger }}</td>
+                    <td>{{ modelEvaluation.aggregationMethod }}</td>
+                    <td>{{ modelEvaluation.executedAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+                    <td>{{ modelEvaluation.executedBy }}</td>
+                    <td>{{ modelEvaluation.description }}</td>
+                    <td class="white-space-nowrap">
+                        <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-rounded p-ripple" (click)="createEvaluationMeasure(modelEvaluation)" pTooltip="{{ 'EvaluationMeasure.CreateEvaluationMeasure' | translate }}" tooltipPosition="bottom"></button>
+                        <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="showModelEvaluationForm(modelEvaluation)" pTooltip="{{ 'Edit' | translate }}" tooltipPosition="bottom"></button>
+                        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deleteModelEvaluation(modelEvaluation)" pTooltip="{{ 'Delete' | translate }}" tooltipPosition="bottom"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-modelEvaluation>
+                <tr>
+                    <td colspan="7">
+                        <div class="p-3">
+                            <p-table [value]="measuresOf(modelEvaluation)">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>{{ 'EvaluationMeasure.Name' | translate }}</th>
+                                        <th>{{ 'EvaluationMeasure.Value' | translate }}</th>
+                                        <th>{{ 'EvaluationMeasure.DataType' | translate }}</th>
+                                        <th>{{ 'EvaluationMeasure.Description' | translate }}</th>
+                                        <th>{{ 'Actions' | translate }}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-evaluationMeasure>
+                                    <tr>
+                                        <td>{{ evaluationMeasure.name }}</td>
+                                        <td>{{ evaluationMeasure.value }}</td>
+                                        <td>{{ evaluationMeasure.dataType }}</td>
+                                        <td>{{ evaluationMeasure.description }}</td>
+                                        <td class="white-space-nowrap">
+                                            <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="showEvaluationMeasureForm(modelEvaluation, evaluationMeasure)" pTooltip="{{ 'Edit' | translate }}" tooltipPosition="bottom"></button>
+                                            <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-text p-button-rounded p-ripple" (click)="deleteEvaluationMeasure(evaluationMeasure)" pTooltip="{{ 'Delete' | translate }}" tooltipPosition="bottom"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="5">{{ 'ModelEvaluation.NoMeasures' | translate }}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">{{ 'ModelEvaluation.NoEvaluations' | translate }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <div class="justify-content-start">
+            <button pButton pRipple
+                    type="button"
+                    label="{{ 'EvaluationMeasure.ReturnToModel' | translate }}"
+                    class="p-button-raised"
+                    (click)="returnToModels()"></button>
+        </div>
+    </div>
+</div>
+
+<app-model-evaluation-form *ngIf="displayEvaluationForm" [modelId]="selectedModelId"
+                           [modelEvaluationId]="selectedModelEvaluationId"
+                           (formClosed)="onFormClosed()"></app-model-evaluation-form>
+
+<app-evaluation-measure-form *ngIf="displayMeasureForm" [modelEvaluationId]="measureFormEvaluationId"
+                             [evaluationMeasureId]="selectedEvaluationMeasureId"
+                             (formClosed)="onFormClosed()"></app-evaluation-measure-form>

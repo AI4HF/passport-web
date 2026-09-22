@@ -20,7 +20,7 @@ export class LinkedArticleService {
     }
 
     /**
-     * Retrieves the linked article by using linkedArticleId
+     * Retrieves the linked article by using articleId
      * @param id Id of the linked article
      * @param studyId Id of the study
      * @return {Observable<LinkedArticle>}
@@ -40,12 +40,13 @@ export class LinkedArticleService {
     }
 
     /**
-     * Retrieves linked articles of a study
-     * @param id Id of the study
+     * Retrieves the linked articles of a model
+     * @param modelId Id of the model
+     * @param studyId Id of the study
      * @return {Observable<LinkedArticle[]>}
      */
-    getLinkedArticlesByStudyId(id: String): Observable<LinkedArticle[]> {
-        const url = `${this.endpoint}?studyId=${id}`;
+    getLinkedArticlesByModelId(modelId: String, studyId: String): Observable<LinkedArticle[]> {
+        const url = `${this.endpoint}?modelId=${modelId}&studyId=${studyId}`;
         return this.httpClient.get<LinkedArticle[]>(url)
             .pipe(
                 map((response: any) => {
@@ -59,13 +60,13 @@ export class LinkedArticleService {
     }
 
     /**
-     * Update the linked article of a study
+     * Update a linked article
      * @param linkedArticle updated version of the linked article
      * @param id Id of the study
      * @return {Observable<LinkedArticle>}
      */
     updateLinkedArticle(linkedArticle: LinkedArticle, id: String): Observable<LinkedArticle> {
-        const url = `${this.endpoint}/${linkedArticle.linkedArticleId}?studyId=${id}`;
+        const url = `${this.endpoint}/${linkedArticle.articleId}?studyId=${id}`;
         return this.httpClient.put<LinkedArticle>(url, linkedArticle)
             .pipe(
                 map((response: any) => {
@@ -79,7 +80,7 @@ export class LinkedArticleService {
     }
 
     /**
-     * Create a linked article for the study
+     * Create a linked article for a model
      * @param linkedArticle linked article to be created
      * @param id Id of the study
      * @return {Observable<LinkedArticle>}

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EvaluationMeasureTableComponent } from './evaluation-measure-table/evaluation-measure-table.component';
+import { ModelEvaluationTableComponent } from './model-evaluation-table/model-evaluation-table.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: EvaluationMeasureTableComponent
+        component: ModelEvaluationTableComponent
     }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class EvaluationMeasureRoutingModule { }
+export class ModelEvaluationRoutingModule { }

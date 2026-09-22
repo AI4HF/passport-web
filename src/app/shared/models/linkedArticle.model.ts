@@ -5,17 +5,42 @@ export class LinkedArticle{
     /**
      * The ID of the Linked Article
      */
-    linkedArticleId: string;
+    articleId: string;
 
     /**
-     * The ID reference to the Study
+     * The ID reference to the Model
      */
-    studyId: string;
+    modelId: string;
 
     /**
-     * The article URL associated with the study
+     * The DOI of the article
      */
-    articleUrl: string;
+    doi: string;
+
+    /**
+     * The title of the article
+     */
+    title: string;
+
+    /**
+     * The authors of the article
+     */
+    authors: string;
+
+    /**
+     * The journal or conference the article appeared in
+     */
+    publicationVenue: string;
+
+    /**
+     * The year the article was published
+     */
+    publicationYear: number;
+
+    /**
+     * The URL the article can be reached at
+     */
+    url: string;
 
     /**
      * Description of the linked article
@@ -28,9 +53,14 @@ export class LinkedArticle{
             return;
         }
 
-        this.linkedArticleId = data.linkedArticleId;
-        this.studyId = data.studyId;
-        this.articleUrl = data.articleUrl;
+        this.articleId = data.articleId;
+        this.modelId = data.modelId;
+        this.doi = data.doi;
+        this.title = data.title;
+        this.authors = data.authors;
+        this.publicationVenue = data.publicationVenue;
+        this.publicationYear = data.publicationYear;
+        this.url = data.url;
         this.description = data.description;
     }
 }

@@ -5,15 +5,15 @@ import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
-import { EvaluationMeasureTableComponent } from './evaluation-measure-table.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { RippleModule } from "primeng/ripple";
+import { TranslateModule } from "@ngx-translate/core";
+import { ModelEvaluationTableComponent } from './model-evaluation-table.component';
+import { ModelEvaluationFormModule } from '../model-evaluation-form/model-evaluation-form.module';
 import { EvaluationMeasureFormModule } from '../evaluation-measure-form/evaluation-measure-form.module';
-import {TranslateModule} from "@ngx-translate/core";
-import {RippleModule} from "primeng/ripple";
-import {ChipsModule} from "primeng/chips";
-import {CheckboxModule} from "primeng/checkbox";
 
 @NgModule({
-    declarations: [EvaluationMeasureTableComponent],
+    declarations: [ModelEvaluationTableComponent],
     imports: [
         CommonModule,
         TableModule,
@@ -21,12 +21,12 @@ import {CheckboxModule} from "primeng/checkbox";
         TooltipModule,
         CardModule,
         DialogModule,
-        EvaluationMeasureFormModule,
-        TranslateModule,
+        InputTextModule,
         RippleModule,
-        ChipsModule,
-        CheckboxModule
+        TranslateModule,
+        ModelEvaluationFormModule,
+        EvaluationMeasureFormModule
     ],
-    exports: [EvaluationMeasureTableComponent]
+    exports: [ModelEvaluationTableComponent]
 })
-export class EvaluationMeasureTableModule { }
+export class ModelEvaluationTableModule { }

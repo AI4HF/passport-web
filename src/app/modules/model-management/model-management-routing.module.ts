@@ -3,8 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { ModelManagementTableComponent } from './model-management-table/model-management-table.component';
 import { ModelParameterTableComponent } from './model-parameter/model-parameter-table/model-parameter-table.component';
 import {
-    EvaluationMeasureTableComponent
-} from "./evaluation-measure/evaluation-measure-table/evaluation-measure-table.component";
+    ModelEvaluationTableComponent
+} from "./model-evaluation/model-evaluation-table/model-evaluation-table.component";
+import {
+    LinkedArticlesTableComponent
+} from "./linked-articles/linked-articles-table/linked-articles-table.component";
 import {ModelFigureGalleryComponent} from "./model-figure-gallery/model-figure-gallery.component";
 
 const routes: Routes = [
@@ -17,8 +20,12 @@ const routes: Routes = [
         component: ModelParameterTableComponent
     },
     {
-        path: ':modelId/evaluation-measure-assignment',
-        component: EvaluationMeasureTableComponent
+        path: ':modelId/model-evaluation',
+        component: ModelEvaluationTableComponent
+    },
+    {
+        path: ':modelId/linked-article',
+        component: LinkedArticlesTableComponent
     },
     {
         path: ':modelId/model-figure-gallery',
