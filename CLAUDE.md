@@ -185,7 +185,8 @@ Nesting is deep and consistent: each step's table/form pair is itself a module w
 ## Roles and navigation
 
 `shared/models/role.enum.ts` mirrors the backend enum; `roles.constant.ts` supplies display labels for
-dropdowns. `layout/app.menu.component.ts` maps roles to menu groups:
+dropdowns. Compare against `Role.X`, never a string literal. `layout/app.menu.component.ts` maps roles
+to menu groups:
 
 | Role | Menu group | Routes |
 |---|---|---|
