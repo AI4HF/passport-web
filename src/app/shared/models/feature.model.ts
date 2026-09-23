@@ -58,6 +58,31 @@ export class Feature {
     dataCollection: string;
 
     /**
+     * The URI of the concept the feature encodes
+     */
+    conceptUri: string;
+
+    /**
+     * The coding system of that concept
+     */
+    conceptSystem: string;
+
+    /**
+     * The code of that concept
+     */
+    conceptCode: string;
+
+    /**
+     * How the extraction engine derived this column
+     */
+    extractionDefinition: string;
+
+    /**
+     * The feature group definition the feature was extracted from
+     */
+    extractionDefinitionUrl: string;
+
+    /**
      * The creation timestamp of the Feature
      */
     createdAt: Date;
@@ -92,6 +117,11 @@ export class Feature {
         this.units = data.units;
         this.equipment = data.equipment;
         this.dataCollection = data.dataCollection;
+        this.conceptUri = data.conceptUri;
+        this.conceptSystem = data.conceptSystem;
+        this.conceptCode = data.conceptCode;
+        this.extractionDefinition = data.extractionDefinition;
+        this.extractionDefinitionUrl = data.extractionDefinitionUrl;
         this.createdAt = data.createdAt;
         this.createdBy = data.createdBy;
         this.lastUpdatedAt = data.lastUpdatedAt;

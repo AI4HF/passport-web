@@ -33,6 +33,16 @@ export class Model{
     version: string;
 
     /**
+     * The ID of the Model version this one was retrained from
+     */
+    previousModelId: string;
+
+    /**
+     * Why the Model was retrained
+     */
+    retrainingReason: string;
+
+    /**
      * The tag of the Model
      */
     tag: string;
@@ -48,9 +58,9 @@ export class Model{
     productIdentifier: string;
 
     /**
-     * The owner of the Model
+     * The ID of the Organization owning the Model
      */
-    owner: string;
+    ownerOrganizationId: string;
 
     /**
      * The trl level of the Model
@@ -129,10 +139,12 @@ export class Model{
         this.experimentId = data.experimentId;
         this.name = data.name;
         this.version = data.version;
+        this.previousModelId = data.previousModelId;
+        this.retrainingReason = data.retrainingReason;
         this.tag = data.tag;
         this.modelType = data.modelType;
         this.productIdentifier = data.productIdentifier;
-        this.owner = data.owner;
+        this.ownerOrganizationId = data.ownerOrganizationId;
         this.trlLevel = data.trlLevel;
         this.license = data.license;
         this.primaryUse = data.primaryUse;

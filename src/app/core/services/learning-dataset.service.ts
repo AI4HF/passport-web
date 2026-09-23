@@ -43,11 +43,11 @@ export class LearningDatasetService {
 
     /**
      * Retrieves learning datasets by data transformation ID
-     * @param dataTransformationId Id of the data transformation
+     * @param datasetTransformationId Id of the data transformation
      * @return {Observable<LearningDataset[]>}
      */
-    getLearningDatasetsByTransformationId(dataTransformationId: String): Observable<LearningDataset[]> {
-        const url = `${this.endpoint}?dataTransformationId=${dataTransformationId}`;
+    getLearningDatasetsByTransformationId(datasetTransformationId: String): Observable<LearningDataset[]> {
+        const url = `${this.endpoint}?datasetTransformationId=${datasetTransformationId}`;
         return this.httpClient.get<LearningDataset[]>(url)
             .pipe(
                 map((response: any) => {

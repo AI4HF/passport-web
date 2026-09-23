@@ -4,6 +4,7 @@ import {OrganizationManagementEditComponent} from "./organization-management-edi
 import {OrganizationDetailsModule} from "./organization-details/organization-details.module";
 import {OrganizationManagementEditRoutingModule} from "./organization-management-edit-routing.module";
 import {PersonnelTableModule} from "./personnel/personnel-table/personnel-table.module";
+import {SoftwareAgentTableModule} from "./software-agent/software-agent-table/software-agent-table.module";
 
 
 
@@ -13,7 +14,8 @@ import {PersonnelTableModule} from "./personnel/personnel-table/personnel-table.
     CommonModule,
     OrganizationDetailsModule,
     OrganizationManagementEditRoutingModule,
-    PersonnelTableModule
+    PersonnelTableModule,
+    SoftwareAgentTableModule
   ]
 })
 export class OrganizationManagementEditModule { }

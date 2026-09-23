@@ -25,7 +25,7 @@
             <ng-template pTemplate="body" let-learningDataset>
                 <tr>
                     <td *ngFor="let col of columns" class="cursor-pointer">
-                        <span>{{ learningDataset[col.field] || (col.field === 'transformationTitle' ? datasetTransformations[learningDataset.dataTransformationId]?.title : '') || (col.field === 'transformationDescription' ? datasetTransformations[learningDataset.dataTransformationId]?.description : '') }}</span>
+                        <span>{{ learningDataset[col.field] || (col.field === 'transformationTitle' ? datasetTransformations[learningDataset.datasetTransformationId]?.title : '') || (col.field === 'transformationDescription' ? datasetTransformations[learningDataset.datasetTransformationId]?.description : '') }}</span>
                     </td>
                     <td>
                         <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-text p-button-rounded p-ripple" (click)="showLearningDatasetForm(learningDataset)" pTooltip="{{ 'DatasetManagement.Details' | translate }}" tooltipPosition="bottom"></button>
@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<app-learning-dataset-creation-form *ngIf="displayForm" [datasetId]="selectedDatasetId" [learningDatasetId]="selectedLearningDatasetId" [dataTransformationId]="selectedDataTransformationId" (formClosed)="onFormClosed()"></app-learning-dataset-creation-form>
+<app-learning-dataset-creation-form *ngIf="displayForm" [datasetId]="selectedDatasetId" [learningDatasetId]="selectedLearningDatasetId" [datasetTransformationId]="selectedDatasetTransformationId" (formClosed)="onFormClosed()"></app-learning-dataset-creation-form>
 <app-cascade-validation-dialog
         [display]="displayCascadeDialog"
         [tables]="cascadeTables"

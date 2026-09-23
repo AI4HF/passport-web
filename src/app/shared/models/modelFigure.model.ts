@@ -13,6 +13,16 @@ export class ModelFigure {
     figureId: string;
 
     /**
+     * The title of the figure
+     */
+    title: string;
+
+    /**
+     * What the figure shows
+     */
+    description: string;
+
+    /**
      * The figure image encoded as base64
      */
     imageBase64: string;
@@ -24,6 +34,8 @@ export class ModelFigure {
 
         this.modelId = data.modelId;
         this.figureId = data.figureId;
+        this.title = data.title;
+        this.description = data.description;
         this.imageBase64 = data.imageBase64;
     }
 }

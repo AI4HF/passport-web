@@ -76,7 +76,12 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
             isUnique: new FormControl(false),
             units: new FormControl(''),
             equipment: new FormControl(''),
-            dataCollection: new FormControl('')
+            dataCollection: new FormControl(''),
+            conceptUri: new FormControl(''),
+            conceptSystem: new FormControl(''),
+            conceptCode: new FormControl(''),
+            extractionDefinition: new FormControl(''),
+            extractionDefinitionUrl: new FormControl('')
         });
     }
 
@@ -116,7 +121,12 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
             isUnique: this.selectedFeature.isUnique,
             units: this.selectedFeature.units,
             equipment: this.selectedFeature.equipment,
-            dataCollection: this.selectedFeature.dataCollection
+            dataCollection: this.selectedFeature.dataCollection,
+            conceptUri: this.selectedFeature.conceptUri,
+            conceptSystem: this.selectedFeature.conceptSystem,
+            conceptCode: this.selectedFeature.conceptCode,
+            extractionDefinition: this.selectedFeature.extractionDefinition,
+            extractionDefinitionUrl: this.selectedFeature.extractionDefinitionUrl
         });
     }
 
@@ -145,7 +155,12 @@ export class FeatureSetFeaturesFormComponent extends BaseComponent implements On
             isUnique: selectedFeature.isUnique,
             units: selectedFeature.units,
             equipment: selectedFeature.equipment,
-            dataCollection: selectedFeature.dataCollection
+            dataCollection: selectedFeature.dataCollection,
+            conceptUri: selectedFeature.conceptUri,
+            conceptSystem: selectedFeature.conceptSystem,
+            conceptCode: selectedFeature.conceptCode,
+            extractionDefinition: selectedFeature.extractionDefinition,
+            extractionDefinitionUrl: selectedFeature.extractionDefinitionUrl
         });
     }
 

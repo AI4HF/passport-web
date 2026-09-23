@@ -1,0 +1,64 @@
+<div class="col-12">
+    <div class="card p-mt-3">
+        <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'SoftwareAgent.Software Agents' | translate }}</div>
+            <div class="inline-flex align-items-center">
+        <span class="p-input-icon-left flex-auto mx-2">
+          <i class="pi pi-search"></i>
+          <input (input)="filter(dt, $event)" class="w-full rounded-border" pInputText placeholder="{{ 'Search' | translate }}" type="text"/>
+        </span>
+                <button (click)="createSoftwareAgent()" class="p-button-rounded button-secondary mx-2" icon="pi pi-plus" pButton
+                        pRipple
+                        pTooltip="{{ 'SoftwareAgent.Create Software Agent' | translate }}"
+                        tooltipPosition="bottom"></button>
+            </div>
+        </div>
+        <p-table
+            #dt
+            [columns]="columns"
+            [loading]="loading"
+            [paginator]="true"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            [rows]="10"
+            [totalRecords]="softwareAgentList?.length"
+            [value]="softwareAgentList"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="name">{{ 'SoftwareAgent.Name' | translate }}
+                        <p-sortIcon field="name"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="version">{{ 'SoftwareAgent.Version' | translate }}
+                        <p-sortIcon field="version"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="keycloakClientId">{{ 'SoftwareAgent.Keycloak Client' | translate }}
+                        <p-sortIcon field="keycloakClientId"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="description">{{ 'SoftwareAgent.Description' | translate }}
+                        <p-sortIcon field="description"></p-sortIcon>
+                    </th>
+                    <th>{{ 'Actions' | translate }}</th>
+                </tr>
+            </ng-template>
+            <ng-template let-softwareAgent pTemplate="body">
+                <tr>
+                    <td>{{ softwareAgent.name }}</td>
+                    <td>{{ softwareAgent.version }}</td>
+                    <td>{{ softwareAgent.keycloakClientId }}</td>
+                    <td>{{ softwareAgent.description }}</td>
+                    <td>
+                        <button (click)="editSoftwareAgent(softwareAgent)" class="p-button-text p-button-rounded p-ripple" icon="pi pi-pencil" pButton
+                                pRipple pTooltip="{{ 'Edit' | translate }}"
+                                tooltipPosition="bottom" type="button"></button>
+                        <button (click)="deleteSoftwareAgent(softwareAgent.softwareAgentId)" class="p-button-text p-button-rounded p-ripple" icon="pi pi-trash" pButton
+                                pRipple
+                                pTooltip="{{ 'Delete' | translate }}" tooltipPosition="bottom"
+                                type="button"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<app-software-agent-form (formClosed)="onFormClosed()" *ngIf="this.displayForm"
+                         [softwareAgentId]="selectedSoftwareAgentId"></app-software-agent-form>

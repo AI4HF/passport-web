@@ -4,7 +4,8 @@ import {ModelManagementRoutingModule} from "./model-management-routing.module";
 import {ModelManagementTableModule} from "./model-management-table/model-management-table.module";
 import {ModelManagementFormModule} from "./model-management-form/model-management-form.module";
 import {ModelParameterModule} from "./model-parameter/model-parameter.module";
-import {EvaluationMeasureModule} from "./evaluation-measure/evaluation-measure.module";
+import {ModelEvaluationModule} from "./model-evaluation/model-evaluation.module";
+import {LinkedArticlesModule} from "./linked-articles/linked-articles.module";
 import {ModelFigureGalleryModule} from "./model-figure-gallery/model-figure-gallery.module";
 
 
@@ -17,7 +18,8 @@ import {ModelFigureGalleryModule} from "./model-figure-gallery/model-figure-gall
       ModelManagementTableModule,
       ModelManagementFormModule,
       ModelParameterModule,
-      EvaluationMeasureModule,
+      ModelEvaluationModule,
+      LinkedArticlesModule,
       ModelFigureGalleryModule
   ]
 })

@@ -7,6 +7,15 @@ import {LayoutService} from "../../layout/service/app.layout.service";
 import {StudyService} from "../../core/services/study.service";
 import {PopulationService} from "../../core/services/population.service";
 import {PersonnelService} from "../../core/services/personnel.service";
+import {SoftwareAgentService} from "../../core/services/software-agent.service";
+import {QualityCriteriaService} from "../../core/services/quality-criteria.service";
+import {QualityCriterionService} from "../../core/services/quality-criterion.service";
+import {QualityAssessmentService} from "../../core/services/quality-assessment.service";
+import {QualityCriterionAssessmentResultService} from "../../core/services/quality-criterion-assessment-result.service";
+import {DatasetConceptService} from "../../core/services/dataset-concept.service";
+import {CatalogueDatasetService} from "../../core/services/catalogue-dataset.service";
+import {DatasetDistributionService} from "../../core/services/dataset-distribution.service";
+import {CatalogueRegistrationService} from "../../core/services/catalogue-registration.service";
 import {ExperimentService} from "../../core/services/experiment.service";
 import {SurveyService} from "../../core/services/survey.service";
 import {OrganizationService} from "../../core/services/organization.service";
@@ -21,8 +30,6 @@ import {DatasetTransformationStepService} from "../../core/services/dataset-tran
 import {DatasetTransformationService} from "../../core/services/dataset-transformation.service";
 import {DatasetCharacteristicService} from "../../core/services/dataset-characteristic.service";
 import {ModelService} from "../../core/services/model.service";
-import {ModelDeploymentService} from "../../core/services/model-deployment.service";
-import {DeploymentEnvironmentService} from "../../core/services/deployment-environment.service";
 import {StudyOrganizationService} from "../../core/services/studyOrganization.service";
 import {PassportService} from "../../core/services/passport.service";
 import {AlgorithmService} from "../../core/services/algorithm.service";
@@ -37,6 +44,7 @@ import {ActiveStudyService} from "../../core/services/activeStudy.service";
 import {AuditLogBookService} from "../../core/services/audit-log-book.service";
 import {ModelParameterService} from "../../core/services/model-parameter.service";
 import {EvaluationMeasureService} from "../../core/services/evaluation-measure.service";
+import {ModelEvaluationService} from "../../core/services/model-evaluation.service";
 import {ModelFigureService} from "../../core/services/model-figure.service";
 import {LinkedArticleService} from "../../core/services/linked-article.service";
 
@@ -65,6 +73,15 @@ export abstract class BaseComponent implements OnDestroy {
   studyService: StudyService;
   populationService: PopulationService;
   personnelService: PersonnelService;
+  softwareAgentService: SoftwareAgentService;
+  qualityCriteriaService: QualityCriteriaService;
+  qualityCriterionService: QualityCriterionService;
+  qualityAssessmentService: QualityAssessmentService;
+  qualityCriterionAssessmentResultService: QualityCriterionAssessmentResultService;
+  datasetConceptService: DatasetConceptService;
+  catalogueDatasetService: CatalogueDatasetService;
+  datasetDistributionService: DatasetDistributionService;
+  catalogueRegistrationService: CatalogueRegistrationService;
   experimentService: ExperimentService;
   linkedArticleService: LinkedArticleService;
   surveyService: SurveyService;
@@ -81,8 +98,6 @@ export abstract class BaseComponent implements OnDestroy {
   parameterService: ParameterService;
   studyOrganizationService: StudyOrganizationService;
   modelService: ModelService;
-  modelDeploymentService: ModelDeploymentService;
-  deploymentEnvironmentService: DeploymentEnvironmentService;
   passportService: PassportService;
   algorithmService: AlgorithmService;
   implementationService: ImplementationService;
@@ -96,6 +111,7 @@ export abstract class BaseComponent implements OnDestroy {
   auditLogBookService: AuditLogBookService;
   modelParameterService: ModelParameterService;
   evaluationMeasureService: EvaluationMeasureService;
+  modelEvaluationService: ModelEvaluationService;
   modelFigureService: ModelFigureService;
 
   constructor(injector: Injector){
@@ -107,6 +123,15 @@ export abstract class BaseComponent implements OnDestroy {
     this.studyService = injector.get(StudyService);
     this.populationService = injector.get(PopulationService);
     this.personnelService = injector.get(PersonnelService);
+    this.softwareAgentService = injector.get(SoftwareAgentService);
+    this.qualityCriteriaService = injector.get(QualityCriteriaService);
+    this.qualityCriterionService = injector.get(QualityCriterionService);
+    this.qualityAssessmentService = injector.get(QualityAssessmentService);
+    this.qualityCriterionAssessmentResultService = injector.get(QualityCriterionAssessmentResultService);
+    this.datasetConceptService = injector.get(DatasetConceptService);
+    this.catalogueDatasetService = injector.get(CatalogueDatasetService);
+    this.datasetDistributionService = injector.get(DatasetDistributionService);
+    this.catalogueRegistrationService = injector.get(CatalogueRegistrationService);
     this.experimentService = injector.get(ExperimentService);
     this.linkedArticleService = injector.get(LinkedArticleService);
     this.surveyService = injector.get(SurveyService);
@@ -129,8 +154,6 @@ export abstract class BaseComponent implements OnDestroy {
     this.learningProcessParameterService = injector.get(LearningProcessParameterService);
     this.learningStageParameterService = injector.get(LearningStageParameterService);
     this.modelService = injector.get(ModelService);
-    this.modelDeploymentService = injector.get(ModelDeploymentService);
-    this.deploymentEnvironmentService = injector.get(DeploymentEnvironmentService);
     this.studyOrganizationService = injector.get(StudyOrganizationService);
     this.passportService = injector.get(PassportService);
     this.roleService = injector.get(RoleService);
@@ -138,6 +161,7 @@ export abstract class BaseComponent implements OnDestroy {
     this.auditLogBookService = injector.get(AuditLogBookService);
     this.modelParameterService = injector.get(ModelParameterService);
     this.evaluationMeasureService = injector.get(EvaluationMeasureService);
+    this.modelEvaluationService = injector.get(ModelEvaluationService);
     this.modelFigureService = injector.get(ModelFigureService);
   }
 

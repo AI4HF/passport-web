@@ -1,0 +1,96 @@
+<div class="col-12">
+    <div class="card p-mt-3">
+        <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
+            <div class="text-900 text-2xl font-semibold mb-3 md:mb-0">{{ 'QualityManagement.Quality Criteria' | translate }}</div>
+            <span class="p-input-icon-left flex-auto mx-2">
+                <i class="pi pi-search"></i>
+                <input (input)="filter(dt, $event)" class="w-full rounded-border" pInputText
+                       placeholder="{{ 'Search' | translate }}" type="text"/>
+            </span>
+        </div>
+        <p-table
+            #dt
+            dataKey="qualityCriteriaId"
+            [loading]="loading"
+            [paginator]="true"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            [rows]="10"
+            [totalRecords]="qualityCriteriaList?.length"
+            [value]="qualityCriteriaList"
+            (onRowExpand)="onRowExpand($event.data)"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 3rem"></th>
+                    <th pSortableColumn="title">{{ 'QualityManagement.Title' | translate }}
+                        <p-sortIcon field="title"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="url">{{ 'QualityManagement.Definition URL' | translate }}
+                        <p-sortIcon field="url"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="version">{{ 'QualityManagement.Version' | translate }}
+                        <p-sortIcon field="version"></p-sortIcon>
+                    </th>
+                    <th>{{ 'QualityManagement.Description' | translate }}</th>
+                </tr>
+            </ng-template>
+            <ng-template let-qualityCriteria pTemplate="body" let-expanded="expanded">
+                <tr>
+                    <td>
+                        <button type="button" pButton pRipple [pRowToggler]="qualityCriteria"
+                                class="p-button-text p-button-rounded p-button-plain"
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                    </td>
+                    <td>{{ qualityCriteria.title }}</td>
+                    <td>{{ qualityCriteria.url }}</td>
+                    <td>{{ qualityCriteria.version }}</td>
+                    <td>{{ qualityCriteria.description }}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-qualityCriteria>
+                <tr>
+                    <td colspan="5">
+                        <div class="p-3">
+                            <p-table [value]="criterionByCriteriaId[qualityCriteria.qualityCriteriaId]">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>{{ 'QualityManagement.Rule' | translate }}</th>
+                                        <th>{{ 'QualityManagement.Category' | translate }}</th>
+                                        <th>{{ 'QualityManagement.Context' | translate }}</th>
+                                        <th>{{ 'QualityManagement.Rule Expression' | translate }}</th>
+                                        <th>{{ 'QualityManagement.Bounds' | translate }}</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-criterion>
+                                    <tr>
+                                        <td>
+                                            <div class="font-medium">{{ criterion.name }}</div>
+                                            <div class="text-500">{{ criterion.description }}</div>
+                                        </td>
+                                        <td>{{ criterion.category }}</td>
+                                        <td>{{ criterion.context }}</td>
+                                        <td><code>{{ criterion.ruleExpression }}</code></td>
+                                        <td>
+                                            <span *ngIf="criterion.low !== null && criterion.low !== undefined">&ge; {{ criterion.low }}</span>
+                                            <span *ngIf="criterion.high !== null && criterion.high !== undefined">&le; {{ criterion.high }}</span>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="5">{{ 'QualityManagement.No rules' | translate }}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5">{{ 'QualityManagement.No criteria' | translate }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

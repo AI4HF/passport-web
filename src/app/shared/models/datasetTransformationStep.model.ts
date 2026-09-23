@@ -10,12 +10,17 @@ export class DatasetTransformationStep {
     /**
      * The ID of the associated DatasetTransformation
      */
-    dataTransformationId: string;
+    datasetTransformationId: string;
 
     /**
      * The input features for the transformation step
      */
     inputFeatures: string;
+
+    /**
+     * The position of the step within its transformation
+     */
+    stepOrder: number;
 
     /**
      * The output features for the transformation step
@@ -57,8 +62,9 @@ export class DatasetTransformationStep {
             return;
         }
         this.stepId = data.stepId;
-        this.dataTransformationId = data.dataTransformationId;
+        this.datasetTransformationId = data.datasetTransformationId;
         this.inputFeatures = data.inputFeatures;
+        this.stepOrder = data.stepOrder;
         this.outputFeatures = data.outputFeatures;
         this.method = data.method;
         this.explanation = data.explanation;

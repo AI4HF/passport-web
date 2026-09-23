@@ -1,11 +1,10 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from "../../../shared/components/base.component";
-import { forkJoin, of, switchMap, takeUntil } from "rxjs";
+import { forkJoin, takeUntil } from "rxjs";
 import { ModelWithName } from "../../../shared/models/modelWithName.model";
 import { PassportWithModelName } from "../../../shared/models/passportWithModelName.model";
-import { ModelDeployment } from "../../../shared/models/modelDeployment.model";
-import { DeploymentEnvironment } from "../../../shared/models/deploymentEnvironment.model";
 import { Model } from "../../../shared/models/model.model";
+import { ModelWithOwnerName } from "../../../shared/models/modelWithOwnerName.model";
 import { Study } from "../../../shared/models/study.model";
 import { Parameter } from "../../../shared/models/parameter.model";
 import { Population } from "../../../shared/models/population.model";
@@ -15,7 +14,6 @@ import { PassportDetailsDTO } from "../../../shared/models/passportDetails.model
 import { LearningProcessWithStagesDTO } from "../../../shared/models/learningProcessWithStagesDTO.model";
 import { DatasetWithLearningDatasetsDTO } from "../../../shared/models/datasetWithLearningDatasetsDTO.model";
 import { FeatureSetWithFeaturesDTO } from "../../../shared/models/featureSetWithFeaturesDTO.model";
-import {EvaluationMeasure} from "../../../shared/models/evaluationMeasure.model";
 import {ModelFigure} from "../../../shared/models/modelFigure.model";
 import {LinkedArticle} from "../../../shared/models/linkedArticle.model";
 import {LearningProcessParameter} from "../../../shared/models/learningProcessParameter.model";
@@ -43,14 +41,10 @@ export class PassportManagementTableComponent extends BaseComponent implements O
 
   /** Currently selected passport ID */
   selectedPassportId: string | null = null;
-  /** Deployment details for the selected passport */
-  deploymentDetails: ModelDeployment | null = null;
-  /** Environment details for the selected passport */
-  environmentDetails: DeploymentEnvironment | null = null;
   /** Evaluation Measures for the selected passport */
-  evaluationMeasures: EvaluationMeasure[]  = [];
+  modelEvaluationsWithMeasures: any[] = [];
   /** Model details for the selected passport */
-  modelDetails: Model | null = null;
+  modelDetails: ModelWithOwnerName | null = null;
   /** Study details for the selected passport */
   studyDetails: Study | null = null;
   /** Parameters related to the selected passport */
@@ -69,6 +63,10 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   modelFigures: ModelFigure[] = [];
   /** Survey details related to the selected passport */
   surveys: Survey[] = [];
+  /** Quality criteria sets for the selected passport */
+  qualityCriteriaWithCriterion: any[] = [];
+  /** Quality assessment runs for the selected passport */
+  qualityAssessmentsWithResults: any[] = [];
   /** Datasets with associated learning datasets for the selected passport */
   datasetsWithLearningDatasets: DatasetWithLearningDatasetsDTO[] = [];
   /** Feature sets with associated features for the selected passport */
@@ -135,13 +133,8 @@ export class PassportManagementTableComponent extends BaseComponent implements O
    */
   mapModelsToPassports() {
     this.passportWithModelNameList.forEach(passportWithModelName => {
-      this.modelDeploymentService.getModelDeploymentById(passportWithModelName.passport.deploymentId, this.activeStudyService.getActiveStudy()).pipe(
-          switchMap((deployment: ModelDeployment) => {
-            passportWithModelName.modelName = (this.modelList.find(m => m.id === deployment.modelId))?.name ?? '';
-            return of(passportWithModelName);
-          }),
-          takeUntil(this.destroy$)
-      ).subscribe();
+      passportWithModelName.modelName =
+          (this.modelList.find(m => m.id === passportWithModelName.passport.modelId))?.name ?? '';
     });
   }
 
@@ -198,6 +191,37 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   }
 
   /**
+   * Downloads the signed document stored on a passport - the bytes exactly as they were signed, rather
+   * than a freshly rendered copy.
+   * @param passportId The ID of the passport
+   */
+  downloadSignedPdf(passportId: string) {
+    this.passportService.downloadSignedPdf(passportId, this.activeStudyService.getActiveStudy())
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (signedBlob: Blob) => {
+            const url = URL.createObjectURL(signedBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `passport-${passportId}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+          },
+          error: error => {
+            this.translateService.get('Error').subscribe(translation => {
+              this.messageService.add({
+                severity: 'error',
+                summary: translation,
+                detail: error.message
+              });
+            });
+          }
+        });
+  }
+
+  /**
    * Selects a passport for PDF export and loads its details.
    * @param passportId The ID of the passport to select.
    */
@@ -208,8 +232,6 @@ export class PassportManagementTableComponent extends BaseComponent implements O
       next: (passportDetails: PassportDetailsDTO) => {
         const details = passportDetails.detailsJson;
 
-        this.deploymentDetails = details.deploymentDetails;
-        this.environmentDetails = details.environmentDetails;
         this.modelDetails = details.modelDetails;
         this.studyDetails = details.studyDetails;
         this.learningProcessParameters = details.learningProcessParameters || [];
@@ -221,10 +243,12 @@ export class PassportManagementTableComponent extends BaseComponent implements O
         this.surveys = details.surveys || [];
         this.experiments = details.experiments || [];
         this.linkedArticles = details.linkedArticles || [];
+        this.qualityCriteriaWithCriterion = details.qualityCriteriaWithCriterion || [];
+        this.qualityAssessmentsWithResults = details.qualityAssessmentsWithResults || [];
         this.datasetsWithLearningDatasets = details.datasetsWithLearningDatasets || [];
         this.featureSetsWithFeatures = details.featureSetsWithFeatures || [];
         this.learningProcessesWithStages = details.learningProcessesWithStages || [];
-        this.evaluationMeasures = details.evaluationMeasures || [];
+        this.modelEvaluationsWithMeasures = details.modelEvaluationsWithMeasures || [];
         this.modelFigures = details.modelFigures || [];
       },
       error: error => {

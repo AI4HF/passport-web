@@ -8,14 +8,19 @@ export class AuditLog {
     auditLogId: string;
 
     /**
-     * The ID of the personnel associated with this AuditLog
+     * The ID of the actor (personnel or software agent) associated with this AuditLog
      */
-    personId: string;
+    actorId: string;
 
     /**
-     * The ID of the personnel associated with this AuditLog
+     * The display name of the actor associated with this AuditLog
      */
-    personName: string;
+    actorName: string;
+
+    /**
+     * Whether the actor is a person or an automated integration: PERSONNEL | SOFTWARE_AGENT
+     */
+    actorType: string;
 
     /**
      * The timestamp of the event
@@ -52,8 +57,9 @@ export class AuditLog {
             return;
         }
         this.auditLogId = data.auditLogId;
-        this.personId = data.personId;
-        this.personName = data.personName;
+        this.actorId = data.actorId;
+        this.actorName = data.actorName;
+        this.actorType = data.actorType;
         this.occurredAt = new Date(data.occurredAt);
         this.actionType = data.actionType;
         this.affectedRelation = data.affectedRelation;

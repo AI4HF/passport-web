@@ -58,13 +58,17 @@
                         {{ 'AuditLogTable.ActionType' | translate }}
                         <p-sortIcon field="actionType"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="personId">
-                        {{ 'AuditLogTable.PersonId' | translate }}
-                        <p-sortIcon field="personId"></p-sortIcon>
+                    <th pSortableColumn="actorId">
+                        {{ 'AuditLogTable.ActorId' | translate }}
+                        <p-sortIcon field="actorId"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="personName">
-                        {{ 'AuditLogTable.PersonName' | translate }}
-                        <p-sortIcon field="personName"></p-sortIcon>
+                    <th pSortableColumn="actorName">
+                        {{ 'AuditLogTable.ActorName' | translate }}
+                        <p-sortIcon field="actorName"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="actorType">
+                        {{ 'AuditLogTable.ActorType' | translate }}
+                        <p-sortIcon field="actorType"></p-sortIcon>
                     </th>
                     <th pSortableColumn="affectedRelation">
                         {{ 'AuditLogTable.AffectedRelation' | translate }}
@@ -85,8 +89,9 @@
                     <td>{{ log.occurredAt | date: 'short' }}</td>
                     <td>{{ log.description }}</td>
                     <td>{{ log.actionType }}</td>
-                    <td>{{ log.personId }}</td>
-                    <td>{{ log.personName }}</td>
+                    <td>{{ log.actorId }}</td>
+                    <td>{{ log.actorName }}</td>
+                    <td>{{ ('AuditLogTable.' + log.actorType) | translate }}</td>
                     <td>{{ log.affectedRelation }}</td>
                     <td>
                         <ng-container *ngIf="log.affectedRecord && log.affectedRecord.length > 50">

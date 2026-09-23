@@ -1,0 +1,97 @@
+<p-dialog
+        (onHide)="closeDialog()"
+        [(visible)]="this.display"
+        [modal]="true"
+        [style]="{ width: '40rem' }"
+        header="{{ 'LinkedArticle.LinkedArticleDetails' | translate }}"
+>
+    <form *ngIf="this.display" (ngSubmit)="saveLinkedArticle()" [formGroup]="articleForm" class="pb-21">
+        <div class="form-grid grid">
+            <div class="field col mb-0">
+
+                <label for="title" class="font-bold">{{ 'LinkedArticle.Title' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-book"></i>
+            <input formControlName="title" id="title" pInputText class="w-full"
+                   placeholder="{{ 'LinkedArticle.TitlePlaceholder' | translate }}">
+          </span>
+                </div>
+
+                <label for="authors" class="font-bold">{{ 'LinkedArticle.Authors' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-users"></i>
+            <input formControlName="authors" id="authors" pInputText class="w-full"
+                   placeholder="{{ 'LinkedArticle.AuthorsPlaceholder' | translate }}">
+          </span>
+                </div>
+
+                <label for="publicationVenue" class="font-bold">{{ 'LinkedArticle.PublicationVenue' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-building"></i>
+            <input formControlName="publicationVenue" id="publicationVenue" pInputText class="w-full"
+                   placeholder="{{ 'LinkedArticle.PublicationVenuePlaceholder' | translate }}">
+          </span>
+                </div>
+
+                <label for="publicationYear" class="font-bold">{{ 'LinkedArticle.PublicationYear' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-calendar"></i>
+            <input formControlName="publicationYear" id="publicationYear" type="number" pInputText class="w-full"
+                   placeholder="{{ 'LinkedArticle.PublicationYearPlaceholder' | translate }}">
+          </span>
+                </div>
+
+                <label for="doi" class="font-bold">{{ 'LinkedArticle.Doi' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-id-card"></i>
+            <input formControlName="doi" id="doi" pInputText class="w-full"
+                   placeholder="{{ 'LinkedArticle.DoiPlaceholder' | translate }}">
+          </span>
+                </div>
+
+                <label for="url" class="font-bold">{{ 'LinkedArticle.URL' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-link"></i>
+            <input formControlName="url" id="url" pInputText class="w-full"
+                   placeholder="{{ 'LinkedArticle.URLPlaceholder' | translate }}">
+          </span>
+                </div>
+
+                <label for="description" class="font-bold">{{ 'LinkedArticle.Description' | translate }}</label>
+                <div class="p-field p-col-12 p-md-6">
+          <span class="p-input-icon-left w-full mb-4">
+            <i class="pi pi-comment"></i>
+            <input formControlName="description" id="description" pInputText class="w-full"
+                   placeholder="{{ 'LinkedArticle.DescriptionPlaceholder' | translate }}">
+          </span>
+                </div>
+
+                <div class="flex justify-content-between">
+                    <button
+                            (click)="closeDialog()"
+                            class="p-button-primary"
+                            icon="pi pi-times"
+                            label="{{ 'Cancel' | translate }}"
+                            pButton
+                            type="button">
+                    </button>
+
+                    <button
+                            class="p-button-primary"
+                            icon="pi pi-check"
+                            label="{{ 'Save' | translate }}"
+                            pButton
+                            [disabled]="articleForm.invalid"
+                            type="submit">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</p-dialog>

@@ -38,9 +38,17 @@
                             <td class="attribute-title">{{ 'PassportManagement.Product Identifier' | translate }}</td>
                             <td class="attribute-value">{{ modelDetails.productIdentifier }}</td>
                         </tr>
-                        <tr *ngIf="modelDetails.owner">
+                        <tr *ngIf="modelDetails.ownerOrganizationName">
                             <td class="attribute-title">{{ 'PassportManagement.Owner' | translate }}</td>
-                            <td class="attribute-value">{{ modelDetails.owner }}</td>
+                            <td class="attribute-value">{{ modelDetails.ownerOrganizationName }}</td>
+                        </tr>
+                        <tr *ngIf="modelDetails.previousModelId">
+                            <td class="attribute-title">{{ 'PassportManagement.Retrained From' | translate }}</td>
+                            <td class="attribute-value">{{ modelDetails.previousModelId }}</td>
+                        </tr>
+                        <tr *ngIf="modelDetails.retrainingReason">
+                            <td class="attribute-title">{{ 'PassportManagement.Retraining Reason' | translate }}</td>
+                            <td class="attribute-value">{{ modelDetails.retrainingReason }}</td>
                         </tr>
                         <tr *ngIf="modelDetails.trlLevel">
                             <td class="attribute-title">{{ 'PassportManagement.TRL Level' | translate }}</td>
@@ -82,56 +90,6 @@
                 </div>
             </div>
 
-            <!-- Deployment Details Section -->
-            <div *ngIf="deploymentDetails" class="section">
-                <div class="section-title">{{ 'PassportManagement.Model Deployment Details' | translate }}</div>
-                <div class="section-content">
-                    <table class="attribute-table">
-                        <tr *ngIf="deploymentDetails.tags">
-                            <td class="attribute-title">{{ 'PassportManagement.Deployment Tags' | translate }}</td>
-                            <td class="attribute-value">{{ deploymentDetails?.tags }}</td>
-                        </tr>
-                        <tr *ngIf="deploymentDetails.status">
-                            <td class="attribute-title">{{ 'PassportManagement.Deployment Status' | translate }}</td>
-                            <td class="attribute-value">{{ deploymentDetails?.status }}</td>
-                        </tr>
-                        <tr *ngIf="deploymentDetails.identifiedFailures">
-                            <td class="attribute-title">{{ 'PassportManagement.Identified Failures' | translate }}</td>
-                            <td class="attribute-value">{{ deploymentDetails?.identifiedFailures }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Environment Details Section -->
-            <div *ngIf="environmentDetails" class="section">
-                <div class="section-title">{{ 'PassportManagement.Environment Details' | translate }}</div>
-                <div class="section-content">
-                    <table class="attribute-table">
-                        <tr *ngIf="environmentDetails.title">
-                            <td class="attribute-title">{{ 'PassportManagement.Environment Title' | translate }}</td>
-                            <td class="attribute-value">{{ environmentDetails?.title }}</td>
-                        </tr>
-                        <tr *ngIf="environmentDetails.description">
-                            <td class="attribute-title">{{ 'PassportManagement.Environment Description' | translate }}</td>
-                            <td class="attribute-value">{{ environmentDetails?.description }}</td>
-                        </tr>
-                        <tr *ngIf="environmentDetails.hardwareProperties">
-                            <td class="attribute-title">{{ 'PassportManagement.Hardware Properties' | translate }}</td>
-                            <td class="attribute-value">{{ environmentDetails?.hardwareProperties }}</td>
-                        </tr>
-                        <tr *ngIf="environmentDetails.softwareProperties">
-                            <td class="attribute-title">{{ 'PassportManagement.Software Properties' | translate }}</td>
-                            <td class="attribute-value">{{ environmentDetails?.softwareProperties }}</td>
-                        </tr>
-                        <tr *ngIf="environmentDetails.connectivityDetails">
-                            <td class="attribute-title">{{ 'PassportManagement.Connectivity Details' | translate }}</td>
-                            <td class="attribute-value">{{ environmentDetails?.connectivityDetails }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
             <!-- Feature Sets Section -->
             <div *ngIf="featureSetsWithFeatures.length" class="section">
                 <div class="section-title">{{ 'PassportManagement.Feature Sets' | translate }}</div>
@@ -141,6 +99,7 @@
                             <th *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.title'">{{ 'PassportManagement.FeatureSet Title' | translate }}</th>
                             <th *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.description'">{{ 'PassportManagement.FeatureSet Description' | translate }}</th>
                             <th *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.featuresetURL'">{{ 'PassportManagement.FeatureSet URL' | translate }}</th>
+                            <th *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.version'">{{ 'PassportManagement.FeatureSet Version' | translate }}</th>
                             <th *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.createdAt'">{{ 'PassportManagement.FeatureSet Created At' | translate }}</th>
                             <th *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.createdBy'">{{ 'PassportManagement.FeatureSet Created By' | translate }}</th>
                             <th *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.lastUpdatedAt'">{{ 'PassportManagement.FeatureSet Last Updated At' | translate }}</th>
@@ -152,6 +111,7 @@
                             <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.title'">{{ featureSetWithFeatures.featureSet.title }}</td>
                             <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.description'">{{ featureSetWithFeatures.featureSet.description }}</td>
                             <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.featuresetURL'">{{ featureSetWithFeatures.featureSet.featuresetURL }}</td>
+                            <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.version'">{{ featureSetWithFeatures.featureSet.version }}</td>
                             <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.createdAt'">{{ featureSetWithFeatures.featureSet.createdAt | date: 'medium' }}</td>
                             <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.createdBy'">{{ featureSetWithFeatures.featureSet.createdBy }}</td>
                             <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.lastUpdatedAt'">{{ featureSetWithFeatures.featureSet.lastUpdatedAt | date: 'medium' }}</td>
@@ -172,6 +132,7 @@
                                             <th *ngIf="featureSetWithFeatures.features | hasAnyValue: 'units'">{{ 'PassportManagement.Feature Units' | translate }}</th>
                                             <th *ngIf="featureSetWithFeatures.features | hasAnyValue: 'equipment'">{{ 'PassportManagement.Feature Equipment' | translate }}</th>
                                             <th *ngIf="featureSetWithFeatures.features | hasAnyValue: 'dataCollection'">{{ 'PassportManagement.Feature DataCollection' | translate }}</th>
+                                            <th *ngIf="featureSetWithFeatures.features | hasAnyValue: 'extractionDefinition'">{{ 'PassportManagement.Feature ExtractionDefinition' | translate }}</th>
                                         </tr>
                                     </ng-template>
                                     <ng-template let-feature pTemplate="body">
@@ -185,6 +146,7 @@
                                             <td *ngIf="featureSetWithFeatures.features | hasAnyValue: 'units'">{{ feature.units }}</td>
                                             <td *ngIf="featureSetWithFeatures.features | hasAnyValue: 'equipment'">{{ feature.equipment }}</td>
                                             <td *ngIf="featureSetWithFeatures.features | hasAnyValue: 'dataCollection'">{{ feature.dataCollection }}</td>
+                                            <td *ngIf="featureSetWithFeatures.features | hasAnyValue: 'extractionDefinition'">{{ feature.extractionDefinition }}</td>
                                         </tr>
                                     </ng-template>
                                 </p-table>
@@ -192,6 +154,88 @@
                         </tr>
                     </ng-template>
                 </p-table>
+            </div>
+
+            <!-- Data Quality Criteria Section -->
+            <div *ngIf="qualityCriteriaWithCriterion?.length" class="section">
+                <div class="section-title">{{ 'PassportManagement.Quality Criteria' | translate }}</div>
+                <div class="section-content">
+                    <div *ngFor="let criteriaWithCriterion of qualityCriteriaWithCriterion" class="mb-3">
+                        <table class="attribute-table">
+                            <tr>
+                                <td class="attribute-title">{{ 'PassportManagement.Quality Criteria Title' | translate }}</td>
+                                <td class="attribute-value">{{ criteriaWithCriterion.qualityCriteria?.title }}</td>
+                            </tr>
+                            <tr *ngIf="criteriaWithCriterion.qualityCriteria?.url">
+                                <td class="attribute-title">{{ 'PassportManagement.Quality Criteria URL' | translate }}</td>
+                                <td class="attribute-value">
+                                    {{ criteriaWithCriterion.qualityCriteria?.url }}
+                                    <span *ngIf="criteriaWithCriterion.qualityCriteria?.version"> ({{ criteriaWithCriterion.qualityCriteria?.version }})</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="data-table" *ngIf="criteriaWithCriterion.qualityCriterion?.length">
+                            <thead>
+                            <tr>
+                                <th>{{ 'PassportManagement.Quality Rule' | translate }}</th>
+                                <th>{{ 'PassportManagement.Quality Category' | translate }}</th>
+                                <th>{{ 'PassportManagement.Quality Rule Expression' | translate }}</th>
+                                <th>{{ 'PassportManagement.Quality Bounds' | translate }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let criterion of criteriaWithCriterion.qualityCriterion">
+                                <td>{{ criterion.name }}</td>
+                                <td>{{ criterion.category }}</td>
+                                <td>{{ criterion.ruleExpression }}</td>
+                                <td>
+                                    <span *ngIf="criterion.low !== null && criterion.low !== undefined">&ge; {{ criterion.low }}</span>
+                                    <span *ngIf="criterion.high !== null && criterion.high !== undefined">&le; {{ criterion.high }}</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Quality Assessments Section -->
+            <div *ngIf="qualityAssessmentsWithResults?.length" class="section">
+                <div class="section-title">{{ 'PassportManagement.Quality Assessments' | translate }}</div>
+                <div class="section-content">
+                    <div *ngFor="let assessmentWithResults of qualityAssessmentsWithResults" class="mb-3">
+                        <table class="attribute-table">
+                            <tr>
+                                <td class="attribute-title">{{ 'PassportManagement.Quality Executed At' | translate }}</td>
+                                <td class="attribute-value">{{ assessmentWithResults.qualityAssessment?.executedAt | date: 'short' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="attribute-title">{{ 'PassportManagement.Quality Overall Result' | translate }}</td>
+                                <td class="attribute-value">{{ assessmentWithResults.qualityAssessment?.overallResult }}</td>
+                            </tr>
+                            <tr *ngIf="assessmentWithResults.qualityAssessment?.summary">
+                                <td class="attribute-title">{{ 'PassportManagement.Quality Summary' | translate }}</td>
+                                <td class="attribute-value">{{ assessmentWithResults.qualityAssessment?.summary }}</td>
+                            </tr>
+                        </table>
+                        <table class="data-table" *ngIf="assessmentWithResults.results?.length">
+                            <thead>
+                            <tr>
+                                <th>{{ 'PassportManagement.Quality Value' | translate }}</th>
+                                <th>{{ 'PassportManagement.Quality Result' | translate }}</th>
+                                <th>{{ 'PassportManagement.Quality Detail' | translate }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let result of assessmentWithResults.results">
+                                <td>{{ result.value }}</td>
+                                <td>{{ result.result }}</td>
+                                <td>{{ result.detail }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- Datasets Section -->
@@ -204,7 +248,7 @@
                             <th *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.description'">{{ 'PassportManagement.Dataset Description' | translate }}</th>
                             <th *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.version'">{{ 'PassportManagement.Dataset Version' | translate }}</th>
                             <th *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.referenceEntity'">{{ 'PassportManagement.Dataset Reference Entity' | translate }}</th>
-                            <th *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.numOfRecords'">{{ 'PassportManagement.Dataset Number of Records' | translate }}</th>
+                            <th *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.numberOfRecords'">{{ 'PassportManagement.Dataset Number of Records' | translate }}</th>
                             <th *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.synthetic'">{{ 'PassportManagement.Dataset Synthetic' | translate }}</th>
                         </tr>
                     </ng-template>
@@ -214,7 +258,7 @@
                             <td *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.description'">{{ datasetWithLearningDatasets.dataset.description }}</td>
                             <td *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.version'">{{ datasetWithLearningDatasets.dataset.version }}</td>
                             <td *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.referenceEntity'">{{ datasetWithLearningDatasets.dataset.referenceEntity }}</td>
-                            <td *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.numOfRecords'">{{ datasetWithLearningDatasets.dataset.numOfRecords }}</td>
+                            <td *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.numberOfRecords'">{{ datasetWithLearningDatasets.dataset.numberOfRecords }}</td>
                             <td *ngIf="datasetsWithLearningDatasets | hasAnyValue: 'dataset.synthetic'">{{ datasetWithLearningDatasets.dataset.synthetic ? 'Yes' : 'No' }}</td>
                         </tr>
                         <!-- Nested Learning Datasets Table -->
@@ -312,6 +356,7 @@
                     <ng-template pTemplate="header">
                         <tr>
                             <th *ngIf="populationDetails | hasAnyValue: 'populationUrl'">{{ 'PassportManagement.Population URL' | translate }}</th>
+                            <th *ngIf="populationDetails | hasAnyValue: 'version'">{{ 'PassportManagement.Population Version' | translate }}</th>
                             <th *ngIf="populationDetails | hasAnyValue: 'description'">{{ 'PassportManagement.Population Description' | translate }}</th>
                             <th *ngIf="populationDetails | hasAnyValue: 'characteristics'">{{ 'PassportManagement.Population Characteristics' | translate }}</th>
                         </tr>
@@ -319,6 +364,7 @@
                     <ng-template let-population pTemplate="body">
                         <tr>
                             <td *ngIf="populationDetails | hasAnyValue: 'populationUrl'">{{ population.populationUrl }}</td>
+                            <td *ngIf="populationDetails | hasAnyValue: 'version'">{{ population.version }}</td>
                             <td *ngIf="populationDetails | hasAnyValue: 'description'">{{ population.description }}</td>
                             <td *ngIf="populationDetails | hasAnyValue: 'characteristics'">{{ population.characteristics }}</td>
                         </tr>
@@ -349,7 +395,22 @@
                 <p-table [value]="linkedArticles" class="linked-articles-table">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th *ngIf="linkedArticles | hasAnyValue: 'articleUrl'">
+                            <th *ngIf="linkedArticles | hasAnyValue: 'title'">
+                                {{ 'PassportManagement.Article Title' | translate }}
+                            </th>
+                            <th *ngIf="linkedArticles | hasAnyValue: 'authors'">
+                                {{ 'PassportManagement.Article Authors' | translate }}
+                            </th>
+                            <th *ngIf="linkedArticles | hasAnyValue: 'publicationVenue'">
+                                {{ 'PassportManagement.Article Venue' | translate }}
+                            </th>
+                            <th *ngIf="linkedArticles | hasAnyValue: 'publicationYear'">
+                                {{ 'PassportManagement.Article Year' | translate }}
+                            </th>
+                            <th *ngIf="linkedArticles | hasAnyValue: 'doi'">
+                                {{ 'PassportManagement.Article Doi' | translate }}
+                            </th>
+                            <th *ngIf="linkedArticles | hasAnyValue: 'url'">
                                 {{ 'PassportManagement.Article URL' | translate }}
                             </th>
                             <th *ngIf="linkedArticles | hasAnyValue: 'description'">
@@ -359,8 +420,13 @@
                     </ng-template>
                     <ng-template let-article pTemplate="body">
                         <tr>
-                            <td *ngIf="linkedArticles | hasAnyValue: 'articleUrl'">
-                                <a [href]="article.articleUrl">{{ article.articleUrl }}</a>
+                            <td *ngIf="linkedArticles | hasAnyValue: 'title'">{{ article.title }}</td>
+                            <td *ngIf="linkedArticles | hasAnyValue: 'authors'">{{ article.authors }}</td>
+                            <td *ngIf="linkedArticles | hasAnyValue: 'publicationVenue'">{{ article.publicationVenue }}</td>
+                            <td *ngIf="linkedArticles | hasAnyValue: 'publicationYear'">{{ article.publicationYear }}</td>
+                            <td *ngIf="linkedArticles | hasAnyValue: 'doi'">{{ article.doi }}</td>
+                            <td *ngIf="linkedArticles | hasAnyValue: 'url'">
+                                <a [href]="article.url">{{ article.url }}</a>
                             </td>
                             <td *ngIf="linkedArticles | hasAnyValue: 'description'">
                                 {{ article.description }}
@@ -416,27 +482,49 @@
                 </div>
             </div>
 
-            <!--Evaluation Measure Section -->
-            <div *ngIf="evaluationMeasures.length" class="section">
-                <div class="section-title">{{ 'PassportManagement.Evaluation Measures' | translate }}</div>
-                <p-table [value]="evaluationMeasures" class="survey-table">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th *ngIf="evaluationMeasures | hasAnyValue: 'name'">{{ 'PassportManagement.Name' | translate }}</th>
-                            <th *ngIf="evaluationMeasures | hasAnyValue: 'dataType'">{{ 'PassportManagement.Data Type' | translate }}</th>
-                            <th *ngIf="evaluationMeasures | hasAnyValue: 'value'">{{ 'PassportManagement.Value' | translate }}</th>
-                            <th *ngIf="evaluationMeasures | hasAnyValue: 'description'">{{ 'PassportManagement.Description' | translate }}</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template let-evaluationMeasure pTemplate="body">
-                        <tr>
-                            <td *ngIf="evaluationMeasures | hasAnyValue: 'name'">{{ evaluationMeasure.name }}</td>
-                            <td *ngIf="evaluationMeasures | hasAnyValue: 'dataType'">{{ evaluationMeasure.dataType }}</td>
-                            <td *ngIf="evaluationMeasures | hasAnyValue: 'value'">{{ evaluationMeasure.value }}</td>
-                            <td *ngIf="evaluationMeasures | hasAnyValue: 'description'">{{ evaluationMeasure.description }}</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
+            <!-- Model Evaluations Section -->
+            <div *ngIf="modelEvaluationsWithMeasures?.length" class="section">
+                <div class="section-title">{{ 'PassportManagement.Model Evaluations' | translate }}</div>
+                <div class="section-content">
+                    <div *ngFor="let evaluationWithMeasures of modelEvaluationsWithMeasures" class="mb-3">
+                        <table class="attribute-table">
+                            <tr>
+                                <td class="attribute-title">{{ 'PassportManagement.Evaluation Trigger' | translate }}</td>
+                                <td class="attribute-value">{{ evaluationWithMeasures.modelEvaluation?.trigger }}</td>
+                            </tr>
+                            <tr *ngIf="evaluationWithMeasures.modelEvaluation?.aggregationMethod">
+                                <td class="attribute-title">{{ 'PassportManagement.Evaluation Aggregation Method' | translate }}</td>
+                                <td class="attribute-value">{{ evaluationWithMeasures.modelEvaluation?.aggregationMethod }}</td>
+                            </tr>
+                            <tr *ngIf="evaluationWithMeasures.modelEvaluation?.executedAt">
+                                <td class="attribute-title">{{ 'PassportManagement.Evaluation Executed At' | translate }}</td>
+                                <td class="attribute-value">{{ evaluationWithMeasures.modelEvaluation?.executedAt | date: 'short' }}</td>
+                            </tr>
+                            <tr *ngIf="evaluationWithMeasures.modelEvaluation?.description">
+                                <td class="attribute-title">{{ 'PassportManagement.Description' | translate }}</td>
+                                <td class="attribute-value">{{ evaluationWithMeasures.modelEvaluation?.description }}</td>
+                            </tr>
+                        </table>
+                        <table class="data-table" *ngIf="evaluationWithMeasures.evaluationMeasures?.length">
+                            <thead>
+                            <tr>
+                                <th>{{ 'PassportManagement.Name' | translate }}</th>
+                                <th>{{ 'PassportManagement.Data Type' | translate }}</th>
+                                <th>{{ 'PassportManagement.Value' | translate }}</th>
+                                <th>{{ 'PassportManagement.Description' | translate }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let evaluationMeasure of evaluationWithMeasures.evaluationMeasures">
+                                <td>{{ evaluationMeasure.name }}</td>
+                                <td>{{ evaluationMeasure.dataType }}</td>
+                                <td>{{ evaluationMeasure.value }}</td>
+                                <td>{{ evaluationMeasure.description }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <!-- Model Figures Section -->
             <div *ngIf="modelFigures?.length" class="section">

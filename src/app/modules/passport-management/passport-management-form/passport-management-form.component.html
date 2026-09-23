@@ -11,13 +11,13 @@
             <span class="p-input-icon-left w-full">
                 <i class="pi pi-list"></i>
                 <p-dropdown
-                        [options]="modelDeploymentList"
+                        [options]="modelNameList"
                         [style]="{'width':'100%'}"
-                        id="deployment"
-                        formControlName="deploymentId"
-                        optionLabel="modelName"
-                        optionValue="modelDeployment.deploymentId"
-                        placeholder="{{'DeploymentManagement.Select Model' | translate}}"
+                        id="model"
+                        formControlName="modelId"
+                        optionLabel="name"
+                        optionValue="id"
+                        placeholder="{{'PassportManagement.Select Model' | translate}}"
                         class="w-full">
                 </p-dropdown>
             </span>
@@ -41,27 +41,27 @@
                 </p-checkbox>
             </div>
             <div class="col-10 flex align-items-center mt-1">
-                <label class="text-900 font-medium" for="modelDeploymentDetails">
-                    {{'PassportManagement.Model Deployment Details' | translate}}
+                <label class="text-900 font-medium" for="qualityCriteria">
+                    {{'PassportManagement.Quality Criteria' | translate}}
                 </label>
             </div>
             <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">
                 <p-checkbox
-                        formControlName="modelDeploymentDetails"
+                        formControlName="qualityCriteria"
                         [binary]="true"
-                        inputId="modelDeploymentDetails">
+                        inputId="qualityCriteria">
                 </p-checkbox>
             </div>
             <div class="col-10 flex align-items-center mt-1">
-                <label class="text-900 font-medium" for="environmentDetails">
-                    {{'PassportManagement.Environment Details' | translate}}
+                <label class="text-900 font-medium" for="qualityAssessments">
+                    {{'PassportManagement.Quality Assessments' | translate}}
                 </label>
             </div>
             <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">
                 <p-checkbox
-                        formControlName="environmentDetails"
+                        formControlName="qualityAssessments"
                         [binary]="true"
-                        inputId="environmentDetails">
+                        inputId="qualityAssessments">
                 </p-checkbox>
             </div>
             <div class="col-10 flex align-items-center mt-1">
@@ -174,7 +174,7 @@
             </div>
             <div class="col-10 flex align-items-center mt-1">
                 <label class="text-900 font-medium" for="evaluationMeasures">
-                    {{'PassportManagement.Evaluation Measures' | translate}}
+                    {{'PassportManagement.Model Evaluations' | translate}}
                 </label>
             </div>
             <div class="col-2 text-900 flex align-items-center justify-content-end p-fluid mt-1">

@@ -81,13 +81,13 @@ export class AuditLogTableComponent extends BaseComponent implements OnInit {
     updateFilters(): void {
         let filtered = this.auditLogs;
 
-        // Apply search filter on actionType, personName, description, and affectedRelation
+        // Apply search filter on actionType, actorName, description, and affectedRelation
         if (this.searchText && this.searchText.trim() !== '') {
             const search = this.searchText.toLowerCase();
             filtered = filtered.filter(
                 (item) =>
                     (item.description && item.description.toLowerCase().includes(search)) ||
-                    (item.personName && item.personName.toLowerCase().includes(search)) ||
+                    (item.actorName && item.actorName.toLowerCase().includes(search)) ||
                     (item.actionType && item.actionType.toLowerCase().includes(search)) ||
                     (item.affectedRelation && item.affectedRelation.toLowerCase().includes(search))
             );

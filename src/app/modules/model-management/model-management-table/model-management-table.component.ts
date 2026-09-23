@@ -204,11 +204,19 @@ export class ModelManagementTableComponent extends BaseComponent implements OnIn
   }
 
   /**
-   * Navigates to the evaluation measure assignment table.
+   * Navigates to the evaluation runs of the model.
    * @param modelId The ID of the selected model
    */
-  goToEvaluationMeasureAssignment(modelId: string) {
-    this.router.navigate([`/model-management/${modelId}/evaluation-measure-assignment`]);
+  goToModelEvaluations(modelId: string) {
+    this.router.navigate([`/model-management/${modelId}/model-evaluation`]);
+  }
+
+  /**
+   * Navigates to the publications linked to the model.
+   * @param modelId The ID of the selected model
+   */
+  goToLinkedArticles(modelId: string) {
+    this.router.navigate([`/model-management/${modelId}/linked-article`]);
   }
 
   /**

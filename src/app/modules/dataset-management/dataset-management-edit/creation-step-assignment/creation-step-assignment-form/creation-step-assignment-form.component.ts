@@ -16,7 +16,7 @@ import { takeUntil } from "rxjs";
 export class CreationStepAssignmentFormComponent extends BaseComponent implements OnInit {
 
     /** The ID of the data transformation */
-    @Input() dataTransformationId: string;
+    @Input() datasetTransformationId: string;
 
     /** The transformation step to be edited or created */
     @Input() transformationStep: DatasetTransformationStep;
@@ -54,7 +54,7 @@ export class CreationStepAssignmentFormComponent extends BaseComponent implement
             this.isUpdateMode = true;
             this.updateForm();
         } else {
-            this.transformationStep = new DatasetTransformationStep({ dataTransformationId: this.dataTransformationId });
+            this.transformationStep = new DatasetTransformationStep({ datasetTransformationId: this.datasetTransformationId });
         }
     }
 
@@ -89,7 +89,7 @@ export class CreationStepAssignmentFormComponent extends BaseComponent implement
         const formValues = this.form.value;
 
         const transformationStepPayload = {
-            dataTransformationId: this.dataTransformationId,
+            datasetTransformationId: this.datasetTransformationId,
             inputFeatures: formValues.inputFeatures,
             outputFeatures: formValues.outputFeatures,
             method: formValues.method,

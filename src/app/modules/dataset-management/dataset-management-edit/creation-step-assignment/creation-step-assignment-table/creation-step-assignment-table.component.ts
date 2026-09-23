@@ -94,7 +94,7 @@ export class CreationStepAssignmentTableComponent extends BaseComponent implemen
      */
     loadDatasetTransformations() {
         this.learningDatasets.forEach(learningDataset => {
-            this.datasetTransformationService.getDatasetTransformationById(learningDataset.dataTransformationId, this.activeStudyService.getActiveStudy())
+            this.datasetTransformationService.getDatasetTransformationById(learningDataset.datasetTransformationId, this.activeStudyService.getActiveStudy())
                 .pipe(takeUntil(this.destroy$))
                 .subscribe(transformation => {
                     this.transformations.push(transformation);
@@ -117,7 +117,7 @@ export class CreationStepAssignmentTableComponent extends BaseComponent implemen
      * Loads the transformation steps associated with the selected transformation.
      */
     loadTransformationSteps() {
-        this.transformationStepService.getDatasetTransformationStepsByTransformationId(this.selectedTransformation.dataTransformationId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
+        this.transformationStepService.getDatasetTransformationStepsByTransformationId(this.selectedTransformation.datasetTransformationId, this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: steps => {
                     this.transformationSteps = steps;

@@ -20,7 +20,7 @@ export class LearningDataset {
     /**
      * The ID of the associated DataTransformation
      */
-    dataTransformationId: string;
+    datasetTransformationId: string;
 
     /**
      * The description of the LearningDataset
@@ -34,7 +34,7 @@ export class LearningDataset {
         this.learningDatasetId = data.learningDatasetId;
         this.datasetId = data.datasetId;
         this.studyId = data.studyId;
-        this.dataTransformationId = data.dataTransformationId;
+        this.datasetTransformationId = data.datasetTransformationId;
         this.description = data.description;
     }
 }

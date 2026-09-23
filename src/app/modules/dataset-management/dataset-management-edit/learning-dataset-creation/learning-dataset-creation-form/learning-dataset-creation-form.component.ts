@@ -23,7 +23,7 @@ export class LearningDatasetCreationFormComponent extends BaseComponent implemen
     @Input() learningDatasetId: string;
 
     /** The ID of the data transformation to be edited or created */
-    @Input() dataTransformationId: string;
+    @Input() datasetTransformationId: string;
 
     /** Event emitted when the form is closed */
     @Output() formClosed = new EventEmitter<void>();
@@ -57,7 +57,7 @@ export class LearningDatasetCreationFormComponent extends BaseComponent implemen
     ngOnInit() {
         this.initializeForm();
         this.display = true;
-        if (this.learningDatasetId && this.dataTransformationId) {
+        if (this.learningDatasetId && this.datasetTransformationId) {
             this.isUpdateMode = true;
             this.loadData();
         } else {
@@ -83,7 +83,7 @@ export class LearningDatasetCreationFormComponent extends BaseComponent implemen
     loadData() {
         forkJoin({
             learningDataset: this.learningDatasetService.getLearningDatasetById(this.learningDatasetId, this.activeStudyService.getActiveStudy()),
-            transformation: this.datasetTransformationService.getDatasetTransformationById(this.dataTransformationId, this.activeStudyService.getActiveStudy())
+            transformation: this.datasetTransformationService.getDatasetTransformationById(this.datasetTransformationId, this.activeStudyService.getActiveStudy())
         }).pipe(takeUntil(this.destroy$)).subscribe({
             next: ({ learningDataset, transformation }) => {
                 this.learningDataset = learningDataset;

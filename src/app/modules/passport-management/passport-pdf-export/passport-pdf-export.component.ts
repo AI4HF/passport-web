@@ -1,7 +1,5 @@
 import {Component, EventEmitter, Injector, Input, OnInit, Output} from '@angular/core';
-import { ModelDeployment } from '../../../shared/models/modelDeployment.model';
-import { DeploymentEnvironment } from '../../../shared/models/deploymentEnvironment.model';
-import { Model } from '../../../shared/models/model.model';
+import { ModelWithOwnerName } from '../../../shared/models/modelWithOwnerName.model';
 import { Study } from '../../../shared/models/study.model';
 import { Parameter } from '../../../shared/models/parameter.model';
 import { Population } from '../../../shared/models/population.model';
@@ -12,7 +10,6 @@ import { FeatureSetWithFeaturesDTO } from '../../../shared/models/featureSetWith
 import { LearningProcessWithStagesDTO } from '../../../shared/models/learningProcessWithStagesDTO.model';
 import * as FileSaver from 'file-saver';
 import {BaseComponent} from "../../../shared/components/base.component";
-import {EvaluationMeasure} from "../../../shared/models/evaluationMeasure.model";
 import {ModelFigure} from "../../../shared/models/modelFigure.model";
 import {LinkedArticle} from "../../../shared/models/linkedArticle.model";
 import {GenerateAndSignPdfOptionsDto} from "../../../shared/models/pdfGenerationDTO.model";
@@ -29,12 +26,11 @@ import {LearningStageParameter} from "../../../shared/models/learningStageParame
     styleUrls: ['./passport-pdf-export.component.scss']
 })
 export class PdfExportComponent extends BaseComponent implements OnInit{
-    /** Deployment details to be included in the PDF */
-    @Input() deploymentDetails: ModelDeployment | null = null;
-    /** Environment details to be included in the PDF */
-    @Input() environmentDetails: DeploymentEnvironment | null = null;
     /** Model details to be included in the PDF */
-    @Input() modelDetails: Model | null = null;
+    /** The passport being exported - the document is stored on it once signed */
+    @Input() passportId: string = '';
+
+    @Input() modelDetails: ModelWithOwnerName | null = null;
     /** Study details to be included in the PDF */
     @Input() studyDetails: Study | null = null;
     /** Parameters to be included in the PDF */
@@ -52,13 +48,19 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
     /** Surveys to be included in the PDF */
     @Input() surveys: Survey[] = [];
     /** Datasets with learning datasets to be included in the PDF */
+    /** Quality criteria sets, each with its rules */
+    @Input() qualityCriteriaWithCriterion: any[] = [];
+
+    /** Quality assessment runs, each with its per-criterion results */
+    @Input() qualityAssessmentsWithResults: any[] = [];
+
     @Input() datasetsWithLearningDatasets: DatasetWithLearningDatasetsDTO[] = [];
     /** Feature sets with associated features to be included in the PDF */
     @Input() featureSetsWithFeatures: FeatureSetWithFeaturesDTO[] = [];
     /** Learning processes with stages to be included in the PDF */
     @Input() learningProcessesWithStages: LearningProcessWithStagesDTO[] = [];
     /** Evaluation Measures to be included in the PDF */
-    @Input() evaluationMeasures: EvaluationMeasure[] = [];
+    @Input() modelEvaluationsWithMeasures: any[] = [];
     /** Model Figures to be included in the PDF */
     @Input() modelFigures: ModelFigure[] = [];
 
@@ -211,7 +213,7 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
             const today = new Date();
             const formattedDate = today.toISOString().slice(0,10).replace(/-/g, '');
             const fileName = `${this.exportStudyName}_Passport_${formattedDate}.pdf`;
-            const opts: GenerateAndSignPdfOptionsDto = {fileName: fileName, baseUrl: baseHref}
+            const opts: GenerateAndSignPdfOptionsDto = {fileName: fileName, baseUrl: baseHref, passportId: this.passportId}
             this.passportService.generateAndSignPdf(html, this.exportStudyId, opts)
                 .subscribe((signedBlob: Blob) => {
                     const url = URL.createObjectURL(signedBlob);

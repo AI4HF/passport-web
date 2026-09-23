@@ -15,7 +15,6 @@ import {PopulationDetailsModule} from "./population-details/population-details.m
 import {PersonnelAssignmentModule} from "./personnel-assignment/personnel-assignment.module";
 import {ExperimentQuestionsModule} from "./experiment-questions/experiment-questions.module";
 import {SurveyInspectionModule} from "./survey-inspection/survey-inspection.module";
-import {LinkedArticlesModule} from "./linked-articles/linked-articles.module";
 
 
 
@@ -36,7 +35,6 @@ import {LinkedArticlesModule} from "./linked-articles/linked-articles.module";
         PopulationDetailsModule,
         PersonnelAssignmentModule,
         ExperimentQuestionsModule,
-        LinkedArticlesModule,
         SurveyInspectionModule
     ]
 })

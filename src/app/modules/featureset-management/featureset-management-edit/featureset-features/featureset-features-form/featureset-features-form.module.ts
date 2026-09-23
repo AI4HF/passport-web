@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { FeatureSetFeaturesFormComponent } from './featureset-features-form.component';
 import {TranslateModule} from "@ngx-translate/core";
@@ -20,6 +21,7 @@ import {AutoCompleteModule} from "primeng/autocomplete";
         CheckboxModule,
         DialogModule,
         InputTextModule,
+        InputTextareaModule,
         ButtonModule,
         TranslateModule,
         StudyDetailsModule,

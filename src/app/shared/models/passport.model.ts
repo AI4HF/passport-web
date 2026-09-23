@@ -8,14 +8,29 @@ export class Passport{
     passportId: string;
 
     /**
-     * The ID of the Model Deployment
+     * The ID of the Model
      */
-    deploymentId: string;
+    modelId: string;
 
     /**
      * The ID of the Study
      */
     studyId: string;
+
+    /**
+     * The version of the Passport. Regenerating chains a new version onto the previous one.
+     */
+    version: number;
+
+    /**
+     * The ID of the Passport version this one was regenerated from
+     */
+    previousPassportId: string;
+
+    /**
+     * SHA-256 of the signed PDF, present once the Passport has been generated
+     */
+    signedPdfHash: string;
 
     /**
      * The creation date of the Passport
@@ -44,8 +59,11 @@ export class Passport{
         }
 
         this.passportId = data.passportId;
-        this.deploymentId = data.deploymentId;
+        this.modelId = data.modelId;
         this.studyId = data.studyId;
+        this.version = data.version;
+        this.previousPassportId = data.previousPassportId;
+        this.signedPdfHash = data.signedPdfHash;
         this.createdAt = data.createdAt;
         this.createdBy = data.createdBy;
         this.approvedAt = data.approvedAt;

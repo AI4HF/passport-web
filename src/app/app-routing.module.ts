@@ -44,8 +44,13 @@ const routes: Routes = [
                 canActivate: [authGuard]
             },
             {
-                path: 'deployment-management',
-                loadChildren: () => import('./modules/deployment-management/deployment-management.module').then(m => m.DeploymentManagementModule),
+                path: 'steward-management',
+                loadChildren: () => import('./modules/steward-management/steward-management.module').then(m => m.StewardManagementModule),
+                canActivate: [authGuard]
+            },
+            {
+                path: 'quality-management',
+                loadChildren: () => import('./modules/quality-management/quality-management.module').then(m => m.QualityManagementModule),
                 canActivate: [authGuard]
             },
             {

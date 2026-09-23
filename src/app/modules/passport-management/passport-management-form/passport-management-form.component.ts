@@ -2,9 +2,8 @@ import {Component, EventEmitter, Injector, OnInit, Output} from '@angular/core';
 import { Passport } from "../../../shared/models/passport.model";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { BaseComponent } from "../../../shared/components/base.component";
-import { forkJoin, takeUntil } from "rxjs";
+import { takeUntil } from "rxjs";
 import { ModelWithName } from "../../../shared/models/modelWithName.model";
-import { ModelDeploymentWithModelName } from "../../../shared/models/modelDeploymentWithModelName.model";
 import {PassportDetailsSelection} from "../../../shared/models/passportDetailsSelection.model";
 import {PassportWithDetailSelection} from "../../../shared/models/passportWithDetailSelection.model";
 
@@ -24,9 +23,7 @@ export class PassportManagementFormComponent extends BaseComponent implements On
     passportForm: FormGroup;
     /** flag indicating that dialog is visible */
     display = false;
-    /** All deployed model names that will be displayed at the dropdown menu */
-    modelDeploymentList: ModelDeploymentWithModelName[];
-    /** All model names */
+    /** All model names that will be displayed at the dropdown menu */
     modelNameList: ModelWithName[];
 
     /**
@@ -51,10 +48,10 @@ export class PassportManagementFormComponent extends BaseComponent implements On
      */
     initializeForm() {
         this.passportForm = new FormGroup({
-            deploymentId: new FormControl(null, Validators.required),
+            modelId: new FormControl(null, Validators.required),
             modelDetails: new FormControl(true, Validators.required),
-            modelDeploymentDetails: new FormControl(true, Validators.required),
-            environmentDetails: new FormControl(true, Validators.required),
+            qualityCriteria: new FormControl(true, Validators.required),
+            qualityAssessments: new FormControl(true, Validators.required),
             datasets: new FormControl(true, Validators.required),
             featureSets: new FormControl(true, Validators.required),
             learningProcessDetails: new FormControl(true, Validators.required),
@@ -72,17 +69,13 @@ export class PassportManagementFormComponent extends BaseComponent implements On
     }
 
     /**
-     * Loads models and model deployments data.
+     * Loads the models the passport can be generated for.
      */
     loadData() {
-        forkJoin([
-            this.modelDeploymentService.getModelDeploymentListByStudyId(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$)),
-            this.modelService.getModelList(this.activeStudyService.getActiveStudy()).pipe(takeUntil(this.destroy$))
-        ]).subscribe({
-            next: ([modelDeployments, models]) => {
-                this.modelDeploymentList = modelDeployments.map(modelDeployment => new ModelDeploymentWithModelName(modelDeployment, ''));
+        this.modelService.getModelList(this.activeStudyService.getActiveStudy())
+            .pipe(takeUntil(this.destroy$)).subscribe({
+            next: (models) => {
                 this.modelNameList = models.map(model => new ModelWithName(model));
-                this.mapModelsToModelDeployments();
             },
             error: error => {
                 this.translateService.get('Error').subscribe(translation => {
@@ -93,15 +86,6 @@ export class PassportManagementFormComponent extends BaseComponent implements On
                     });
                 });
             }
-        });
-    }
-
-    /**
-     * Maps models to modelDeployments to populate the model name for each model deployment.
-     */
-    mapModelsToModelDeployments() {
-        this.modelDeploymentList.forEach(modelDeploymentWithModelName => {
-            modelDeploymentWithModelName.modelName = (this.modelNameList.find(m => m.id === modelDeploymentWithModelName.modelDeployment.modelId)).name;
         });
     }
 
