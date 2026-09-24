@@ -16,6 +16,7 @@ import {GenerateAndSignPdfOptionsDto} from "../../../shared/models/pdfGeneration
 import {takeUntil} from "rxjs/operators";
 import {LearningProcessParameter} from "../../../shared/models/learningProcessParameter.model";
 import {LearningStageParameter} from "../../../shared/models/learningStageParameter.model";
+import {PDF_EXPORT_TOKENS} from "./pdf-export-tokens";
 
 /**
  * Component responsible for generating and exporting the passport PDF.
@@ -173,30 +174,12 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
             .map(n => (n as HTMLElement).outerHTML)
             .join('\n');
 
-        const pdfGridFallback = `
-<style id="pdf-grid-fallback">
-  /* Minimal PrimeFlex to explicitly set outside of existing stylesheet links */
-  #pdfPreviewContainer .grid { display: flex; flex-wrap: wrap; margin: 0 -0.5rem; }
-  #pdfPreviewContainer .grid > [class*="col-"] { padding: 0 0.5rem; box-sizing: border-box; }
-
-  /* base widths */
-  #pdfPreviewContainer .col-12 { flex: 0 0 100%; max-width: 100%; }
-
-  /* md-lg breakpoints */
-  @media (min-width: 768px) {
-    #pdfPreviewContainer .md\\:col-6 { flex: 0 0 50%;  max-width: 50%; }
-  }
-  @media (min-width: 992px) {
-    #pdfPreviewContainer .lg\\:col-4 { flex: 0 0 33.3333%; max-width: 33.3333%; }
-  }
-</style>`;
-
         const html = `
     <!DOCTYPE html>
     <html>
       <head>
         <meta charset="UTF-8" />
-        ${headHtml}${pdfGridFallback}
+        ${headHtml}
       </head>
       <body>
         ${container.outerHTML}
@@ -246,12 +229,23 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
         const clone = container.cloneNode(true) as HTMLElement;
         // Remove favicon
         clone.querySelectorAll('.passport-header').forEach((el) => el.remove());
-        // Fix table layout issues for Word
-        clone.querySelectorAll('table').forEach((t) => {
-            t.style.width = '100%';
-            t.style.tableLayout = 'fixed';
-            t.style.borderCollapse = 'collapse';
-            t.style.margin = '8pt 0';
+
+        // Section numbering ("1. Model Details") is done with a CSS counter in the live preview/PDF
+        // path — counter(section) is rendering-only generated content, not real DOM text, so it never
+        // makes it into .innerHTML. html-docx-js has no CSS engine to recompute it, so number the
+        // titles as real text here instead.
+        clone.querySelectorAll('.section-title').forEach((el, index) => {
+            el.textContent = `${index + 1}. ${(el.textContent || '').trim()}`;
+        });
+
+        // Fix table layout issues for Word. Skipped for .attribute-table and .detail-grid: both get
+        // their own layout rules in the stylesheet below, and setting inline styles here would win
+        // over those (inline style specificity beats an unqualified class rule).
+        clone.querySelectorAll('table:not(.attribute-table):not(.detail-grid)').forEach((t) => {
+            (t as HTMLElement).style.width = '100%';
+            (t as HTMLElement).style.tableLayout = 'fixed';
+            (t as HTMLElement).style.borderCollapse = 'collapse';
+            (t as HTMLElement).style.margin = '8pt 0';
             t.querySelectorAll('td, th').forEach((cell) => {
                 (cell as HTMLElement).style.wordBreak = 'break-word';
                 (cell as HTMLElement).style.whiteSpace = 'normal';
@@ -274,18 +268,26 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
         // Convert logo to base64
         const logoBase64 = await imageToBase64('assets/favicon.png');
 
-        // Minimal styles
+        // Styles mirror passport-pdf-export.component.scss's structure (same section headers, same
+        // $pdf-* palette via PDF_EXPORT_TOKENS) — Word's CSS support is limited enough that the actual
+        // rules can't be shared 1:1 with the SCSS, but the values and the grouping stay in sync.
+        const ink = PDF_EXPORT_TOKENS.color.ink;
+        const text = PDF_EXPORT_TOKENS.color.text;
+        const textMuted = PDF_EXPORT_TOKENS.color.textMuted;
+        const border = PDF_EXPORT_TOKENS.color.border;
+        const tint = PDF_EXPORT_TOKENS.color.tint;
+        const tableHeaderBg = PDF_EXPORT_TOKENS.color.tableHeaderBg;
         const styles = `
             <style>
               body {
                 background: #ffffff;
-                color: #333333;
+                color: ${text};
                 font-family: 'Segoe UI', Arial, sans-serif;
                 font-size: 11pt;
                 margin: 0;
                 line-height: 1.4;
               }
-            
+
               /* === Header === */
               .passport-header {
                 display: flex;
@@ -293,221 +295,229 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
                 gap: 8pt;
                 margin-bottom: 6pt;
               }
-            
+
               .passport-header img {
                 width: 28pt;
                 height: 28pt;
               }
-            
+
               .passport-header-title {
-                color: #E57373;
+                color: ${ink};
                 font-weight: 700;
-                font-size: 18pt;
+                font-size: ${PDF_EXPORT_TOKENS.fontSize.documentTitle};
                 margin: 0;
                 text-align: right;
                 font-family: 'Segoe UI', Arial, sans-serif;
                 letter-spacing: -0.25pt;
               }
-            
+
               .passport-divider {
-                border-top: 3pt solid #E87B7B;
+                border-top: 3pt solid ${ink};
                 margin: 8pt 0 12pt 0;
               }
-            
-              /* === Section Headings === */
-              .section-title {
-                color: #E87B7B;
-                font-weight: 700;
-                font-size: 13pt;
-                margin-top: 18pt;
-                border-bottom: 1pt solid #E87B7B;
-                padding-bottom: 3pt;
-              }
-            
-              /* === Section Content === */
-              .section-content {
-                margin-top: 8pt;
-              }
-            
-              /* === Generic Row Layout (DOCX-friendly) === */
-              .row {
-                border-bottom: 0.5pt solid #eee;
-                padding: 3pt 0;
-              }
-            
-              /* Block layout for .col-12 to prevent inline-block spacing issues */
-              .row .col-12 {
-                display: block !important;
-                width: 100%;
-                font-size: 0; /* Removes inline-block gaps */
-              }
-            
-              /* Two-column row layout: left title + right value */
-              .row .col-12 .attribute-title,
-              .row .col-12 .attribute-value {
-                display: inline-block !important;
-                vertical-align: baseline;
-                box-sizing: border-box;
-                width: 49%;
-                font-size: 11pt; /* Reset because parent font-size is 0 */
-                padding: 2pt 0;
-              }
-            
-              /* Left column (attribute title) */
-              .row .col-12 .attribute-title {
-                text-align: left;
-                color: #333333;
-                font-weight: 600;
-              }
-            
-              /* Right column (attribute value) */
-              .row .col-12 .attribute-value {
-                text-align: right;
-                color: #333333;
-                white-space: nowrap; /* Keep in a single line */
-              }
-            
-              /* === Table-like Blocks (Matching PDF color theme) === */
-              table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 8pt;
-                border: 0.8pt solid #F2BDBD;
-              }
-            
-              th {
-                background-color: #f9fafb; /* Soft pastel pink background */
-                color: #E07373;            /* Warm pink text */
-                font-weight: 700;
-                font-size: 10.5pt;
-                padding: 6pt 5pt;
-                text-align: left;
-                border: 0.8pt solid #F2BDBD;
-              }
-            
-              td {
-                border: 0.8pt solid #F2BDBD;
-                padding: 5pt;
-                color: #333333;
-                font-size: 10.5pt;
-                background-color: #ffffff;
-              }
-            
-              tr:nth-child(even) td {
-                background: #ffffff;
-              }
-            
-              /* === Inner Table Title Bars (e.g., “Learning Dataset Description”) === */
-              .sub-table-header {
-                background-color: #f9fafb;
-                color: #E07373;
-                font-weight: 700;
-                font-size: 11pt;
-                padding: 5pt;
-                border: 0.8pt solid #F2BDBD;
-              }
-            
-              /* === Section Spacing === */
+
+              /* === Section titles (numbered as real text in JS above — see clone.querySelectorAll
+                 ('.section-title') — since CSS counters don't survive innerHTML cloning) === */
               .section {
                 margin-bottom: 18pt;
               }
-            
-              /* === Attribute Tables (Details sections) === */
-              /* Make attribute titles bold to match PDF style */
-              .section-content .attribute-table td.attribute-title {
-                font-weight: bold !important;
-                color: #222222 !important;
-                font-size: 11pt !important;
+
+              .section-title {
+                color: ${ink};
+                font-weight: 700;
+                font-size: ${PDF_EXPORT_TOKENS.fontSize.sectionTitle};
+                margin-top: 18pt;
+                border-bottom: 1pt solid ${ink};
+                padding-bottom: 3pt;
               }
-            
-              /* Attribute values remain normal weight */
-              .section-content .attribute-table td.attribute-value {
-                font-weight: 400 !important;
-                color: #333333 !important;
-                text-align: right;
-                white-space: nowrap;
+
+              .section-content {
+                margin-top: 8pt;
               }
-            
-              /* Keep other data tables (datasets, features, etc.) unchanged */
-              .datasets-table td:first-child,
-              .feature-sets-table td:first-child,
-              .learning-datasets-table td:first-child,
-              .learning-processes-table td:first-child,
-              .parameters-table td:first-child,
-              .population-table td:first-child,
-              .experiment-table td:first-child,
-              .survey-table td:first-child,
-              .study-table td:first-child {
-                font-weight: 400 !important;
-                color: #333333 !important;
+
+              /* === Sub-block cards: one repeating item within a section (a Quality Criteria set, a
+                 Quality Assessment run, a Model Evaluation run, a Learning Process, a Feature Set, a
+                 Dataset) === */
+              .sub-block {
+                background: ${tint};
+                border: 1pt solid ${border};
+                border-left: 4pt solid ${ink};
+                padding: 10pt 12pt;
+                margin-bottom: 14pt;
               }
-            
-              /* === Match attribute tables to clean PDF look === */
-              .section-content .attribute-table {
+
+              .sub-block-title {
+                font-size: ${PDF_EXPORT_TOKENS.fontSize.subBlockTitle};
+                font-weight: 600;
+                color: ${ink};
+                margin-bottom: 6pt;
+              }
+
+              /* === Attribute tables: key/value detail blocks === */
+              .attribute-table {
                 width: 100%;
                 border-collapse: collapse;
                 margin-top: 6pt;
-                border: none !important; /* Remove outer border */
+                border: none !important;
               }
-            
-              .section-content .attribute-table td {
+
+              .attribute-table td {
                 padding: 4pt 0;
                 border: none !important;
-                border-bottom: 0.5pt solid #eeeeee !important; /* Only bottom line */
+                border-bottom: 0.5pt solid ${border} !important;
                 vertical-align: baseline;
-                font-size: 10.5pt;
+                font-size: 10pt;
+                word-break: break-word;
+                white-space: normal;
               }
-            
-              /* Title column */
-              .section-content .attribute-table td.attribute-title {
-                font-weight: bold !important;
-                color: #222222 !important;
+
+              .attribute-table td.attribute-title {
+                font-weight: 600 !important;
+                color: ${text} !important;
                 width: 40%;
                 text-align: left;
               }
-            
-              /* Value column */
-              .section-content .attribute-table td.attribute-value {
+
+              .attribute-table td.attribute-value {
                 font-weight: 400 !important;
-                color: #333333 !important;
+                color: ${text} !important;
                 text-align: right;
                 width: 60%;
-                white-space: nowrap;
               }
-            
-              /* === Keep regular dataset/feature tables with borders === */
-              .datasets-table td,
-              .feature-sets-table td,
-              .learning-datasets-table td,
-              .learning-processes-table td,
-              .parameters-table td,
-              .population-table td,
-              .experiment-table td,
-              .survey-table td,
-              .study-table td {
-                border: 0.8pt solid #F2BDBD !important;
-                padding: 5pt;
+
+              /* === Model/Study Details: short scalar fields in a 2-column tile grid, long narrative
+                 fields as full-width labeled blocks below it (mirrors the SCSS) === */
+              .detail-grid {
+                width: 100%;
+                border-collapse: separate;
+                margin: 6pt 0;
               }
-            
-              /* === Remove borders in header table === */
+
+              .detail-tile {
+                width: 50%;
+                vertical-align: top;
+                background: ${tint};
+                border: 1pt solid ${border};
+                padding: 8pt 10pt;
+              }
+
+              .detail-tile-label {
+                font-size: 8.5pt;
+                font-weight: 600;
+                color: ${textMuted};
+                margin-bottom: 2pt;
+              }
+
+              .detail-tile-value {
+                font-size: 10.5pt;
+                font-weight: 600;
+                color: ${text};
+              }
+
+              .detail-block {
+                margin-bottom: 10pt;
+              }
+
+              .detail-block-label {
+                font-size: 9pt;
+                font-weight: 600;
+                color: ${ink};
+                margin-bottom: 3pt;
+              }
+
+              .detail-block-value {
+                font-size: 10pt;
+                color: ${text};
+                text-align: left;
+              }
+
+              /* === Data / list tables: every non-attribute table in the document (Quality rules &
+                 results, Evaluation measures, Learning stages/datasets, Feature Sets, and the flat
+                 comparison tables — Population, Experiment, Parameters, Linked Articles, Survey) is
+                 now .data-table, one system. Deliberately no <thead> anywhere in the markup — Word's
+                 HTML import filter is known to repeat that literal tag on every page a table spans,
+                 so the header is a plain first <tr class="data-table-header-row"> instead. === */
+              .data-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 8pt;
+                border: 0.8pt solid ${border};
+              }
+
+              .data-table th {
+                background-color: ${tableHeaderBg};
+                color: ${ink};
+                font-weight: 700;
+                font-size: 10pt;
+                text-align: left;
+                border: 0.8pt solid ${border};
+              }
+
+              .data-table td {
+                border: 0.8pt solid ${border};
+                color: ${text};
+                font-size: 10pt;
+                background-color: #ffffff;
+              }
+
+              /* Feature Sets' nested feature list has up to 10 columns, so it gets its own tighter,
+                 fully standalone table style rather than a modifier meant to combine with .data-table
+                 on the same element — Word's HTML import filter appears to drop ALL styling on an
+                 element with two space-separated classes, so this table is only ever a single class. */
+              .data-table--dense {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 8pt;
+                border: 0.8pt solid ${border};
+              }
+
+              .data-table--dense th {
+                background-color: ${tableHeaderBg};
+                color: ${ink};
+                font-weight: 700;
+                font-size: 8.5pt !important;
+                text-align: left;
+                border: 0.8pt solid ${border};
+                padding: 4pt 5pt !important;
+              }
+
+              .data-table--dense td {
+                border: 0.8pt solid ${border};
+                color: ${text};
+                font-size: 8.5pt !important;
+                background-color: #ffffff;
+                padding: 4pt 5pt !important;
+              }
+
+              /* === Model Figures: one per row, full width, rather than shrunk side by side — also
+                 sidesteps Word's built-in HTML import filter (this whole document is delegated to it
+                 via an altChunk — see generateDocx() above), which is known to mis-place images sized
+                 with a percentage width inside table cells. The image gets a fixed pixel width both
+                 here and as a plain width="" attribute in the template. === */
+              .figures-stack {
+                margin-top: 6pt;
+              }
+
+              .figure-card {
+                border: 1pt solid ${border};
+                padding: 8pt;
+                margin-bottom: 12pt;
+                text-align: center;
+              }
+
+              .figure-image {
+                display: block;
+                width: 560px;
+                height: auto;
+                margin: 0 auto;
+              }
+
+              /* === Remove borders in the header table === */
               .passport-header table,
               .passport-header tr,
               .passport-header td {
                 border: none !important;
                 border-collapse: collapse !important;
-              }
-            
-              /* === Compact cell spacing in details tables === */
-              .section-content table td {
-                padding-top: 0.6pt !important;
-                padding-bottom: 0.6pt !important;
-                line-height: 1.05 !important;
-              }
-            
-              /* === Slightly more compact font in titles/values === */
-              .section-content .attribute-title,
-              .section-content .attribute-value {
-                font-size: 10pt !important;
               }
             </style>
         `;
