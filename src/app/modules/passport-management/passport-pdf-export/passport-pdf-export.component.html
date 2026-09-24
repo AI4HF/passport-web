@@ -205,6 +205,14 @@
                 <div class="section-content">
                     <div *ngFor="let assessmentWithResults of qualityAssessmentsWithResults" class="mb-3">
                         <table class="attribute-table">
+                            <tr *ngIf="assessmentWithResults.datasetTitle">
+                                <td class="attribute-title">{{ 'PassportManagement.Quality Dataset' | translate }}</td>
+                                <td class="attribute-value">{{ assessmentWithResults.datasetTitle }}</td>
+                            </tr>
+                            <tr *ngIf="assessmentWithResults.organizationName">
+                                <td class="attribute-title">{{ 'PassportManagement.Quality Center' | translate }}</td>
+                                <td class="attribute-value">{{ assessmentWithResults.organizationName }}</td>
+                            </tr>
                             <tr>
                                 <td class="attribute-title">{{ 'PassportManagement.Quality Executed At' | translate }}</td>
                                 <td class="attribute-value">{{ assessmentWithResults.qualityAssessment?.executedAt | date: 'short' }}</td>

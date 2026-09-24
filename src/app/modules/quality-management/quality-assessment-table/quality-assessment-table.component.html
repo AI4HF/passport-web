@@ -22,6 +22,8 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th style="width: 3rem"></th>
+                    <th>{{ 'QualityManagement.Dataset' | translate }}</th>
+                    <th>{{ 'QualityManagement.Center' | translate }}</th>
                     <th pSortableColumn="executedAt">{{ 'QualityManagement.Executed At' | translate }}
                         <p-sortIcon field="executedAt"></p-sortIcon>
                     </th>
@@ -38,6 +40,8 @@
                                 class="p-button-text p-button-rounded p-button-plain"
                                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
                     </td>
+                    <td>{{ datasetById[assessment.datasetId]?.title || assessment.datasetId }}</td>
+                    <td>{{ datasetById[assessment.datasetId]?.organizationName }}</td>
                     <td>{{ assessment.executedAt | date: 'short' }}</td>
                     <td>{{ assessment.overallResult }}</td>
                     <td>{{ assessment.summary }}</td>
@@ -45,7 +49,7 @@
             </ng-template>
             <ng-template pTemplate="rowexpansion" let-assessment>
                 <tr>
-                    <td colspan="4">
+                    <td colspan="6">
                         <div class="p-3">
                             <p-table [value]="resultsByAssessmentId[assessment.qualityAssessmentId]">
                                 <ng-template pTemplate="header">
@@ -76,7 +80,7 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="4">{{ 'QualityManagement.No assessments' | translate }}</td>
+                    <td colspan="6">{{ 'QualityManagement.No assessments' | translate }}</td>
                 </tr>
             </ng-template>
         </p-table>

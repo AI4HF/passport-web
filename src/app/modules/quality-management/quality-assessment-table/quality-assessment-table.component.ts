@@ -20,6 +20,8 @@ export class QualityAssessmentTableComponent extends BaseComponent implements On
     resultsByAssessmentId: { [qualityAssessmentId: string]: QualityCriterionAssessmentResult[] } = {};
     /** Rule names, so results can be labelled rather than shown as ids */
     criterionNameById: { [qualityCriterionId: string]: string } = {};
+    /** Dataset title and center of each dataset, so a run shows what it was executed against */
+    datasetById: { [datasetId: string]: { title: string, organizationName: string } } = {};
     /** Loading state of the table */
     loading: boolean = true;
 
@@ -31,7 +33,24 @@ export class QualityAssessmentTableComponent extends BaseComponent implements On
         if (this.activeStudyService.getActiveStudy()) {
             this.loadQualityAssessments();
             this.loadCriterionNames();
+            this.loadDatasetNames();
         }
+    }
+
+    /**
+     * Loads the study's datasets with their organization names, so each run shows its dataset and center.
+     */
+    loadDatasetNames() {
+        // the names endpoint returns the organization name in place of organizationId
+        this.datasetService.getAllDatasetsWithNamesByStudyId(this.activeStudyService.getActiveStudy())
+            .pipe(takeUntil(this.destroy$)).subscribe({
+            next: datasets => {
+                datasets.forEach(dataset => this.datasetById[dataset.datasetId] = {
+                    title: dataset.title,
+                    organizationName: dataset.organizationId
+                });
+            }
+        });
     }
 
     /**
