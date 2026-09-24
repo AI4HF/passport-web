@@ -48,6 +48,8 @@
         width: 100%;
         border-collapse: collapse;
         margin-top: 6pt;
+        /* keeps the 40/60 split, so a long value wraps instead of widening the table past the page */
+        table-layout: fixed;
       }
 
       .attribute-table td {
@@ -67,20 +69,44 @@
         color: #333333;
         text-align: right;
         width: 60%;
-        white-space: nowrap;
+        /* long values (descriptions, URLs, ids) wrap within the column */
+        white-space: normal;
+        overflow-wrap: anywhere;
       }
     }
 
+  }
+
+  .data-table thead {
+    display: table-row-group; /* header once, as for the tables below */
   }
 
   p-table {
     width: 100%;
     margin-top: 1.5rem; /* Increased margin top for better spacing */
 
+    /* A printed page cannot scroll: tables fit the page width and their cells wrap instead of the
+       PrimeNG wrapper scrolling sideways, which the PDF renderer would clip at the page edge. */
+    ::ng-deep .p-datatable-wrapper {
+      overflow: visible;
+    }
+
+    ::ng-deep table {
+      width: 100%;
+    }
+
+    /* print the header row once, where the table starts, rather than again on every page it continues on */
+    ::ng-deep thead {
+      display: table-row-group;
+    }
+
     th, td {
       text-align: left;
       padding: 1rem; /* Increased padding for table cells */
       font-family: 'Anybody', sans-serif; /* Applied Anybody font */
+      white-space: normal;
+      /* lets long unbroken values (snake_case titles, URLs, ids) break, so columns can shrink to fit */
+      overflow-wrap: anywhere;
     }
 
     th {

@@ -117,9 +117,9 @@
                             <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.lastUpdatedAt'">{{ featureSetWithFeatures.featureSet.lastUpdatedAt | date: 'medium' }}</td>
                             <td *ngIf="featureSetsWithFeatures | hasAnyValue: 'featureSet.lastUpdatedBy'">{{ featureSetWithFeatures.featureSet.lastUpdatedBy }}</td>
                         </tr>
-                        <!-- Nested Features Table -->
+                        <!-- Nested Features Table: spans every feature set column above -->
                         <tr>
-                            <td colspan="7">
+                            <td colspan="8">
                                 <p-table [value]="featureSetWithFeatures.features" class="features-table">
                                     <ng-template pTemplate="header">
                                         <tr>
