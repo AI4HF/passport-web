@@ -23,6 +23,11 @@ export class PassportDetailsSelection{
     datasets: boolean;
 
     /**
+     * Whether include the dataset transformations, with their steps
+     */
+    datasetTransformations: boolean;
+
+    /**
      * Whether include featuresets
      */
     featureSets: boolean;
@@ -88,6 +93,7 @@ export class PassportDetailsSelection{
         this.qualityCriteria = data.qualityCriteria;
         this.qualityAssessments = data.qualityAssessments;
         this.datasets = data.datasets;
+        this.datasetTransformations = data.datasetTransformations;
         this.featureSets = data.featureSets;
         this.learningProcessDetails = data.learningProcessDetails;
         this.parameterDetails = data.parameterDetails;
