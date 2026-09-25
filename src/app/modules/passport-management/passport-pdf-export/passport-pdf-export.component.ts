@@ -56,6 +56,8 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
     @Input() qualityAssessmentsWithResults: any[] = [];
 
     @Input() datasetsWithLearningDatasets: DatasetWithLearningDatasetsDTO[] = [];
+    /** Dataset transformations, each with the datasets it was applied to and its ordered steps */
+    @Input() datasetTransformationsWithSteps: any[] = [];
     /** Feature sets with associated features to be included in the PDF */
     @Input() featureSetsWithFeatures: FeatureSetWithFeaturesDTO[] = [];
     /** Learning processes with stages to be included in the PDF */

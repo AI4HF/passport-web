@@ -69,6 +69,8 @@ export class PassportManagementTableComponent extends BaseComponent implements O
   qualityAssessmentsWithResults: any[] = [];
   /** Datasets with associated learning datasets for the selected passport */
   datasetsWithLearningDatasets: DatasetWithLearningDatasetsDTO[] = [];
+  /** Dataset transformations, each with the datasets it was applied to and its steps, for the selected passport */
+  datasetTransformationsWithSteps: any[] = [];
   /** Feature sets with associated features for the selected passport */
   featureSetsWithFeatures: FeatureSetWithFeaturesDTO[] = [];
   /** Learning processes with stages for the selected passport */
@@ -246,6 +248,7 @@ export class PassportManagementTableComponent extends BaseComponent implements O
         this.qualityCriteriaWithCriterion = details.qualityCriteriaWithCriterion || [];
         this.qualityAssessmentsWithResults = details.qualityAssessmentsWithResults || [];
         this.datasetsWithLearningDatasets = details.datasetsWithLearningDatasets || [];
+        this.datasetTransformationsWithSteps = details.datasetTransformationsWithSteps || [];
         this.featureSetsWithFeatures = details.featureSetsWithFeatures || [];
         this.learningProcessesWithStages = details.learningProcessesWithStages || [];
         this.modelEvaluationsWithMeasures = details.modelEvaluationsWithMeasures || [];

@@ -53,6 +53,7 @@ export class PassportManagementFormComponent extends BaseComponent implements On
             qualityCriteria: new FormControl(true, Validators.required),
             qualityAssessments: new FormControl(true, Validators.required),
             datasets: new FormControl(true, Validators.required),
+            datasetTransformations: new FormControl(true, Validators.required),
             featureSets: new FormControl(true, Validators.required),
             learningProcessDetails: new FormControl(true, Validators.required),
             parameterDetails: new FormControl(true, Validators.required),

@@ -385,6 +385,56 @@
                 </div>
             </div>
 
+            <!-- Dataset Transformations Section -->
+            <div *ngIf="datasetTransformationsWithSteps?.length" class="section">
+                <div class="section-title">{{ 'PassportManagement.Dataset Transformations' | translate }}</div>
+                <div class="section-content">
+                    <div *ngFor="let transformationWithSteps of datasetTransformationsWithSteps" class="sub-block">
+                        <div class="sub-block-title">
+                            {{ transformationWithSteps.datasetTransformation?.title || ('PassportManagement.Dataset Transformations' | translate) }}
+                        </div>
+                        <table class="attribute-table">
+                            <tr *ngIf="transformationWithSteps.datasetTransformation?.description">
+                                <td class="attribute-title">{{ 'PassportManagement.Transformation Description' | translate }}</td>
+                                <td class="attribute-value">{{ transformationWithSteps.datasetTransformation.description }}</td>
+                            </tr>
+                            <tr *ngIf="transformationWithSteps.appliedToDatasets?.length">
+                                <td class="attribute-title">{{ 'PassportManagement.Transformation Applied To' | translate }}</td>
+                                <td class="attribute-value">{{ transformationWithSteps.appliedToDatasets.join(', ') }}</td>
+                            </tr>
+                        </table>
+                        <!-- wrapped, and *ngIf moved here off the <table>: Word loses a table's styling
+                             entirely when Angular's *ngIf comment anchor sits immediately before it -->
+                        <div class="table-wrap" *ngIf="transformationWithSteps.steps?.length">
+                            <table class="data-table">
+                                <tr class="data-table-header-row">
+                                    <th>{{ 'PassportManagement.Transformation Step Order' | translate }}</th>
+                                    <th>{{ 'PassportManagement.Transformation Step Method' | translate }}</th>
+                                    <th>{{ 'PassportManagement.Transformation Step Input' | translate }}</th>
+                                    <th>{{ 'PassportManagement.Transformation Step Output' | translate }}</th>
+                                    <th>{{ 'PassportManagement.Transformation Step Explanation' | translate }}</th>
+                                    <th *ngIf="transformationWithSteps.steps | hasAnyValue: 'qualityAssessmentResult'">
+                                        {{ 'PassportManagement.Transformation Step Quality Assessment' | translate }}
+                                    </th>
+                                </tr>
+                                <tr *ngFor="let stepWithAssessment of transformationWithSteps.steps">
+                                    <td>{{ stepWithAssessment.step?.stepOrder }}</td>
+                                    <td>{{ stepWithAssessment.step?.method }}</td>
+                                    <td>{{ stepWithAssessment.step?.inputFeatures }}</td>
+                                    <td>{{ stepWithAssessment.step?.outputFeatures }}</td>
+                                    <td>{{ stepWithAssessment.step?.explanation }}</td>
+                                    <td *ngIf="transformationWithSteps.steps | hasAnyValue: 'qualityAssessmentResult'">
+                                        <span *ngIf="stepWithAssessment.qualityAssessmentResult">
+                                            {{ stepWithAssessment.qualityAssessmentDatasetTitle }} ({{ stepWithAssessment.qualityAssessmentResult }})
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Learning Processes Section -->
             <div *ngIf="learningProcessesWithStages.length" class="section">
                 <div class="section-title">{{ 'PassportManagement.Learning Processes' | translate }}</div>
