@@ -21,45 +21,12 @@
             <div *ngIf="modelDetails" class="section">
                 <div class="section-title">{{ 'PassportManagement.Model Details' | translate }}</div>
                 <div class="section-content">
+                    <!-- only the filled tiles, two per row; an odd last tile spans the row -->
                     <table class="detail-grid">
-                        <tr>
-                            <td class="detail-tile" *ngIf="modelDetails.name">
-                                <div class="detail-tile-label">{{ 'PassportManagement.Model Name' | translate }}</div>
-                                <div class="detail-tile-value">{{ modelDetails.name }}</div>
-                            </td>
-                            <td class="detail-tile" *ngIf="modelDetails.version">
-                                <div class="detail-tile-label">{{ 'PassportManagement.Model Version' | translate }}</div>
-                                <div class="detail-tile-value">{{ modelDetails.version }}</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="detail-tile" *ngIf="modelDetails.modelType">
-                                <div class="detail-tile-label">{{ 'PassportManagement.Model Type' | translate }}</div>
-                                <div class="detail-tile-value">{{ modelDetails.modelType }}</div>
-                            </td>
-                            <td class="detail-tile" *ngIf="modelDetails.productIdentifier">
-                                <div class="detail-tile-label">{{ 'PassportManagement.Product Identifier' | translate }}</div>
-                                <div class="detail-tile-value">{{ modelDetails.productIdentifier }}</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="detail-tile" *ngIf="modelDetails.ownerOrganizationName">
-                                <div class="detail-tile-label">{{ 'PassportManagement.Owner' | translate }}</div>
-                                <div class="detail-tile-value">{{ modelDetails.ownerOrganizationName }}</div>
-                            </td>
-                            <td class="detail-tile" *ngIf="modelDetails.previousModelId">
-                                <div class="detail-tile-label">{{ 'PassportManagement.Retrained From' | translate }}</div>
-                                <div class="detail-tile-value">{{ modelDetails.previousModelId }}</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="detail-tile" *ngIf="modelDetails.trlLevel">
-                                <div class="detail-tile-label">{{ 'PassportManagement.TRL Level' | translate }}</div>
-                                <div class="detail-tile-value">{{ modelDetails.trlLevel }}</div>
-                            </td>
-                            <td class="detail-tile" *ngIf="modelDetails.license">
-                                <div class="detail-tile-label">{{ 'PassportManagement.License' | translate }}</div>
-                                <div class="detail-tile-value">{{ modelDetails.license }}</div>
+                        <tr *ngFor="let row of modelDetailTileRows">
+                            <td class="detail-tile" *ngFor="let tile of row" [attr.colspan]="row.length === 1 ? 2 : null">
+                                <div class="detail-tile-label">{{ tile.labelKey | translate }}</div>
+                                <div class="detail-tile-value">{{ tile.value }}</div>
                             </td>
                         </tr>
                     </table>

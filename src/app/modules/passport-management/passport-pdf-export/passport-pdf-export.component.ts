@@ -90,6 +90,12 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
      */
     parametersWithValues: any[] = [];
 
+    /**
+     * The model detail tiles that have a value, two per row. Pairing only the filled tiles keeps a missing
+     * value (e.g. no previous model) from leaving an empty half-row in the middle of the grid.
+     */
+    modelDetailTileRows: { labelKey: string, value: any }[][] = [];
+
     /** Event emitted when the PDF preview is closed */
     @Output() pdfPreviewClosed = new EventEmitter<void>();
 
@@ -101,6 +107,8 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
      * Logo data url is set on initialization for global access to relative path
      */
     async ngOnInit() {
+        this.modelDetailTileRows = this.buildModelDetailTileRows();
+
         const absLogoUrl = new URL('favicon.ico', document.baseURI).href;
         this.logoDataUrl = await this.toDataUrl(absLogoUrl);
 
@@ -143,6 +151,30 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
                    value: value
                }));
         });
+    }
+
+    /**
+     * Collects the model detail tiles that have a value, in display order, and pairs them into rows.
+     */
+    private buildModelDetailTileRows(): { labelKey: string, value: any }[][] {
+        if (!this.modelDetails) {
+            return [];
+        }
+        const tiles = [
+            { labelKey: 'PassportManagement.Model Name', value: this.modelDetails.name },
+            { labelKey: 'PassportManagement.Model Version', value: this.modelDetails.version },
+            { labelKey: 'PassportManagement.Model Type', value: this.modelDetails.modelType },
+            { labelKey: 'PassportManagement.Product Identifier', value: this.modelDetails.productIdentifier },
+            { labelKey: 'PassportManagement.Owner', value: this.modelDetails.ownerOrganizationName },
+            { labelKey: 'PassportManagement.Retrained From', value: this.modelDetails.previousModelId },
+            { labelKey: 'PassportManagement.TRL Level', value: this.modelDetails.trlLevel },
+            { labelKey: 'PassportManagement.License', value: this.modelDetails.license }
+        ].filter(tile => tile.value);
+        const rows: { labelKey: string, value: any }[][] = [];
+        for (let i = 0; i < tiles.length; i += 2) {
+            rows.push(tiles.slice(i, i + 2));
+        }
+        return rows;
     }
 
     /**
