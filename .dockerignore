@@ -1,0 +1,8 @@
+# Keep the build context to the sources: the image runs its own npm install, and a local node_modules
+# (1 GB, possibly built for another OS) would otherwise be sent to the daemon and copied into the build stage
+node_modules
+dist
+.angular
+.git
+.idea
+readme-assets
