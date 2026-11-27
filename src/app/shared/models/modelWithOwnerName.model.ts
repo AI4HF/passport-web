@@ -16,6 +16,11 @@ export class ModelWithOwnerName {
     /** Why the Model was retrained */
     retrainingReason: string;
 
+    /** Name and version of the model this one was retrained from */
+    previousModelName: string;
+
+    previousModelVersion: string;
+
     tag: string;
     modelType: string;
     productIdentifier: string;
@@ -48,6 +53,8 @@ export class ModelWithOwnerName {
         this.version = data.version;
         this.previousModelId = data.previousModelId;
         this.retrainingReason = data.retrainingReason;
+        this.previousModelName = data.previousModelName;
+        this.previousModelVersion = data.previousModelVersion;
         this.tag = data.tag;
         this.modelType = data.modelType;
         this.productIdentifier = data.productIdentifier;

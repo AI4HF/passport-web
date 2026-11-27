@@ -166,7 +166,7 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
             { labelKey: 'PassportManagement.Model Type', value: this.modelDetails.modelType },
             { labelKey: 'PassportManagement.Product Identifier', value: this.modelDetails.productIdentifier },
             { labelKey: 'PassportManagement.Owner', value: this.modelDetails.ownerOrganizationName },
-            { labelKey: 'PassportManagement.Retrained From', value: this.modelDetails.previousModelId },
+            { labelKey: 'PassportManagement.Retrained From', value: this.previousModelLabel() },
             { labelKey: 'PassportManagement.TRL Level', value: this.modelDetails.trlLevel },
             { labelKey: 'PassportManagement.License', value: this.modelDetails.license }
         ].filter(tile => tile.value);
@@ -175,6 +175,18 @@ export class PdfExportComponent extends BaseComponent implements OnInit{
             rows.push(tiles.slice(i, i + 2));
         }
         return rows;
+    }
+
+    /**
+     * The model this one was retrained from, by name and version when the passport carries them.
+     */
+    private previousModelLabel(): string {
+        const name = this.modelDetails?.previousModelName;
+        if (!name) {
+            return this.modelDetails?.previousModelId;
+        }
+        const version = this.modelDetails.previousModelVersion;
+        return version ? `${name} (${version})` : name;
     }
 
     /**
